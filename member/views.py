@@ -33,14 +33,13 @@ def reg_user_view(request):
     pass
 
 
-
 class DeptListView(ListView):
     template_name = 'member/dept_list.html'
     model = Departments
 
     @method_decorator(login_required(login_url='/auth/login'))
     def dispatch(self, *args, **kwargs):
-        if (self.request.user.is_superuser):
+        if not self.request.user.is_superuser:
             return render(self.request, self.template_name, {'msg': 'no'})
         return super(DeptListView, self).dispatch(*args, **kwargs) 
 
@@ -58,19 +57,15 @@ class DeptCreateView(CreateView):
 
     @method_decorator(login_required(login_url='/auth/login'))
     def dispatch(self, *args, **kwargs):
-        if (self.request.user.is_superuser):
+        if not self.request.user.is_superuser:
             return render(self.request, self.template_name, {'msg': 'no'})
-        return super(DeptListView, self).dispatch(*args, **kwargs) 
+        return super(DeptCreateView, self).dispatch(*args, **kwargs)
 
 
 class DeptDeleteView(DeleteView):
     
     @method_decorator(login_required(login_url='/auth/login'))
     def dispatch(self, *args, **kwargs):
-        if (self.request.user.is_superuser):
+        if not self.request.user.is_superuser:
             return render(self.request, self.template_name, {'msg': 'no'})
-        return super(DeptListView, self).dispatch(*args, **kwargs) 
-
-
-
-    
+        return super(DeptDeleteView, self).dispatch(*args, **kwargs)

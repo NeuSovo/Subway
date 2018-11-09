@@ -31,5 +31,5 @@ class UserProfile(models.Model):
 
     def __str__(self):
         """Unicode representation of UserProfile."""
-        return str(slef.user)
+        return str(self.user)
 
