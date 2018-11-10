@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block content %}
+
+    <a id="add_dept" href="{% url 'member:dept_create' %}" alt="增加" onclick="add_dept(this);return false">+++</a>
     
     {% if msg %}
         {{ msg }}
@@ -14,11 +10,23 @@
         
     <ul>
         {% for dept in object_list %}
-            <li>{{ dept.dept_name }}</li>
+            <li>{{ dept.dept_name }}
+                <a id="assign_count" href="{% url 'member:dept_assign_account' dept.id %}" onclick="ass_account(this);return false;">分配账号</a>
+            </li>
         {% empty %}
             <li>No dept yet.</li>
         {% endfor %}
 </ul>
     
-</body>
-</html>
+<script>
+    function add_dept (event) {
+        window.open(event.href,'','width=1000,height=800')
+    }
+    function ass_account (event) {
+        window.open(event.href,'','width=1000,height=800')
+    }
+
+</script>
+
+    
+{% endblock content %}

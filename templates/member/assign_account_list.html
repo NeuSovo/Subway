@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% if msg %}
+        {{ msg }}
+    {% endif %}
+        
+    <ul>
+        {% for account in object_list %}
+            <li>{{ account.user_dept }}
+            {{ account.user }}
+            {{ account.position }}
+            {{ account.enp }}
+            </li>
+        {% empty %}
+            <li>No account yet.</li>
+        {% endfor %}
+</ul>
+    
+{% endblock content %}
+    

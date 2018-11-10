@@ -17,8 +17,8 @@ class Departments(models.Model):
         return self.dept_name
 
 
-class UserProfile(models.Model):
-    """Model definition for UserProfile."""
+class AssignAccount(models.Model):
+    """Model definition for AssignAccount."""
 
     user  = models.OneToOneField(User,on_delete=models.CASCADE)
     user_dept = models.ForeignKey(Departments, on_delete=models.CASCADE)
@@ -26,10 +26,33 @@ class UserProfile(models.Model):
     enp = models.CharField(max_length=155)
 
     class Meta:
-        verbose_name = 'UserProfile'
-        verbose_name_plural = 'UserProfiles'
+        verbose_name = 'AssignAccount'
+        verbose_name_plural = 'AssignAccounts'
 
     def __str__(self):
-        """Unicode representation of UserProfile."""
-        return str(self.user)
+        """Unicode representation of AssignAccount."""
+        return str(slef.user)
 
+
+class Member(models.Model):
+    """Model definition for Member."""
+
+    member_id = models.CharField(max_length=11, null=False, unique=True, verbose_name='员工工号')
+    member_avatar = models.ImageField(verbose_name='头像', upload_to='avatar', height_field=None, width_field=None, default='none')
+    dept = models.ForeignKey(Departments, on_delete=models.SET_NULL, null=True,verbose_name='部门')
+    name = models.CharField(verbose_name='姓名', max_length=50)
+    sex = models.CharField(verbose_name='性别', max_length=5)
+    birthday = models.CharField(verbose_name='出生年月', max_length=50)
+    position = models.CharField(verbose_name='职位', max_length=50)
+    phone = models.CharField(verbose_name='联系方式', max_length=11)
+
+
+    class Meta:
+        """Meta definition for Member."""
+
+        verbose_name = 'Member'
+        verbose_name_plural = 'Members'
+
+    def __str__(self):
+        """Unicode representation of Member."""
+        return self.dept.dept_name + '/' + self.name
