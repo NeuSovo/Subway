@@ -89,11 +89,9 @@ class AssignAccountForm(UserCreationForm):
         else:
             return username
 
-
     class Meta(UserCreationForm.Meta):
         model = User
         fields = ('username', 'last_name', 'position', 'password1', 'password2',)
-
 
 
 class MemberForm(forms.ModelForm):

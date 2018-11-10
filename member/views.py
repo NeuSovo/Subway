@@ -35,7 +35,7 @@ class LoginView(FormView):
         return super().form_valid(form)
 
 
-def logout(request):
+def logout_view(request):
     logout(request)
     return render(request, 'member/login.html')
 
@@ -45,7 +45,6 @@ class AssignAccountView(CreateView):
     template_name = "member/dept_assign_account_form.html"
     form_class = AssignAccountForm
     success_url = '/member/dept_assign_account_list/'
-
 
     @method_decorator(login_required(login_url='/auth/login'))
     def dispatch(self, *args, **kwargs):
@@ -167,7 +166,6 @@ class MemberListView(ListView):
             setattr(i, 'qrcode', i.qrcode_content)
         return queryset
 
-    
     def get_context_data(self, **kwargs):
         context = super(MemberListView, self).get_context_data(**kwargs)
         if self.request.user.is_superuser:
@@ -189,7 +187,6 @@ class MemberDetailView(DetailView):
         except:
             raise 
         return super(MemberDetailView, self).get_object(queryset)
-
     
     def get_context_data(self, **kwargs):
         context = super(MemberDetailView, self).get_context_data(**kwargs)
@@ -202,6 +199,7 @@ def qrcode_view(request, data):
     response = HttpResponse(img, content_type="image/png")
 
     return response
+
 
 def import_member_data(request):
     # 导入数据

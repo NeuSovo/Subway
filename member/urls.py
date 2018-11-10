@@ -4,7 +4,7 @@ from .views import *
 app_name = "member"
 urlpatterns = [
     path('auth/login', LoginView.as_view(), name='login'),
-    path('auth/logout', logout, name='logout'),
+    path('auth/logout', logout_view, name='logout'),
 
     path('global/qrcode/<path:data>', qrcode_view, name='qrcode'),
 
