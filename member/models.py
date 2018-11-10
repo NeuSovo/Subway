@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from .utils import *
 
 class Departments(models.Model):
 
@@ -56,3 +56,7 @@ class Member(models.Model):
     def __str__(self):
         """Unicode representation of Member."""
         return self.dept.dept_name + '/' + self.name
+
+    @property
+    def qrcode_content(self):
+        return 'http://127.0.0.1:8000/member/member_detail/'+en_base64(self.id)

@@ -1,11 +1,15 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
+from django.db import IntegrityError
+from django.shortcuts import render, get_object_or_404, HttpResponse, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DeleteView, FormView, ListView, DetailView
 
 from .forms import *
 from .models import *
+from .utils import *
+
+import pyexcel.ext.xlsx
 
 
 class LoginView(FormView):
@@ -77,7 +81,7 @@ class AssignAccountListView(ListView):
         queryset = super(AssignAccountListView, self).get_queryset()
         queryset = queryset.filter(user_dept=self.dept)
         return queryset
-
+    
 
 class DeptListView(ListView):
     template_name = 'member/dept_list.html'
@@ -158,6 +162,9 @@ class MemberListView(ListView):
             queryset = queryset
         else:
             queryset = queryset.filter(dept=self.dept)
+
+        for i in queryset:
+            setattr(i, 'qrcode', i.qrcode_content)
         return queryset
 
     
@@ -172,14 +179,44 @@ class MemberListView(ListView):
         return context
 
 
-
 class MemberDetailView(DetailView):
     model = Member
     template_name = "member/member_detail.html"
 
+    def get_object(self, queryset=None):
+        try:
+            self.kwargs[self.pk_url_kwarg] = de_base64(self.kwargs.get(self.pk_url_kwarg))
+        except:
+            raise 
+        return super(MemberDetailView, self).get_object(queryset)
+
+    
+    def get_context_data(self, **kwargs):
+        context = super(MemberDetailView, self).get_context_data(**kwargs)
+        setattr(context['object'], 'qrcode', context.get('object').qrcode_content)
+        return context
     
 
+def qrcode_view(request, data):
+    img = gen_qrcode(data)
+    response = HttpResponse(img, content_type="image/png")
+
+    return response
 
 def import_member_data(request):
     # 导入数据
-    pass
+    if request.method == "POST":
+        print (request.FILES)
+        try:
+            request.FILES['docfile'].save_to_database(
+                    name_columns_by_row=0,
+                    model=Member,
+                    mapdict=['member_id', 'member_avatar', 'dept_id', 'name', 'sex', 'birthday', 'position', 'phone'])
+
+            return redirect('/member/member_list')
+        
+        except IntegrityError as e:
+            return redirect('/member/member_list')
+
+    else:
+        pass

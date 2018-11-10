@@ -2,6 +2,13 @@
 
 {% block content %}
 
+
+    <form action="{% url 'member:member_import' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="docfile" id="docfile">
+        <input type="submit" value="Save">
+    </form>
+
     <select>
     <option value="0" selected> 全部</option>
     {% for dept in dept_list %}
@@ -11,11 +18,12 @@
         {% endifequal %}
             > {{ dept.dept_name }}</option>
     {% endfor %}
-    </select
+    </select>
         
     <ul>
         {% for member in object_list %}
             <li>{{ member.name }}
+               <a href="{% url 'member:qrcode' member.qrcode %}">二维码 </a> 
             </li>
         {% empty %}
             <li>No member yet.</li>
