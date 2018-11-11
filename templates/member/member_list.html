@@ -2,7 +2,11 @@
 
 {% block content %}
 
-
+    
+    {% if import_msg %}
+        {{ import_msg }}
+    {% endif %}
+        
     <form action="{% url 'member:member_import' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <input type="file" name="docfile" id="docfile">

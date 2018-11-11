@@ -1,15 +1,16 @@
+import django_excel as excel
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from django.shortcuts import render, get_object_or_404, HttpResponse, redirect
+from django.http import Http404, JsonResponse
+from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, DeleteView, FormView, ListView, DetailView
+from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
+                                  ListView)
 
 from .forms import *
 from .models import *
 from .utils import *
-
-import pyexcel.ext.xlsx
 
 
 class LoginView(FormView):
@@ -204,17 +205,50 @@ def qrcode_view(request, data):
 def import_member_data(request):
     # 导入数据
     if request.method == "POST":
-        print (request.FILES)
         try:
             request.FILES['docfile'].save_to_database(
                     name_columns_by_row=0,
                     model=Member,
-                    mapdict=['member_id', 'member_avatar', 'dept_id', 'name', 'sex', 'birthday', 'position', 'phone'])
-
-            return redirect('/member/member_list')
+                    mapdict=['member_id', 'dept_id', 'name', 'sex', 'birthday', 'position', 'phone'])
+            
+            context = {
+                'import_msg': 'ok'
+            }
         
         except IntegrityError as e:
-            return redirect('/member/member_list')
+            print (e)
+            context = {
+                'import_msg': '请检查Excel是否与已有数据重复'
+            }
+        except ValueError as e:
+            print (e)
+            context = {
+                'import_msg': '数据格式错误'
+            }
+        return JsonResponse(context)
 
-    else:
+    else:  
         pass
+
+
+def export_member_data(request, dept_id=None):
+    from datetime import datetime
+    file_name = '员工表_'
+    if dept_id:
+        dept = get_object_or_404(Departments, pk=dept_id)
+        members = Member.objects.filter(dept_id=dept_id)
+        file_name += dept.dept_name + '_'
+    else:
+        members = Member.objects.all()
+    
+    file_name += datetime.now().strftime("%Y-%m-%d")
+    
+    column_names  =['member_id', 'dept_id', 'get_dept_name', 'name', 'sex', 'birthday', 'position', 'phone']
+    colnames=['员工工号','部门id','部门名字','姓名','性别','生日','职位', '电话']
+    return excel.make_response_from_query_sets(
+        members,
+        column_names,
+        'xls',
+        file_name=file_name,
+        colnames=colnames
+    )

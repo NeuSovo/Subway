@@ -124,3 +124,6 @@ STATIC_URL = '/static/'
 
 FILE_UPLOAD_HANDLERS = ("django_excel.ExcelMemoryFileUploadHandler",
                         "django_excel.TemporaryExcelFileUploadHandler")
+
+
+MEDIA_ROOT=os.path.join(BASE_DIR,'media')

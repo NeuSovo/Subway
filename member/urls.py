@@ -11,6 +11,8 @@ urlpatterns = [
     path('member/member_add', MemberAddView.as_view(), name='member_add'),
     path('member/member_list', MemberListView.as_view(), name='member_list'),
     path('member/member_import', import_member_data, name='member_import'),
+    path('member/member_export', export_member_data),
+    path('member/member_export/<int:dept_id>', export_member_data),
     path('member/member_detail/<str:pk>', MemberDetailView.as_view(), name='member_detail'),
 
     path('member/dept', DeptListView.as_view(), name='dept_list'),
