@@ -1,12 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-    
     {% if import_msg %}
         {{ import_msg }}
     {% endif %}
-        
+
     <form action="{% url 'member:member_import' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <input type="file" name="docfile" id="docfile">
@@ -14,24 +12,53 @@
     </form>
 
     <select>
-    <option value="0" selected> 全部</option>
-    {% for dept in dept_list %}
-        <option value="{{ dept.id }}" 
-        {% ifequal dept.dept_name select_dept.dept_name %}
-            selected
-        {% endifequal %}
+        <option value="0" selected> 全部</option>
+        {% for dept in dept_list %}
+            <option value="{{ dept.id }}"
+                    {% ifequal dept.dept_name select_dept.dept_name %}
+                    selected
+                    {% endifequal %}
             > {{ dept.dept_name }}</option>
-    {% endfor %}
+        {% endfor %}
     </select>
-        
+
     <ul>
         {% for member in object_list %}
             <li>{{ member.name }}
-               <a href="{% url 'member:qrcode' member.qrcode %}">二维码 </a> 
+                <a href="{% url 'member:qrcode' member.qrcode %}">二维码 </a>
             </li>
         {% empty %}
             <li>No member yet.</li>
         {% endfor %}
-</ul>
-     
+    </ul>
+
 {% endblock content %}
+
+
+{% block script %}
+    <script>
+        var check_num = 0
+        $('.add_depart').click(function () {
+            $('.ui.modal.depart').modal('show')
+        })
+        $('.edit_depart').click(function () {
+            $('.ui.modal.edit').modal('show')
+        })
+        $('.add_account').click(function () {
+            $('.ui.modal.account').modal('show')
+        })
+        $('.my_remove').click(function () {
+            $('.ui.modal.remove').modal('show')
+        })
+        $('.checkbox').checkbox({
+            onChecked: function () {
+                check_num++
+                debugger
+                if (check_num > 0) $('.my_remove').removeClass('disabled')
+            },
+            onUnchecked: function () {
+                check_num--
+                if (check_num == 0) $('.my_remove').addClass('disabled')
+            }
+        })</script>
+{% endblock %}

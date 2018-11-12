@@ -4,12 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/style/semantic.min.css">
+    <link rel="stylesheet" href="/static/style/base.css">
+    <script src="/static/javascript/jquery-3.2.1.min.js"></script>
+    <script src="/static/javascript/semantic.min.js"></script>
     <title>Document</title>
+    {% block style %}
+    {% endblock style %}
 </head>
 <body>
-    {% block content %}
-    
-    {% endblock content %}
+<header>
+    <div class="ui menu massive">
+        <div class="left menu"><a class="active item" id="main">功能</a>
+            <div class="item"><p>IQ工程管理平台</p></div>
+        </div>
+        <div class="right menu">
+            <div class="ui dropdown item">Language<i class="dropdown icon"></i>
+                <div class="menu"><a class="item">英语</a><a class="item">俄语</a><a class="item">西班牙语</a></div>
+            </div>
+            <div class="item"><p>欢迎您,李旭成</p></div>
+            <div class="item"><a class="ui negative button" href="login.html">注销</a></div>
+        </div>
+    </div>
+    <div class="ui sidebar inverted vertical menu"><!--a.item 1--><!--a.item 2--><!--a.item 3-->
+        <div class="ui inverted accordion">
+            <div class="item">
+                <div class="title"><i class="dropdown icon"></i> 部门管理</div>
+                <div class="content">
+                    <div class="ui secondary vertical pointing menu"><a class="item" href="department.html">添加部门</a><a
+                            class="item" href="account.html">分配账号</a></div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="title"><i class="dropdown icon"></i> 人员管理</div>
+                <div class="content">
+                    <div class="ui secondary vertical pointing menu"><a class="item" href="member.html">员工信息</a><a
+                            class="item"
+                            href="member_detail.html">详细信息</a>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="title active"><i class="dropdown icon"></i> 物资管理</div>
+            </div>
+            <div class="item">
+                <div class="title active"><i class="dropdown icon"></i> 技术管理</div>
+            </div>
+            <div class="item">
+                <div class="title active"><i class="dropdown icon"></i> 安全管理</div>
+            </div>
+            <div class="item">
+                <div class="title active"><i class="dropdown icon"></i> 验收管理</div>
+            </div>
+        </div>
+    </div>
+</header>
+{% block content %}
+{% endblock content %}
+{% block footer %}
+{% endblock footer %}
+<script>$('#main').click(function () {
+    $('.sidebar').sidebar('toggle')
+})
+$('.ui.accordion').accordion()
+$('.ui.dropdown').dropdown()</script>
+{% block script %}
+{% endblock script %}
 </body>
 
 
