@@ -75,12 +75,11 @@ class AssignAccountListView(ListView):
     template_name = 'member/assign_account_list.html'
     model = AssignAccount
 
-
     @method_decorator(login_required(login_url='/auth/login'))
     def dispatch(self, *args, **kwargs):
         if not self.request.user.is_superuser:
             return render(self.request, self.template_name, {'msg': 'no'})
-        return super(DeptListView, self).dispatch(*args, **kwargs) 
+        return super(AssignAccountListView, self).dispatch(*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         # self.dept = get_object_or_404(Departments, pk=kwargs.get('dept_id', 0))
@@ -116,8 +115,6 @@ class DeptCreateView(View):
 
     @method_decorator(login_required(login_url='/auth/login'))
     def dispatch(self, *args, **kwargs):
-        if not self.request.user.is_superuser:
-            return render(self.request, self.template_name, {'msg': 'no'})
         return super(DeptCreateView, self).dispatch(*args, **kwargs)
 
     def post(self, request, *args, **kwargs):
