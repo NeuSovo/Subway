@@ -1,12 +1,12 @@
 import django_excel as excel
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 from django.http import Http404, JsonResponse
 from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 from django.utils.decorators import method_decorator
 from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
-                                  ListView)
+                                  ListView, View)
 
 from .forms import *
 from .models import *
@@ -41,11 +41,11 @@ def logout_view(request):
     return render(request, 'member/login.html')
 
 
-class AssignAccountView(CreateView):
+class AssignAccountView(View):
     model = User
-    template_name = "member/dept_assign_account_form.html"
-    form_class = AssignAccountForm
-    success_url = '/member/dept_assign_account_list/'
+    # template_name = "member/dept_assign_account_form.html"
+    # form_class = AssignAccountForm
+    # success_url = '/member/dept_assign_account_list/'
 
     @method_decorator(login_required(login_url='/auth/login'))
     def dispatch(self, *args, **kwargs):
@@ -54,32 +54,41 @@ class AssignAccountView(CreateView):
         return super(AssignAccountView, self).dispatch(*args, **kwargs) 
 
     def post(self, request, *args, **kwargs):
-        self.objects = None
-        self.dept = get_object_or_404(Departments,pk=kwargs.get('dept_id', 0))
-        self.success_url += str(self.dept.id)
-        return super(AssignAccountView, self).post(request, *args, **kwargs)
-
-    def form_valid(self, form, *args, **kwargs):
-        self.objects = form.save()
-        position = form.cleaned_data.get('position')
-        # TODO: 对密码进行可逆性加密（*RSA*）
-        enp = form.cleaned_data.get('password1')
-        u = AssignAccount(user=self.objects, user_dept=self.dept, position=position, enp=enp)
-        u.save()
-        return super(AssignAccountView, self).form_valid(form, *args, **kwargs)
+        dept = get_object_or_404(Departments, pk=kwargs.get('dept_id', 0))
+        obj = data_to_obj(User, request.POST)
+        
+        try:
+            with transaction.atomic():
+                obj.save()
+                a = AssignAccount(user=obj, user_dept=dept, 
+                            position=request.POST.get('position', '无'), enp=obj.password)
+                obj.set_password(obj.password)
+                obj.save()
+                a.save()
+                return JsonResponse({'msg': 'ok'})
+        except Exception as e:
+            print (e)
+            return JsonResponse({'msg': str(e)})
 
 
 class AssignAccountListView(ListView):
     template_name = 'member/assign_account_list.html'
     model = AssignAccount
 
+
+    @method_decorator(login_required(login_url='/auth/login'))
+    def dispatch(self, *args, **kwargs):
+        if not self.request.user.is_superuser:
+            return render(self.request, self.template_name, {'msg': 'no'})
+        return super(DeptListView, self).dispatch(*args, **kwargs) 
+
     def get(self, request, *args, **kwargs):
-        self.dept = get_object_or_404(Departments, pk=kwargs.get('dept_id', 0))
+        # self.dept = get_object_or_404(Departments, pk=kwargs.get('dept_id', 0))
         return super(AssignAccountListView, self).get(request, *args, **kwargs)
 
     def get_queryset(self):
         queryset = super(AssignAccountListView, self).get_queryset()
-        queryset = queryset.filter(user_dept=self.dept)
+        queryset = queryset.filter()
         return queryset
     
 
@@ -99,17 +108,27 @@ class DeptListView(ListView):
         return queryset
 
 
-class DeptCreateView(CreateView):
+class DeptCreateView(View):
     model = Departments
-    template_name = "member/dept_create_form.html"
-    form_class = DeptCreateForm
-    success_url = '/member/dept'
+    # template_name = "member/dept_create_form.html"
+    # form_class = DeptCreateForm
+    # success_url = '/member/dept'
 
     @method_decorator(login_required(login_url='/auth/login'))
     def dispatch(self, *args, **kwargs):
         if not self.request.user.is_superuser:
             return render(self.request, self.template_name, {'msg': 'no'})
         return super(DeptCreateView, self).dispatch(*args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        obj = data_to_obj(Departments, request.POST)
+        try:
+            with transaction.atomic():
+                obj.save()
+                return JsonResponse({'msg': 'ok'})
+        except Exception as e:
+            print (str(e))
+            return JsonResponse({'msg': str(e)})
 
 
 class DeptDeleteView(DeleteView):
@@ -146,11 +165,11 @@ class MemberListView(ListView):
 
         if dept_id is None:
             if not request.user.is_superuser:
-                self.dept = self.request.user.AssignAccount.user_dept
+                self.dept = self.request.user.assignaccount.user_dept
         else:
-            if not request.user.is_superuser and dept_id != self.request.user.AssignAccount.user_dept_id:
+            if not request.user.is_superuser and dept_id != self.request.user.assignaccount.user_dept_id:
                 # TODO: xx
-                pass
+                self.dept = self.request.user.assignaccount.user_dept
             else:
                 self.dept = get_object_or_404(Departments, pk=dept_id)
        
@@ -173,8 +192,9 @@ class MemberListView(ListView):
             context['dept_list'] = Departments.objects.all()
             context['select_dept'] = self.dept
         else:
-            context['dept_list'] = self.request.user.AssignAccount.user_dept
+            context['dept_list'] = Departments.objects.filter(pk=self.request.user.assignaccount.user_dept.id)
             context['select_dept'] = self.dept
+        print (context)
         return context
 
 

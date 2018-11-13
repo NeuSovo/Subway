@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, UserManager
 from .utils import *
 
 class Departments(models.Model):
@@ -31,7 +31,17 @@ class AssignAccount(models.Model):
 
     def __str__(self):
         """Unicode representation of AssignAccount."""
-        return str(slef.user)
+        return str(self.user)
+
+    @staticmethod
+    def check_username_exists(username):
+        return User.objects.filter(username=username).exists()
+
+    @staticmethod
+    def create(username, password, dept, last_name):
+        u = UserManager.create_user(username=username, password=password, last_name=last_name)
+        user = AssignAccount(user=user, user_dept=dept, position=position, enp=password)
+        return user
 
 
 class Member(models.Model):
