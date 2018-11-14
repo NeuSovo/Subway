@@ -12,3 +12,7 @@
   cursor: pointer;
   display: inline-block !important;
 }
+.add_depart {
+  margin-left: 50px !important;
+  margin-top: 4px !important;
+}
