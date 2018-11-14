@@ -44,11 +44,13 @@ class Member(models.Model):
     member_id = models.CharField(max_length=11, null=False, unique=True, verbose_name='员工工号')
     member_avatar = models.ImageField(verbose_name='头像', upload_to='avatar', height_field=None, width_field=None, default='none')
     dept = models.ForeignKey(Departments, on_delete=models.SET_NULL, null=True,verbose_name='部门')
-    name = models.CharField(verbose_name='姓名', max_length=50)
-    sex = models.CharField(verbose_name='性别', max_length=5)
-    birthday = models.CharField(verbose_name='出生年月', max_length=50)
-    position = models.CharField(verbose_name='职位', max_length=50)
-    phone = models.CharField(verbose_name='联系方式', max_length=11)
+    name = models.CharField(verbose_name='姓名', max_length=50, null=True)
+    nation = models.CharField(verbose_name='民族', null=True, max_length=10)
+    blood_type = models.CharField(verbose_name='血型', null=True, max_length=10)
+    sex = models.CharField(verbose_name='性别', max_length=5, null=True)
+    birthday = models.CharField(verbose_name='出生年月', max_length=50, null=True)
+    position = models.CharField(verbose_name='职位', max_length=50, null=True)
+    phone = models.CharField(verbose_name='联系方式', max_length=11, null=True)
 
 
     class Meta:
