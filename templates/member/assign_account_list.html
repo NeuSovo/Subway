@@ -3,20 +3,17 @@
 {% block content %}
     <section>
         <div class="ui segment"><h1 class="ui header aligned center">分配账号</h1>
-            <div class="ui floating labeled icon dropdown button"><i class="filter icon"></i><span
-                    class="text">{{ select_dept }}</span>
+            <div class="ui floating labeled icon dropdown button"><i class="filter icon"></i>
+                <label>{{ select_dept }}</label>
                 <div class="menu">
                     <div class="header"><i class="tags icon"></i>选取部门</div>
                     <div class="divider"></div>
-
-                    <a class="item" href="{% url 'member:dept_assign_account_list' %}">全部 </a>
+                    <a class="item" href="{% url 'member:dept_assign_account_list' %}">全部</a>
                     {% for dept in dept_list %}
                         <a class="item" href="{% url 'member:accout_list_with_id' dept.id %}">{{ dept.dept_name }} </a>
                     {% endfor %}
-
                 </div>
             </div>
-
             <table class="ui table celled line single fixed striped" id="table">
                 <thead>
                 <tr class="center aligned">

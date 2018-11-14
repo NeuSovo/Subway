@@ -3,8 +3,8 @@
 {% block content %}
     <section>
         <div class="ui segment"><h1 class="ui header aligned center">员工信息</h1>
-            <div class="ui floating labeled icon dropdown button"><i class="filter icon"></i><span
-                    class="text">{{ select_dept }}</span>
+            <div class="ui floating labeled icon dropdown button"><i class="filter icon"></i>
+                <label>{{ select_dept }}</label>
                 <div class="menu">
                     <div class="header"><i class="tags icon"></i>选取部门</div>
                     <div class="divider"></div>
@@ -18,13 +18,20 @@
                 <button class="ui right labeled icon button primary"><i class="right info icon"></i> 查看详细</button>
             </a>
             <div class="ui buttons right floated">
-                <form action="{% url 'member:member_import' %}">{% csrf_token%}
-                    <input type="file"  name="docfile" value="导入">
-                    <button class="ui labeled icon button right floated my_import"> <i class="download icon"></i> 导入</button>
-
+                <form action="{% url 'member:member_import' %}" id="import_form">
+                    {% csrf_token %}
+                    <div class="ui labeled icon button right floated my_import" id="import"><i
+                            class="download icon"></i> 导入
+                    </div>
                 </form>
                 <div class="or"></div>
-                <button class="ui right labeled icon button my_export"><i class="upload icon"></i> 导出</button>
+                {% ifequal download_dept 0 %}
+                    <a class="ui right labeled icon button my_export" href=" 'member:member_export' %}"><i
+                            class="upload icon"></i> 导出</a>
+                {% else %}
+                    <a class="ui right labeled icon button my_export"
+                       href="{% url 'member:member_export_with_id' download_dept %}"><i class="upload icon"></i> 导出</a>
+                {% endifequal %}
             </div>
             <table class="ui table celled line single fixed" id="table">
                 <thead>
@@ -201,5 +208,27 @@
         })
         $('.ui.dropdown').dropdown()
 
+        $('#import').after('<input type="file" id="load_xls" name="file" style="display:none" onchange ="uploadFile()">');
+        $('#import').click(function () {
+            document.getElementById("load_xls").click();
+        })
+
+        function uploadFile() {
+            var myform = new FormData($("#import_form")[0]);
+            myform.append('file', $('#load_xls')[0].files[0]);
+            $.ajax({
+                url: myform.action,
+                type: "POST",
+                data: myform,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (data) {
+                    console.log(data)
+                }
+            });
+        }
     </script>
 {% endblock %}
