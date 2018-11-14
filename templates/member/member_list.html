@@ -34,8 +34,6 @@
                 </tr>
                 </thead>
                 <tbody>
-
-
                 {% for member in object_list %}
                     <tr class="center aligned">
                         <td>{{ member.member_id }}</td>
@@ -54,24 +52,31 @@
                             <div class="visible content"><i class="remove user icon"></i></div>
                         </a></td>
                     </tr>
+                {% empty %}
+                    <div class="ui icon orange message"><i class="hide icon"></i>
+                        <div class="content">
+                            <div class="header">目前没有一条数据</div>
+                            <p>请试着添加一条数据后再试。</p></div>
+                    </div>
                 {% endfor %}
-
                 </tbody>
-
-                <div class="ui icon orange message"><i class="hide icon"></i>
-                    <div class="content">
-                        <div class="header">目前没有一条数据</div>
-                        <p>请试着添加一条数据后再试。</p></div>
-                </div>
                 <tfoot>
                 <tr>
                     <th colspan="6">
                         <button class="ui labeled icon button positive right floated add_depart"><i
                                 class="users icon"></i> 添加员工
                         </button>
-                        <div class="ui pagination menu right floated"><a class="item">1</a>
-                            <div class="disabled item">...</div>
-                            <a class="item">10</a><a class="item active">11</a><a class="item">12</a></div>
+                        {% if is_paginated %}
+                            <div class="ui pagination menu right floated">
+                                {% for foo in paginator.page_range %}
+                                    {% ifequal page_obj.number foo %}
+                                        <a class="item active" href="?page={{ foo }}"> {{ foo }}</a>
+                                    {% else %}
+                                        <a class="item" href="?page={{ foo }}"> {{ foo }}</a>
+                                    {% endifequal %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </th>
                 </tr>
                 </tfoot>
@@ -179,7 +184,7 @@
     <script>
         $('.add_depart').click(function () {
             {#$('.ui.modal.member').modal('show')#}
-            window.open("{% url  'member:member_add' %}","","width=800,height=500")
+            window.open("{% url  'member:member_add' %}", "", "width=800,height=500")
         })
         $('.my_edit_member').click(function () {
             $('.ui.modal.edit').modal('show')

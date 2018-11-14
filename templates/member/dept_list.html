@@ -51,22 +51,14 @@
                                 class="users icon"></i> 添加部门
                         </button>
                         {% if is_paginated %}
-
-
                             <div class="ui pagination menu right floated">
-
                             {% for foo in paginator.page_range %}
-
                                 {% ifequal page_obj.number foo %}
                                     <a class="item active" href="?page={{ foo }}"> {{ foo }}</a>
                                 {% else %}
                                     <a class="item" href="?page={{ foo }}"> {{ foo }}</a>
                                 {% endifequal %}
-
                             {% endfor %}
-
-
-
                         {% endif %}
                         </div>
                     </th>
@@ -83,7 +75,8 @@
                             <div class="field"><input type="text" name="dept_name" placeholder="部门名称"></div>
                             <div class="field"><input type="text" name="dept_boss" placeholder="负责人"></div>
                             <div class="field"><input type="text" name="dept_position" placeholder="职位"></div>
-                            <div class="field"><input type="number" name="boos_phone" placeholder="电话"></div>
+                            <div class="field"><input type="tel" maxlength="11" name="boos_phone" placeholder="电话">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -102,7 +95,7 @@
                             <div class="field"><input type="text" placeholder="部门名称"></div>
                             <div class="field"><input type="text" placeholder="负责人"></div>
                             <div class="field"><input type="text" placeholder="职位"></div>
-                            <div class="field"><input type="number" placeholder="电话"></div>
+                            <div class="field"><input type="tel" maxlength="11" placeholder="电话"></div>
                         </div>
                     </div>
                 </div>
@@ -121,7 +114,7 @@
                             <div class="field"><input type="text" placeholder="账号" name="username"></div>
                             <div class="field"><input type="text" placeholder="密码" name="password"></div>
                             <div class="field"><input type="text" placeholder="姓名" name="last_name"></div>
-                            <div class="field"><input type="number" placeholder="职位" name="position"></div>
+                            <div class="field"><input type="text" placeholder="职位" name="position"></div>
                         </div>
                         <p>为该部门添加账号后,可在功能->部门管理->分配账号中查看对应信息</p></div>
                 </div>
@@ -163,6 +156,7 @@
             $("#add_account")[0].action = $("#add_account")[0].action.replace(dept_id, id)
             dept_id = id;
         }
+
         function add_account() {
             var add_form = $("#add_account")[0]
             $.ajax({
@@ -177,6 +171,7 @@
                 }
             })
         }
+
         function add_dept() {
             var add_form = $("#add_dept")[0]
             $.ajax({
@@ -187,7 +182,7 @@
                 contentType: false,
                 success: function (data) {
                     console.log(data)
-                        location.reload()
+                    location.reload()
                 }
             })
         }

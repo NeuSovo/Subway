@@ -4,16 +4,16 @@
     <section>
         <div class="ui segment"><h1 class="ui header aligned center">分配账号</h1>
             <div class="ui floating labeled icon dropdown button"><i class="filter icon"></i><span
-                    class="text">全部</span>
+                    class="text">{{ select_dept }}</span>
                 <div class="menu">
                     <div class="header"><i class="tags icon"></i>选取部门</div>
                     <div class="divider"></div>
 
                     <a class="item" href="{% url 'member:dept_assign_account_list' %}">全部 </a>
                     {% for dept in dept_list %}
-                        <a class="item" href="{% url 'member:accout_list_with_id' dept.id %}">{{dept.dept_name}} </a>
+                        <a class="item" href="{% url 'member:accout_list_with_id' dept.id %}">{{ dept.dept_name }} </a>
                     {% endfor %}
-                         
+
                 </div>
             </div>
 
@@ -30,38 +30,45 @@
                 </thead>
                 <tbody>
                 {% for account in object_list %}
-
-                
-                <tr class="center aligned">
-                    <td>{{ account.id }}</td>
-                    <td>{{ account.user.username }}</td>
-                    <td>{{ account.enp }}</td>
-                    <td>{{ account.user.last_name }}</td>
-                    <td>{{ account.position }}</td>
-                    <td>
-                        <div class="ui vertical animated button primary basic left floated my_edit">
-                            <div class="hidden content">编辑</div>
-                            <div class="visible content"><i class="edit icon"></i></div>
-                        </div>
-                        <div class="ui vertical animated button negative basic right floated my_remove">
-                            <div class="hidden content">删除</div>
-                            <div class="visible content"><i class="add user icon"></i></div>
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="center aligned">
+                        <td>{{ account.id }}</td>
+                        <td>{{ account.user.username }}</td>
+                        <td>{{ account.enp }}</td>
+                        <td>{{ account.user.last_name }}</td>
+                        <td>{{ account.position }}</td>
+                        <td>
+                            <div class="ui vertical animated button primary basic left floated my_edit">
+                                <div class="hidden content">编辑</div>
+                                <div class="visible content"><i class="edit icon"></i></div>
+                            </div>
+                            <div class="ui vertical animated button negative basic right floated my_remove">
+                                <div class="hidden content">删除</div>
+                                <div class="visible content"><i class="remove user icon"></i></div>
+                            </div>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <div class="ui icon orange message"><i class="hide icon"></i>
+                        <div class="content">
+                            <div class="header">目前没有一条数据</div>
+                            <p>请试着添加一条数据后再试。</p></div>
+                    </div>
                 {% endfor %}
                 </tbody>
-                <div class="ui icon orange message"><i class="hide icon"></i>
-                    <div class="content">
-                        <div class="header">目前没有一条数据</div>
-                        <p>请试着添加一条数据后再试。</p></div>
-                </div>
                 <tfoot>
                 <tr>
                     <th colspan="6">
-                        <div class="ui pagination menu right floated"><a class="item">1</a>
-                            <div class="disabled item">...</div>
-                            <a class="item">10</a><a class="item active">11</a><a class="item">12</a></div>
+                        {% if is_paginated %}
+                            <div class="ui pagination menu right floated">
+                                {% for foo in paginator.page_range %}
+                                    {% ifequal page_obj.number foo %}
+                                        <a class="item active" href="?page={{ foo }}"> {{ foo }}</a>
+                                    {% else %}
+                                        <a class="item" href="?page={{ foo }}"> {{ foo }}</a>
+                                    {% endifequal %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </th>
                 </tr>
                 </tfoot>
