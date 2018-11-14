@@ -14,7 +14,7 @@
 </head>
 <body>
 <div class="ui segment">
-    <form action="{% url 'member:member_add' %}" id="add_member" method="POST" class="ui form fullscreen">
+    <form action="{% url 'member:member_add' %}" id="add_member" method="POST" class="ui form fullscreen" enctype="multipart/form-data">
         <!--i.close.icon-->
         {% csrf_token %}
         <div class="ui dividing header">新增员工</div>
@@ -22,19 +22,19 @@
             <div class="fields">
                 <div class="field">
                     <label>姓名</label>{{ form.name }}</div>
-                <div class="field"><label for="">部门</label>{{ form.dept }}</div>
+                <div class="field"><label for="">民族</label>{{ form.nation }}</div>
                 <div class="field"><label for="">性别</label>{{ form.sex }}</div>
-                <div class="field"><input type="number" placeholder="血型"></div>
+                <div class="field"><label for="">血型</label>{{ form.blood_type }}</div>
                 <div class="field"><label for="">出生日期</label> {{ form.birthday }}</div>
             </div>
         </div>
         <div class="field"><label>部门属性</label>
             <div class="fields">
-                <div class="field"><input type="text" placeholder="工号"></div>
-                <div class="field"><input type="text" placeholder="部门"></div>
-                <div class="field"><input type="number" placeholder="职位"></div>
-                <div class="field"><input type="number" placeholder="身份证"></div>
-                <div class="field"><input type="number" placeholder="联系方式"></div>
+                <div class="field"><label for="">工号</label>{{ form.member_id }}</div>
+                <div class="field"><label for="">部门</label>{{ form.dept }}</div>
+                <div class="field"><label for="">职位</label>{{ form.position }}</div>
+                {#                <div class="field"><label for="">身份证</label>{{ form. }}</div>#}
+                <div class="field"><label for="">电话号</label>{{ form.phone }}</div>
             </div>
         </div>
         <div class="field"><label>点击图片上传图像</label>
@@ -46,9 +46,10 @@
                                                  src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg">
                 </div>
             </div>
+            {{ form.member_avatar }}
         </div>
         <div class="ui black right floated deny button">取消</div>
-        <div class="ui positive right floated labeled icon button">提交<i class="checkmark icon"></i></div>
+        <button  type="submit" class="ui positive right floated labeled icon button">提交<i class="checkmark icon"></i></button>
     </form>
 </div>
 <script>

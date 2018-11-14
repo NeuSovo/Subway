@@ -159,7 +159,7 @@ class MemberAddView(CreateView):
     model = Member
     template_name = "member/member_add_form.html"
     form_class = MemberForm
-    success_url = '/member/dept_assign_account_list/'
+    success_url = '/member/member_list'
 
     @method_decorator(login_required(login_url='/auth/login'))
     def dispatch(self, *args, **kwargs):
