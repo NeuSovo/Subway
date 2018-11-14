@@ -22,12 +22,16 @@
             <div class="ui dropdown item">Language<i class="dropdown icon"></i>
                 <div class="menu"><a class="item">英语</a><a class="item">俄语</a><a class="item">西班牙语</a></div>
             </div>
-            <div class="item"><p>欢迎您,李旭成</p></div>
-            <div class="item"><a class="ui negative button" href="login.html">注销</a></div>
+            <div class="item"><p>欢迎您,{{ user.username }}</p></div>
+            <div class="item"><a class="ui negative button" href="{% url 'member:logout' %}">注销</a></div>
         </div>
     </div>
     <div class="ui sidebar inverted vertical menu"><!--a.item 1--><!--a.item 2--><!--a.item 3-->
         <div class="ui inverted accordion">
+
+            {% if user.is_superuser %}
+
+
             <div class="item">
                 <div class="title"><i class="dropdown icon"></i> 部门管理</div>
                 <div class="content">
@@ -35,6 +39,7 @@
                             class="item" href="{% url 'member:dept_assign_account_list' %}">分配账号</a></div>
                 </div>
             </div>
+            {% endif %}
             <div class="item">
                 <div class="title"><i class="dropdown icon"></i> 人员管理</div>
                 <div class="content">

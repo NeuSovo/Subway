@@ -205,10 +205,13 @@ class MemberListView(ListView):
         context = super(MemberListView, self).get_context_data(**kwargs)
         if self.request.user.is_superuser:
             context['dept_list'] = Departments.objects.all()
-            context['select_dept'] = self.dept
+            if self.dept is not None:
+                context['select_dept'] = self.dept.dept_name
+            else:
+                context['select_dept'] = '全部'
         else:
             context['dept_list'] = Departments.objects.filter(pk=self.request.user.assignaccount.user_dept.id)
-            context['select_dept'] = self.dept
+            context['select_dept'] = self.dept.dept_name
         print (context)
         return context
 
@@ -244,7 +247,7 @@ def import_member_data(request):
             request.FILES['docfile'].save_to_database(
                     name_columns_by_row=0,
                     model=Member,
-                    mapdict=['member_id', 'dept_id', 'name', 'sex', 'birthday', 'position', 'phone'])
+                    mapdict=['member_id', 'dept_id', 'name', 'sex', 'birthday', 'position', 'phone', 'nation', 'blood_type'])
             
             context = {
                 'import_msg': 'ok'
@@ -278,8 +281,8 @@ def export_member_data(request, dept_id=None):
     
     file_name += datetime.now().strftime("%Y-%m-%d")
     
-    column_names  =['member_id', 'dept_id', 'get_dept_name', 'name', 'sex', 'birthday', 'position', 'phone']
-    colnames=['员工工号','部门id','部门名字','姓名','性别','生日','职位', '电话']
+    column_names = ['member_id', 'dept_id', 'get_dept_name', 'name', 'sex', 'birthday', 'position', 'phone']
+    colnames=['员工工号', '部门id', '部门名字', '姓名', '性别', '生日', '职位', '电话']
     return excel.make_response_from_query_sets(
         members,
         column_names,
