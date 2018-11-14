@@ -207,11 +207,14 @@ class MemberListView(ListView):
             context['dept_list'] = Departments.objects.all()
             if self.dept is not None:
                 context['select_dept'] = self.dept.dept_name
+                context['download_dept'] = self.dept.id
             else:
                 context['select_dept'] = '全部'
+                context['download_dept'] = 0
         else:
             context['dept_list'] = Departments.objects.filter(pk=self.request.user.assignaccount.user_dept.id)
             context['select_dept'] = self.dept.dept_name
+            context['download_dept'] = self.dept.id
         print (context)
         return context
 
@@ -281,8 +284,8 @@ def export_member_data(request, dept_id=None):
     
     file_name += datetime.now().strftime("%Y-%m-%d")
     
-    column_names = ['member_id', 'dept_id', 'get_dept_name', 'name', 'sex', 'birthday', 'position', 'phone']
-    colnames=['员工工号', '部门id', '部门名字', '姓名', '性别', '生日', '职位', '电话']
+    column_names = ['member_id', 'dept_id', 'get_dept_name', 'name', 'sex', 'birthday', 'position', 'phone', 'nation', 'blood_type']
+    colnames = ['员工工号', '部门id', '部门名字', '姓名', '性别', '生日', '职位', '电话', '民族', '血型']
     return excel.make_response_from_query_sets(
         members,
         column_names,
