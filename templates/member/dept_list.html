@@ -50,9 +50,25 @@
                         <button class="ui labeled icon button positive right floated add_depart"><i
                                 class="users icon"></i> 添加部门
                         </button>
-                        <div class="ui pagination menu right floated"><a class="item">1</a>
-                            <div class="disabled item">...</div>
-                            <a class="item">10</a><a class="item active">11</a><a class="item">12</a></div>
+                        {% if is_paginated %}
+
+
+                            <div class="ui pagination menu right floated">
+
+                            {% for foo in paginator.page_range %}
+
+                                {% ifequal page_obj.number foo %}
+                                    <a class="item active" href="?page={{ foo }}"> {{ foo }}</a>
+                                {% else %}
+                                    <a class="item" href="?page={{ foo }}"> {{ foo }}</a>
+                                {% endifequal %}
+
+                            {% endfor %}
+
+
+
+                        {% endif %}
+                        </div>
                     </th>
                 </tr>
                 </tfoot>

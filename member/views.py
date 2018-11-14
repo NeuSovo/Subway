@@ -12,7 +12,6 @@ from .forms import *
 from .models import *
 from .utils import *
 
-
 class LoginView(FormView):
     template_name = 'member/login.html'
     form_class = LoginForm
@@ -103,6 +102,7 @@ class AssignAccountListView(ListView):
 class DeptListView(ListView):
     template_name = 'member/dept_list.html'
     model = Departments
+    paginate_by = 2
 
     @method_decorator(login_required(login_url='/auth/login'))
     def dispatch(self, *args, **kwargs):
@@ -114,6 +114,13 @@ class DeptListView(ListView):
         queryset = super(DeptListView, self).get_queryset()
 
         return queryset
+
+
+    def get_context_data(self, **kwargs):
+
+        context = super(DeptListView, self).get_context_data(**kwargs)
+        print (context)
+        return context
 
 
 class DeptCreateView(View):

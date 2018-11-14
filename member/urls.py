@@ -3,6 +3,8 @@ from .views import *
 
 app_name = "member"
 urlpatterns = [
+
+    path('', DeptListView.as_view()),
     path('auth/login', LoginView.as_view(), name='login'),
     path('auth/logout', logout_view, name='logout'),
 
