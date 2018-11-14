@@ -7,9 +7,10 @@
 			<div class="menu">
 				<div class="header"><i class="tags icon"></i>选取部门</div>
 				<div class="divider"></div>
-				<div class="item">部门1</div>
-				<div class="item">部门2</div>
-				<div class="item">部门3</div>
+                   <a class="item" href="{% url 'member:member_list' %}">全部 </a>
+                    {% for dept in dept_list %}
+                        <a class="item" href="{% url 'member:member_list_with_id' dept.id %}">{{dept.dept_name}} </a>
+                    {% endfor %}
 			</div>
 		</div>
 		<a href="member_detail.html">
@@ -32,12 +33,15 @@
 			</tr>
 			</thead>
 			<tbody>
+
+
+            {% for member in object_list %}
 			<tr class="center aligned">
-				<td>A2345</td>
-				<td>李旭成</td>
-				<td>部长</td>
-				<td>项目部</td>
-				<td>1234560</td>
+				<td>{{ member.member_id }}</td>
+				<td>{{ member.name }}</td>
+				<td>{{ member.position }}</td>
+				<td>{{ member.dept }}</td>
+				<td>{{ member.phone }}</td>
 				<td><a class="ui vertical animated button positive basic right floated my_qrcode">
 					<div class="hidden content">二维码</div>
 					<div class="visible content"><i class="qrcode icon"></i></div>
@@ -49,160 +53,10 @@
 					<div class="visible content"><i class="remove user icon"></i></div>
 				</a></td>
 			</tr>
-			<tr class="center aligned">
-				<td>A2345</td>
-				<td>李旭成</td>
-				<td>部长</td>
-				<td>项目部</td>
-				<td>1234561</td>
-				<td><a class="ui vertical animated button positive basic right floated my_qrcode">
-					<div class="hidden content">二维码</div>
-					<div class="visible content"><i class="qrcode icon"></i></div>
-				</a><a class="ui vertical animated button primary basic left floated my_edit_member">
-					<div class="hidden content">编辑</div>
-					<div class="visible content"><i class="edit icon"></i></div>
-				</a><a class="ui vertical animated button negative basic center floated my_remove">
-					<div class="hidden content">删除</div>
-					<div class="visible content"><i class="remove user icon"></i></div>
-				</a></td>
-			</tr>
-			<tr class="center aligned">
-				<td>A2345</td>
-				<td>李旭成</td>
-				<td>部长</td>
-				<td>项目部</td>
-				<td>1234562</td>
-				<td><a class="ui vertical animated button positive basic right floated my_qrcode">
-					<div class="hidden content">二维码</div>
-					<div class="visible content"><i class="qrcode icon"></i></div>
-				</a><a class="ui vertical animated button primary basic left floated my_edit_member">
-					<div class="hidden content">编辑</div>
-					<div class="visible content"><i class="edit icon"></i></div>
-				</a><a class="ui vertical animated button negative basic center floated my_remove">
-					<div class="hidden content">删除</div>
-					<div class="visible content"><i class="remove user icon"></i></div>
-				</a></td>
-			</tr>
-			<tr class="center aligned">
-				<td>A2345</td>
-				<td>李旭成</td>
-				<td>部长</td>
-				<td>项目部</td>
-				<td>1234563</td>
-				<td><a class="ui vertical animated button positive basic right floated my_qrcode">
-					<div class="hidden content">二维码</div>
-					<div class="visible content"><i class="qrcode icon"></i></div>
-				</a><a class="ui vertical animated button primary basic left floated my_edit_member">
-					<div class="hidden content">编辑</div>
-					<div class="visible content"><i class="edit icon"></i></div>
-				</a><a class="ui vertical animated button negative basic center floated my_remove">
-					<div class="hidden content">删除</div>
-					<div class="visible content"><i class="remove user icon"></i></div>
-				</a></td>
-			</tr>
-			<tr class="center aligned">
-				<td>A2345</td>
-				<td>李旭成</td>
-				<td>部长</td>
-				<td>项目部</td>
-				<td>1234564</td>
-				<td><a class="ui vertical animated button positive basic right floated my_qrcode">
-					<div class="hidden content">二维码</div>
-					<div class="visible content"><i class="qrcode icon"></i></div>
-				</a><a class="ui vertical animated button primary basic left floated my_edit_member">
-					<div class="hidden content">编辑</div>
-					<div class="visible content"><i class="edit icon"></i></div>
-				</a><a class="ui vertical animated button negative basic center floated my_remove">
-					<div class="hidden content">删除</div>
-					<div class="visible content"><i class="remove user icon"></i></div>
-				</a></td>
-			</tr>
-			<tr class="center aligned">
-				<td>A2345</td>
-				<td>李旭成</td>
-				<td>部长</td>
-				<td>项目部</td>
-				<td>1234565</td>
-				<td><a class="ui vertical animated button positive basic right floated my_qrcode">
-					<div class="hidden content">二维码</div>
-					<div class="visible content"><i class="qrcode icon"></i></div>
-				</a><a class="ui vertical animated button primary basic left floated my_edit_member">
-					<div class="hidden content">编辑</div>
-					<div class="visible content"><i class="edit icon"></i></div>
-				</a><a class="ui vertical animated button negative basic center floated my_remove">
-					<div class="hidden content">删除</div>
-					<div class="visible content"><i class="remove user icon"></i></div>
-				</a></td>
-			</tr>
-			<tr class="center aligned">
-				<td>A2345</td>
-				<td>李旭成</td>
-				<td>部长</td>
-				<td>项目部</td>
-				<td>1234566</td>
-				<td><a class="ui vertical animated button positive basic right floated my_qrcode">
-					<div class="hidden content">二维码</div>
-					<div class="visible content"><i class="qrcode icon"></i></div>
-				</a><a class="ui vertical animated button primary basic left floated my_edit_member">
-					<div class="hidden content">编辑</div>
-					<div class="visible content"><i class="edit icon"></i></div>
-				</a><a class="ui vertical animated button negative basic center floated my_remove">
-					<div class="hidden content">删除</div>
-					<div class="visible content"><i class="remove user icon"></i></div>
-				</a></td>
-			</tr>
-			<tr class="center aligned">
-				<td>A2345</td>
-				<td>李旭成</td>
-				<td>部长</td>
-				<td>项目部</td>
-				<td>1234567</td>
-				<td><a class="ui vertical animated button positive basic right floated my_qrcode">
-					<div class="hidden content">二维码</div>
-					<div class="visible content"><i class="qrcode icon"></i></div>
-				</a><a class="ui vertical animated button primary basic left floated my_edit_member">
-					<div class="hidden content">编辑</div>
-					<div class="visible content"><i class="edit icon"></i></div>
-				</a><a class="ui vertical animated button negative basic center floated my_remove">
-					<div class="hidden content">删除</div>
-					<div class="visible content"><i class="remove user icon"></i></div>
-				</a></td>
-			</tr>
-			<tr class="center aligned">
-				<td>A2345</td>
-				<td>李旭成</td>
-				<td>部长</td>
-				<td>项目部</td>
-				<td>1234568</td>
-				<td><a class="ui vertical animated button positive basic right floated my_qrcode">
-					<div class="hidden content">二维码</div>
-					<div class="visible content"><i class="qrcode icon"></i></div>
-				</a><a class="ui vertical animated button primary basic left floated my_edit_member">
-					<div class="hidden content">编辑</div>
-					<div class="visible content"><i class="edit icon"></i></div>
-				</a><a class="ui vertical animated button negative basic center floated my_remove">
-					<div class="hidden content">删除</div>
-					<div class="visible content"><i class="remove user icon"></i></div>
-				</a></td>
-			</tr>
-			<tr class="center aligned">
-				<td>A2345</td>
-				<td>李旭成</td>
-				<td>部长</td>
-				<td>项目部</td>
-				<td>1234569</td>
-				<td><a class="ui vertical animated button positive basic right floated my_qrcode">
-					<div class="hidden content">二维码</div>
-					<div class="visible content"><i class="qrcode icon"></i></div>
-				</a><a class="ui vertical animated button primary basic left floated my_edit_member">
-					<div class="hidden content">编辑</div>
-					<div class="visible content"><i class="edit icon"></i></div>
-				</a><a class="ui vertical animated button negative basic center floated my_remove">
-					<div class="hidden content">删除</div>
-					<div class="visible content"><i class="remove user icon"></i></div>
-				</a></td>
-			</tr>
+            {% endfor %}
+
 			</tbody>
+
 			<div class="ui icon orange message"><i class="hide icon"></i>
 				<div class="content">
 					<div class="header">目前没有一条数据</div>
@@ -353,37 +207,6 @@
 		</div>
 	</div>
 </section>
-    {% if import_msg %}
-        {{ import_msg }}
-    {% endif %}
-
-    <form action="{% url 'member:member_import' %}" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="file" name="docfile" id="docfile">
-        <input type="submit" value="Save">
-    </form>
-
-    <select>
-        <option value="0" selected> 全部</option>
-        {% for dept in dept_list %}
-            <option value="{{ dept.id }}"
-                    {% ifequal dept.dept_name select_dept.dept_name %}
-                    selected
-                    {% endifequal %}
-            > {{ dept.dept_name }}</option>
-        {% endfor %}
-    </select>
-
-    <ul>
-        {% for member in object_list %}
-            <li>{{ member.name }}
-                <a href="{% url 'member:qrcode' member.qrcode %}">二维码 </a>
-            </li>
-        {% empty %}
-            <li>No member yet.</li>
-        {% endfor %}
-    </ul>
-
 {% endblock content %}
 
 

@@ -8,11 +8,15 @@
                 <div class="menu">
                     <div class="header"><i class="tags icon"></i>选取部门</div>
                     <div class="divider"></div>
-                    <div class="item">部门1</div>
-                    <div class="item">部门2</div>
-                    <div class="item">部门3</div>
+
+                    <a class="item" href="{% url 'member:dept_assign_account_list' %}">全部 </a>
+                    {% for dept in dept_list %}
+                        <a class="item" href="{% url 'member:accout_list_with_id' dept.id %}">{{dept.dept_name}} </a>
+                    {% endfor %}
+                         
                 </div>
             </div>
+
             <table class="ui table celled line single fixed striped" id="table">
                 <thead>
                 <tr class="center aligned">
@@ -25,12 +29,15 @@
                 </tr>
                 </thead>
                 <tbody>
+                {% for account in object_list %}
+
+                
                 <tr class="center aligned">
-                    <td>01234</td>
-                    <td>zhangsan</td>
-                    <td>1234560</td>
-                    <td>张三</td>
-                    <td>部长</td>
+                    <td>{{ account.id }}</td>
+                    <td>{{ account.user.username }}</td>
+                    <td>{{ account.enp }}</td>
+                    <td>{{ account.user.last_name }}</td>
+                    <td>{{ account.position }}</td>
                     <td>
                         <div class="ui vertical animated button primary basic left floated my_edit">
                             <div class="hidden content">编辑</div>
@@ -42,159 +49,7 @@
                         </div>
                     </td>
                 </tr>
-                <tr class="center aligned">
-                    <td>01234</td>
-                    <td>zhangsan</td>
-                    <td>1234561</td>
-                    <td>张三</td>
-                    <td>部长</td>
-                    <td>
-                        <div class="ui vertical animated button primary basic left floated my_edit">
-                            <div class="hidden content">编辑</div>
-                            <div class="visible content"><i class="edit icon"></i></div>
-                        </div>
-                        <div class="ui vertical animated button negative basic right floated my_remove">
-                            <div class="hidden content">删除</div>
-                            <div class="visible content"><i class="add user icon"></i></div>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="center aligned">
-                    <td>01234</td>
-                    <td>zhangsan</td>
-                    <td>1234562</td>
-                    <td>张三</td>
-                    <td>部长</td>
-                    <td>
-                        <div class="ui vertical animated button primary basic left floated my_edit">
-                            <div class="hidden content">编辑</div>
-                            <div class="visible content"><i class="edit icon"></i></div>
-                        </div>
-                        <div class="ui vertical animated button negative basic right floated my_remove">
-                            <div class="hidden content">删除</div>
-                            <div class="visible content"><i class="add user icon"></i></div>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="center aligned">
-                    <td>01234</td>
-                    <td>zhangsan</td>
-                    <td>1234563</td>
-                    <td>张三</td>
-                    <td>部长</td>
-                    <td>
-                        <div class="ui vertical animated button primary basic left floated my_edit">
-                            <div class="hidden content">编辑</div>
-                            <div class="visible content"><i class="edit icon"></i></div>
-                        </div>
-                        <div class="ui vertical animated button negative basic right floated my_remove">
-                            <div class="hidden content">删除</div>
-                            <div class="visible content"><i class="add user icon"></i></div>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="center aligned">
-                    <td>01234</td>
-                    <td>zhangsan</td>
-                    <td>1234564</td>
-                    <td>张三</td>
-                    <td>部长</td>
-                    <td>
-                        <div class="ui vertical animated button primary basic left floated my_edit">
-                            <div class="hidden content">编辑</div>
-                            <div class="visible content"><i class="edit icon"></i></div>
-                        </div>
-                        <div class="ui vertical animated button negative basic right floated my_remove">
-                            <div class="hidden content">删除</div>
-                            <div class="visible content"><i class="add user icon"></i></div>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="center aligned">
-                    <td>01234</td>
-                    <td>zhangsan</td>
-                    <td>1234565</td>
-                    <td>张三</td>
-                    <td>部长</td>
-                    <td>
-                        <div class="ui vertical animated button primary basic left floated my_edit">
-                            <div class="hidden content">编辑</div>
-                            <div class="visible content"><i class="edit icon"></i></div>
-                        </div>
-                        <div class="ui vertical animated button negative basic right floated my_remove">
-                            <div class="hidden content">删除</div>
-                            <div class="visible content"><i class="add user icon"></i></div>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="center aligned">
-                    <td>01234</td>
-                    <td>zhangsan</td>
-                    <td>1234566</td>
-                    <td>张三</td>
-                    <td>部长</td>
-                    <td>
-                        <div class="ui vertical animated button primary basic left floated my_edit">
-                            <div class="hidden content">编辑</div>
-                            <div class="visible content"><i class="edit icon"></i></div>
-                        </div>
-                        <div class="ui vertical animated button negative basic right floated my_remove">
-                            <div class="hidden content">删除</div>
-                            <div class="visible content"><i class="add user icon"></i></div>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="center aligned">
-                    <td>01234</td>
-                    <td>zhangsan</td>
-                    <td>1234567</td>
-                    <td>张三</td>
-                    <td>部长</td>
-                    <td>
-                        <div class="ui vertical animated button primary basic left floated my_edit">
-                            <div class="hidden content">编辑</div>
-                            <div class="visible content"><i class="edit icon"></i></div>
-                        </div>
-                        <div class="ui vertical animated button negative basic right floated my_remove">
-                            <div class="hidden content">删除</div>
-                            <div class="visible content"><i class="add user icon"></i></div>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="center aligned">
-                    <td>01234</td>
-                    <td>zhangsan</td>
-                    <td>1234568</td>
-                    <td>张三</td>
-                    <td>部长</td>
-                    <td>
-                        <div class="ui vertical animated button primary basic left floated my_edit">
-                            <div class="hidden content">编辑</div>
-                            <div class="visible content"><i class="edit icon"></i></div>
-                        </div>
-                        <div class="ui vertical animated button negative basic right floated my_remove">
-                            <div class="hidden content">删除</div>
-                            <div class="visible content"><i class="add user icon"></i></div>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="center aligned">
-                    <td>01234</td>
-                    <td>zhangsan</td>
-                    <td>1234569</td>
-                    <td>张三</td>
-                    <td>部长</td>
-                    <td>
-                        <div class="ui vertical animated button primary basic left floated my_edit">
-                            <div class="hidden content">编辑</div>
-                            <div class="visible content"><i class="edit icon"></i></div>
-                        </div>
-                        <div class="ui vertical animated button negative basic right floated my_remove">
-                            <div class="hidden content">删除</div>
-                            <div class="visible content"><i class="add user icon"></i></div>
-                        </div>
-                    </td>
-                </tr>
+                {% endfor %}
                 </tbody>
                 <div class="ui icon orange message"><i class="hide icon"></i>
                     <div class="content">

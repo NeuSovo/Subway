@@ -82,13 +82,22 @@ class AssignAccountListView(ListView):
         return super(AssignAccountListView, self).dispatch(*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
-        # self.dept = get_object_or_404(Departments, pk=kwargs.get('dept_id', 0))
+        self.dept_id = kwargs.get('dept_id', 0)
+        print(self.dept_id)
         return super(AssignAccountListView, self).get(request, *args, **kwargs)
 
     def get_queryset(self):
         queryset = super(AssignAccountListView, self).get_queryset()
-        queryset = queryset.filter()
+        if self.dept_id:
+            queryset = queryset.filter(user_dept_id=self.dept_id)
         return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super(AssignAccountListView, self).get_context_data(**kwargs)
+        context['dept_list'] = Departments.objects.all()
+
+        return context
+    
     
 
 class DeptListView(ListView):
@@ -157,7 +166,7 @@ class MemberListView(ListView):
         return super(MemberListView, self).dispatch(*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
-        dept_id = self.request.GET.get('dept_id')
+        dept_id = kwargs.get('dept_id')
         self.dept = None
 
         if dept_id is None:

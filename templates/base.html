@@ -31,14 +31,14 @@
             <div class="item">
                 <div class="title"><i class="dropdown icon"></i> 部门管理</div>
                 <div class="content">
-                    <div class="ui secondary vertical pointing menu"><a class="item" href="department.html">添加部门</a><a
-                            class="item" href="account.html">分配账号</a></div>
+                    <div class="ui secondary vertical pointing menu"><a class="item" href="{% url 'member:dept_list' %}">添加部门</a><a
+                            class="item" href="{% url 'member:dept_assign_account_list' %}">分配账号</a></div>
                 </div>
             </div>
             <div class="item">
                 <div class="title"><i class="dropdown icon"></i> 人员管理</div>
                 <div class="content">
-                    <div class="ui secondary vertical pointing menu"><a class="item" href="member.html">员工信息</a><a
+                    <div class="ui secondary vertical pointing menu"><a class="item" href="{% url 'member:member_list' %}">员工信息</a><a
                             class="item"
                             href="member_detail.html">详细信息</a>
                     </div>

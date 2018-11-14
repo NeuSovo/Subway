@@ -37,12 +37,6 @@ class AssignAccount(models.Model):
     def check_username_exists(username):
         return User.objects.filter(username=username).exists()
 
-    @staticmethod
-    def create(username, password, dept, last_name):
-        u = UserManager.create_user(username=username, password=password, last_name=last_name)
-        user = AssignAccount(user=user, user_dept=dept, position=position, enp=password)
-        return user
-
 
 class Member(models.Model):
     """Model definition for Member."""
