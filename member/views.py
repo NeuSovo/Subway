@@ -95,8 +95,12 @@ class AssignAccountListView(ListView):
         context = super(AssignAccountListView, self).get_context_data(**kwargs)
         context['dept_list'] = Departments.objects.all()
 
+        if self.dept_id:
+            context['select_dept'] = get_object_or_404(Departments, pk=self.dept_id).dept_name
+        else:
+            context['select_dept'] = '全部'
+
         return context
-    
     
 
 class DeptListView(ListView):
@@ -115,11 +119,9 @@ class DeptListView(ListView):
 
         return queryset
 
-
     def get_context_data(self, **kwargs):
 
         context = super(DeptListView, self).get_context_data(**kwargs)
-        print (context)
         return context
 
 
