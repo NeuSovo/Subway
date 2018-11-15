@@ -198,8 +198,6 @@
         $('.add_depart').click(function () {
             {#$('.ui.modal.member').modal('show')#}
             var w = window.open("{% url  'member:member_add' %}", "", "width=800,height=500")
-
-
         })
         $('.my_edit_member').click(function () {
             $('.ui.modal.edit').modal('show')
@@ -207,6 +205,7 @@
         // $('.my_qrcode').click(function () {
         //     $('.ui.modal.qrcode').modal('show')
         // })
+
         $('.my_remove').click(function () {
             $('.ui.modal.remove').modal('show')
         })
@@ -229,6 +228,8 @@
                 processData: false,
                 success: function (data) {
                     console.log(data)
+                    location.reload();
+
                 },
                 error: function (data) {
                     console.log(data)
