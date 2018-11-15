@@ -52,7 +52,9 @@
                         <td>{{ member.position }}</td>
                         <td>{{ member.dept }}</td>
                         <td>{{ member.phone }}</td>
-                        <td><a class="ui vertical animated button positive basic right floated my_qrcode">
+                        <td><a class="ui vertical animated button positive basic right floated my_qrcode"
+                            href="{% url 'member:qrcode' member.qrcode %}" 
+                                download="{{ member.member_id}}_{{ member.name}}" >
                             <div class="hidden content">二维码</div>
                             <div class="visible content"><i class="qrcode icon"></i></div>
                         </a><a class="ui vertical animated button primary basic left floated my_edit_member">
@@ -200,9 +202,9 @@
         $('.my_edit_member').click(function () {
             $('.ui.modal.edit').modal('show')
         })
-        $('.my_qrcode').click(function () {
-            $('.ui.modal.qrcode').modal('show')
-        })
+        // $('.my_qrcode').click(function () {
+        //     $('.ui.modal.qrcode').modal('show')
+        // })
         $('.my_remove').click(function () {
             $('.ui.modal.remove').modal('show')
         })
