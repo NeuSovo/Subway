@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    
+
 
 
 <form method="POST">
@@ -10,7 +10,7 @@
         {% if field.help_text %}
         {{ field.help_text|safe }}
         {% endif %} {% endfor %}
-     
+
         <input type="submit" value="Save">
      </form>
 
