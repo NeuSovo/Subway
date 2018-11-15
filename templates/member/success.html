@@ -18,8 +18,7 @@
     var a = 3
     setInterval(function () {
         document.getElementsByClassName("content")[0].innerHTML = --a + '秒后关闭页面'
-        if (a == 0) {
-            window.opener.reload()
+        if (a === 1) {
             window.opener = null
             window.open('', '_self')
             window.close()

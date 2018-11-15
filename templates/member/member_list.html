@@ -197,7 +197,9 @@
     <script>
         $('.add_depart').click(function () {
             {#$('.ui.modal.member').modal('show')#}
-            window.open("{% url  'member:member_add' %}", "", "width=800,height=500")
+            var w = window.open("{% url  'member:member_add' %}", "", "width=800,height=500")
+
+
         })
         $('.my_edit_member').click(function () {
             $('.ui.modal.edit').modal('show')
