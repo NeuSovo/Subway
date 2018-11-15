@@ -16,6 +16,9 @@
 <script>
     $('.ui.modal').modal('show')
     var a = 3
+    window.onunload = function () {
+        window.opener.location.reload()
+    }
     setInterval(function () {
         document.getElementsByClassName("content")[0].innerHTML = --a + '秒后关闭页面'
         if (a == 0) {
