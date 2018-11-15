@@ -14,11 +14,11 @@
                     {% endfor %}
                 </div>
             </div>
-            <a href="member_detail.html">
+            <a href="{% url 'member:member_list_detail' %}">
                 <button class="ui right labeled icon button primary"><i class="right info icon"></i> 查看详细</button>
             </a>
             <div class="ui buttons right floated">
-                <form action="{% url 'member:member_import' %}" id="import_form">
+                <form action="{% url 'member:member_import' %}" id="import_form" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="ui labeled icon button right floated my_import" id="import"><i
                             class="download icon"></i> 导入
@@ -26,7 +26,7 @@
                 </form>
                 <div class="or"></div>
                 {% ifequal download_dept 0 %}
-                    <a class="ui right labeled icon button my_export" href=" 'member:member_export' %}"><i
+                    <a class="ui right labeled icon button my_export" href="{% url 'member:member_export' %}"><i
                             class="upload icon"></i> 导出</a>
                 {% else %}
                     <a class="ui right labeled icon button my_export"
@@ -208,22 +208,24 @@
         })
         $('.ui.dropdown').dropdown()
 
-        $('#import').after('<input type="file" id="load_xls" name="file" style="display:none" onchange ="uploadFile()">');
+        $('#import').after('<input type="file" id="load_xls" name="docfile" style="display:none" onchange ="uploadFile()" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">');
         $('#import').click(function () {
             document.getElementById("load_xls").click();
         })
 
         function uploadFile() {
-            var myform = new FormData($("#import_form")[0]);
+            let import_form = $("#import_form")[0];
+            let myform = new FormData(import_form);
             myform.append('file', $('#load_xls')[0].files[0]);
             $.ajax({
-                url: myform.action,
+                url: import_form.action,
                 type: "POST",
                 data: myform,
                 contentType: false,
                 processData: false,
                 success: function (data) {
                     console.log(data);
+                    location.reload();
                 },
                 error: function (data) {
                     console.log(data)

@@ -70,12 +70,12 @@ class AssignAccountForm(UserCreationForm):
             attrs={'class': 'input'})
     )
 
-    password1 = forms.CharField(label='密码', 
+    password1 = forms.CharField(label='密码',
                                 widget=forms.TextInput(
                                     attrs={
                                         'class': 'input',
                                         'type': 'password'}))
-                    
+
     password2 = forms.CharField(label='重复密码',
                                 widget=forms.TextInput(
                                     attrs={
@@ -98,6 +98,6 @@ class MemberForm(forms.ModelForm):
     class Meta:
         model = Member
         fields = '__all__'
-        widgets={
+        widgets = {
             'member_avatar': forms.FileInput(attrs={'class': ''})
         }

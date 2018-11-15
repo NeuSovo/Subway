@@ -24,6 +24,7 @@ def de_base64(txt):
 
     return uid
 
+
 def data_to_obj(to_class, data):
     parms = {}
     for i in data:

@@ -12,6 +12,7 @@ from .forms import *
 from .models import *
 from .utils import *
 
+
 class LoginView(FormView):
     template_name = 'member/login.html'
     form_class = LoginForm
@@ -37,11 +38,12 @@ class LoginView(FormView):
 
 def logout_view(request):
     logout(request)
-    return render(request, 'member/login.html')
+    return redirect('/')
 
 
 class AssignAccountView(View):
     model = User
+
     # template_name = "member/dept_assign_account_form.html"
     # form_class = AssignAccountForm
     # success_url = '/member/dept_assign_account_list/'
@@ -50,23 +52,23 @@ class AssignAccountView(View):
     def dispatch(self, *args, **kwargs):
         if not self.request.user.is_superuser:
             return render(self.request, self.template_name, {'msg': 'no'})
-        return super(AssignAccountView, self).dispatch(*args, **kwargs) 
+        return super(AssignAccountView, self).dispatch(*args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         dept = get_object_or_404(Departments, pk=kwargs.get('dept_id', 0))
         obj = data_to_obj(User, request.POST)
-        
+
         try:
             with transaction.atomic():
                 obj.save()
-                a = AssignAccount(user=obj, user_dept=dept, 
-                            position=request.POST.get('position', '无'), enp=obj.password)
+                a = AssignAccount(user=obj, user_dept=dept,
+                                  position=request.POST.get('position', '无'), enp=obj.password)
                 obj.set_password(obj.password)
                 obj.save()
                 a.save()
                 return JsonResponse({'msg': 'ok'})
         except Exception as e:
-            print (e)
+            print(e)
             return JsonResponse({'msg': str(e)})
 
 
@@ -90,7 +92,7 @@ class AssignAccountListView(ListView):
         if self.dept_id:
             queryset = queryset.filter(user_dept_id=self.dept_id)
         return queryset
-    
+
     def get_context_data(self, **kwargs):
         context = super(AssignAccountListView, self).get_context_data(**kwargs)
         context['dept_list'] = Departments.objects.all()
@@ -101,7 +103,7 @@ class AssignAccountListView(ListView):
             context['select_dept'] = '全部'
 
         return context
-    
+
 
 class DeptListView(ListView):
     template_name = 'member/dept_list.html'
@@ -112,7 +114,7 @@ class DeptListView(ListView):
     def dispatch(self, *args, **kwargs):
         if not self.request.user.is_superuser:
             return render(self.request, self.template_name, {'msg': 'no'})
-        return super(DeptListView, self).dispatch(*args, **kwargs) 
+        return super(DeptListView, self).dispatch(*args, **kwargs)
 
     def get_queryset(self):
         queryset = super(DeptListView, self).get_queryset()
@@ -120,13 +122,13 @@ class DeptListView(ListView):
         return queryset
 
     def get_context_data(self, **kwargs):
-
         context = super(DeptListView, self).get_context_data(**kwargs)
         return context
 
 
 class DeptCreateView(View):
     model = Departments
+
     # template_name = "member/dept_create_form.html"
     # form_class = DeptCreateForm
     # success_url = '/member/dept'
@@ -142,12 +144,12 @@ class DeptCreateView(View):
                 obj.save()
                 return JsonResponse({'msg': 'ok'})
         except Exception as e:
-            print (str(e))
+            print(str(e))
             return JsonResponse({'msg': str(e)})
 
 
 class DeptDeleteView(DeleteView):
-    
+
     @method_decorator(login_required(login_url='/auth/login'))
     def dispatch(self, *args, **kwargs):
         if not self.request.user.is_superuser:
@@ -187,7 +189,7 @@ class MemberListView(ListView):
                 self.dept = self.request.user.assignaccount.user_dept
             else:
                 self.dept = get_object_or_404(Departments, pk=dept_id)
-       
+
         return super(MemberListView, self).get(request, *args, **kwargs)
 
     def get_queryset(self):
@@ -215,26 +217,30 @@ class MemberListView(ListView):
             context['dept_list'] = Departments.objects.filter(pk=self.request.user.assignaccount.user_dept.id)
             context['select_dept'] = self.dept.dept_name
             context['download_dept'] = self.dept.id
-        print (context)
+        print(context)
         return context
+
+
+class MemberListDetailView(MemberListView):
+    template_name = 'member/member_list_detail.html'
 
 
 class MemberDetailView(DetailView):
     model = Member
-    template_name = "member/member_detail.html"
+    template_name = "member/member_list_detail.html"
 
     def get_object(self, queryset=None):
         try:
             self.kwargs[self.pk_url_kwarg] = de_base64(self.kwargs.get(self.pk_url_kwarg))
-        except:
-            raise 
+        except Exception as e:
+            raise
         return super(MemberDetailView, self).get_object(queryset)
-    
+
     def get_context_data(self, **kwargs):
         context = super(MemberDetailView, self).get_context_data(**kwargs)
         setattr(context['object'], 'qrcode', context.get('object').qrcode_content)
         return context
-    
+
 
 def qrcode_view(request, data):
     img = gen_qrcode(data)
@@ -248,27 +254,28 @@ def import_member_data(request):
     if request.method == "POST":
         try:
             request.FILES['docfile'].save_to_database(
-                    name_columns_by_row=0,
-                    model=Member,
-                    mapdict=['member_id', 'dept_id', 'name', 'sex', 'birthday', 'position', 'phone', 'nation', 'blood_type'])
-            
+                name_columns_by_row=0,
+                model=Member,
+                mapdict=['member_id', 'dept_id', 'name', 'sex', 'birthday', 'position', 'phone', 'nation',
+                         'blood_type'])
+
             context = {
                 'import_msg': 'ok'
             }
-        
+
         except IntegrityError as e:
-            print (e)
+            print(e)
             context = {
                 'import_msg': '请检查Excel是否与已有数据重复'
             }
         except ValueError as e:
-            print (e)
+            print(e)
             context = {
                 'import_msg': '数据格式错误'
             }
         return JsonResponse(context)
 
-    else:  
+    else:
         pass
 
 
@@ -281,10 +288,11 @@ def export_member_data(request, dept_id=None):
         file_name += dept.dept_name + '_'
     else:
         members = Member.objects.all()
-    
+
     file_name += datetime.now().strftime("%Y-%m-%d")
-    
-    column_names = ['member_id', 'dept_id', 'get_dept_name', 'name', 'sex', 'birthday', 'position', 'phone', 'nation', 'blood_type']
+
+    column_names = ['member_id', 'dept_id', 'get_dept_name', 'name', 'sex', 'birthday', 'position', 'phone', 'nation',
+                    'blood_type']
     colnames = ['员工工号', '部门id', '部门名字', '姓名', '性别', '生日', '职位', '电话', '民族', '血型']
     return excel.make_response_from_query_sets(
         members,
@@ -293,3 +301,11 @@ def export_member_data(request, dept_id=None):
         file_name=file_name,
         colnames=colnames
     )
+
+
+@login_required(login_url='/auth/login')
+def index(request):
+    if request.user.is_superuser:
+        return redirect('/member/dept')
+    else:
+        return redirect('/member/member_list')
