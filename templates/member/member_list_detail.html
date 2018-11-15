@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section>
+        <div class="ui segment"><h1 class="ui header aligned center">员工详细信息</h1>
+            <div class="ui floating labeled icon dropdown button"><i class="filter icon"></i>
+                <label>{{ select_dept }}</label>
+                <div class="menu">
+                    <div class="header"><i class="tags icon"></i>选取部门</div>
+                    <div class="divider"></div>
+                    <a class="item" href="{% url 'member:member_list' %}">全部 </a>
+                    {% for dept in dept_list %}
+                        <a class="item" href="{% url 'member:member_list_detail_with_id' dept.id %}">{{ dept.dept_name }} </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <a href="{% url 'member:member_list' %}">
+                <button class="ui right labeled icon button primary basic"><i class="right info icon"></i> 查看缩略</button>
+            </a>
+            <table class="ui table celled line single fixed" id="table">
+                <thead>
+                <tr class="center aligned">
+                    <th>员工工号</th>
+                    <th>头像</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>民族</th>
+                    <th>血型</th>
+                    {#                    <th>身份证</th>#}
+                    <th>出生年月</th>
+                    <th>职位</th>
+                    <th>部门</th>
+                    <th>联系方式</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for object in object_list %}
+                    <tr class="center aligned">
+
+                        <td>{{ object.member_id }}</td>
+                        <td><img class="ui small image rounded my_img"
+                                 src="{{ object.member_avatar }}"></td>
+                        <td>{{ object.name }}</td>
+                        <td>{{ object.sex }}</td>
+                        <td>{{ object.nation }}</td>
+                        <td>{{ object.blood_type }}</td>
+                        {#                        <td>6101221999999999</td>#}
+                        <td>{{ object.birthday }}</td>
+                        <td>{{ object.position }}</td>
+                        <td>{{ object.dept }}</td>
+                        <td>{{ object.phone }}</td>
+                        {% empty %}
+                        <div class="ui icon orange message"><i class="hide icon"></i>
+                            <div class="content">
+                                <div class="header">目前没有一条数据</div>
+                                <p>请试着添加一条数据后再试。</p></div>
+                        </div>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr>
+                    {% if is_paginated %}
+                        <div class="ui pagination menu right floated">
+                            {% for foo in paginator.page_range %}
+                                {% ifequal page_obj.number foo %}
+                                    <a class="item active" href="?page={{ foo }}"> {{ foo }}</a>
+                                {% else %}
+                                    <a class="item" href="?page={{ foo }}"> {{ foo }}</a>
+                                {% endifequal %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </section>
+{% endblock content %}
+{% block script %}
+    <script>$('.ui.dropdown').dropdown()</script>
+{% endblock %}
+    

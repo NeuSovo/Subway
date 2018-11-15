@@ -1,0 +1,18 @@
+#table {
+  border-spacing: 2px;
+}
+.ui.vertical.menu .item::before {
+  height: 2px;
+}
+.my_img {
+  margin: 0 auto;
+  max-width: 300px;
+}
+.my_upload {
+  cursor: pointer;
+  display: inline-block !important;
+}
+.add_depart {
+  margin-left: 50px !important;
+  margin-top: 4px !important;
+}

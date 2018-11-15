@@ -23,3 +23,11 @@ def de_base64(txt):
     uid = str(uid, 'utf-8')
 
     return uid
+
+
+def data_to_obj(to_class, data):
+    parms = {}
+    for i in data:
+        if hasattr(to_class, i):
+            parms[i] = data.get(i)
+    return to_class(**parms)
