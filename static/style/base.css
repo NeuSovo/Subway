@@ -6,7 +6,7 @@
 }
 .my_img {
   margin: 0 auto;
-  max-width: 300px;
+  max-width: 100% !important;
 }
 .my_upload {
   cursor: pointer;

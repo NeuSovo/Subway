@@ -14,7 +14,8 @@
 </head>
 <body>
 <div class="ui segment">
-    <form action="{% url 'member:member_add' %}" id="add_member" method="POST" class="ui form fullscreen" enctype="multipart/form-data">
+    <form action="{% url 'member:member_add' %}" id="add_member" method="POST" class="ui form fullscreen"
+          enctype="multipart/form-data">
         <!--i.close.icon-->
         {% csrf_token %}
         <div class="ui dividing header">新增员工</div>
@@ -39,21 +40,27 @@
         </div>
         <div class="field">
             <label>点击按钮上传图像</label>
-{#            <div class="ui move reveal my_upload">#}
-{#                <div class="visible content"><img class="ui small image"#}
-{#                                                  src="https://semantic-ui.qyears.com/images/wireframe/square-image.png">#}
-{#                </div>#}
-{#                <div class="hidden content"><img class="ui small image"#}
-{#                                                 src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg">#}
-{#                </div>#}
-{#            </div>#}
+            {#            <div class="ui move reveal my_upload">#}
+            {#                <div class="visible content"><img class="ui small image"#}
+            {#                                                  src="https://semantic-ui.qyears.com/images/wireframe/square-image.png">#}
+            {#                </div>#}
+            {#                <div class="hidden content"><img class="ui small image"#}
+            {#                                                 src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg">#}
+            {#                </div>#}
+            {#            </div>#}
             {{ form.member_avatar }}
         </div>
-        <div class="ui black right floated deny button">取消</div>
-        <button  type="submit" class="ui positive right floated labeled icon button">提交<i class="checkmark icon"></i></button>
+        <div onclick="close_page()" class="ui black right floated deny button">取消</div>
+        <button type="submit" class="ui positive right floated labeled icon button">提交<i class="checkmark icon"></i>
+        </button>
     </form>
 </div>
 <script>
+    function close_page() {
+        window.opener = null
+        window.open('', '_self')
+        window.close()
+    }
 </script>
 </body>
 </html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>a</title>
+    <link rel="stylesheet" href="/static/style/semantic.min.css">
+    <script src="/static/javascript/jquery-3.2.1.min.js"></script>
+    <script src="/static/javascript/semantic.min.js"></script>
+    <style>body {
+        padding-top: 1px;
+    }
+
+    .bg img {
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .bg {
+        z-index: -1;
+        position: fixed;
+    }
+
+    .content {
+        padding-top: 1px;
+        margin: 10vh 3vw;
+        min-height: 80vh;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, .8);
+        padding-bottom: 2rem;
+    }
+
+    .content div {
+        margin-top: 3rem;
+        color: #666;
+        text-align: center;
+        font-size: 2rem;
+        font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        font-weight: lighter;
+    }
+
+    .content .name {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .content .avatar img {
+        width: 200px;
+        border-radius: 30px;
+    }
+    </style>
+</head>
+<body>
+<div class="bg"><img src="/static/mobile.jpg"></div>
+<div class="content">
+    <div class="avatar"><img src="{{ object.member_avatar.url }}"></div>
+    <div class="name">{{ object.name }}</div>
+    <div class="phone">{{ object.phone }}</div>
+    <div class="position">{{ object.position }}</div>
+    <div class="blood">{{ object.blood_type }}</div>
+    <div class="department">{{ object.dept }}</div>
+</div>
+</body>
+</html>
