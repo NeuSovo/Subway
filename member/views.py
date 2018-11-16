@@ -5,7 +5,7 @@ from django.db import IntegrityError, transaction
 from django.http import Http404, JsonResponse
 from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 from django.utils.decorators import method_decorator
-from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
+from django.views.generic import (CreateView, UpdateView, DeleteView, DetailView, FormView,
                                   ListView, View)
 
 from .forms import *
@@ -223,6 +223,13 @@ class MemberListView(ListView):
 
 class MemberListDetailView(MemberListView):
     template_name = 'member/member_list_detail.html'
+
+
+class MemberUpdateView(UpdateView):
+    model = Member
+    template_name = "member/member_add_form.html"
+    form_class = MemberForm
+    success_url = '/global/success'
 
 
 class MemberDetailView(DetailView):

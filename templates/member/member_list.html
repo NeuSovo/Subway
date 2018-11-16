@@ -57,7 +57,9 @@
                                 download="{{ member.member_id}}_{{ member.name}}" >
                             <div class="hidden content">二维码</div>
                             <div class="visible content"><i class="qrcode icon"></i></div>
-                        </a><a class="ui vertical animated button primary basic left floated my_edit_member">
+                        </a><a class="ui vertical animated button primary basic left floated my_edit_member"
+                            onclick="window.open('{% url  'member:member_update' member.id %}', '', 'width=800,height=500')"
+                            >
                             <div class="hidden content">编辑</div>
                             <div class="visible content"><i class="edit icon"></i></div>
                         </a><a class="ui vertical animated button negative basic center floated my_remove">
@@ -199,9 +201,9 @@
             {#$('.ui.modal.member').modal('show')#}
             var w = window.open("{% url  'member:member_add' %}", "", "width=800,height=500")
         })
-        $('.my_edit_member').click(function () {
-            $('.ui.modal.edit').modal('show')
-        })
+        //$('.my_edit_member').click(function () {
+         //   $('.ui.modal.edit').modal('show')
+        //})
         // $('.my_qrcode').click(function () {
         //     $('.ui.modal.qrcode').modal('show')
         // })

@@ -11,6 +11,7 @@ class Departments(models.Model):
 
     class Meta:
         verbose_name = '部门'
+        ordering = ['id']
 
     def __str__(self):
         """Unicode representation of Departments."""
@@ -42,11 +43,11 @@ class Member(models.Model):
     """Model definition for Member."""
 
     member_id = models.CharField(max_length=11, null=False, unique=True, verbose_name='员工工号')
-    member_avatar = models.ImageField(verbose_name='头像', upload_to='avatar', default='none')
+    member_avatar = models.ImageField(verbose_name='头像', upload_to='avatar', default='none', blank=True)
     dept = models.ForeignKey(Departments, on_delete=models.SET_NULL, null=True, verbose_name='部门')
     name = models.CharField(verbose_name='姓名', max_length=50, null=True)
-    nation = models.CharField(verbose_name='民族', null=True, max_length=10)
-    blood_type = models.CharField(verbose_name='血型', null=True, max_length=10)
+    nation = models.CharField(verbose_name='民族', null=True, max_length=10, blank=True)
+    blood_type = models.CharField(verbose_name='血型', null=True, max_length=10, blank=True)
     sex = models.CharField(verbose_name='性别', max_length=5, null=True)
     birthday = models.CharField(verbose_name='出生年月', max_length=50, null=True)
     position = models.CharField(verbose_name='职位', max_length=50, null=True)
@@ -57,6 +58,7 @@ class Member(models.Model):
 
         verbose_name = 'Member'
         verbose_name_plural = 'Members'
+        ordering = ['member_id']
 
     def __str__(self):
         """Unicode representation of Member."""

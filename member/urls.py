@@ -9,7 +9,9 @@ urlpatterns = [
     path('auth/logout', logout_view, name='logout'),
     path('global/qrcode/<path:data>', qrcode_view, name='qrcode'),
     path('global/success', success_view, name='success'),
+
     path('member/member_add', MemberAddView.as_view(), name='member_add'),
+    path('member/member_update/<int:pk>', MemberUpdateView.as_view(), name='member_update'),
     path('member/member_list', MemberListView.as_view(), name='member_list'),
     path('member/member_list_detail', MemberListDetailView.as_view(), name='member_list_detail'),
     path('member/member_list_detail/<int:dept_id>', MemberListDetailView.as_view(), name='member_list_detail_with_id'),
@@ -18,6 +20,7 @@ urlpatterns = [
     path('member/member_export', export_member_data, name='member_export'),
     path('member/member_export/<int:dept_id>', export_member_data, name='member_export_with_id'),
     path('member/member_detail/<str:pk>', MemberDetailView.as_view(), name='member_detail'),
+
     path('member/dept', DeptListView.as_view(), name='dept_list'),
     path('member/dept_create', DeptCreateView.as_view(), name='dept_create'),
     path('member/dept_assign_account/<int:dept_id>', AssignAccountView.as_view(), name='dept_assign_account'),
