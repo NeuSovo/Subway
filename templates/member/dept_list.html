@@ -6,16 +6,18 @@
             <table class="ui table celled line single fixed" id="table">
                 <thead>
                 <tr class="center aligned">
+		    <th>部门id</th>
                     <th>部门名称</th>
                     <th>负责人</th>
                     <th>职务</th>
                     <th>联系电话</th>
-                    <th>操作</th>
+                    <th class="four wide">操作</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for dept in object_list %}
                     <tr class="center aligned">
+			<td>{{ dept.id }} </td>
                         <td>{{ dept.dept_name }}</td>
                         <td>{{ dept.dept_boss }}</td>
                         <td>{{ dept.dept_position }}</td>
@@ -46,7 +48,7 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                    <th colspan="5">
+                    <th colspan="6">
                         <button class="ui labeled icon button positive right floated add_depart"><i
                                 class="users icon"></i> 添加部门
                         </button>

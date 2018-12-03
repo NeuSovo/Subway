@@ -66,7 +66,7 @@ class Member(models.Model):
 
     @property
     def qrcode_content(self):
-        return 'http://127.0.0.1:8000/member/member_detail/' + en_base64(self.id)
+        return 'http://123.207.171.34:8007/member/member_detail/' + en_base64(self.id)
 
     @property
     def get_dept_name(self):
