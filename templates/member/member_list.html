@@ -1,40 +1,41 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <section>
-        <div class="ui segment"><h1 class="ui header aligned center">员工信息</h1>
-            <div class="ui floating labeled icon dropdown button"><i class="filter icon"></i>
-                <label>{{ select_dept }}</label>
-                <div class="menu">
-                    <div class="header"><i class="tags icon"></i>选取部门</div>
-                    <div class="divider"></div>
-                    <a class="item" href="{% url 'member:member_list' %}">全部 </a>
-                    {% for dept in dept_list %}
-                        <a class="item" href="{% url 'member:member_list_with_id' dept.id %}">{{ dept.dept_name }} </a>
-                    {% endfor %}
+<section>
+    <div class="ui segment">
+        <h1 class="ui header aligned center">员工信息</h1>
+        <div class="ui floating labeled icon dropdown button"><i class="filter icon"></i>
+            <label>{{ select_dept }}</label>
+            <div class="menu">
+                <div class="header"><i class="tags icon"></i>选取部门</div>
+                <div class="divider"></div>
+                <a class="item" href="{% url 'member:member_list' %}">全部 </a>
+                {% for dept in dept_list %}
+                <a class="item" href="{% url 'member:member_list_with_id' dept.id %}">{{ dept.dept_name }} </a>
+                {% endfor %}
+            </div>
+        </div>
+        <a href="{% url 'member:member_list_detail' %}">
+            <button class="ui right labeled icon button primary"><i class="right info icon"></i> 查看详细</button>
+        </a>
+        <div class="ui buttons right floated">
+            <form action="{% url 'member:member_import' %}" id="import_form" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="ui labeled icon button right floated my_import" id="import"><i class="download icon"></i>
+                    导入
                 </div>
-            </div>
-            <a href="{% url 'member:member_list_detail' %}">
-                <button class="ui right labeled icon button primary"><i class="right info icon"></i> 查看详细</button>
-            </a>
-            <div class="ui buttons right floated">
-                <form action="{% url 'member:member_import' %}" id="import_form" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="ui labeled icon button right floated my_import" id="import"><i
-                            class="download icon"></i> 导入
-                    </div>
-                </form>
-                <div class="or"></div>
-                {% ifequal download_dept 0 %}
-                    <a class="ui right labeled icon button my_export" href="{% url 'member:member_export' %}"><i
-                            class="upload icon"></i> 导出</a>
-                {% else %}
-                    <a class="ui right labeled icon button my_export"
-                       href="{% url 'member:member_export_with_id' download_dept %}"><i class="upload icon"></i> 导出</a>
-                {% endifequal %}
-            </div>
-            <table class="ui table celled line single fixed" id="table">
-                <thead>
+            </form>
+            <div class="or"></div>
+            {% ifequal download_dept 0 %}
+            <a class="ui right labeled icon button my_export" href="{% url 'member:member_export' %}"><i class="upload icon"></i>
+                导出</a>
+            {% else %}
+            <a class="ui right labeled icon button my_export" href="{% url 'member:member_export_with_id' download_dept %}"><i
+                    class="upload icon"></i> 导出</a>
+            {% endifequal %}
+        </div>
+        <table class="ui table celled line single fixed" id="table">
+            <thead>
                 <tr class="center aligned">
                     <th>员工工号</th>
                     <th>姓名</th>
@@ -43,18 +44,17 @@
                     <th>联系方式</th>
                     <th>操作</th>
                 </tr>
-                </thead>
-                <tbody>
+            </thead>
+            <tbody>
                 {% for member in object_list %}
-                    <tr class="center aligned">
-                        <td>{{ member.member_id }}</td>
-                        <td>{{ member.name }}</td>
-                        <td>{{ member.position }}</td>
-                        <td>{{ member.dept }}</td>
-                        <td>{{ member.phone }}</td>
-                        <td><a class="ui vertical animated button positive basic right floated my_qrcode"
-                            href="{% url 'member:qrcode' member.qrcode %}" 
-                                download="{{ member.member_id}}_{{ member.name}}" >
+                <tr class="center aligned">
+                    <td>{{ member.member_id }}</td>
+                    <td>{{ member.name }}</td>
+                    <td>{{ member.position }}</td>
+                    <td>{{ member.dept }}</td>
+                    <td>{{ member.phone }}</td>
+                    <td><a class="ui vertical animated button positive basic right floated my_qrcode" href="{% url 'member:qrcode' member.qrcode %}"
+                            download="{{ member.member_id}}_{{ member.name}}">
                             <div class="hidden content">二维码</div>
                             <div class="visible content"><i class="qrcode icon"></i></div>
                         </a><a class="ui vertical animated button primary basic left floated my_edit_member">
@@ -64,177 +64,215 @@
                             <div class="hidden content">删除</div>
                             <div class="visible content"><i class="remove user icon"></i></div>
                         </a></td>
-                    </tr>
+                </tr>
                 {% empty %}
-                    <div class="ui icon orange message"><i class="hide icon"></i>
-                        <div class="content">
-                            <div class="header">目前没有一条数据</div>
-                            <p>请试着添加一条数据后再试。</p></div>
+                <div class="ui icon orange message"><i class="hide icon"></i>
+                    <div class="content">
+                        <div class="header">目前没有一条数据</div>
+                        <p>请试着添加一条数据后再试。</p>
                     </div>
+                </div>
                 {% endfor %}
-                </tbody>
-                <tfoot>
+            </tbody>
+            <tfoot>
                 <tr>
                     <th colspan="6">
-                        <button class="ui labeled icon button positive right floated add_depart"><i
-                                class="users icon"></i> 添加员工
+                        <button class="ui labeled icon button positive right floated add_depart"><i class="users icon"></i>
+                            添加员工
                         </button>
                         {% if is_paginated %}
-                            <div class="ui pagination menu right floated">
-                                {% for foo in paginator.page_range %}
-                                    {% ifequal page_obj.number foo %}
-                                        <a class="item active" href="?page={{ foo }}"> {{ foo }}</a>
-                                    {% else %}
-                                        <a class="item" href="?page={{ foo }}"> {{ foo }}</a>
-                                    {% endifequal %}
-                                {% endfor %}
-                            </div>
+                        <div class="ui pagination menu right floated">
+                            {% for foo in paginator.page_range %}
+                            {% ifequal page_obj.number foo %}
+                            <a class="item active" href="?page={{ foo }}"> {{ foo }}</a>
+                            {% else %}
+                            <a class="item" href="?page={{ foo }}"> {{ foo }}</a>
+                            {% endifequal %}
+                            {% endfor %}
+                        </div>
                         {% endif %}
                     </th>
                 </tr>
-                </tfoot>
-            </table>
-            <div class="ui modal edit large"><!--i.close.icon-->
-                <div class="header">编辑员工信息</div>
-                <div class="image content">
-                    <div class="ui form">
-                        <div class="field"><label>基本属性</label>
-                            <div class="fields">
-                                <div class="field"><input type="text" placeholder="姓名" value="李旭成"></div>
-                                <div class="field"><input type="text" placeholder="民族"></div>
-                                <div class="field"><input type="text" placeholder="性别"></div>
-                                <div class="field"><input type="number" placeholder="血型"></div>
-                                <div class="field"><input type="text" placeholder="出生日期"></div>
-                            </div>
+            </tfoot>
+        </table>
+        <div class="ui modal edit large">
+            <!--i.close.icon-->
+            <div class="header">编辑员工信息</div>
+            <div class="image content">
+                <div class="ui form">
+                    <div class="field"><label>基本属性</label>
+                        <div class="fields">
+                            <div class="field"><input type="text" placeholder="姓名" value="李旭成"></div>
+                            <div class="field"><input type="text" placeholder="民族"></div>
+                            <div class="field"><input type="text" placeholder="性别"></div>
+                            <div class="field"><input type="number" placeholder="血型"></div>
+                            <div class="field"><input type="text" placeholder="出生日期"></div>
                         </div>
-                        <div class="field"><label>部门属性</label>
-                            <div class="fields">
-                                <div class="field"><input type="text" placeholder="工号"></div>
-                                <div class="field"><input type="text" placeholder="部门"></div>
-                                <div class="field"><input type="number" placeholder="职位"></div>
-                                <div class="field"><input type="number" placeholder="身份证"></div>
-                                <div class="field"><input type="number" placeholder="联系方式"></div>
-                            </div>
+                    </div>
+                    <div class="field"><label>部门属性</label>
+                        <div class="fields">
+                            <div class="field"><input type="text" placeholder="工号"></div>
+                            <div class="field"><input type="text" placeholder="部门"></div>
+                            <div class="field"><input type="number" placeholder="职位"></div>
+                            <div class="field"><input type="number" placeholder="身份证"></div>
+                            <div class="field"><input type="number" placeholder="联系方式"></div>
                         </div>
-                        <div class="field"><label>点击图片上传图像</label>
-                            <div class="ui move reveal my_upload">
-                                <div class="visible content"><img class="ui small image"
-                                                                  src="https://semantic-ui.qyears.com/images/wireframe/square-image.png">
-                                </div>
-                                <div class="hidden content"><img class="ui small image"
-                                                                 src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg">
-                                </div>
+                    </div>
+                    <div class="field"><label>点击图片上传图像</label>
+                        <div class="ui move reveal my_upload">
+                            <div class="visible content"><img class="ui small image" src="https://semantic-ui.qyears.com/images/wireframe/square-image.png">
+                            </div>
+                            <div class="hidden content"><img class="ui small image" src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg">
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="actions">
-                    <div class="ui black deny button">取消</div>
-                    <div class="ui positive right labeled icon button">提交<i class="checkmark icon"></i></div>
-                </div>
             </div>
-            <div class="ui basic modal remove">
-                <div class="ui icon header"><i class="remove user icon"></i> 确认删除用户吗?</div>
-                <div class="content"><p>该用户的所有信息会清空,重新添加用户时二维码重新生成!</p></div>
-                <div class="actions">
-                    <div class="ui red basic cancel inverted button"><i class="remove icon"></i> 否</div>
-                    <div class="ui green ok inverted button"><i class="checkmark icon"></i> 是</div>
-                </div>
-            </div>
-            <div class="ui modal qrcode large basic icon">
-                <div class="ui icon header"><img class="icon my_img"
-                                                 src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg">李徐成
-                </div>
-                <div class="image content">
-                    <div class="description">
-                        <div class="ui vertically divided grid" style="margin-left:-4rem">
-                            <div class="four column row">
-                                <div class="column"><p>工号</p></div>
-                                <div class="column"><p>A123</p></div>
-                                <div class="column"><p>头像</p></div>
-                                <div class="column"><img class="ui mini image rounded my_img"
-                                                         src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg"
-                                                         style="margin:0 0;"></div>
-                            </div>
-                            <div class="four column row">
-                                <div class="column"><p>联系方式</p></div>
-                                <div class="column"><p>123456789</p></div>
-                                <div class="column"><p>性别</p></div>
-                                <div class="column"><p>男</p></div>
-                            </div>
-                            <div class="four column row">
-                                <div class="column"><p>民族</p></div>
-                                <div class="column"><p>汉族</p></div>
-                                <div class="column"><p>血型</p></div>
-                                <div class="column"><p>o型</p></div>
-                            </div>
-                            <div class="four column row">
-                                <div class="column"><p>身份证</p></div>
-                                <div class="column"><p>6101221111111</p></div>
-                                <div class="column"><p>出生日期</p></div>
-                                <div class="column"><p>1999.99.99</p></div>
-                            </div>
-                            <div class="four column row">
-                                <div class="column"><p>职位</p></div>
-                                <div class="column"><p>部长</p></div>
-                                <div class="column"><p>部门</p></div>
-                                <div class="column"><p>技术部</p></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="actions">
-                    <div class="ui black deny button">取消</div>
-                    <div class="ui positive right labeled icon button">下载二维码<i class="checkmark icon"></i></div>
-                </div>
+            <div class="actions">
+                <div class="ui black deny button">取消</div>
+                <div class="ui positive right labeled icon button">提交<i class="checkmark icon"></i></div>
             </div>
         </div>
-    </section>
+        <div class="ui basic modal remove">
+            <div class="ui icon header"><i class="remove user icon"></i> 确认删除用户吗?</div>
+            <div class="content">
+                <p>该用户的所有信息会清空,重新添加用户时二维码重新生成!</p>
+            </div>
+            <div class="actions">
+                <div class="ui red basic cancel inverted button"><i class="remove icon"></i> 否</div>
+                <div class="ui green ok inverted button"><i class="checkmark icon"></i> 是</div>
+            </div>
+        </div>
+        <div class="ui modal qrcode large basic icon">
+            <div class="ui icon header"><img class="icon my_img" src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg">李徐成
+            </div>
+            <div class="image content">
+                <div class="description">
+                    <div class="ui vertically divided grid" style="margin-left:-4rem">
+                        <div class="four column row">
+                            <div class="column">
+                                <p>工号</p>
+                            </div>
+                            <div class="column">
+                                <p>A123</p>
+                            </div>
+                            <div class="column">
+                                <p>头像</p>
+                            </div>
+                            <div class="column"><img class="ui mini image rounded my_img" src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg"
+                                    style="margin:0 0;"></div>
+                        </div>
+                        <div class="four column row">
+                            <div class="column">
+                                <p>联系方式</p>
+                            </div>
+                            <div class="column">
+                                <p>123456789</p>
+                            </div>
+                            <div class="column">
+                                <p>性别</p>
+                            </div>
+                            <div class="column">
+                                <p>男</p>
+                            </div>
+                        </div>
+                        <div class="four column row">
+                            <div class="column">
+                                <p>民族</p>
+                            </div>
+                            <div class="column">
+                                <p>汉族</p>
+                            </div>
+                            <div class="column">
+                                <p>血型</p>
+                            </div>
+                            <div class="column">
+                                <p>o型</p>
+                            </div>
+                        </div>
+                        <div class="four column row">
+                            <div class="column">
+                                <p>身份证</p>
+                            </div>
+                            <div class="column">
+                                <p>6101221111111</p>
+                            </div>
+                            <div class="column">
+                                <p>出生日期</p>
+                            </div>
+                            <div class="column">
+                                <p>1999.99.99</p>
+                            </div>
+                        </div>
+                        <div class="four column row">
+                            <div class="column">
+                                <p>职位</p>
+                            </div>
+                            <div class="column">
+                                <p>部长</p>
+                            </div>
+                            <div class="column">
+                                <p>部门</p>
+                            </div>
+                            <div class="column">
+                                <p>技术部</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="actions">
+                <div class="ui black deny button">取消</div>
+                <div class="ui positive right labeled icon button">下载二维码<i class="checkmark icon"></i></div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock content %}
 
 
 {% block script %}
-    <script>
-        $('.add_depart').click(function () {
-            {#$('.ui.modal.member').modal('show')#}
-            var w = window.open("{% url  'member:member_add' %}", "", "width=800,height=500")
-        })
-        $('.my_edit_member').click(function () {
-            $('.ui.modal.edit').modal('show')
-        })
-        // $('.my_qrcode').click(function () {
-        //     $('.ui.modal.qrcode').modal('show')
-        // })
+<script>
+    $('.add_depart').click(function () {
+        { #$('.ui.modal.member').modal('show') # }
+        var w = window.open("{% url  'member:member_add' %}", "", "width=800,height=500")
+    })
+    $('.my_edit_member').click(function () {
+        $('.ui.modal.edit').modal('show')
+    })
+    // $('.my_qrcode').click(function () {
+    //     $('.ui.modal.qrcode').modal('show')
+    // })
 
-        $('.my_remove').click(function () {
-            $('.ui.modal.remove').modal('show')
+    $('.my_remove').click(function () {
+        $('.ui.modal.remove').modal('show')
+    })
+    $('.ui.dropdown').dropdown()
+
+    $('#import').after('<input type="file" id="load_xls" name="docfile" style="display:none" onchange ="uploadFile()" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">');
+    $('#import').click(function () {
+        document.getElementById("load_xls").click();
+    })
+
+    function uploadFile() {
+        let import_form = $("#import_form")[0];
+        let myform = new FormData(import_form);
+        myform.append('file', $('#load_xls')[0].files[0]);
+        $.ajax({
+            url: import_form.action,
+            type: "POST",
+            data: myform,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                console.log(data)
+                location.reload();
+
+            },
+            error: function (data) {
+                console.log(data)
+            }
         })
-        $('.ui.dropdown').dropdown()
-
-        $('#import').after('<input type="file" id="load_xls" name="docfile" style="display:none" onchange ="uploadFile()" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">');
-        $('#import').click(function () {
-            document.getElementById("load_xls").click();
-        })
-
-        function uploadFile() {
-            let import_form = $("#import_form")[0];
-            let myform = new FormData(import_form);
-            myform.append('file', $('#load_xls')[0].files[0]);
-            $.ajax({
-                url: import_form.action,
-                type: "POST",
-                data: myform,
-                contentType: false,
-                processData: false,
-                success: function (data) {
-                    console.log(data)
-                    location.reload();
-
-                },
-                error: function (data) {
-                    console.log(data)
-                }
-            })
-        }
-    </script>
+    }
+</script>
 {% endblock %}

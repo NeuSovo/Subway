@@ -5,12 +5,12 @@ from django.db import IntegrityError, transaction
 from django.http import Http404, JsonResponse
 from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 from django.utils.decorators import method_decorator
-from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
+from django.views.generic import (CreateView, UpdateView, DeleteView, DetailView, FormView,
                                   ListView, View)
 
 from .forms import *
 from .models import *
-from .utils import *
+from core.utils import *
 
 
 class LoginView(FormView):
@@ -98,7 +98,8 @@ class AssignAccountListView(ListView):
         context['dept_list'] = Departments.objects.all()
 
         if self.dept_id:
-            context['select_dept'] = get_object_or_404(Departments, pk=self.dept_id).dept_name
+            context['select_dept'] = get_object_or_404(
+                Departments, pk=self.dept_id).dept_name
         else:
             context['select_dept'] = '全部'
 
@@ -214,7 +215,8 @@ class MemberListView(ListView):
                 context['select_dept'] = '全部'
                 context['download_dept'] = 0
         else:
-            context['dept_list'] = Departments.objects.filter(pk=self.request.user.assignaccount.user_dept.id)
+            context['dept_list'] = Departments.objects.filter(
+                pk=self.request.user.assignaccount.user_dept.id)
             context['select_dept'] = self.dept.dept_name
             context['download_dept'] = self.dept.id
         print(context)
@@ -225,20 +227,29 @@ class MemberListDetailView(MemberListView):
     template_name = 'member/member_list_detail.html'
 
 
+class MemberUpdateView(UpdateView):
+    model = Member
+    template_name = "member/member_add_form.html"
+    form_class = MemberForm
+    success_url = '/global/success'
+
+
 class MemberDetailView(DetailView):
     model = Member
     template_name = "member/mobile.html"
 
     def get_object(self, queryset=None):
         try:
-            self.kwargs[self.pk_url_kwarg] = de_base64(self.kwargs.get(self.pk_url_kwarg))
+            self.kwargs[self.pk_url_kwarg] = de_base64(
+                self.kwargs.get(self.pk_url_kwarg))
         except Exception as e:
             raise
         return super(MemberDetailView, self).get_object(queryset)
 
     def get_context_data(self, **kwargs):
         context = super(MemberDetailView, self).get_context_data(**kwargs)
-        setattr(context['object'], 'qrcode', context.get('object').qrcode_content)
+        setattr(context['object'], 'qrcode',
+                context.get('object').qrcode_content)
         return context
 
 
@@ -293,7 +304,8 @@ def export_member_data(request, dept_id=None):
 
     column_names = ['member_id', 'dept_id', 'get_dept_name', 'name', 'sex', 'birthday', 'position', 'phone', 'nation',
                     'blood_type']
-    colnames = ['员工工号', '部门id', '部门名字', '姓名', '性别', '生日', '职位', '电话', '民族', '血型']
+    colnames = ['员工工号', '部门id', '部门名字', '姓名',
+                '性别', '生日', '职位', '电话', '民族', '血型']
     return excel.make_response_from_query_sets(
         members,
         column_names,
