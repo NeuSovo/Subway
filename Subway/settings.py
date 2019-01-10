@@ -47,6 +47,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'core.rbac.RbacMiddleware'
+]
+
+VALID_LIST = [
+    '/member/member_add'
 ]
 
 ROOT_URLCONF = 'Subway.urls'
@@ -54,8 +60,7 @@ ROOT_URLCONF = 'Subway.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

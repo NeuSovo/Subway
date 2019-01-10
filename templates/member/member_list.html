@@ -234,7 +234,6 @@
 {% block script %}
 <script>
     $('.add_depart').click(function () {
-        { #$('.ui.modal.member').modal('show') # }
         var w = window.open("{% url  'member:member_add' %}", "", "width=800,height=500")
     })
     $('.my_edit_member').click(function () {

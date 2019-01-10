@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User, UserManager
 from core.utils import *
 
+urls = 'http://127.0.0.1:8000/global/qrcode/'
 
 class Departments(models.Model):
     dept_name = models.CharField(
@@ -26,10 +27,12 @@ class AssignAccount(models.Model):
     """Model definition for AssignAccount."""
 
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE, primary_key=True)
+        User, on_delete=models.CASCADE, primary_key=True, related_name="account")
     user_dept = models.ForeignKey(Departments, on_delete=models.CASCADE)
     position = models.CharField(max_length=20)
     enp = models.CharField(max_length=155)
+    roles = models.ManyToManyField(verbose_name='拥有角色',to="Role")
+
 
     class Meta:
         verbose_name = 'AssignAccount'
@@ -42,6 +45,28 @@ class AssignAccount(models.Model):
     @staticmethod
     def check_username_exists(username):
         return User.objects.filter(username=username).exists()
+
+
+class Role(models.Model):
+    """
+    角色表
+        默认所有用户都有普通用户权限，既可以查看所有信息，
+    """
+    title = models.CharField(verbose_name='角色名称',max_length=32)
+
+    permissions = models.ManyToManyField(verbose_name='拥有权限',to="Permission")
+
+    def __str__(self):
+        return self.title
+
+
+class Permission(models.Model):
+    title = models.CharField(verbose_name='权限名称',max_length=32)
+    url = models.CharField(verbose_name='含正则的URL',max_length=255)
+    code = models.CharField(verbose_name="权限代码",max_length=32)
+
+    def __str__(self):
+        return self.title
 
 
 class Member(models.Model):
@@ -73,7 +98,7 @@ class Member(models.Model):
         return self.dept.dept_name + '/' + self.name
 
     @property
-    def qrcode_content(self, urls):
+    def qrcode_content(self):
         return urls + en_base64(self.id)
 
     @property
