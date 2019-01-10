@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User, UserManager
 from core.utils import *
 
+urls = 'http://127.0.0.1:8000/global/qrcode/'
+
 
 class Departments(models.Model):
     dept_name = models.CharField(
@@ -73,7 +75,7 @@ class Member(models.Model):
         return self.dept.dept_name + '/' + self.name
 
     @property
-    def qrcode_content(self, urls):
+    def qrcode_content(self):
         return urls + en_base64(self.id)
 
     @property
