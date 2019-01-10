@@ -11,6 +11,7 @@ from django.views.generic import (CreateView, UpdateView, DeleteView, DetailView
 from .forms import *
 from .models import *
 from core.utils import *
+from core.init_permission import *
 
 
 class LoginView(FormView):
@@ -25,6 +26,7 @@ class LoginView(FormView):
             password = form.cleaned_data['password']
             user = authenticate(username=username, password=password)
             if user is not None and user.is_active:
+                init_permission(user, request)
                 return self.form_valid(form, user)
             else:
                 return self.form_invalid(form)
@@ -183,11 +185,11 @@ class MemberListView(ListView):
 
         if dept_id is None:
             if not request.user.is_superuser:
-                self.dept = self.request.user.assignaccount.user_dept
+                self.dept = self.request.user.account.user_dept
         else:
-            if not request.user.is_superuser and dept_id != self.request.user.assignaccount.user_dept_id:
+            if not request.user.is_superuser and dept_id != self.request.user.account.user_dept_id:
                 # TODO: xx
-                self.dept = self.request.user.assignaccount.user_dept
+                self.dept = self.request.user.account.user_dept
             else:
                 self.dept = get_object_or_404(Departments, pk=dept_id)
 
@@ -216,7 +218,7 @@ class MemberListView(ListView):
                 context['download_dept'] = 0
         else:
             context['dept_list'] = Departments.objects.filter(
-                pk=self.request.user.assignaccount.user_dept.id)
+                pk=self.request.user.account.user_dept.id)
             context['select_dept'] = self.dept.dept_name
             context['download_dept'] = self.dept.id
         print(context)
