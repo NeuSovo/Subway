@@ -119,6 +119,12 @@
                         <div class="field"><input type="text" placeholder="姓名" name="last_name"></div>
                         <div class="field"><input type="text" placeholder="职位" name="position"></div>
                     </div>
+                       分配权限：
+                        <div class="field">
+                        {% for role in roles %}
+                            <input type="checkbox" name="role" value="{{ role.id }}"/> {{  role.title }}
+                        {% endfor %}
+                        </div>
                     <p>为该部门添加账号后,可在功能->部门管理->分配账号中查看对应信息</p>
                 </div>
             </div>

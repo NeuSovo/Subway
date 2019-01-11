@@ -1,8 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User, UserManager
+from django.contrib.auth.models import AbstractUser, UserManager
 from core.utils import *
 
 urls = 'http://127.0.0.1:8000/global/qrcode/'
+
 
 class Departments(models.Model):
     dept_name = models.CharField(
@@ -23,28 +24,27 @@ class Departments(models.Model):
         return self.dept_name
 
 
-class AssignAccount(models.Model):
-    """Model definition for AssignAccount."""
+class Account(AbstractUser):
+    """Model definition for Account."""
 
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE, primary_key=True, related_name="account")
-    user_dept = models.ForeignKey(Departments, on_delete=models.CASCADE)
-    position = models.CharField(max_length=20)
-    enp = models.CharField(max_length=155)
-    roles = models.ManyToManyField(verbose_name='拥有角色',to="Role")
-
+    user_dept = models.ForeignKey(Departments, on_delete=models.CASCADE, null=True, blank=True, verbose_name='部门')
+    position = models.CharField(max_length=20, null=True, blank=True, verbose_name='职位')
+    enp = models.CharField(max_length=155, null=True, blank=True)
+    roles = models.ManyToManyField(verbose_name='拥有角色', to='Role')
 
     class Meta:
-        verbose_name = 'AssignAccount'
-        verbose_name_plural = 'AssignAccounts'
+        verbose_name = 'Account'
+        verbose_name_plural = 'Accounts'
 
     def __str__(self):
-        """Unicode representation of AssignAccount."""
-        return str(self.user)
+        return str(self.username)
 
     @staticmethod
     def check_username_exists(username):
-        return User.objects.filter(username=username).exists()
+        return Account.objects.filter(username=username).exists()
+
+    def has_perm2(self, perm, obj=None):
+        return self.is_superuser or self.roles.filter(permissions__code=perm).exists()
 
 
 class Role(models.Model):
@@ -54,7 +54,7 @@ class Role(models.Model):
     """
     title = models.CharField(verbose_name='角色名称',max_length=32)
 
-    permissions = models.ManyToManyField(verbose_name='拥有权限',to="Permission")
+    permissions = models.ManyToManyField(verbose_name='拥有权限', to="Permission")
 
     def __str__(self):
         return self.title
@@ -72,16 +72,21 @@ class Permission(models.Model):
 class Member(models.Model):
     """Model definition for Member."""
 
+    sex_choices = (
+        ('男', '男'),
+        ('女', '女')
+    )
+
     member_id = models.CharField(
         max_length=11, null=False, unique=True, verbose_name='员工工号')
     member_avatar = models.ImageField(
-        verbose_name='头像', upload_to='avatar', default='none')
+        verbose_name='头像', upload_to='avatar', default='none', null=True, blank=True)
     dept = models.ForeignKey(
         Departments, on_delete=models.SET_NULL, null=True, verbose_name='部门')
     name = models.CharField(verbose_name='姓名', max_length=50, null=True)
     nation = models.CharField(verbose_name='民族', default="汉", max_length=10)
     blood_type = models.CharField(verbose_name='血型', default="未知", max_length=10)
-    sex = models.CharField(verbose_name='性别', max_length=5, default=" ")
+    sex = models.CharField(verbose_name='性别', max_length=5, default=" ", choices=sex_choices)
     birthday = models.CharField(verbose_name='出生年月', max_length=50, default=" ")
     position = models.CharField(verbose_name='职位', max_length=50, default=" ")
     phone = models.CharField(verbose_name='联系方式', max_length=11, default=" ")

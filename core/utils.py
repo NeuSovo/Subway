@@ -1,5 +1,7 @@
 import qrcode
 import base64
+
+from django.contrib.auth.models import AnonymousUser
 from django.utils.six import BytesIO
 
 
@@ -31,3 +33,14 @@ def data_to_obj(to_class, data):
         if hasattr(to_class, i):
             parms[i] = data.get(i)
     return to_class(**parms)
+
+
+def permission(request):
+    user = request.user
+    res = dict()
+    if isinstance(user, AnonymousUser):
+        return res
+    permissions = user.roles.all().values('permissions__code').distinct()
+    for item in permissions:
+        res[item['permissions__code']] = True
+    return res
