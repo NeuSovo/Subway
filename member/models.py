@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, UserManager
 from core.utils import *
 
-urls = 'http://127.0.0.1:8000/global/qrcode/'
+urls = 'http://127.0.0.1:8000/member/member_detail'
 
 
 class Departments(models.Model):
@@ -46,6 +46,9 @@ class Account(AbstractUser):
     def has_perm2(self, perm, obj=None):
         return self.is_superuser or self.roles.filter(permissions__code=perm).exists()
 
+    def add_role(self, role):
+        self.roles.add(*list(Role.objects.filter(id__in=list(map(int,role)))))
+        return True
 
 class Role(models.Model):
     """

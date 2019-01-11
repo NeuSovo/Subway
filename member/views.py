@@ -59,14 +59,16 @@ class AssignAccountView(View):
     def post(self, request, *args, **kwargs):
         dept = get_object_or_404(Departments, pk=kwargs.get('dept_id', 0))
         obj = data_to_obj(self.model, request.POST)
-
         try:
-            obj.user_dept = dept
-            obj.position = request.POST.get('position', '无')
-            obj.enp = obj.password
-            obj.set_password(obj.password)
-            obj.save()
-            return JsonResponse({'msg': 'ok'})
+            # TODO: 封装
+            with transaction.atomic():
+                obj.user_dept = dept
+                obj.position = request.POST.get('position', '无')
+                obj.enp = obj.password
+                obj.set_password(obj.password)
+                obj.save()
+                obj.add_role(request.POST.getlist('role'))
+                return JsonResponse({'msg': 'ok'})
         except Exception as e:
             raise e
             return JsonResponse({'msg': str(e)})
