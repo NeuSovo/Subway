@@ -38,7 +38,12 @@ INSTALLED_APPS = [
     'core',
     'core.templatetags',
 
-    'member'
+    'member',       # 部门&员工
+    'material',     # 物资
+    'technology',   # 技术
+    'device',       # 设备
+    'safety',       # 安全
+    'schedule'      # 进度
 ]
 
 MIDDLEWARE = [
