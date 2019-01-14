@@ -2,3 +2,4 @@ django-excel==0.0.10
 pyexcel-xls==0.5.8
 pyexcel-xlsx==0.5.6
 qrcode==6.0
+git+https://github.com/zxh326/django-bootstrap-modal-forms.git

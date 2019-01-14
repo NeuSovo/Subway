@@ -1,11 +1,12 @@
 {% extends "base.html" %}
-
 {% block content %}
-<section>
-    <div class="ui segment">
-        <h1 class="ui header aligned center">部门管理</h1>
-        <table class="ui table celled line single fixed" id="table">
-            <thead>
+    {% include "_modal.html" %}
+
+    <section>
+        <div class="ui segment">
+            <h1 class="ui header aligned center">部门管理</h1>
+            <table class="ui table celled line single fixed" id="table">
+                <thead>
                 <tr class="center aligned">
                     <th>部门id</th>
                     <th>部门名称</th>
@@ -14,188 +15,198 @@
                     <th>联系电话</th>
                     <th class="four wide">操作</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 {% for dept in object_list %}
-                <tr class="center aligned">
-                    <td>{{ dept.id }} </td>
-                    <td>{{ dept.dept_name }}</td>
-                    <td>{{ dept.dept_boss }}</td>
-                    <td>{{ dept.dept_position }}</td>
-                    <td>{{ dept.boos_phone }}</td>
-                    <td>
-                        <div class="ui vertical animated button primary basic left floated edit_depart">
-                            <div class="hidden content">编辑</div>
-                            <div class="visible content"><i class="edit icon"></i></div>
-                        </div>
-                        <div class="ui vertical animated button negative basic center floated remove_depart">
-                            <div class="hidden content">删除</div>
-                            <div class="visible content"><i class="remove user icon"></i></div>
-                        </div>
-                        <div class="ui vertical animated button positive basic right floated add_account" onclick="get_id({{ dept.id }})">
-                            <div class="hidden content">分配</div>
-                            <div class="visible content"><i class="add user icon"></i></div>
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="center aligned">
+                        <td>{{ dept.id }} </td>
+                        <td>{{ dept.dept_name }}</td>
+                        <td>{{ dept.dept_boss }}</td>
+                        <td>{{ dept.dept_position }}</td>
+                        <td>{{ dept.boos_phone }}</td>
+                        <td>
+                            <div class="ui vertical animated button primary basic left floated edit_depart">
+                                <div class="hidden content update_dept"
+                                     data-id="{% url 'member:dept_update' dept.id %}">编辑
+                                </div>
+                                <div class="visible content"><i class="edit icon"></i></div>
+                            </div>
+                            <div class="ui vertical animated button negative basic center floated remove_depart">
+                                <div class="hidden content">删除</div>
+                                <div class="visible content"><i class="remove user icon"></i></div>
+                            </div>
+                            <div class="ui vertical animated button positive basic right floated add_account"
+                                 onclick="get_id({{ dept.id }})">
+                                <div class="hidden content">分配</div>
+                                <div class="visible content"><i class="add user icon"></i></div>
+                            </div>
+                        </td>
+                    </tr>
                 {% empty %}
-                <div class="ui icon orange message"><i class="hide icon"></i>
-                    <div class="content">
-                        <div class="header">目前没有一条数据</div>
-                        <p>请试着添加一条数据后再试。</p>
+                    <div class="ui icon orange message"><i class="hide icon"></i>
+                        <div class="content">
+                            <div class="header">目前没有一条数据</div>
+                            <p>请试着添加一条数据后再试。</p>
+                        </div>
                     </div>
-                </div>
                 {% endfor %}
-            </tbody>
-            <tfoot>
+                </tbody>
+                <tfoot>
                 <tr>
                     <th colspan="6">
-                        <button class="ui labeled icon button positive right floated add_depart"><i class="users icon"></i>
+                        <button class="create_dept ui labeled icon button positive right floated add_depart"><i
+                                class="users icon"></i>
                             添加部门
                         </button>
                         {% if is_paginated %}
-                        <div class="ui pagination menu right floated">
+                            <div class="ui pagination menu right floated">
                             {% for foo in paginator.page_range %}
-                            {% ifequal page_obj.number foo %}
-                            <a class="item active" href="?page={{ foo }}"> {{ foo }}</a>
-                            {% else %}
-                            <a class="item" href="?page={{ foo }}"> {{ foo }}</a>
-                            {% endifequal %}
+                                {% ifequal page_obj.number foo %}
+                                    <a class="item active" href="?page={{ foo }}"> {{ foo }}</a>
+                                {% else %}
+                                    <a class="item" href="?page={{ foo }}"> {{ foo }}</a>
+                                {% endifequal %}
                             {% endfor %}
-                            {% endif %}
+                        {% endif %}
                         </div>
                     </th>
                 </tr>
-            </tfoot>
-        </table>
-        <form action="{% url 'member:dept_create' %}" id="add_dept" method="POST" class="ui modal depart">
-            <!--i.close.icon-->
-            {% csrf_token %}
-            <div class="header">添加部门</div>
-            <div class="image content">
-                <div class="ui form">
-                    <div class="four fields">
-                        <div class="field"><input type="text" name="dept_name" placeholder="部门名称"></div>
-                        <div class="field"><input type="text" name="dept_boss" placeholder="负责人"></div>
-                        <div class="field"><input type="text" name="dept_position" placeholder="职位"></div>
-                        <div class="field"><input type="tel" maxlength="11" name="boos_phone" placeholder="电话">
+                </tfoot>
+            </table>
+            <form action="{% url 'member:dept_create' %}" id="add_dept" method="POST" class="ui modal depart">
+                <!--i.close.icon-->
+                {% csrf_token %}
+                <div class="header">添加部门</div>
+                <div class="image content">
+                    <div class="ui form">
+                        <div class="four fields">
+                            <div class="field"><input type="text" name="dept_name" placeholder="部门名称"></div>
+                            <div class="field"><input type="text" name="dept_boss" placeholder="负责人"></div>
+                            <div class="field"><input type="text" name="dept_position" placeholder="职位"></div>
+                            <div class="field"><input type="tel" maxlength="11" name="boos_phone" placeholder="电话">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="actions">
-                <div class="ui black deny button">取消</div>
-                <div onclick="add_dept()" class="ui positive right labeled icon button">提交<i class="checkmark icon"></i>
-                </div>
-            </div>
-        </form>
-        <div class="ui modal edit">
-            <!--i.close.icon-->
-            <div class="header">编辑部门</div>
-            <div class="image content">
-                <div class="ui form">
-                    <div class="four fields">
-                        <div class="field"><input type="text" placeholder="部门名称"></div>
-                        <div class="field"><input type="text" placeholder="负责人"></div>
-                        <div class="field"><input type="text" placeholder="职位"></div>
-                        <div class="field"><input type="tel" maxlength="11" placeholder="电话"></div>
+                <div class="actions">
+                    <div class="ui black deny button">取消</div>
+                    <div onclick="add_dept()" class="ui positive right labeled icon button">提交<i
+                            class="checkmark icon"></i>
                     </div>
                 </div>
-            </div>
-            <div class="actions">
-                <div class="ui black deny button">取消</div>
-                <div class="ui positive right labeled icon button">提交<i class="checkmark icon"></i></div>
-            </div>
-        </div>
-        <form action="{% url 'member:dept_assign_account' 999999 %}" class="ui modal account" id="add_account">
-            <!--i.close.icon-->
-            {% csrf_token %}
-            <div class="header">分配账号</div>
-            <div class="image content">
-                <div class="ui form">
-                    <div class="four fields">
-                        <div class="field"><input type="text" placeholder="账号" name="username"></div>
-                        <div class="field"><input type="text" placeholder="密码" name="password"></div>
-                        <div class="field"><input type="text" placeholder="姓名" name="last_name"></div>
-                        <div class="field"><input type="text" placeholder="职位" name="position"></div>
+            </form>
+            <div class="ui modal edit">
+                <!--i.close.icon-->
+                <div class="header">编辑部门</div>
+                <div class="image content">
+                    <div class="ui form">
+                        <div class="four fields">
+                            <div class="field"><input type="text" placeholder="部门名称"></div>
+                            <div class="field"><input type="text" placeholder="负责人"></div>
+                            <div class="field"><input type="text" placeholder="职位"></div>
+                            <div class="field"><input type="tel" maxlength="11" placeholder="电话"></div>
+                        </div>
                     </div>
-                       分配权限：
+                </div>
+                <div class="actions">
+                    <div class="ui black deny button">取消</div>
+                    <div class="ui positive right labeled icon button">提交<i class="checkmark icon"></i></div>
+                </div>
+            </div>
+            <form action="{% url 'member:dept_assign_account' 999999 %}" class="ui modal account" id="add_account">
+                <!--i.close.icon-->
+                {% csrf_token %}
+                <div class="header">分配账号</div>
+                <div class="image content">
+                    <div class="ui form">
+                        <div class="four fields">
+                            <div class="field"><input type="text" placeholder="账号" name="username"></div>
+                            <div class="field"><input type="text" placeholder="密码" name="password"></div>
+                            <div class="field"><input type="text" placeholder="姓名" name="last_name"></div>
+                            <div class="field"><input type="text" placeholder="职位" name="position"></div>
+                        </div>
+                        分配权限：
                         <div class="field">
-                        {% for role in roles %}
-                            <input type="checkbox" name="role" value="{{ role.id }}"/> {{  role.title }}
-                        {% endfor %}
+                            {% for role in roles %}
+                                <input type="checkbox" name="role" value="{{ role.id }}"/> {{ role.title }}
+                            {% endfor %}
                         </div>
-                    <p>为该部门添加账号后,可在功能->部门管理->分配账号中查看对应信息</p>
+                        <p>为该部门添加账号后,可在功能->部门管理->分配账号中查看对应信息</p>
+                    </div>
                 </div>
-            </div>
-            <div class="actions">
-                <div class="ui black deny button">取消</div>
-                <div onclick="add_account()" class="ui positive right labeled icon button">提交<i class="checkmark icon"></i>
+                <div class="actions">
+                    <div class="ui black deny button">取消</div>
+                    <div onclick="add_account()" class="ui positive right labeled icon button">提交<i
+                            class="checkmark icon"></i>
+                    </div>
                 </div>
-            </div>
-        </form>
-        <div class="ui basic modal remove">
-            <div class="ui icon header"><i class="remove user icon"></i> 确认删除部门吗?</div>
-            <div class="content">
-                <p>删除该部门后,该部门下所有账号会失效!</p>
-            </div>
-            <div class="actions">
-                <div class="ui red basic cancel inverted button"><i class="remove icon"></i> 否</div>
-                <div class="ui green ok inverted button"><i class="checkmark icon"></i> 是</div>
+            </form>
+            <div class="ui basic modal remove">
+                <div class="ui icon header"><i class="remove user icon"></i> 确认删除部门吗?</div>
+                <div class="content">
+                    <p>删除该部门后,该部门下所有账号会失效!</p>
+                </div>
+                <div class="actions">
+                    <div class="ui red basic cancel inverted button"><i class="remove icon"></i> 否</div>
+                    <div class="ui green ok inverted button"><i class="checkmark icon"></i> 是</div>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 {% endblock content %}
 {% block script %}
-<script>
-    var dept_id = 999999
-    $('.add_depart').click(function () {
-        $('.ui.modal.depart').modal('show')
-    })
-    $('.edit_depart').click(function () {
-        $('.ui.modal.edit').modal('show')
-    })
-    $('.add_account').click(function () {
-        $('.ui.modal.account').modal('show')
-    })
-    $('.remove_depart').click(function () {
-        $('.ui.modal.remove').modal('show')
-    })
+    <script>
+        var dept_id = 999999
 
-    function get_id(id) {
-        $("#add_account")[0].action = $("#add_account")[0].action.replace(dept_id, id)
-        dept_id = id;
-    }
 
-    function add_account() {
-        var add_form = $("#add_account")[0]
-        $.ajax({
-            url: add_form.action,
-            type: 'POST',
-            data: new FormData(add_form),
-            processData: false,
-            contentType: false,
-            success: function (data) {
-                console.log(data)
-                location.reload()
-            }
+        $('.add_account').click(function () {
+            $('.ui.modal.account').modal('show')
         })
-    }
-
-    function add_dept() {
-        var add_form = $("#add_dept")[0]
-        $.ajax({
-            url: add_form.action,
-            type: 'POST',
-            data: new FormData(add_form),
-            processData: false,
-            contentType: false,
-            success: function (data) {
-                console.log(data)
-                location.reload()
-            }
+        $('.remove_depart').click(function () {
+            $('.ui.modal.remove').modal('show')
         })
-    }
-</script>
+
+        $(".create_dept").modalForm(
+            {formURL: "{% url 'member:dept_create' %}"}
+        );
+        $(".update_dept").each(function () {
+            $(this).modalForm({formURL: $(this).data('id')});
+        });
+
+        function get_id(id) {
+            $("#add_account")[0].action = $("#add_account")[0].action.replace(dept_id, id)
+            dept_id = id;
+        }
+
+
+        function add_account() {
+            var add_form = $("#add_account")[0]
+            $.ajax({
+                url: add_form.action,
+                type: 'POST',
+                data: new FormData(add_form),
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log(data)
+                    location.reload()
+                }
+            })
+        }
+
+        function add_dept() {
+            var add_form = $("#add_dept")[0]
+            $.ajax({
+                url: add_form.action,
+                type: 'POST',
+                data: new FormData(add_form),
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log(data)
+                    location.reload()
+                }
+            })
+        }
+    </script>
 {% endblock script %}

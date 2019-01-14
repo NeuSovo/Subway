@@ -38,12 +38,14 @@ INSTALLED_APPS = [
     'core',
     'core.templatetags',
 
-    'member',       # 部门&员工
-    'material',     # 物资
-    'technology',   # 技术
-    'device',       # 设备
-    'safety',       # 安全
-    'schedule'      # 进度
+    'bootstrap_modal_forms',
+
+    'member',  # 部门&员工
+    'material',  # 物资
+    'technology',  # 技术
+    'device',  # 设备
+    'safety',  # 安全
+    'schedule'  # 进度
 ]
 
 MIDDLEWARE = [
@@ -128,7 +130,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 AUTH_USER_MODEL = 'member.Account'
 FILE_UPLOAD_HANDLERS = ("django_excel.ExcelMemoryFileUploadHandler",
@@ -136,3 +137,6 @@ FILE_UPLOAD_HANDLERS = ("django_excel.ExcelMemoryFileUploadHandler",
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static_files")
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

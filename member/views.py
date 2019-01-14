@@ -7,7 +7,7 @@ from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 from django.utils.decorators import method_decorator
 from django.views.generic import (CreateView, UpdateView, DeleteView, DetailView, FormView,
                                   ListView, View)
-
+from bootstrap_modal_forms.mixins import PassRequestMixin
 from .forms import *
 from .models import *
 from core.utils import *
@@ -110,7 +110,7 @@ class AssignAccountListView(ListView):
 class DeptListView(ListView):
     template_name = 'member/dept_list.html'
     model = Departments
-    paginate_by = 2
+    paginate_by = 100
 
     @method_decorator(login_required(login_url='/auth/login'))
     def dispatch(self, *args, **kwargs):
@@ -130,27 +130,28 @@ class DeptListView(ListView):
         return context
 
 
-class DeptCreateView(View):
+class DeptCreateView(PassRequestMixin, CreateView):
     model = Departments
 
-    # template_name = "member/dept_create_form.html"
-    # form_class = DeptCreateForm
-    # success_url = '/member/dept'
+    template_name = "member/dept_create_form.html"
+    form_class = DeptCreateForm
+    success_url = '/member/dept'
 
     @method_decorator(login_required(login_url='/auth/login'))
     def dispatch(self, *args, **kwargs):
         return super(DeptCreateView, self).dispatch(*args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        obj = data_to_obj(Departments, request.POST)
-        try:
-            with transaction.atomic():
-                obj.save()
-                return JsonResponse({'msg': 'ok'})
-        except Exception as e:
-            print(str(e))
-            return JsonResponse({'msg': str(e)})
 
+class DeptUpdateView(PassRequestMixin, UpdateView):
+    model = Departments
+
+    template_name = "member/dept_update_form.html"
+    form_class = DeptCreateForm
+    success_url = '/member/dept'
+
+    @method_decorator(login_required(login_url='/auth/login'))
+    def dispatch(self, *args, **kwargs):
+        return super(DeptUpdateView, self).dispatch(*args, **kwargs)
 
 class DeptDeleteView(DeleteView):
 
