@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 from .models import *
+from bootstrap_modal_forms.mixins import PopRequestMixin, CreateUpdateAjaxMixin
 
 
 class LoginForm(forms.Form):
@@ -38,15 +39,15 @@ class LoginForm(forms.Form):
             cleaned_data = super(LoginForm, self).clean()
 
 
-class DeptCreateForm(forms.ModelForm):
+class DeptCreateForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
     class Meta:
         model = Departments
         fields = ['dept_name', 'dept_boss', 'dept_position', 'boos_phone']
         widgets = {
-            'dept_name': forms.TextInput(attrs={'class': 'input'}),
+            'dept_name': forms.TextInput(attrs={'class': 'input', 'placeholder': '部門名稱'}),
             'dept_boss': forms.TextInput(attrs={'class': 'input'}),
             'dept_position': forms.TextInput(attrs={'class': 'input'}),
-            'dept_phone': forms.TextInput(attrs={'type': 'tel'})
+            'boos_phone': forms.TextInput(attrs={'type': 'tel'})
         }
 
 

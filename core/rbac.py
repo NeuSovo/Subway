@@ -22,7 +22,9 @@ class MiddlewareMixin(object):
 class RbacMiddleware(MiddlewareMixin):
     def process_request(self, request):
         current_url = request.path_info
-        print (current_url)
+        if request.user.is_superuser:
+            return None
+
         is_valid = False
         for valid in settings.VALID_LIST:
             if re.match(valid, current_url):

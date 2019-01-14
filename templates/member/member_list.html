@@ -1,6 +1,7 @@
 {% extends "base.html" %}
-
 {% block content %}
+{% load fun_filter  %}
+
 <section>
     <div class="ui segment">
         <h1 class="ui header aligned center">员工信息</h1>
@@ -77,9 +78,11 @@
             <tfoot>
                 <tr>
                     <th colspan="6">
+                    {% if member_add or user.is_superuser%}
                         <button class="ui labeled icon button positive right floated add_depart"><i class="users icon"></i>
                             添加员工
                         </button>
+                    {% endif %}
                         {% if is_paginated %}
                         <div class="ui pagination menu right floated">
                             {% for foo in paginator.page_range %}

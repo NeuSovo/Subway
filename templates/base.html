@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,10 +7,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/static/style/semantic.min.css">
-    <link rel="stylesheet" href="/static/style/base.css">
-    <script src="/static/javascript/jquery-3.2.1.min.js"></script>
-    <script src="/static/javascript/semantic.min.js"></script>
+    <link rel="stylesheet" href="{% static 'style/semantic.min.css' %}">
+    <link rel="stylesheet" href="{% static  'style/base.css' %}">
+    <script src="{% static 'javascript/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'javascript/semantic.min.js' %}"></script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+
     <title>Document</title>
     {% block style %}
     {% endblock style %}
