@@ -21,6 +21,7 @@ urlpatterns = [
     path('member/dept', DeptListView.as_view(), name='dept_list'),
     path('member/dept_create', DeptCreateView.as_view(), name='dept_create'),
     path('member/dept_update/<int:pk>', DeptUpdateView.as_view(), name='dept_update'),
+    path('member/dept_delete/<int:pk>', DeptDeleteView.as_view(), name='dept_delete'),
     path('member/dept_assign_account/<int:dept_id>', AssignAccountView.as_view(), name='dept_assign_account'),
     path('member/dept_assign_account_list', AssignAccountListView.as_view(), name='dept_assign_account_list'),
     path('member/dept_assign_account_list/<int:dept_id>', AssignAccountListView.as_view(), name='accout_list_with_id')

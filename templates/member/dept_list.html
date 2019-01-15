@@ -32,7 +32,9 @@
                                 <div class="visible content"><i class="edit icon"></i></div>
                             </div>
                             <div class="ui vertical animated button negative basic center floated remove_depart">
-                                <div class="hidden content">删除</div>
+                                <div class="hidden content delete_dept"
+                                     data-id="{% url 'member:dept_delete' dept.id %}">删除
+                                </div>
                                 <div class="visible content"><i class="remove user icon"></i></div>
                             </div>
                             <div class="ui vertical animated button positive basic right floated add_account"
@@ -162,14 +164,15 @@
         $('.add_account').click(function () {
             $('.ui.modal.account').modal('show')
         })
-        $('.remove_depart').click(function () {
-            $('.ui.modal.remove').modal('show')
-        })
 
         $(".create_dept").modalForm(
             {formURL: "{% url 'member:dept_create' %}"}
         );
         $(".update_dept").each(function () {
+            $(this).modalForm({formURL: $(this).data('id')});
+        });
+
+        $(".delete_dept").each(function () {
             $(this).modalForm({formURL: $(this).data('id')});
         });
 

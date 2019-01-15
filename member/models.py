@@ -7,7 +7,7 @@ urls = 'http://127.0.0.1:8000/member/member_detail'
 
 class Departments(models.Model):
     dept_name = models.CharField(
-        max_length=120, null=False, blank=False, verbose_name='部门名称')
+        max_length=120, null=False, blank=False, verbose_name='部门名称', unique=True)
     dept_boss = models.CharField(
         max_length=30, null=False, blank=False, verbose_name='负责人')
     dept_position = models.CharField(
