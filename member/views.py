@@ -4,10 +4,13 @@ from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError, transaction
 from django.http import Http404, JsonResponse
 from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import (CreateView, UpdateView, DeleteView, DetailView, FormView,
                                   ListView, View)
+from django.contrib.messages.views import SuccessMessageMixin
 
+from bootstrap_modal_forms.mixins import PassRequestMixin, DeleteAjaxMixin
 from .forms import *
 from .models import *
 from core.utils import *
@@ -110,7 +113,7 @@ class AssignAccountListView(ListView):
 class DeptListView(ListView):
     template_name = 'member/dept_list.html'
     model = Departments
-    paginate_by = 2
+    paginate_by = 100
 
     @method_decorator(login_required(login_url='/auth/login'))
     def dispatch(self, *args, **kwargs):
@@ -130,35 +133,31 @@ class DeptListView(ListView):
         return context
 
 
-class DeptCreateView(View):
+class DeptCreateView(PassRequestMixin, SuccessMessageMixin, CreateView):
     model = Departments
-
-    # template_name = "member/dept_create_form.html"
-    # form_class = DeptCreateForm
-    # success_url = '/member/dept'
-
-    @method_decorator(login_required(login_url='/auth/login'))
-    def dispatch(self, *args, **kwargs):
-        return super(DeptCreateView, self).dispatch(*args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        obj = data_to_obj(Departments, request.POST)
-        try:
-            with transaction.atomic():
-                obj.save()
-                return JsonResponse({'msg': 'ok'})
-        except Exception as e:
-            print(str(e))
-            return JsonResponse({'msg': str(e)})
+    template_name = "member/dept_create_form.html"
+    form_class = DeptCreateForm
+    success_message = '添加成功'
+    success_url = reverse_lazy('member:dept_list')
 
 
-class DeptDeleteView(DeleteView):
+class DeptUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
+    model = Departments
+    template_name = "member/dept_update_form.html"
+    form_class = DeptCreateForm
+    success_message = '更新成功'
+    success_url = reverse_lazy('member:dept_list')
 
     @method_decorator(login_required(login_url='/auth/login'))
     def dispatch(self, *args, **kwargs):
-        if not self.request.user.is_superuser:
-            return render(self.request, self.template_name, {'msg': 'no'})
-        return super(DeptDeleteView, self).dispatch(*args, **kwargs)
+        return super(DeptUpdateView, self).dispatch(*args, **kwargs)
+
+
+class DeptDeleteView(DeleteAjaxMixin, DeleteView):
+    model = Departments
+    template_name = "member/dept_delete_form.html"
+    success_message = '删除成功'
+    success_url = reverse_lazy("member:dept_list")
 
 
 class MemberAddView(CreateView):
