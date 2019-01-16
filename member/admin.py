@@ -21,6 +21,10 @@ class RoleAdmin(admin.ModelAdmin):
     filter_horizontal = ('permissions',)
 
 
+class PermissionAdmin(admin.ModelAdmin):
+    list_display = ('title', 'url', 'code')
+
+
 admin.site.register(Role, RoleAdmin)
 admin.site.register(Account, AccountAdmin)
-admin.site.register(Permission)
+admin.site.register(Permission, PermissionAdmin)
