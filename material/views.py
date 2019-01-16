@@ -37,26 +37,45 @@ class MaterialDeleteView(DeleteAjaxMixin, DeleteView):
 class MaterialListView(ListView):
     model = Material
     template_name = 'material/material.html'
-    paginate_by = 3
+    paginate_by = 100
 
 
 class MaterialStockRecordView(ListView):
     model = MaterialStock
+    template_name = 'material/material_record.html'
 
+    def get(self, request, *args, **kwargs):
+        self.pk = kwargs.get('pk', 0)
+        return super(MaterialStockRecordView, self).get(request, *args, **kwargs)
 
+    def get_queryset(self):
+        queryset = super(MaterialStockRecordView, self).get_queryset()
+        if self.pk:
+            queryset = queryset.filter(material_id=self.pk)
+        return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super(MaterialStockRecordView, self).get_context_data(**kwargs)
+        context['material_list'] = Material.objects.all()
+        if self.pk:
+            context['select_material'] = get_object_or_404(Material, pk=self.pk)
+        else:
+            context['select_material'] = '全部'
+        return context
+    
 def material_in_out_stock(request, **kwargs):
     material = get_object_or_404(Material, pk=kwargs.get('pk'))
     in_or_out = int(request.POST.get('type_id'))  # 0 in 1 out
     count = int(request.POST.get('count'))
-    print(material, in_or_out, count, request.user)
+    print(material, in_or_out, count, type(request.user))
     try:
         with transaction.atomic():
             material.num += count if not in_or_out else -count
-            material.objects.record_set.create(count=count, operation_type=in_or_out, create_user=request.user)
+            material.record.create(count=count, operation_type=in_or_out, create_user=request.user)
             material.save()
             return JsonResponse({'msg': 'ok'})
     except Exception as e:
-        raise e
+        # raise e
         return JsonResponse({'msg': str(e)})
 
 

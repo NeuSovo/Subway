@@ -24,14 +24,14 @@
                 <form action="{% url 'member:member_import' %}" id="import_form" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="ui labeled icon button right floated my_import" id="import"><i
-                            class="download icon"></i>
+                            class="upload icon"></i>
                         导入
                     </div>
                 </form>
                 <div class="or"></div>
                 {% ifequal download_dept 0 %}
                     <a class="ui right labeled icon button my_export" href="{% url 'member:member_export' %}"><i
-                            class="upload icon"></i>
+                            class="download icon"></i>
                         导出</a>
                 {% else %}
                     <a class="ui right labeled icon button my_export"
