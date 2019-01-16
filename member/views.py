@@ -94,7 +94,7 @@ class AssignAccountUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView)
 
 class AssignAccountDeleteView(DeleteAjaxMixin, DeleteView):
     model = Account
-    template_name = "member/account_delete_form.html"
+    template_name = "member/assign_account_delete_form.html"
     success_message = '删除成功'
     success_url = reverse_lazy("member:dept_assign_account_list")
 
@@ -169,10 +169,6 @@ class DeptUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
     success_message = '更新成功'
     success_url = reverse_lazy('member:dept_list')
 
-    @method_decorator(login_required(login_url='/auth/login'))
-    def dispatch(self, *args, **kwargs):
-        return super(DeptUpdateView, self).dispatch(*args, **kwargs)
-
 
 class DeptDeleteView(DeleteAjaxMixin, DeleteView):
     model = Departments
@@ -183,13 +179,16 @@ class DeptDeleteView(DeleteAjaxMixin, DeleteView):
 
 class MemberAddView(CreateView):
     model = Member
-    template_name = "member/member_add_form.html"
+    template_name = "member/member_add_update_form.html"
     form_class = MemberForm
-    success_url = '/global/success'
+    success_url = reverse_lazy('member:member_list')
 
-    @method_decorator(login_required(login_url='/auth/login'))
-    def dispatch(self, *args, **kwargs):
-        return super(MemberAddView, self).dispatch(*args, **kwargs)
+
+class MemberDeleteView(DeleteAjaxMixin, DeleteView):
+    model = Member
+    template_name = "member/member_delete_form.html"
+    success_message = '删除成功'
+    success_url = reverse_lazy("member:member_list")
 
 
 class MemberListView(ListView):
@@ -252,9 +251,10 @@ class MemberListDetailView(MemberListView):
 
 class MemberUpdateView(UpdateView):
     model = Member
-    template_name = "member/member_add_form.html"
+    template_name = "member/member_add_update_form.html"
     form_class = MemberForm
-    success_url = '/global/success'
+    success_message = '%s 更新成功'
+    success_url = reverse_lazy('member:member_list')
 
 
 class MemberDetailView(DetailView):

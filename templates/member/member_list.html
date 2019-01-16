@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+    {% include "_modal.html" %}
 {% load fun_filter  %}
 
 <section>
@@ -59,10 +60,10 @@
                             <div class="hidden content">二维码</div>
                             <div class="visible content"><i class="qrcode icon"></i></div>
                         </a><a class="ui vertical animated button primary basic left floated my_edit_member">
-                            <div class="hidden content">编辑</div>
+                            <div class="hidden content update_member" data-id="{% url 'member:member_update' member.id %}">编辑</div>
                             <div class="visible content"><i class="edit icon"></i></div>
                         </a><a class="ui vertical animated button negative basic center floated my_remove">
-                            <div class="hidden content">删除</div>
+                            <div class="hidden content delete_member" data-id="{% url 'member:member_delete' member.id %}">删除</div>
                             <div class="visible content"><i class="remove user icon"></i></div>
                         </a></td>
                 </tr>
@@ -239,16 +240,14 @@
     $('.add_depart').click(function () {
         var w = window.open("{% url  'member:member_add' %}", "", "width=800,height=500")
     })
-    $('.my_edit_member').click(function () {
-        $('.ui.modal.edit').modal('show')
+    $('.update_member').click(function () {
+        var w = window.open($(this).data('id'), "", "width=800,height=500")
     })
-    // $('.my_qrcode').click(function () {
-    //     $('.ui.modal.qrcode').modal('show')
-    // })
+    $('.delete_member').each(function () {
+            $(this).modalForm({formURL: $(this).data('id')})
+    })
 
-    $('.my_remove').click(function () {
-        $('.ui.modal.remove').modal('show')
-    })
+
     $('.ui.dropdown').dropdown()
 
     $('#import').after('<input type="file" id="load_xls" name="docfile" style="display:none" onchange ="uploadFile()" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">');
