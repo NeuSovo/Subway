@@ -1,6 +1,5 @@
-<div class="header">添加部门</div>
-<form action="{% url 'member:dept_create' %}" id="add_dept" method="POST" class="depart">
-
+<form action="" method="POST" class="depart_update_form">
+    <div class="ui dividing header">更新部门</div>
     <div class="image content">
         <!--i.close.icon-->
         {% csrf_token %}
@@ -24,9 +23,10 @@
         </div>
     </div>
     <div class="actions">
-        <div class="ui black deny button">取消</div>
-        <button type="submit" class="ui submit-btn btn positive right labeled icon button">提交<i class="checkmark icon"></i>
+        <div class="ui black  deny button">取消</div>
+        <button type="submit" class="ui submit-btn btn positive  labeled icon button">
+            提交
+            <i class="checkmark icon"></i>
         </button>
-
     </div>
 </form>

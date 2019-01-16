@@ -46,35 +46,12 @@ def logout_view(request):
     return redirect('/')
 
 
-class AssignAccountView(View):
+class AssignAccountView(PassRequestMixin, SuccessMessageMixin, CreateView):
     model = Account
-
-    # template_name = "member/dept_assign_account_form.html"
-    # form_class = AssignAccountForm
-    # success_url = '/member/dept_assign_account_list/'
-
-    @method_decorator(login_required(login_url='/auth/login'))
-    def dispatch(self, *args, **kwargs):
-        if not self.request.user.is_superuser:
-            return render(self.request, self.template_name, {'msg': 'no'})
-        return super(AssignAccountView, self).dispatch(*args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        dept = get_object_or_404(Departments, pk=kwargs.get('dept_id', 0))
-        obj = data_to_obj(self.model, request.POST)
-        try:
-            # TODO: 封装
-            with transaction.atomic():
-                obj.user_dept = dept
-                obj.position = request.POST.get('position', '无')
-                obj.enp = obj.password
-                obj.set_password(obj.password)
-                obj.save()
-                obj.add_role(request.POST.getlist('role'))
-                return JsonResponse({'msg': 'ok'})
-        except Exception as e:
-            raise e
-            return JsonResponse({'msg': str(e)})
+    template_name = "member/dept_assign_account_form.html"
+    form_class = AssignAccountForm
+    success_message = '添加成功'
+    success_url = reverse_lazy('member:dept_assign_account_list')
 
 
 class AssignAccountListView(ListView):
@@ -111,7 +88,7 @@ class AssignAccountListView(ListView):
 
 
 class DeptListView(ListView):
-    template_name = 'member/dept_list.html'
+    template_name = 'dept/dept_list.html'
     model = Departments
     paginate_by = 100
 
@@ -123,7 +100,6 @@ class DeptListView(ListView):
 
     def get_queryset(self):
         queryset = super(DeptListView, self).get_queryset()
-
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -135,7 +111,7 @@ class DeptListView(ListView):
 
 class DeptCreateView(PassRequestMixin, SuccessMessageMixin, CreateView):
     model = Departments
-    template_name = "member/dept_create_form.html"
+    template_name = "dept/dept_create_form.html"
     form_class = DeptCreateForm
     success_message = '添加成功'
     success_url = reverse_lazy('member:dept_list')
@@ -143,7 +119,7 @@ class DeptCreateView(PassRequestMixin, SuccessMessageMixin, CreateView):
 
 class DeptUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
     model = Departments
-    template_name = "member/dept_update_form.html"
+    template_name = "dept/dept_update_form.html"
     form_class = DeptCreateForm
     success_message = '更新成功'
     success_url = reverse_lazy('member:dept_list')
@@ -155,7 +131,7 @@ class DeptUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
 
 class DeptDeleteView(DeleteAjaxMixin, DeleteView):
     model = Departments
-    template_name = "member/dept_delete_form.html"
+    template_name = "dept/dept_delete_form.html"
     success_message = '删除成功'
     success_url = reverse_lazy("member:dept_list")
 

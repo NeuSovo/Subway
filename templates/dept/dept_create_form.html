@@ -1,8 +1,8 @@
-<form action="" class="ui modal account" id="add_account">
-    <!--i.close.icon-->
-    {% csrf_token %}
-    <div class="ui dividing header">分配账号</div>
+<form action="{% url 'member:dept_create' %}" id="add_dept" method="POST" class="depart">
+    <div class="ui dividing header">添加部门</div>
     <div class="image content">
+        <!--i.close.icon-->
+        {% csrf_token %}
         <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
             {% for error in form.non_field_errors %}
                 {{ error }}
@@ -11,6 +11,7 @@
         <div class="ui form">
             <div class="four fields">
                 {% for field in form %}
+
                     <div class="field">{{ field }}</div>
                     <div class="{% if field.errors %} invalid{% endif %}">
                         {% for error in field.errors %}
@@ -19,13 +20,13 @@
                     </div>
                 {% endfor %}
             </div>
-            <p>为该部门添加账号后,可在功能->部门管理->分配账号中查看对应信息</p>
         </div>
     </div>
     <div class="actions">
         <div class="ui black deny button">取消</div>
-        <button type="submit" class="ui positive right labeled icon button">提交<i
+        <button type="submit" class="ui submit-btn btn positive right labeled icon button">提交<i
                 class="checkmark icon"></i>
         </button>
+
     </div>
 </form>
