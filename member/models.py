@@ -29,8 +29,8 @@ class Account(AbstractUser):
 
     user_dept = models.ForeignKey(Departments, on_delete=models.CASCADE, null=True, blank=True, verbose_name='部门')
     position = models.CharField(max_length=20, null=True, blank=True, verbose_name='职位')
-    enp = models.CharField(max_length=155, null=True, blank=True)
-    roles = models.ManyToManyField(verbose_name='拥有角色', to='Role')
+    enp = models.CharField(max_length=155, null=True, blank=True, verbose_name='密码')
+    roles = models.ManyToManyField(verbose_name='拥有角色', to='Role', blank=True)
 
     class Meta:
         verbose_name = 'Account'
@@ -49,6 +49,7 @@ class Account(AbstractUser):
     def add_role(self, role):
         self.roles.add(*list(Role.objects.filter(id__in=list(map(int,role)))))
         return True
+
 
 class Role(models.Model):
     """

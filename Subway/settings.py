@@ -61,7 +61,8 @@ MIDDLEWARE = [
 ]
 
 VALID_LIST = [
-    '/member/member_add'
+    '/member/member_add',
+    '/member/dept*'
 ]
 
 ROOT_URLCONF = 'Subway.urls'

@@ -9,6 +9,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import (CreateView, UpdateView, DeleteView, DetailView, FormView,
                                   ListView, View)
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 
 from bootstrap_modal_forms.mixins import PassRequestMixin, DeleteAjaxMixin
 from .forms import *
@@ -48,10 +49,54 @@ def logout_view(request):
 
 class AssignAccountView(PassRequestMixin, SuccessMessageMixin, CreateView):
     model = Account
-    template_name = "member/dept_assign_account_form.html"
+    template_name = "dept/dept_assign_account_form.html"
     form_class = AssignAccountForm
     success_message = '添加成功'
-    success_url = reverse_lazy('member:dept_assign_account_list')
+    success_url = reverse_lazy('member:dept_list')
+
+    def get(self, request, *args, **kwargs):
+        self.dept = get_object_or_404(Departments, pk=kwargs.get('pk'))
+        return super(AssignAccountView, self).get(self, request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.dept = get_object_or_404(Departments, pk=kwargs.get('pk'))
+        return super(AssignAccountView, self).post(self, request, *args, **kwargs)
+
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.enp = form.cleaned_data.get('password1')
+        self.object.user_dept = self.dept
+        self.object.roles.add(*list(form.cleaned_data.get('roles')))
+        return super(AssignAccountView, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(AssignAccountView, self).get_context_data(**kwargs)
+        context['dept'] = self.dept
+
+        return context
+
+
+class AssignAccountUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
+    model = Account
+    template_name = 'member/assign_account_update_form.html'
+    form_class = AccountUpdateForm
+    success_message = '更新成功'
+    success_url = reverse_lazy("member:dept_assign_account_list")
+
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.enp = form.cleaned_data.get('enp')
+        self.object.set_password(self.object.enp)
+        self.object.roles.clear()
+        self.object.roles.add(*list(form.cleaned_data.get('roles')))
+        return super(AssignAccountUpdateView, self).form_valid(form)
+
+
+class AssignAccountDeleteView(DeleteAjaxMixin, DeleteView):
+    model = Account
+    template_name = "member/account_delete_form.html"
+    success_message = '删除成功'
+    success_url = reverse_lazy("member:dept_assign_account_list")
 
 
 class AssignAccountListView(ListView):
