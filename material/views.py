@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.db import transaction, IntegrityError
+from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from bootstrap_modal_forms.mixins import PassRequestMixin, DeleteAjaxMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -13,41 +14,50 @@ from .forms import  MaterialForm
 class MaterialAddView(PassRequestMixin, SuccessMessageMixin, CreateView):
     model = Material
     form_class = MaterialForm
-    success_url = 'material:list'
+    template_name = 'material/material_create_form.html'
+    success_url = reverse_lazy('material:list')
+    success_message = '%(name)s 添加成功'
 
 
 class MaterialUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
     model = Material
     form_class = MaterialForm
-    success_url = 'material:list'
+    template_name = 'material/material_update_form.html'
+    success_url = reverse_lazy('material:list')
+    success_message = '%(name)s 更新成功'
 
 
 class MaterialDeleteView(DeleteAjaxMixin, DeleteView):
     model = Material
     form_class = MaterialForm
-    success_url = 'material:list'
+    template_name = 'material/material_delete_form.html'
+    success_url = reverse_lazy('material:list')
 
 
 class MaterialListView(ListView):
     model = Material
+    template_name = 'material/material.html'
+    paginate_by = 3
 
 
 class MaterialStockRecordView(ListView):
-    model = Material
+    model = MaterialStock
 
 
 def material_in_out_stock(request, **kwargs):
     material = get_object_or_404(Material, pk=kwargs.get('pk'))
-    in_or_out = int(request.POST.get('type'))  # 0 in 1 out
+    in_or_out = int(request.POST.get('type_id'))  # 0 in 1 out
     count = int(request.POST.get('count'))
+    print(material, in_or_out, count, request.user)
     try:
         with transaction.atomic():
-            material.num += (count if not in_or_out else -count)
-            material.objects.record_set.create(count=count, operation_type=type, create_user=request.user)
+            material.num += count if not in_or_out else -count
+            material.objects.record_set.create(count=count, operation_type=in_or_out, create_user=request.user)
             material.save()
             return JsonResponse({'msg': 'ok'})
     except Exception as e:
-        return JsonResponse({'msg': e})
+        raise e
+        return JsonResponse({'msg': str(e)})
 
 
 def import_material_data(request):
