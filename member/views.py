@@ -4,13 +4,18 @@ from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError, transaction
 from django.http import Http404, JsonResponse
 from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import (CreateView, UpdateView, DeleteView, DetailView, FormView,
                                   ListView, View)
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 
+from bootstrap_modal_forms.mixins import PassRequestMixin, DeleteAjaxMixin
 from .forms import *
 from .models import *
 from core.utils import *
+from core.init_permission import *
 
 
 class LoginView(FormView):
@@ -25,6 +30,7 @@ class LoginView(FormView):
             password = form.cleaned_data['password']
             user = authenticate(username=username, password=password)
             if user is not None and user.is_active:
+                init_permission(user, request)
                 return self.form_valid(form, user)
             else:
                 return self.form_invalid(form)
@@ -41,40 +47,61 @@ def logout_view(request):
     return redirect('/')
 
 
-class AssignAccountView(View):
-    model = User
+class AssignAccountView(PassRequestMixin, SuccessMessageMixin, CreateView):
+    model = Account
+    template_name = "dept/dept_assign_account_form.html"
+    form_class = AssignAccountForm
+    success_message = '添加成功'
+    success_url = reverse_lazy('member:dept_list')
 
-    # template_name = "member/dept_assign_account_form.html"
-    # form_class = AssignAccountForm
-    # success_url = '/member/dept_assign_account_list/'
-
-    @method_decorator(login_required(login_url='/auth/login'))
-    def dispatch(self, *args, **kwargs):
-        if not self.request.user.is_superuser:
-            return render(self.request, self.template_name, {'msg': 'no'})
-        return super(AssignAccountView, self).dispatch(*args, **kwargs)
+    def get(self, request, *args, **kwargs):
+        self.dept = get_object_or_404(Departments, pk=kwargs.get('pk'))
+        return super(AssignAccountView, self).get(self, request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        dept = get_object_or_404(Departments, pk=kwargs.get('dept_id', 0))
-        obj = data_to_obj(User, request.POST)
+        self.dept = get_object_or_404(Departments, pk=kwargs.get('pk'))
+        return super(AssignAccountView, self).post(self, request, *args, **kwargs)
 
-        try:
-            with transaction.atomic():
-                obj.save()
-                a = AssignAccount(user=obj, user_dept=dept,
-                                  position=request.POST.get('position', '无'), enp=obj.password)
-                obj.set_password(obj.password)
-                obj.save()
-                a.save()
-                return JsonResponse({'msg': 'ok'})
-        except Exception as e:
-            print(e)
-            return JsonResponse({'msg': str(e)})
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.enp = form.cleaned_data.get('password1')
+        self.object.user_dept = self.dept
+        self.object.roles.add(*list(form.cleaned_data.get('roles')))
+        return super(AssignAccountView, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(AssignAccountView, self).get_context_data(**kwargs)
+        context['dept'] = self.dept
+
+        return context
+
+
+class AssignAccountUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
+    model = Account
+    template_name = 'member/assign_account_update_form.html'
+    form_class = AccountUpdateForm
+    success_message = '更新成功'
+    success_url = reverse_lazy("member:dept_assign_account_list")
+
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.enp = form.cleaned_data.get('enp')
+        self.object.set_password(self.object.enp)
+        self.object.roles.clear()
+        self.object.roles.add(*list(form.cleaned_data.get('roles')))
+        return super(AssignAccountUpdateView, self).form_valid(form)
+
+
+class AssignAccountDeleteView(DeleteAjaxMixin, DeleteView):
+    model = Account
+    template_name = "member/assign_account_delete_form.html"
+    success_message = '删除成功'
+    success_url = reverse_lazy("member:dept_assign_account_list")
 
 
 class AssignAccountListView(ListView):
     template_name = 'member/assign_account_list.html'
-    model = AssignAccount
+    model = Account
 
     @method_decorator(login_required(login_url='/auth/login'))
     def dispatch(self, *args, **kwargs):
@@ -84,11 +111,10 @@ class AssignAccountListView(ListView):
 
     def get(self, request, *args, **kwargs):
         self.dept_id = kwargs.get('dept_id', 0)
-        print(self.dept_id)
         return super(AssignAccountListView, self).get(request, *args, **kwargs)
 
     def get_queryset(self):
-        queryset = super(AssignAccountListView, self).get_queryset()
+        queryset = super(AssignAccountListView, self).get_queryset().filter(enp__isnull=False)
         if self.dept_id:
             queryset = queryset.filter(user_dept_id=self.dept_id)
         return queryset
@@ -107,9 +133,9 @@ class AssignAccountListView(ListView):
 
 
 class DeptListView(ListView):
-    template_name = 'member/dept_list.html'
+    template_name = 'dept/dept_list.html'
     model = Departments
-    paginate_by = 2
+    paginate_by = 100
 
     @method_decorator(login_required(login_url='/auth/login'))
     def dispatch(self, *args, **kwargs):
@@ -119,54 +145,50 @@ class DeptListView(ListView):
 
     def get_queryset(self):
         queryset = super(DeptListView, self).get_queryset()
-
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super(DeptListView, self).get_context_data(**kwargs)
+        context['roles'] = Role.objects.all()
+
         return context
 
 
-class DeptCreateView(View):
+class DeptCreateView(PassRequestMixin, SuccessMessageMixin, CreateView):
     model = Departments
-
-    # template_name = "member/dept_create_form.html"
-    # form_class = DeptCreateForm
-    # success_url = '/member/dept'
-
-    @method_decorator(login_required(login_url='/auth/login'))
-    def dispatch(self, *args, **kwargs):
-        return super(DeptCreateView, self).dispatch(*args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        obj = data_to_obj(Departments, request.POST)
-        try:
-            with transaction.atomic():
-                obj.save()
-                return JsonResponse({'msg': 'ok'})
-        except Exception as e:
-            print(str(e))
-            return JsonResponse({'msg': str(e)})
+    template_name = "dept/dept_create_form.html"
+    form_class = DeptCreateForm
+    success_message = '添加成功'
+    success_url = reverse_lazy('member:dept_list')
 
 
-class DeptDeleteView(DeleteView):
+class DeptUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
+    model = Departments
+    template_name = "dept/dept_update_form.html"
+    form_class = DeptCreateForm
+    success_message = '更新成功'
+    success_url = reverse_lazy('member:dept_list')
 
-    @method_decorator(login_required(login_url='/auth/login'))
-    def dispatch(self, *args, **kwargs):
-        if not self.request.user.is_superuser:
-            return render(self.request, self.template_name, {'msg': 'no'})
-        return super(DeptDeleteView, self).dispatch(*args, **kwargs)
+
+class DeptDeleteView(DeleteAjaxMixin, DeleteView):
+    model = Departments
+    template_name = "dept/dept_delete_form.html"
+    success_message = '删除成功'
+    success_url = reverse_lazy("member:dept_list")
 
 
 class MemberAddView(CreateView):
     model = Member
-    template_name = "member/member_add_form.html"
+    template_name = "member/member_add_update_form.html"
     form_class = MemberForm
-    success_url = '/global/success'
+    success_url = reverse_lazy('member:member_list')
 
-    @method_decorator(login_required(login_url='/auth/login'))
-    def dispatch(self, *args, **kwargs):
-        return super(MemberAddView, self).dispatch(*args, **kwargs)
+
+class MemberDeleteView(DeleteAjaxMixin, DeleteView):
+    model = Member
+    template_name = "member/member_delete_form.html"
+    success_message = '删除成功'
+    success_url = reverse_lazy("member:member_list")
 
 
 class MemberListView(ListView):
@@ -183,11 +205,11 @@ class MemberListView(ListView):
 
         if dept_id is None:
             if not request.user.is_superuser:
-                self.dept = self.request.user.assignaccount.user_dept
+                self.dept = self.request.user.user_dept
         else:
-            if not request.user.is_superuser and dept_id != self.request.user.assignaccount.user_dept_id:
+            if not request.user.is_superuser and dept_id != self.request.user.user_dept_id:
                 # TODO: xx
-                self.dept = self.request.user.assignaccount.user_dept
+                self.dept = self.request.user.user_dept
             else:
                 self.dept = get_object_or_404(Departments, pk=dept_id)
 
@@ -216,7 +238,7 @@ class MemberListView(ListView):
                 context['download_dept'] = 0
         else:
             context['dept_list'] = Departments.objects.filter(
-                pk=self.request.user.assignaccount.user_dept.id)
+                pk=self.request.user.user_dept.id)
             context['select_dept'] = self.dept.dept_name
             context['download_dept'] = self.dept.id
         print(context)
@@ -229,9 +251,10 @@ class MemberListDetailView(MemberListView):
 
 class MemberUpdateView(UpdateView):
     model = Member
-    template_name = "member/member_add_form.html"
+    template_name = "member/member_add_update_form.html"
     form_class = MemberForm
-    success_url = '/global/success'
+    success_message = '%s 更新成功'
+    success_url = reverse_lazy('member:member_list')
 
 
 class MemberDetailView(DetailView):
