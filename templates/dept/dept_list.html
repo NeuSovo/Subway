@@ -59,17 +59,7 @@
                                 class="users icon"></i>
                             添加部门
                         </button>
-                        {% if is_paginated %}
-                            <div class="ui pagination menu right floated">
-                            {% for foo in paginator.page_range %}
-                                {% ifequal page_obj.number foo %}
-                                    <a class="item active" href="?page={{ foo }}"> {{ foo }}</a>
-                                {% else %}
-                                    <a class="item" href="?page={{ foo }}"> {{ foo }}</a>
-                                {% endifequal %}
-                            {% endfor %}
-                        {% endif %}
-                        </div>
+                        {% include '_page.html' %}
                     </th>
                 </tr>
                 </tfoot>

@@ -47,8 +47,8 @@
                     <div class="title"><i class="dropdown icon"></i> 部门管理</div>
                     <div class="content">
                         <div class="ui secondary vertical pointing menu"><a class="item"
-                                                                            href="{% url 'member:dept_list' %}">添加部门</a><a
-                                class="item" href="{% url 'member:dept_assign_account_list' %}">分配账号</a></div>
+                                                                            href="{% url 'member:dept_list' %}">部分管理</a><a
+                                class="item" href="{% url 'member:dept_assign_account_list' %}">账号列表</a></div>
                     </div>
                 </div>
             {% endif %}
@@ -63,6 +63,12 @@
             </div>
             <div class="item">
                 <div class="title active"><i class="dropdown icon"></i> 物资管理</div>
+                <div class="content">
+                    <div class="ui secondary vertical pointing menu"><a class="item"
+                                                                        href="{% url 'material:list' %}">物资信息</a><a
+                            class="item" href="{% url 'material:stock_record' %}">进出库记录</a>
+                    </div>
+                </div>
             </div>
             <div class="item">
                 <div class="title active"><i class="dropdown icon"></i> 技术管理</div>
