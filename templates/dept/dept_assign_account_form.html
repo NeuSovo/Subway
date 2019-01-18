@@ -1,0 +1,39 @@
+<form action="" method="post" class="account" id="add_account">
+    <!--i.close.icon-->
+    {% csrf_token %}
+    <div class="ui dividing header">为部门{{ dept.dept_name }}分配账号</div>
+    <div class="image content">
+        <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+        <div class="ui form">
+            {% for field in form %}
+                <div class="field">
+
+                    {{ field.label }}
+                    {{ field }}
+
+                    {% if field.help_text %}
+                        <br><br>
+                        {{ field.help_text }}
+                    {% endif %}
+                    <div class="{% if field.errors %} invalid{% endif %}">
+                        {% for error in field.errors %}
+                            <p class="help-block ui negative message">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            {% endfor %}
+            <p>为该部门添加账号后,可在功能->部门管理->分配账号中查看对应信息</p>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui black deny button">取消</div>
+        <button type="submit" class="ui submit-btn btn positive right labeled icon button">提交<i
+                class="checkmark icon"></i>
+        </button>
+    </div>
+</form>

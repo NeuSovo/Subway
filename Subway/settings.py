@@ -35,8 +35,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core',
+    'core.templatetags',
 
-    'member'
+    'bootstrap_modal_forms',
+
+    'member',  # 部门&员工
+    'material',  # 物资
+    'technology',  # 技术
+    'device',  # 设备
+    'safety',  # 安全
+    'schedule'  # 进度
 ]
 
 MIDDLEWARE = [
@@ -47,6 +56,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'core.rbac.RbacMiddleware'
+]
+
+VALID_LIST = [
+    '/member/member_add',
+    '/member/dept*'
 ]
 
 ROOT_URLCONF = 'Subway.urls'
@@ -54,8 +70,7 @@ ROOT_URLCONF = 'Subway.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -63,6 +78,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'core.utils.permission'
             ],
         },
     },
@@ -115,11 +131,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
+AUTH_USER_MODEL = 'member.Account'
 FILE_UPLOAD_HANDLERS = ("django_excel.ExcelMemoryFileUploadHandler",
                         "django_excel.TemporaryExcelFileUploadHandler")
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static_files")
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

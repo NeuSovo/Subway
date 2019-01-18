@@ -1,0 +1,26 @@
+<form method="post" action="">
+    {% csrf_token %}
+    <div class="ui icon header">
+        <i class="remove user icon">
+        </i> 确认删除部门"{{ departments.dept_name }}"吗?
+    </div>
+    <div class="content">
+        <p>删除该部门后,该部门下所有账号会失效!</p>
+    </div>
+    <div class="actions">
+        <div class="ui red  cancel inverted button"><i class="remove icon"></i> 否</div>
+        <button type="submit" class="ui green ok inverted button"><i class="checkmark icon"></i> 是</button>
+    </div>
+</form>
+{% block style %}
+    <style>
+        .modal-content form {
+            text-align: center;
+        }
+
+        .actions {
+            margin: 20px;
+        }
+
+    </style>
+{% endblock %}

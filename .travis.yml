@@ -1,0 +1,24 @@
+language: python
+python:
+  - "3.6"
+
+# 只监听 test 分支的改动
+branches:
+  only:
+  - test
+
+install:
+  - pip install -r requirements.txt
+
+script:
+  - python manage.py migrate
+  - python manage.py test
+
+after_success:
+  - pwd
+
+# # 缓存依赖，节省持续集成时间
+# cache:
+#   yarn: true
+#   directories:
+#     - node_modules
