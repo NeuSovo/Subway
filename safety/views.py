@@ -12,7 +12,11 @@ class SafetyFileListView(ListView):
 
     def get_queryset(self):
         queryset = super(SafetyFileListView, self).get_queryset()
-        queryset = queryset  # TODO
+        if self.kwargs:
+            queryset = queryset.filter(profess=self.kwargs.get('pro_id'))
+        if self.request.GET.get('type_id'):
+            queryset = queryset.filter(
+                file_type=self.request.GET.get('type_id'))
         return queryset
 
 
