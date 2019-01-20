@@ -8,14 +8,13 @@
                 {{ error }}
             {% endfor %}
         </div>
-        <div class="ui form">
+        <div class="ui form error">
             <div class="four fields">
                 {% for field in form %}
-
                     <div class="field">{{ field }}</div>
                     <div class="{% if field.errors %} invalid{% endif %}">
                         {% for error in field.errors %}
-                            <p class="help-block">{{ error }}</p>
+                           <p class="ui error message" style="padding: 0;">{{ error }}</p>
                         {% endfor %}
                     </div>
                 {% endfor %}
