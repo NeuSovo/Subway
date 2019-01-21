@@ -347,4 +347,4 @@ def index(request):
 
 
 def success_view(request):
-    return render(request, 'member/success.html')
+    return render(request, 'status/success.html')
