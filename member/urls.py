@@ -9,6 +9,7 @@ urlpatterns = [
     path('auth/logout', logout_view, name='logout'),
     path('global/qrcode/<path:data>', qrcode_view, name='qrcode'),
     path('global/success', success_view, name='success'),
+    path('global/depass', depass_view, name='depass'),
     path('member/member_add', MemberAddView.as_view(), name='member_add'),
     path('member/member_list', MemberListView.as_view(), name='member_list'),
     path('member/member_update/<int:pk>', MemberUpdateView.as_view(), name='member_update'),

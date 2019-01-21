@@ -64,7 +64,8 @@ class AssignAccountView(PassRequestMixin, SuccessMessageMixin, CreateView):
 
     def form_valid(self, form):
         self.object = form.save()
-        self.object.enp = form.cleaned_data.get('password1')
+        self.object.enp = en_password(form.cleaned_data.get('password1'))
+        print(self.object.enp, form.cleaned_data.get('password1'))
         self.object.user_dept = self.dept
         self.object.roles.add(*list(form.cleaned_data.get('roles')))
         return super(AssignAccountView, self).form_valid(form)
@@ -85,8 +86,8 @@ class AssignAccountUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView)
 
     def form_valid(self, form):
         self.object = form.save()
-        self.object.enp = form.cleaned_data.get('enp')
-        self.object.set_password(self.object.enp)
+        self.object.enp = en_password(form.cleaned_data.get('enp'))
+        self.object.set_password(form.cleaned_data.get('enp'))
         self.object.roles.clear()
         self.object.roles.add(*list(form.cleaned_data.get('roles')))
         return super(AssignAccountUpdateView, self).form_valid(form)
@@ -348,3 +349,12 @@ def index(request):
 
 def success_view(request):
     return render(request, 'member/success.html')
+
+
+def depass_view(request):
+    salt = request.GET.get('enpass', 'np')
+    try:
+        depass = de_password(salt)
+        return JsonResponse({'msg': 'ok', 'pass': depass})
+    except Exception as e:
+        return JsonResponse({'msg': str(e)})
