@@ -355,10 +355,10 @@ def success_view(request):
     return render(request, 'member/success.html')
 
 
-def depass_view(request):
-    salt = request.GET.get('enpass', 'np')
-    try:
-        depass = de_password(salt)
-        return JsonResponse({'msg': 'ok', 'pass': depass})
-    except Exception as e:
+def depass_view(request):	
+    salt = request.GET.get('enpass', 'np')	
+    try:	
+        depass = de_password(salt)	
+        return JsonResponse({'msg': 'ok', 'pass': depass})	
+    except Exception as e:	
         return JsonResponse({'msg': str(e)})
