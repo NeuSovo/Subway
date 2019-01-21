@@ -8,7 +8,7 @@ from .forms import TechnologyFileForm
 
 class TechnologyFileListView(ListView):
     model = TechnologyFile
-    template_name = "TEMPLATE_NAME"
+    template_name = "technology/technology.html"
 
     def get_queryset(self):
         queryset = super(TechnologyFileListView, self).get_queryset()
