@@ -19,7 +19,7 @@ from core.init_permission import *
 
 
 class LoginView(FormView):
-    template_name = 'member/login.html'
+    template_name = 'user/login.html'
     form_class = LoginForm
     success_url = '/'
 
@@ -78,7 +78,7 @@ class AssignAccountView(PassRequestMixin, SuccessMessageMixin, CreateView):
 
 class AssignAccountUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
     model = Account
-    template_name = 'member/assign_account_update_form.html'
+    template_name = 'dept/assign_account_update_form.html'
     form_class = AccountUpdateForm
     success_message = '更新成功'
     success_url = reverse_lazy("member:dept_assign_account_list")
@@ -94,13 +94,13 @@ class AssignAccountUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView)
 
 class AssignAccountDeleteView(DeleteAjaxMixin, DeleteView):
     model = Account
-    template_name = "member/assign_account_delete_form.html"
+    template_name = "dept/assign_account_delete_form.html"
     success_message = '删除成功'
     success_url = reverse_lazy("member:dept_assign_account_list")
 
 
 class AssignAccountListView(ListView):
-    template_name = 'member/assign_account_list.html'
+    template_name = 'dept/assign_account_list.html'
     model = Account
 
     @method_decorator(login_required(login_url='/auth/login'))
