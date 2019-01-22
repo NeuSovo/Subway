@@ -64,4 +64,3 @@ class TechnologyFileDeleteView(DeleteAjaxMixin, DeleteView):
     template_name = "technology/delete_form.html"
     success_message = '删除成功'
     success_url = reverse_lazy('technology:list')
-

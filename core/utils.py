@@ -54,5 +54,6 @@ def permission(request):
     permissions = user.roles.all().values('permissions__code').distinct()
     for item in permissions:
         res[item['permissions__code']] = True
+    print(res)
     return res
 

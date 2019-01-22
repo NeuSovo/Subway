@@ -4,6 +4,7 @@ from bootstrap_modal_forms.mixins import PopRequestMixin, CreateUpdateAjaxMixin
 
 
 class TechnologyFileForm(CreateUpdateAjaxMixin, PopRequestMixin, forms.ModelForm):
+
     """Form definition for TechnologyFile."""
 
     class Meta:

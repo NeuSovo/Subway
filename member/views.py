@@ -360,5 +360,5 @@ def depass_view(request):
     try:	
         depass = de_password(salt)	
         return JsonResponse({'msg': 'ok', 'pass': depass})	
-    except Exception as e:	
+    except Exception as e:
         return JsonResponse({'msg': str(e)})
