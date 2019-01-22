@@ -1,6 +1,6 @@
 from django import forms
 from bootstrap_modal_forms.mixins import PopRequestMixin, CreateUpdateAjaxMixin
-from .models import *
+from .models import Material
 
 
 class MaterialForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):

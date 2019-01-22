@@ -1,8 +1,11 @@
 import qrcode
 import base64
+import pyDes
 
 from django.contrib.auth.models import AnonymousUser
 from django.utils.six import BytesIO
+
+k = pyDes.des(b"DESCRYPT", pyDes.CBC, b"\0\0\0\0\0\0\0\0", pad=None, padmode=pyDes.PAD_PKCS5)
 
 
 def gen_qrcode(data):
@@ -13,6 +16,14 @@ def gen_qrcode(data):
     image_stream = buf.getvalue()
 
     return image_stream
+
+
+def en_password(passwd):
+    return str(base64.b64encode(k.encrypt(passwd)), 'utf-8')
+
+
+def de_password(salt):
+    return str(k.decrypt(base64.b64decode(salt)), 'utf-8')
 
 
 def en_base64(txt):
@@ -43,4 +54,5 @@ def permission(request):
     permissions = user.roles.all().values('permissions__code').distinct()
     for item in permissions:
         res[item['permissions__code']] = True
+    print(res)
     return res
