@@ -50,6 +50,12 @@ class Account(AbstractUser):
         self.roles.add(*list(Role.objects.filter(id__in=list(map(int,role)))))
         return True
 
+    def has_perm2(self, perm, obj=None):
+        return self.is_superuser or self.roles.filter(permissions__code=perm).exists()
+
+    def add_role(self, role):
+        self.roles.add(*list(Role.objects.filter(id__in=list(map(int,role)))))
+        return True
 
 class Role(models.Model):
     """
