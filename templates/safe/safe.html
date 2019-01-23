@@ -1,36 +1,419 @@
-<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>a</title><link rel="stylesheet" href="../style/semantic.min.css"><link rel="stylesheet" href="../style/base.css"><script src="../javascript/jquery-3.2.1.min.js"></script><script src="../javascript/semantic.min.js"></script></head><body><header><div class="ui menu massive"><div class="left menu"><a class="active item" id="main">功能</a><div class="item"><p>IQ工程管理平台</p></div></div><div class="right menu"><div class="ui dropdown item">Language<i class="dropdown icon"></i><div class="menu"><a class="item">英语</a><a class="item">俄语</a><a class="item">西班牙语</a></div></div><div class="item"><p>欢迎您,李旭成</p></div><div class="item"><a class="ui negative button" href="login.html">注销</a></div></div></div><div class="ui sidebar inverted vertical menu"><!--a.item 1--><!--a.item 2--><!--a.item 3--><div class="ui inverted accordion"><div class="item"><div class="title"><i class="dropdown icon"></i>   部门管理</div><div class="content"><div class="ui secondary vertical pointing menu"><a class="item" href="department.html">添加部门</a><a class="item" href="account.html">分配账号</a></div></div></div><div class="item"><div class="title"><i class="dropdown icon"></i>  人员管理</div><div class="content"><div class="ui secondary vertical pointing menu"><a class="item" href="member.html">员工信息</a><a class="item" href="member_detail.html">详细信息</a></div></div></div><div class="item"><div class="title active"><i class="dropdown icon"></i>  物资管理</div><div class="content"><div class="ui secondary vertical pointing menu"><a class="item" href="material.html">物料信息</a><a class="item" href="material_history.html">操作记录</a></div></div></div><div class="item"><div class="title active"><i class="dropdown icon"></i>  技术管理</div><div class="content"><div class="ui secondary vertical pointing menu"><a class="item" href="technology.html">技术信息</a></div></div></div><div class="item"><div class="title active"><i class="dropdown icon"></i>  设备管理</div><div class="content"><div class="ui secondary vertical pointing menu"><a class="item" href="device.html">设备信息</a></div><div class="ui secondary vertical pointing menu"><a class="item" href="device_detail.html">设备详情</a></div></div></div><div class="item"><div class="title active"><i class="dropdown icon"></i>  安全管理</div><div class="content"><div class="ui secondary vertical pointing menu"><a class="item" href="safe.html">安全信息</a></div></div></div><div class="item"><div class="title active"><i class="dropdown icon"></i>  验收管理</div></div></div></div></header><section><div class="ui segment"><h1 class="ui header aligned center">安全管理</h1><div class="ui floating labeled icon dropdown button"><i class="filter icon"></i><span class="text">全部</span><div class="menu"><div class="header"><i class="tags icon"></i>项目分类</div><div class="divider"></div><div class="item" data-value="0">全部</div><div class="item" data-value="1">杂散电流</div><div class="item" data-value="2">环网电缆</div></div></div><div class="ui animated fade right floated button"><div class="hidden content"><i class="upload icon"></i></div><div class="visible content">导出全部二维码</div></div><div class="ui buttons right floated"><button class="ui labeled icon button right floated my_import"><i class="download icon"></i>  导入</button><div class="or"></div><button class="ui right labeled icon button my_export"><i class="upload icon"></i>  导出</button></div><table class="ui table celled line single fixed" id="table"><thead><tr class="center aligned"><th>编号</th><th>标题</th><th>项目</th><th>操作</th></tr></thead><tbody><tr class="center aligned"><td>a1230</td><td>一号线二期正线变电所大型设备吊装及运输方案</td><td>杂散电流</td><td><a class="ui vertical animated button positive basic center floated qrcode"><div class="visible content">二维码</div><div class="hidden content"><i class="qrcode icon"></i></div></a><a class="ui vertical animated button primary basic center floated edit"><div class="visible content">编辑</div><div class="hidden content"><i class="edit icon"></i></div></a><a class="ui vertical animated button primary basic center floated disabled"><div class="visible content">查看详情</div><div class="hidden content"><i class="edit icon"></i></div></a><a class="ui vertical animated button negative basic center floated remove"><div class="visible content">删除</div><div class="hidden content"><i class="remove user icon"></i></div></a></td></tr><tr class="center aligned"><td>a1231</td><td>一号线二期正线变电所大型设备吊装及运输方案</td><td>杂散电流</td><td><a class="ui vertical animated button positive basic center floated qrcode"><div class="visible content">二维码</div><div class="hidden content"><i class="qrcode icon"></i></div></a><a class="ui vertical animated button primary basic center floated edit"><div class="visible content">编辑</div><div class="hidden content"><i class="edit icon"></i></div></a><a class="ui vertical animated button primary basic center floated disabled"><div class="visible content">查看详情</div><div class="hidden content"><i class="edit icon"></i></div></a><a class="ui vertical animated button negative basic center floated remove"><div class="visible content">删除</div><div class="hidden content"><i class="remove user icon"></i></div></a></td></tr><tr class="center aligned"><td>a1232</td><td>一号线二期正线变电所大型设备吊装及运输方案</td><td>杂散电流</td><td><a class="ui vertical animated button positive basic center floated qrcode"><div class="visible content">二维码</div><div class="hidden content"><i class="qrcode icon"></i></div></a><a class="ui vertical animated button primary basic center floated edit"><div class="visible content">编辑</div><div class="hidden content"><i class="edit icon"></i></div></a><a class="ui vertical animated button primary basic center floated disabled"><div class="visible content">查看详情</div><div class="hidden content"><i class="edit icon"></i></div></a><a class="ui vertical animated button negative basic center floated remove"><div class="visible content">删除</div><div class="hidden content"><i class="remove user icon"></i></div></a></td></tr><tr class="center aligned"><td>a1233</td><td>一号线二期正线变电所大型设备吊装及运输方案</td><td>杂散电流</td><td><a class="ui vertical animated button positive basic center floated qrcode"><div class="visible content">二维码</div><div class="hidden content"><i class="qrcode icon"></i></div></a><a class="ui vertical animated button primary basic center floated edit"><div class="visible content">编辑</div><div class="hidden content"><i class="edit icon"></i></div></a><a class="ui vertical animated button primary basic center floated disabled"><div class="visible content">查看详情</div><div class="hidden content"><i class="edit icon"></i></div></a><a class="ui vertical animated button negative basic center floated remove"><div class="visible content">删除</div><div class="hidden content"><i class="remove user icon"></i></div></a></td></tr><tr class="center aligned"><td>a1234</td><td>一号线二期正线变电所大型设备吊装及运输方案</td><td>杂散电流</td><td><a class="ui vertical animated button positive basic center floated qrcode"><div class="visible content">二维码</div><div class="hidden content"><i class="qrcode icon"></i></div></a><a class="ui vertical animated button primary basic center floated edit"><div class="visible content">编辑</div><div class="hidden content"><i class="edit icon"></i></div></a><a class="ui vertical animated button primary basic center floated disabled"><div class="visible content">查看详情</div><div class="hidden content"><i class="edit icon"></i></div></a><a class="ui vertical animated button negative basic center floated remove"><div class="visible content">删除</div><div class="hidden content"><i class="remove user icon"></i></div></a></td></tr><tr class="center aligned"><td>a1235</td><td>一号线二期正线变电所大型设备吊装及运输方案</td><td>杂散电流</td><td><a class="ui vertical animated button positive basic center floated qrcode"><div class="visible content">二维码</div><div class="hidden content"><i class="qrcode icon"></i></div></a><a class="ui vertical animated button primary basic center floated edit"><div class="visible content">编辑</div><div class="hidden content"><i class="edit icon"></i></div></a><a class="ui vertical animated button primary basic center floated disabled"><div class="visible content">查看详情</div><div class="hidden content"><i class="edit icon"></i></div></a><a class="ui vertical animated button negative basic center floated remove"><div class="visible content">删除</div><div class="hidden content"><i class="remove user icon"></i></div></a></td></tr><tr class="center aligned"><td>a1236</td><td>一号线二期正线变电所大型设备吊装及运输方案</td><td>杂散电流</td><td><a class="ui vertical animated button positive basic center floated qrcode"><div class="visible content">二维码</div><div class="hidden content"><i class="qrcode icon"></i></div></a><a class="ui vertical animated button primary basic center floated edit"><div class="visible content">编辑</div><div class="hidden content"><i class="edit icon"></i></div></a><a class="ui vertical animated button primary basic center floated disabled"><div class="visible content">查看详情</div><div class="hidden content"><i class="edit icon"></i></div></a><a class="ui vertical animated button negative basic center floated remove"><div class="visible content">删除</div><div class="hidden content"><i class="remove user icon"></i></div></a></td></tr><tr class="center aligned"><td>a1237</td><td>一号线二期正线变电所大型设备吊装及运输方案</td><td>杂散电流</td><td><a class="ui vertical animated button positive basic center floated qrcode"><div class="visible content">二维码</div><div class="hidden content"><i class="qrcode icon"></i></div></a><a class="ui vertical animated button primary basic center floated edit"><div class="visible content">编辑</div><div class="hidden content"><i class="edit icon"></i></div></a><a class="ui vertical animated button primary basic center floated disabled"><div class="visible content">查看详情</div><div class="hidden content"><i class="edit icon"></i></div></a><a class="ui vertical animated button negative basic center floated remove"><div class="visible content">删除</div><div class="hidden content"><i class="remove user icon"></i></div></a></td></tr><tr class="center aligned"><td>a1238</td><td>一号线二期正线变电所大型设备吊装及运输方案</td><td>杂散电流</td><td><a class="ui vertical animated button positive basic center floated qrcode"><div class="visible content">二维码</div><div class="hidden content"><i class="qrcode icon"></i></div></a><a class="ui vertical animated button primary basic center floated edit"><div class="visible content">编辑</div><div class="hidden content"><i class="edit icon"></i></div></a><a class="ui vertical animated button primary basic center floated disabled"><div class="visible content">查看详情</div><div class="hidden content"><i class="edit icon"></i></div></a><a class="ui vertical animated button negative basic center floated remove"><div class="visible content">删除</div><div class="hidden content"><i class="remove user icon"></i></div></a></td></tr><tr class="center aligned"><td>a1239</td><td>一号线二期正线变电所大型设备吊装及运输方案</td><td>杂散电流</td><td><a class="ui vertical animated button positive basic center floated qrcode"><div class="visible content">二维码</div><div class="hidden content"><i class="qrcode icon"></i></div></a><a class="ui vertical animated button primary basic center floated edit"><div class="visible content">编辑</div><div class="hidden content"><i class="edit icon"></i></div></a><a class="ui vertical animated button primary basic center floated disabled"><div class="visible content">查看详情</div><div class="hidden content"><i class="edit icon"></i></div></a><a class="ui vertical animated button negative basic center floated remove"><div class="visible content">删除</div><div class="hidden content"><i class="remove user icon"></i></div></a></td></tr></tbody><tfoot><tr><th colspan="4"><button class="ui labeled icon button positive right floated add"><i class="users icon"></i>  添加文件</button><button class="ui labeled icon button positive left floated append"><i class="users icon"></i>  添加分类</button><button class="ui labeled icon button blue left floated update"><i class="users icon"></i>  修改分类</button><button class="ui labeled icon button negative left floated delete disabled"><i class="users icon"></i>  删除分类</button><div class="ui pagination menu right floated"><a class="item">1</a><div class="disabled item">...</div><a class="item">10</a><a class="item active">11</a><a class="item">12</a></div></th></tr></tfoot></table><!-- item 操作--><div class="ui modal edit large"><i class="close icon"></i><div class="header">编辑文件</div><div class="image content"><div class="ui form"><div class="field"><label>文件标题</label><div class="fields"><div class="field"><input type="text" placeholder="请输入文件标题" value="一号线二期正线变电所大型设备吊装及运输方案"></div></div></div><div class="field"><label>点击图片上传文件</label><div class="ui move reveal my_upload"><div class="visible content"><img class="ui small image" src="https://semantic-ui.qyears.com/images/wireframe/square-image.png"></div><div class="hidden content"><img class="ui small image" src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg"></div></div></div></div></div><div class="actions"><div class="ui black deny button">取消</div><div class="ui positive right labeled icon button">提交<i class="checkmark icon"></i></div></div></div><div class="ui basic modal remove"><div class="ui icon header"><i class="remove user icon"></i> 确认删除文件吗</div><div class="content"><p>该文件的所有信息会清空,重新添加用户时二维码重新生成!</p></div><div class="actions"><div class="ui red basic cancel inverted button"><i class="remove icon"></i>      否</div><div class="ui green ok inverted button"><i class="checkmark icon"></i>      是</div></div></div><div class="ui modal qrcode large basic icon"><div class="ui icon header"><img class="icon my_img" src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg">李徐成</div><div class="image content"><div class="description"><div class="ui vertically divided grid" style="margin-left:-4rem"><div class="four column row"><div class="column"><p>工号</p></div><div class="column"><p>A123</p></div><div class="column"><p>头像</p></div><div class="column"><img class="ui mini image rounded my_img" src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg" style="margin:0 0;"></div></div><div class="four column row"><div class="column"><p>联系方式</p></div><div class="column"><p>123456789</p></div><div class="column"><p>性别</p></div><div class="column"><p>男</p></div></div><div class="four column row"><div class="column"><p>民族</p></div><div class="column"><p>汉族</p></div><div class="column"><p>血型</p></div><div class="column"><p>o型</p></div></div><div class="four column row"><div class="column"><p>身份证</p></div><div class="column"><p>6101221111111</p></div><div class="column"><p>出生日期</p></div><div class="column"><p>1999.99.99</p></div></div><div class="four column row"><div class="column"><p>职位</p></div><div class="column"><p>部长</p></div><div class="column"><p>部门</p></div><div class="column"><p>技术部</p></div></div></div></div></div><div class="actions"><div class="ui black deny button">取消</div><div class="ui positive right labeled icon button">下载二维码<i class="checkmark icon"></i></div></div></div><!-- global 操作--><div class="ui modal add large"><i class="close icon"></i><div class="header">新增文件</div><div class="image content"><div class="ui form"><div class="field"><label>文件标题</label><div class="fields"><div class="field"><input type="text" placeholder="请输入文件标题"></div></div></div><div class="field"><label>点击图片上传文件</label><div class="ui move reveal my_upload"><div class="visible content"><img class="ui small image" src="https://semantic-ui.qyears.com/images/wireframe/square-image.png"></div><div class="hidden content"><img class="ui small image" src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg"></div></div></div></div></div><div class="actions"><div class="ui black deny button">取消</div><div class="ui positive right labeled icon button">提交<i class="checkmark icon"></i></div></div></div><!-- 分级操作--><div class="ui modal append large"><!--i.close.icon--><div class="header">新增分类</div><div class="image content"><div class="ui form"><div class="field"><input type="text" placeholder="请输入分类名称"></div></div></div><div class="actions"><div class="ui black deny button">取消</div><div class="ui positive right labeled icon button">提交<i class="checkmark icon"></i></div></div></div><div class="ui modal update large"><!--i.close.icon--><div class="header">更改分类</div><div class="image content"><div class="ui form"><div class="field"><input type="text" placeholder="设备名称" value="杂散电流"></div></div></div><div class="actions"><div class="ui black deny button">取消</div><div class="ui positive right labeled icon button">提交<i class="checkmark icon"></i></div></div></div></div></section><footer></footer><script>$ ('#main').click (function () {
-	$ ('.sidebar').sidebar ('toggle')
-})
-$ ('.ui.accordion').accordion ()
-</script><script>let selete
-$ ('a.qrcode').click (function () {$ ('.modal.qrcode').modal ('show')})
-$ ('a.edit').click (function () {$ ('.ui.modal.edit').modal ('show')})
-$ ('a.remove').click (function () {$ ('.ui.modal.remove').modal ('show')})
+{% extends 'base.html' %}
+{% block content %}
+    <section>
+        <div class="ui segment"><h1 class="ui header aligned center">安全管理</h1>
+            <div class="ui floating labeled icon dropdown button"><i class="filter icon"></i><span
+                    class="text">全部</span>
+                <div class="menu">
+                    <div class="header"><i class="tags icon"></i>项目分类</div>
+                    <div class="divider"></div>
+                    <div class="item" data-value="0">全部</div>
+                    <div class="item" data-value="1">杂散电流</div>
+                    <div class="item" data-value="2">环网电缆</div>
+                </div>
+            </div>
+            <div class="ui animated fade right floated button">
+                <div class="hidden content"><i class="upload icon"></i></div>
+                <div class="visible content">导出全部二维码</div>
+            </div>
+            <div class="ui buttons right floated">
+                <button class="ui labeled icon button right floated my_import"><i class="download icon"></i> 导入</button>
+                <div class="or"></div>
+                <button class="ui right labeled icon button my_export"><i class="upload icon"></i> 导出</button>
+            </div>
+            <table class="ui table celled line single fixed" id="table">
+                <thead>
+                <tr class="center aligned">
+                    <th>编号</th>
+                    <th>标题</th>
+                    <th>项目</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="center aligned">
+                    <td>a1230</td>
+                    <td>一号线二期正线变电所大型设备吊装及运输方案</td>
+                    <td>杂散电流</td>
+                    <td><a class="ui vertical animated button positive basic center floated qrcode">
+                        <div class="visible content">二维码</div>
+                        <div class="hidden content"><i class="qrcode icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated edit">
+                        <div class="visible content">编辑</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated disabled">
+                        <div class="visible content">查看详情</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button negative basic center floated remove">
+                        <div class="visible content">删除</div>
+                        <div class="hidden content"><i class="remove user icon"></i></div>
+                    </a></td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a1231</td>
+                    <td>一号线二期正线变电所大型设备吊装及运输方案</td>
+                    <td>杂散电流</td>
+                    <td><a class="ui vertical animated button positive basic center floated qrcode">
+                        <div class="visible content">二维码</div>
+                        <div class="hidden content"><i class="qrcode icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated edit">
+                        <div class="visible content">编辑</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated disabled">
+                        <div class="visible content">查看详情</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button negative basic center floated remove">
+                        <div class="visible content">删除</div>
+                        <div class="hidden content"><i class="remove user icon"></i></div>
+                    </a></td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a1232</td>
+                    <td>一号线二期正线变电所大型设备吊装及运输方案</td>
+                    <td>杂散电流</td>
+                    <td><a class="ui vertical animated button positive basic center floated qrcode">
+                        <div class="visible content">二维码</div>
+                        <div class="hidden content"><i class="qrcode icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated edit">
+                        <div class="visible content">编辑</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated disabled">
+                        <div class="visible content">查看详情</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button negative basic center floated remove">
+                        <div class="visible content">删除</div>
+                        <div class="hidden content"><i class="remove user icon"></i></div>
+                    </a></td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a1233</td>
+                    <td>一号线二期正线变电所大型设备吊装及运输方案</td>
+                    <td>杂散电流</td>
+                    <td><a class="ui vertical animated button positive basic center floated qrcode">
+                        <div class="visible content">二维码</div>
+                        <div class="hidden content"><i class="qrcode icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated edit">
+                        <div class="visible content">编辑</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated disabled">
+                        <div class="visible content">查看详情</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button negative basic center floated remove">
+                        <div class="visible content">删除</div>
+                        <div class="hidden content"><i class="remove user icon"></i></div>
+                    </a></td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a1234</td>
+                    <td>一号线二期正线变电所大型设备吊装及运输方案</td>
+                    <td>杂散电流</td>
+                    <td><a class="ui vertical animated button positive basic center floated qrcode">
+                        <div class="visible content">二维码</div>
+                        <div class="hidden content"><i class="qrcode icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated edit">
+                        <div class="visible content">编辑</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated disabled">
+                        <div class="visible content">查看详情</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button negative basic center floated remove">
+                        <div class="visible content">删除</div>
+                        <div class="hidden content"><i class="remove user icon"></i></div>
+                    </a></td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a1235</td>
+                    <td>一号线二期正线变电所大型设备吊装及运输方案</td>
+                    <td>杂散电流</td>
+                    <td><a class="ui vertical animated button positive basic center floated qrcode">
+                        <div class="visible content">二维码</div>
+                        <div class="hidden content"><i class="qrcode icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated edit">
+                        <div class="visible content">编辑</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated disabled">
+                        <div class="visible content">查看详情</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button negative basic center floated remove">
+                        <div class="visible content">删除</div>
+                        <div class="hidden content"><i class="remove user icon"></i></div>
+                    </a></td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a1236</td>
+                    <td>一号线二期正线变电所大型设备吊装及运输方案</td>
+                    <td>杂散电流</td>
+                    <td><a class="ui vertical animated button positive basic center floated qrcode">
+                        <div class="visible content">二维码</div>
+                        <div class="hidden content"><i class="qrcode icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated edit">
+                        <div class="visible content">编辑</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated disabled">
+                        <div class="visible content">查看详情</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button negative basic center floated remove">
+                        <div class="visible content">删除</div>
+                        <div class="hidden content"><i class="remove user icon"></i></div>
+                    </a></td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a1237</td>
+                    <td>一号线二期正线变电所大型设备吊装及运输方案</td>
+                    <td>杂散电流</td>
+                    <td><a class="ui vertical animated button positive basic center floated qrcode">
+                        <div class="visible content">二维码</div>
+                        <div class="hidden content"><i class="qrcode icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated edit">
+                        <div class="visible content">编辑</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated disabled">
+                        <div class="visible content">查看详情</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button negative basic center floated remove">
+                        <div class="visible content">删除</div>
+                        <div class="hidden content"><i class="remove user icon"></i></div>
+                    </a></td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a1238</td>
+                    <td>一号线二期正线变电所大型设备吊装及运输方案</td>
+                    <td>杂散电流</td>
+                    <td><a class="ui vertical animated button positive basic center floated qrcode">
+                        <div class="visible content">二维码</div>
+                        <div class="hidden content"><i class="qrcode icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated edit">
+                        <div class="visible content">编辑</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated disabled">
+                        <div class="visible content">查看详情</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button negative basic center floated remove">
+                        <div class="visible content">删除</div>
+                        <div class="hidden content"><i class="remove user icon"></i></div>
+                    </a></td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a1239</td>
+                    <td>一号线二期正线变电所大型设备吊装及运输方案</td>
+                    <td>杂散电流</td>
+                    <td><a class="ui vertical animated button positive basic center floated qrcode">
+                        <div class="visible content">二维码</div>
+                        <div class="hidden content"><i class="qrcode icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated edit">
+                        <div class="visible content">编辑</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated disabled">
+                        <div class="visible content">查看详情</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button negative basic center floated remove">
+                        <div class="visible content">删除</div>
+                        <div class="hidden content"><i class="remove user icon"></i></div>
+                    </a></td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th colspan="4">
+                        <button class="ui labeled icon button positive right floated add"><i class="users icon"></i>
+                            添加文件
+                        </button>
+                        <button class="ui labeled icon button positive left floated append"><i class="users icon"></i>
+                            添加分类
+                        </button>
+                        <button class="ui labeled icon button blue left floated update"><i class="users icon"></i> 修改分类
+                        </button>
+                        <button class="ui labeled icon button negative left floated delete disabled"><i
+                                class="users icon"></i> 删除分类
+                        </button>
+                        <div class="ui pagination menu right floated"><a class="item">1</a>
+                            <div class="disabled item">...</div>
+                            <a class="item">10</a><a class="item active">11</a><a class="item">12</a></div>
+                    </th>
+                </tr>
+                </tfoot>
+            </table><!-- item 操作-->
+            <div class="ui modal edit large"><i class="close icon"></i>
+                <div class="header">编辑文件</div>
+                <div class="image content">
+                    <div class="ui form">
+                        <div class="field"><label>文件标题</label>
+                            <div class="fields">
+                                <div class="field"><input type="text" placeholder="请输入文件标题"
+                                                          value="一号线二期正线变电所大型设备吊装及运输方案">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field"><label>点击图片上传文件</label>
+                            <div class="ui move reveal my_upload">
+                                <div class="visible content"><img class="ui small image"
+                                                                  src="https://semantic-ui.qyears.com/images/wireframe/square-image.png">
+                                </div>
+                                <div class="hidden content"><img class="ui small image"
+                                                                 src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui black deny button">取消</div>
+                    <div class="ui positive right labeled icon button">提交<i class="checkmark icon"></i></div>
+                </div>
+            </div>
+            <div class="ui basic modal remove">
+                <div class="ui icon header"><i class="remove user icon"></i> 确认删除文件吗</div>
+                <div class="content"><p>该文件的所有信息会清空,重新添加用户时二维码重新生成!</p></div>
+                <div class="actions">
+                    <div class="ui red basic cancel inverted button"><i class="remove icon"></i> 否</div>
+                    <div class="ui green ok inverted button"><i class="checkmark icon"></i> 是</div>
+                </div>
+            </div>
+            <div class="ui modal qrcode large basic icon">
+                <div class="ui icon header"><img class="icon my_img"
+                                                 src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg">李徐成
+                </div>
+                <div class="image content">
+                    <div class="description">
+                        <div class="ui vertically divided grid" style="margin-left:-4rem">
+                            <div class="four column row">
+                                <div class="column"><p>工号</p></div>
+                                <div class="column"><p>A123</p></div>
+                                <div class="column"><p>头像</p></div>
+                                <div class="column"><img class="ui mini image rounded my_img"
+                                                         src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg"
+                                                         style="margin:0 0;"></div>
+                            </div>
+                            <div class="four column row">
+                                <div class="column"><p>联系方式</p></div>
+                                <div class="column"><p>123456789</p></div>
+                                <div class="column"><p>性别</p></div>
+                                <div class="column"><p>男</p></div>
+                            </div>
+                            <div class="four column row">
+                                <div class="column"><p>民族</p></div>
+                                <div class="column"><p>汉族</p></div>
+                                <div class="column"><p>血型</p></div>
+                                <div class="column"><p>o型</p></div>
+                            </div>
+                            <div class="four column row">
+                                <div class="column"><p>身份证</p></div>
+                                <div class="column"><p>6101221111111</p></div>
+                                <div class="column"><p>出生日期</p></div>
+                                <div class="column"><p>1999.99.99</p></div>
+                            </div>
+                            <div class="four column row">
+                                <div class="column"><p>职位</p></div>
+                                <div class="column"><p>部长</p></div>
+                                <div class="column"><p>部门</p></div>
+                                <div class="column"><p>技术部</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui black deny button">取消</div>
+                    <div class="ui positive right labeled icon button">下载二维码<i class="checkmark icon"></i></div>
+                </div>
+            </div><!-- global 操作-->
+            <div class="ui modal add large"><i class="close icon"></i>
+                <div class="header">新增文件</div>
+                <div class="image content">
+                    <div class="ui form">
+                        <div class="field"><label>文件标题</label>
+                            <div class="fields">
+                                <div class="field"><input type="text" placeholder="请输入文件标题"></div>
+                            </div>
+                        </div>
+                        <div class="field"><label>点击图片上传文件</label>
+                            <div class="ui move reveal my_upload">
+                                <div class="visible content"><img class="ui small image"
+                                                                  src="https://semantic-ui.qyears.com/images/wireframe/square-image.png">
+                                </div>
+                                <div class="hidden content"><img class="ui small image"
+                                                                 src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui black deny button">取消</div>
+                    <div class="ui positive right labeled icon button">提交<i class="checkmark icon"></i></div>
+                </div>
+            </div><!-- 分级操作-->
+            <div class="ui modal append large"><!--i.close.icon-->
+                <div class="header">新增分类</div>
+                <div class="image content">
+                    <div class="ui form">
+                        <div class="field"><input type="text" placeholder="请输入分类名称"></div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui black deny button">取消</div>
+                    <div class="ui positive right labeled icon button">提交<i class="checkmark icon"></i></div>
+                </div>
+            </div>
+            <div class="ui modal update large"><!--i.close.icon-->
+                <div class="header">更改分类</div>
+                <div class="image content">
+                    <div class="ui form">
+                        <div class="field"><input type="text" placeholder="设备名称" value="杂散电流"></div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui black deny button">取消</div>
+                    <div class="ui positive right labeled icon button">提交<i class="checkmark icon"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block script %}
+    <script>let selete
+    $('a.qrcode').click(function () {
+        $('.modal.qrcode').modal('show')
+    })
+    $('a.edit').click(function () {
+        $('.ui.modal.edit').modal('show')
+    })
+    $('a.remove').click(function () {
+        $('.ui.modal.remove').modal('show')
+    })
 
 
-$ ('button.append').click (function () {$ ('.ui.modal.append').modal ('show')})
-$ ('button.update').click (function () {$ ('.ui.modal.update').modal ('show')})
+    $('button.append').click(function () {
+        $('.ui.modal.append').modal('show')
+    })
+    $('button.update').click(function () {
+        $('.ui.modal.update').modal('show')
+    })
 
-$ ('button.add').click (function () {$ ('.ui.modal.add').modal ('show')})
+    $('button.add').click(function () {
+        $('.ui.modal.add').modal('show')
+    })
 
-$ ('.ui.dropdown').dropdown ({
-	allowReselection: true,
-	onChange: function (value, text) {
-		selete = {id: value, text}
-		isIndex (value)
-	}
-})
-function isIndex (x) {
-	if (parseInt (x)) {
-		$ ('button.append').hide ()
-		$ ('button.add').show ()
-		$ ('button.update').show ()
-		$ ('button.delete').show ()
-	} else {
-		$ ('button.append').show ()
-		$ ('button.add').hide ()
-		$ ('button.update').hide ()
-		$ ('button.delete').hide ()
-	}
-}
-isIndex (0)</script></body></html>
+    $('.ui.dropdown').dropdown({
+        allowReselection: true,
+        onChange: function (value, text) {
+            selete = {id: value, text}
+            isIndex(value)
+        }
+    })
+
+    function isIndex(x) {
+        if (parseInt(x)) {
+            $('button.append').hide()
+            $('button.add').show()
+            $('button.update').show()
+            $('button.delete').show()
+        } else {
+            $('button.append').show()
+            $('button.add').hide()
+            $('button.update').hide()
+            $('button.delete').hide()
+        }
+    }
+
+    isIndex(0)</script>
+{% endblock %}

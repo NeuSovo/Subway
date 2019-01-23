@@ -1,11 +1,11 @@
 from django.shortcuts import render
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
 
 
 # Create your views here.
 
 
-class DeviceFileListView(ListView):
+class DeviceFileListView(TemplateView):
     template_name = "device/device.html"
 
 

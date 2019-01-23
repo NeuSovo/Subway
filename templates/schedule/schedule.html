@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block style %}
+    <script src="{% static 'javascript/laydate/laydate.js' %}"></script>
+{% endblock %}
 {% block content %}
     <section>
-        <div class="ui segment"><h1 class="ui header aligned center">设备信息</h1>
+        <div class="ui segment"><h1 class="ui header aligned center">进度管理</h1>
             <div class="ui floating labeled icon dropdown button"><i class="filter icon"></i><span
                     class="text">全部</span>
                 <div class="menu">
@@ -25,26 +29,38 @@
                 <thead>
                 <tr class="center aligned">
                     <th>编号</th>
-                    <th>设备名称</th>
-                    <th>设备状态</th>
-                    <th>自检/验收人</th>
-                    <th>操作</th>
+                    <th>施工地点</th>
+                    <th>作业名称</th>
+                    <th>单位</th>
+                    <th>开累完成率</th>
+                    <th>设计总量</th>
+                    <th>开累完成量</th>
+                    <th>剩余总量</th>
+                    <th class="four wide">操作</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr class="center aligned">
-                    <td>a123</td>
-                    <td>设备0</td>
-                    <td>安装</td>
-                    <td>张三</td>
+                    <td>0</td>
+                    <td>车站</td>
+                    <td>设备安装</td>
+                    <td>台</td>
+                    <td>85%</td>
+                    <td>33</td>
+                    <td>6</td>
+                    <td>27</td>
                     <td><a class="ui vertical animated button positive basic center floated qrcode">
                         <div class="visible content">二维码</div>
                         <div class="hidden content"><i class="qrcode icon"></i></div>
                     </a><a class="ui vertical animated button primary basic center floated edit">
                         <div class="visible content">编辑</div>
                         <div class="hidden content"><i class="edit icon"></i></div>
-                    </a><a class="ui vertical animated button primary basic center floated disabled">
-                        <div class="visible content">详情</div>
+                    </a><a class="ui vertical animated button primary basic center floated day">
+                        <div class="visible content">日开累</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated"
+                           href="{% url 'schedule:item' %}">
+                        <div class="visible content">任务报表</div>
                         <div class="hidden content"><i class="edit icon"></i></div>
                     </a><a class="ui vertical animated button negative basic center floated remove">
                         <div class="visible content">删除</div>
@@ -52,18 +68,25 @@
                     </a></td>
                 </tr>
                 <tr class="center aligned">
-                    <td>a123</td>
-                    <td>设备1</td>
-                    <td>安装</td>
-                    <td>张三</td>
+                    <td>1</td>
+                    <td>车站</td>
+                    <td>设备安装</td>
+                    <td>台</td>
+                    <td>85%</td>
+                    <td>33</td>
+                    <td>6</td>
+                    <td>27</td>
                     <td><a class="ui vertical animated button positive basic center floated qrcode">
                         <div class="visible content">二维码</div>
                         <div class="hidden content"><i class="qrcode icon"></i></div>
                     </a><a class="ui vertical animated button primary basic center floated edit">
                         <div class="visible content">编辑</div>
                         <div class="hidden content"><i class="edit icon"></i></div>
-                    </a><a class="ui vertical animated button primary basic center floated disabled">
-                        <div class="visible content">详情</div>
+                    </a><a class="ui vertical animated button primary basic center floated day">
+                        <div class="visible content">日开累</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated" href="{% url 'schedule:item' %}">
+                        <div class="visible content">任务报表</div>
                         <div class="hidden content"><i class="edit icon"></i></div>
                     </a><a class="ui vertical animated button negative basic center floated remove">
                         <div class="visible content">删除</div>
@@ -71,18 +94,25 @@
                     </a></td>
                 </tr>
                 <tr class="center aligned">
-                    <td>a123</td>
-                    <td>设备2</td>
-                    <td>安装</td>
-                    <td>张三</td>
+                    <td>2</td>
+                    <td>车站</td>
+                    <td>设备安装</td>
+                    <td>台</td>
+                    <td>85%</td>
+                    <td>33</td>
+                    <td>6</td>
+                    <td>27</td>
                     <td><a class="ui vertical animated button positive basic center floated qrcode">
                         <div class="visible content">二维码</div>
                         <div class="hidden content"><i class="qrcode icon"></i></div>
                     </a><a class="ui vertical animated button primary basic center floated edit">
                         <div class="visible content">编辑</div>
                         <div class="hidden content"><i class="edit icon"></i></div>
-                    </a><a class="ui vertical animated button primary basic center floated disabled">
-                        <div class="visible content">详情</div>
+                    </a><a class="ui vertical animated button primary basic center floated day">
+                        <div class="visible content">日开累</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated" href="{% url 'schedule:item' %}">
+                        <div class="visible content">任务报表</div>
                         <div class="hidden content"><i class="edit icon"></i></div>
                     </a><a class="ui vertical animated button negative basic center floated remove">
                         <div class="visible content">删除</div>
@@ -90,18 +120,25 @@
                     </a></td>
                 </tr>
                 <tr class="center aligned">
-                    <td>a123</td>
-                    <td>设备3</td>
-                    <td>安装</td>
-                    <td>张三</td>
+                    <td>3</td>
+                    <td>车站</td>
+                    <td>设备安装</td>
+                    <td>台</td>
+                    <td>85%</td>
+                    <td>33</td>
+                    <td>6</td>
+                    <td>27</td>
                     <td><a class="ui vertical animated button positive basic center floated qrcode">
                         <div class="visible content">二维码</div>
                         <div class="hidden content"><i class="qrcode icon"></i></div>
                     </a><a class="ui vertical animated button primary basic center floated edit">
                         <div class="visible content">编辑</div>
                         <div class="hidden content"><i class="edit icon"></i></div>
-                    </a><a class="ui vertical animated button primary basic center floated disabled">
-                        <div class="visible content">详情</div>
+                    </a><a class="ui vertical animated button primary basic center floated day">
+                        <div class="visible content">日开累</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated" href="{% url 'schedule:item' %}">
+                        <div class="visible content">任务报表</div>
                         <div class="hidden content"><i class="edit icon"></i></div>
                     </a><a class="ui vertical animated button negative basic center floated remove">
                         <div class="visible content">删除</div>
@@ -109,18 +146,25 @@
                     </a></td>
                 </tr>
                 <tr class="center aligned">
-                    <td>a123</td>
-                    <td>设备4</td>
-                    <td>安装</td>
-                    <td>张三</td>
+                    <td>4</td>
+                    <td>车站</td>
+                    <td>设备安装</td>
+                    <td>台</td>
+                    <td>85%</td>
+                    <td>33</td>
+                    <td>6</td>
+                    <td>27</td>
                     <td><a class="ui vertical animated button positive basic center floated qrcode">
                         <div class="visible content">二维码</div>
                         <div class="hidden content"><i class="qrcode icon"></i></div>
                     </a><a class="ui vertical animated button primary basic center floated edit">
                         <div class="visible content">编辑</div>
                         <div class="hidden content"><i class="edit icon"></i></div>
-                    </a><a class="ui vertical animated button primary basic center floated disabled">
-                        <div class="visible content">详情</div>
+                    </a><a class="ui vertical animated button primary basic center floated day">
+                        <div class="visible content">日开累</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated" href="{% url 'schedule:item' %}">
+                        <div class="visible content">任务报表</div>
                         <div class="hidden content"><i class="edit icon"></i></div>
                     </a><a class="ui vertical animated button negative basic center floated remove">
                         <div class="visible content">删除</div>
@@ -128,18 +172,25 @@
                     </a></td>
                 </tr>
                 <tr class="center aligned">
-                    <td>a123</td>
-                    <td>设备5</td>
-                    <td>安装</td>
-                    <td>张三</td>
+                    <td>5</td>
+                    <td>车站</td>
+                    <td>设备安装</td>
+                    <td>台</td>
+                    <td>85%</td>
+                    <td>33</td>
+                    <td>6</td>
+                    <td>27</td>
                     <td><a class="ui vertical animated button positive basic center floated qrcode">
                         <div class="visible content">二维码</div>
                         <div class="hidden content"><i class="qrcode icon"></i></div>
                     </a><a class="ui vertical animated button primary basic center floated edit">
                         <div class="visible content">编辑</div>
                         <div class="hidden content"><i class="edit icon"></i></div>
-                    </a><a class="ui vertical animated button primary basic center floated disabled">
-                        <div class="visible content">详情</div>
+                    </a><a class="ui vertical animated button primary basic center floated day">
+                        <div class="visible content">日开累</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated" href="{% url 'schedule:item' %}">
+                        <div class="visible content">任务报表</div>
                         <div class="hidden content"><i class="edit icon"></i></div>
                     </a><a class="ui vertical animated button negative basic center floated remove">
                         <div class="visible content">删除</div>
@@ -147,18 +198,25 @@
                     </a></td>
                 </tr>
                 <tr class="center aligned">
-                    <td>a123</td>
-                    <td>设备6</td>
-                    <td>安装</td>
-                    <td>张三</td>
+                    <td>6</td>
+                    <td>车站</td>
+                    <td>设备安装</td>
+                    <td>台</td>
+                    <td>85%</td>
+                    <td>33</td>
+                    <td>6</td>
+                    <td>27</td>
                     <td><a class="ui vertical animated button positive basic center floated qrcode">
                         <div class="visible content">二维码</div>
                         <div class="hidden content"><i class="qrcode icon"></i></div>
                     </a><a class="ui vertical animated button primary basic center floated edit">
                         <div class="visible content">编辑</div>
                         <div class="hidden content"><i class="edit icon"></i></div>
-                    </a><a class="ui vertical animated button primary basic center floated disabled">
-                        <div class="visible content">详情</div>
+                    </a><a class="ui vertical animated button primary basic center floated day">
+                        <div class="visible content">日开累</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated" href="{% url 'schedule:item' %}">
+                        <div class="visible content">任务报表</div>
                         <div class="hidden content"><i class="edit icon"></i></div>
                     </a><a class="ui vertical animated button negative basic center floated remove">
                         <div class="visible content">删除</div>
@@ -166,18 +224,25 @@
                     </a></td>
                 </tr>
                 <tr class="center aligned">
-                    <td>a123</td>
-                    <td>设备7</td>
-                    <td>安装</td>
-                    <td>张三</td>
+                    <td>7</td>
+                    <td>车站</td>
+                    <td>设备安装</td>
+                    <td>台</td>
+                    <td>85%</td>
+                    <td>33</td>
+                    <td>6</td>
+                    <td>27</td>
                     <td><a class="ui vertical animated button positive basic center floated qrcode">
                         <div class="visible content">二维码</div>
                         <div class="hidden content"><i class="qrcode icon"></i></div>
                     </a><a class="ui vertical animated button primary basic center floated edit">
                         <div class="visible content">编辑</div>
                         <div class="hidden content"><i class="edit icon"></i></div>
-                    </a><a class="ui vertical animated button primary basic center floated disabled">
-                        <div class="visible content">详情</div>
+                    </a><a class="ui vertical animated button primary basic center floated day">
+                        <div class="visible content">日开累</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated" href="{% url 'schedule:item' %}">
+                        <div class="visible content">任务报表</div>
                         <div class="hidden content"><i class="edit icon"></i></div>
                     </a><a class="ui vertical animated button negative basic center floated remove">
                         <div class="visible content">删除</div>
@@ -185,18 +250,25 @@
                     </a></td>
                 </tr>
                 <tr class="center aligned">
-                    <td>a123</td>
-                    <td>设备8</td>
-                    <td>安装</td>
-                    <td>张三</td>
+                    <td>8</td>
+                    <td>车站</td>
+                    <td>设备安装</td>
+                    <td>台</td>
+                    <td>85%</td>
+                    <td>33</td>
+                    <td>6</td>
+                    <td>27</td>
                     <td><a class="ui vertical animated button positive basic center floated qrcode">
                         <div class="visible content">二维码</div>
                         <div class="hidden content"><i class="qrcode icon"></i></div>
                     </a><a class="ui vertical animated button primary basic center floated edit">
                         <div class="visible content">编辑</div>
                         <div class="hidden content"><i class="edit icon"></i></div>
-                    </a><a class="ui vertical animated button primary basic center floated disabled">
-                        <div class="visible content">详情</div>
+                    </a><a class="ui vertical animated button primary basic center floated day">
+                        <div class="visible content">日开累</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated" href="{% url 'schedule:item' %}">
+                        <div class="visible content">任务报表</div>
                         <div class="hidden content"><i class="edit icon"></i></div>
                     </a><a class="ui vertical animated button negative basic center floated remove">
                         <div class="visible content">删除</div>
@@ -204,18 +276,25 @@
                     </a></td>
                 </tr>
                 <tr class="center aligned">
-                    <td>a123</td>
-                    <td>设备9</td>
-                    <td>安装</td>
-                    <td>张三</td>
+                    <td>9</td>
+                    <td>车站</td>
+                    <td>设备安装</td>
+                    <td>台</td>
+                    <td>85%</td>
+                    <td>33</td>
+                    <td>6</td>
+                    <td>27</td>
                     <td><a class="ui vertical animated button positive basic center floated qrcode">
                         <div class="visible content">二维码</div>
                         <div class="hidden content"><i class="qrcode icon"></i></div>
                     </a><a class="ui vertical animated button primary basic center floated edit">
                         <div class="visible content">编辑</div>
                         <div class="hidden content"><i class="edit icon"></i></div>
-                    </a><a class="ui vertical animated button primary basic center floated disabled">
-                        <div class="visible content">详情</div>
+                    </a><a class="ui vertical animated button primary basic center floated day">
+                        <div class="visible content">日开累</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated" href="{% url 'schedule:item' %}">
+                        <div class="visible content">任务报表</div>
                         <div class="hidden content"><i class="edit icon"></i></div>
                     </a><a class="ui vertical animated button negative basic center floated remove">
                         <div class="visible content">删除</div>
@@ -225,10 +304,9 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                    <th colspan="5">
-                        <button class="ui labeled icon button positive right floated add_depart"><i
-                                class="users icon"></i>
-                            添加设备
+                    <th colspan="9">
+                        <button class="ui labeled icon button positive right floated add"><i class="users icon"></i>
+                            添加任务
                         </button>
                         <div class="ui pagination menu right floated"><a class="item">1</a>
                             <div class="disabled item">...</div>
@@ -238,24 +316,13 @@
                 </tfoot>
             </table><!-- item 操作-->
             <div class="ui modal edit large"><i class="close icon"></i>
-                <div class="header">编辑文件</div>
+                <div class="header">日开累</div>
                 <div class="image content">
                     <div class="ui form">
-                        <div class="field"><label>文件标题</label>
+                        <div class="field">
                             <div class="fields">
-                                <div class="field"><input type="text" placeholder="请输入文件标题"
-                                                          value="一号线二期正线变电所大型设备吊装及运输方案">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="field"><label>点击图片上传文件</label>
-                            <div class="ui move reveal my_upload">
-                                <div class="visible content"><img class="ui small image"
-                                                                  src="https://semantic-ui.qyears.com/images/wireframe/square-image.png">
-                                </div>
-                                <div class="hidden content"><img class="ui small image"
-                                                                 src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg">
-                                </div>
+                                <div class="field"><label>开累量</label><input type="text" placeholder="" value=""></div>
+                                <div class="field"><label>开累日期</label><input id="layDay" type="text"></div>
                             </div>
                         </div>
                     </div>
@@ -320,23 +387,17 @@
                     <div class="ui positive right labeled icon button">下载二维码<i class="checkmark icon"></i></div>
                 </div>
             </div><!-- global 操作-->
-            <div class="ui modal add large"><i class="close icon"></i>
-                <div class="header">新增文件</div>
+            <div class="ui modal add large">
+                <div class="header">新增任务</div>
                 <div class="image content">
                     <div class="ui form">
-                        <div class="field"><label>文件标题</label>
+                        <div class="field">
                             <div class="fields">
-                                <div class="field"><input type="text" placeholder="请输入文件标题"></div>
-                            </div>
-                        </div>
-                        <div class="field"><label>点击图片上传文件</label>
-                            <div class="ui move reveal my_upload">
-                                <div class="visible content"><img class="ui small image"
-                                                                  src="https://semantic-ui.qyears.com/images/wireframe/square-image.png">
-                                </div>
-                                <div class="hidden content"><img class="ui small image"
-                                                                 src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg">
-                                </div>
+                                <div class="field"><label>施工地点</label><input type="text"></div>
+                                <div class="field"><label>作业名称</label><input type="text"></div>
+                                <div class="field"><label>单位</label><input type="text"></div>
+                                <div class="field"><label>设计总量</label><input type="text"></div>
+                                <div class="field"><label>完成计划</label><input id="layDate" type="text"></div>
                             </div>
                         </div>
                     </div>
@@ -350,17 +411,41 @@
     </section>
 {% endblock %}
 {% block script %}
-    <script>$('.add_depart').click(function () {
-        $('.ui.modal.member').modal('show')
+    <script>$('a.qrcode').click(function () {
+        $('.modal.qrcode').modal('show')
     })
-    $('.my_edit_member').click(function () {
-        $('.ui.modal.edit').modal('show')
+    $('a.edit').click(function () {
+        $('.ui.modal.add').modal('show')
     })
-    $('.my_qrcode').click(function () {
-        $('.ui.modal.qrcode').modal('show')
-    })
-    $('.my_remove').click(function () {
+    $('a.remove').click(function () {
         $('.ui.modal.remove').modal('show')
     })
-    $('.ui.dropdown').dropdown()</script>
+    $('a.day').click(function () {
+        $('.ui.modal.edit').modal('show')
+    })
+
+
+    $('button.add').click(function () {
+        $('.ui.modal.add').modal('show')
+    })
+
+    laydate.render({
+        elem: '#layDate', //指定元素
+        range: true,
+        done: function (value, date, endDate) {
+            console.log(value); //得到日期生成的值，如：2017-08-18
+            console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+            console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+        }
+    });
+    laydate.render({
+        elem: '#layDay', //指定元素
+        value: new Date(),
+        done: function (value, date, endDate) {
+            console.log(value); //得到日期生成的值，如：2017-08-18
+            console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+            console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+        }
+    });
+    </script>
 {% endblock %}
