@@ -162,6 +162,8 @@ class DeptCreateView(PassRequestMixin, SuccessMessageMixin, CreateView):
     success_url = reverse_lazy('member:dept_list')
 
 
+
+
 class DeptUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
     model = Departments
     template_name = "dept/dept_update_form.html"

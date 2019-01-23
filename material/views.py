@@ -8,7 +8,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 import django_excel as excel
 
 from .models import *
-from .forms import  MaterialForm
+from .forms import MaterialForm
 
 
 class MaterialAddView(PassRequestMixin, SuccessMessageMixin, CreateView):
@@ -19,12 +19,15 @@ class MaterialAddView(PassRequestMixin, SuccessMessageMixin, CreateView):
     success_message = '%(name)s 添加成功'
 
 
+
+
 class MaterialUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
     model = Material
     form_class = MaterialForm
     template_name = 'material/material_update_form.html'
     success_url = reverse_lazy('material:list')
     success_message = '%(name)s 更新成功'
+
 
 
 class MaterialDeleteView(DeleteAjaxMixin, DeleteView):
@@ -53,7 +56,7 @@ class MaterialStockRecordView(ListView):
         if self.pk:
             queryset = queryset.filter(material_id=self.pk)
         return queryset
-    
+
     def get_context_data(self, **kwargs):
         context = super(MaterialStockRecordView, self).get_context_data(**kwargs)
         context['material_list'] = Material.objects.all()
@@ -62,7 +65,8 @@ class MaterialStockRecordView(ListView):
         else:
             context['select_material'] = '全部'
         return context
-    
+
+
 def material_in_out_stock(request, **kwargs):
     material = get_object_or_404(Material, pk=kwargs.get('pk'))
     in_or_out = int(request.POST.get('type_id'))  # 0 in 1 out

@@ -8,7 +8,7 @@ from .forms import SafetyFileForm
 
 class SafetyFileListView(ListView):
     model = SafetyFile
-    template_name = "TEMPLATE_NAME"
+    template_name = "safe/safe.html"
 
     def get_queryset(self):
         queryset = super(SafetyFileListView, self).get_queryset()
