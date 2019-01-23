@@ -162,8 +162,6 @@ class DeptCreateView(PassRequestMixin, SuccessMessageMixin, CreateView):
     success_url = reverse_lazy('member:dept_list')
 
 
-
-
 class DeptUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
     model = Departments
     template_name = "dept/dept_update_form.html"
@@ -179,11 +177,15 @@ class DeptDeleteView(DeleteAjaxMixin, DeleteView):
     success_url = reverse_lazy("member:dept_list")
 
 
-class MemberAddView(CreateView):
+class MemberAddView(PassRequestMixin, SuccessMessageMixin, CreateView):
     model = Member
     template_name = "member/member_add_update_form.html"
     form_class = MemberForm
+    success_message = '添加成功'
     success_url = reverse_lazy('member:member_list')
+
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
 
 class MemberDeleteView(DeleteAjaxMixin, DeleteView):
@@ -253,7 +255,7 @@ class MemberListDetailView(MemberListView):
 
 class MemberUpdateView(UpdateView):
     model = Member
-    template_name = "member/member_add_update_form.html"
+    template_name = "member/member_add_update_form2.html"
     form_class = MemberForm
     success_message = '%s 更新成功'
     success_url = reverse_lazy('member:member_list')

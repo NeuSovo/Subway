@@ -88,7 +88,7 @@
                 <tr>
                     <th colspan="6">
                         {% if member_add or user.is_superuser %}
-                            <button class="ui labeled icon button positive right floated add_depart"><i
+                            <button class="ui labeled icon button positive right floated add_member" data-id="{% url 'member:member_add' %}"><i
                                     class="users icon"></i>
                                 添加员工
                             </button>
@@ -98,141 +98,6 @@
                 </tr>
                 </tfoot>
             </table>
-            <div class="ui modal edit large">
-                <!--i.close.icon-->
-                <div class="header">编辑员工信息</div>
-                <div class="image content">
-                    <div class="ui form">
-                        <div class="field"><label>基本属性</label>
-                            <div class="fields">
-                                <div class="field"><input type="text" placeholder="姓名" value="李旭成"></div>
-                                <div class="field"><input type="text" placeholder="民族"></div>
-                                <div class="field"><input type="text" placeholder="性别"></div>
-                                <div class="field"><input type="number" placeholder="血型"></div>
-                                <div class="field"><input type="text" placeholder="出生日期"></div>
-                            </div>
-                        </div>
-                        <div class="field"><label>部门属性</label>
-                            <div class="fields">
-                                <div class="field"><input type="text" placeholder="工号"></div>
-                                <div class="field"><input type="text" placeholder="部门"></div>
-                                <div class="field"><input type="number" placeholder="职位"></div>
-                                <div class="field"><input type="number" placeholder="身份证"></div>
-                                <div class="field"><input type="number" placeholder="联系方式"></div>
-                            </div>
-                        </div>
-                        <div class="field"><label>点击图片上传图像</label>
-                            <div class="ui move reveal my_upload">
-                                <div class="visible content"><img class="ui small image"
-                                                                  src="https://semantic-ui.qyears.com/images/wireframe/square-image.png">
-                                </div>
-                                <div class="hidden content"><img class="ui small image"
-                                                                 src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="actions">
-                    <div class="ui black deny button">取消</div>
-                    <div class="ui positive right labeled icon button">提交<i class="checkmark icon"></i></div>
-                </div>
-            </div>
-            <div class="ui basic modal remove">
-                <div class="ui icon header"><i class="remove user icon"></i> 确认删除用户吗?</div>
-                <div class="content">
-                    <p>该用户的所有信息会清空,重新添加用户时二维码重新生成!</p>
-                </div>
-                <div class="actions">
-                    <div class="ui red basic cancel inverted button"><i class="remove icon"></i> 否</div>
-                    <div class="ui green ok inverted button"><i class="checkmark icon"></i> 是</div>
-                </div>
-            </div>
-            <div class="ui modal qrcode large basic icon">
-                <div class="ui icon header"><img class="icon my_img"
-                                                 src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg">李徐成
-                </div>
-                <div class="image content">
-                    <div class="description">
-                        <div class="ui vertically divided grid" style="margin-left:-4rem">
-                            <div class="four column row">
-                                <div class="column">
-                                    <p>工号</p>
-                                </div>
-                                <div class="column">
-                                    <p>A123</p>
-                                </div>
-                                <div class="column">
-                                    <p>头像</p>
-                                </div>
-                                <div class="column"><img class="ui mini image rounded my_img"
-                                                         src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg"
-                                                         style="margin:0 0;"></div>
-                            </div>
-                            <div class="four column row">
-                                <div class="column">
-                                    <p>联系方式</p>
-                                </div>
-                                <div class="column">
-                                    <p>123456789</p>
-                                </div>
-                                <div class="column">
-                                    <p>性别</p>
-                                </div>
-                                <div class="column">
-                                    <p>男</p>
-                                </div>
-                            </div>
-                            <div class="four column row">
-                                <div class="column">
-                                    <p>民族</p>
-                                </div>
-                                <div class="column">
-                                    <p>汉族</p>
-                                </div>
-                                <div class="column">
-                                    <p>血型</p>
-                                </div>
-                                <div class="column">
-                                    <p>o型</p>
-                                </div>
-                            </div>
-                            <div class="four column row">
-                                <div class="column">
-                                    <p>身份证</p>
-                                </div>
-                                <div class="column">
-                                    <p>6101221111111</p>
-                                </div>
-                                <div class="column">
-                                    <p>出生日期</p>
-                                </div>
-                                <div class="column">
-                                    <p>1999.99.99</p>
-                                </div>
-                            </div>
-                            <div class="four column row">
-                                <div class="column">
-                                    <p>职位</p>
-                                </div>
-                                <div class="column">
-                                    <p>部长</p>
-                                </div>
-                                <div class="column">
-                                    <p>部门</p>
-                                </div>
-                                <div class="column">
-                                    <p>技术部</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="actions">
-                    <div class="ui black deny button">取消</div>
-                    <div class="ui positive right labeled icon button">下载二维码<i class="checkmark icon"></i></div>
-                </div>
-            </div>
         </div>
     </section>
 {% endblock content %}
@@ -240,8 +105,8 @@
 
 {% block script %}
     <script>
-        $('.add_depart').click(function () {
-            var w = window.open("{% url  'member:member_add' %}", "", "width=800,height=500")
+        $('.add_member').click(function () {
+            $(this).modalForm({formURL: $(this).data('id')})
         })
         $('.update_member').click(function () {
             var w = window.open($(this).data('id'), "", "width=800,height=500")
