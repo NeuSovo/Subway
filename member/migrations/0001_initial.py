@@ -61,11 +61,11 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('member_id', models.CharField(max_length=11, unique=True, verbose_name='员工工号')),
-                ('member_avatar', models.ImageField(default='none', upload_to='avatar', verbose_name='头像')),
+                ('member_avatar', models.ImageField(blank=True, default='none', null=True, upload_to='avatar', verbose_name='头像')),
                 ('name', models.CharField(max_length=50, null=True, verbose_name='姓名')),
                 ('nation', models.CharField(default='汉', max_length=10, verbose_name='民族')),
                 ('blood_type', models.CharField(default='未知', max_length=10, verbose_name='血型')),
-                ('sex', models.CharField(default=' ', max_length=5, verbose_name='性别')),
+                ('sex', models.CharField(choices=[('男', '男'), ('女', '女')], default=' ', max_length=5, verbose_name='性别')),
                 ('birthday', models.CharField(default=' ', max_length=50, verbose_name='出生年月')),
                 ('position', models.CharField(default=' ', max_length=50, verbose_name='职位')),
                 ('phone', models.CharField(default=' ', max_length=11, verbose_name='联系方式')),
@@ -102,7 +102,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='account',
             name='user_dept',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='member.Departments'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='member.Departments', verbose_name='部门'),
         ),
         migrations.AddField(
             model_name='account',

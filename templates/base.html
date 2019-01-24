@@ -12,54 +12,51 @@
     <script src="{% static 'javascript/jquery-3.2.1.min.js' %}"></script>
     <script src="{% static 'javascript/semantic.min.js' %}"></script>
     <script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
-
     <title>Document</title>
     {% block style %}
     {% endblock style %}
 </head>
 
 <body>
-    <header>
-        <div class="ui menu massive">
-            <div class="left menu"><a class="active item" id="main">
-                    <i class="list layout icon"></i>功能</a>
-                <div class="item">
-                    <p>IQ工程管理平台</p>
-                </div>
-            </div>
-            <div class="right menu">
-                <div class="ui dropdown item">Language<i class="dropdown icon"></i>
-                    <div class="menu"><a class="item">英语</a><a class="item">俄语</a><a class="item">西班牙语</a></div>
-                </div>
-                <div class="item">
-                    <p>欢迎您,{{ user.username }}</p>
-                </div>
-                <div class="item"><a class="ui negative button" href="{% url 'member:logout' %}">注销</a></div>
+<header>
+    <div class="ui menu massive">
+        <div class="left menu"><a class="active item" id="main">
+            <i class="list layout icon"></i>功能</a>
+            <div class="item">
+                <p>IQ工程管理平台</p>
             </div>
         </div>
-        <div class="ui sidebar inverted vertical menu">
-            <!--a.item 1-->
-            <!--a.item 2-->
-            <!--a.item 3-->
-            <div class="ui inverted accordion">
+        <div class="right menu">
+            <div class="item">
+                <p>欢迎您,{{ user.username }}</p>
+            </div>
+            <div class="item"><a class="ui negative button" href="{% url 'member:logout' %}">注销</a></div>
+        </div>
+    </div>
+    <div class="ui sidebar inverted vertical menu">
+        <!--a.item 1-->
+        <!--a.item 2-->
+        <!--a.item 3-->
+        <div class="ui inverted accordion">
 
-                {% if user.is_superuser %}
+            {% if user.is_superuser %}
 
 
                 <div class="item">
                     <div class="title"><i class="dropdown icon"></i> 部门管理</div>
                     <div class="content">
-                        <div class="ui secondary vertical pointing menu"><a class="item" href="{% url 'member:dept_list' %}">添加部门</a><a
-                                class="item" href="{% url 'member:dept_assign_account_list' %}">分配账号</a></div>
+                        <div class="ui secondary vertical pointing menu"><a class="item"
+                                                                            href="{% url 'member:dept_list' %}">部分管理</a><a
+                                class="item" href="{% url 'member:dept_assign_account_list' %}">账号列表</a></div>
                     </div>
                 </div>
-                {% endif %}
-                <div class="item">
-                    <div class="title"><i class="dropdown icon"></i> 人员管理</div>
-                    <div class="content">
-                        <div class="ui secondary vertical pointing menu"><a class="item" href="{% url 'member:member_list' %}">员工信息</a><a
-                                class="item" href="{% url 'member:member_list_detail' %}">详细信息</a>
-                        </div>
+            {% endif %}
+            <div class="item">
+                <div class="title"><i class="dropdown icon"></i> 人员管理</div>
+                <div class="content">
+                    <div class="ui secondary vertical pointing menu"><a class="item"
+                                                                        href="{% url 'member:member_list' %}">员工信息</a><a
+                            class="item" href="{% url 'member:member_list_detail' %}">详细信息</a>
                     </div>
                 </div>
             </div>
@@ -71,41 +68,78 @@
                     </div>
                 </div>
             </div>
-           <div class="item">
-				<div class="title active"><i class="dropdown icon"></i> 技术管理</div>
-				<div class="content">
-					<div class="ui secondary vertical pointing menu"><a class="item" href="{% url 'technology:list' %}">技术信息</a></div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="title active"><i class="dropdown icon"></i> 设备管理</div>
-				<div class="content">
-					<div class="ui secondary vertical pointing menu"><a class="item" href="device.html">设备信息</a></div>
-					<div class="ui secondary vertical pointing menu"><a class="item" href="device_detail.html">设备详情</a></div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="title active"><i class="dropdown icon"></i> 安全管理</div>
-				<div class="content">
-					<div class="ui secondary vertical pointing menu"><a class="item" href="safe.html">安全信息</a></div>
-				</div>
-			</div>
             <div class="item">
-                <div class="title active"><i class="dropdown icon"></i> 验收管理</div>
+                <div class="title active"><i class="dropdown icon"></i> 技术管理</div>
+                <div class="content">
+                    <div class="ui secondary vertical pointing menu"><a class="item" href="{% url 'technology:list' %}">技术信息</a>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="title active"><i class="dropdown icon"></i> 设备管理</div>
+                <div class="content">
+                    <div class="ui secondary vertical pointing menu"><a class="item"
+                                                                        href="{% url 'device:list' %}">设备信息</a></div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="title active"><i class="dropdown icon"></i> 安全管理</div>
+                <div class="content">
+                    <div class="ui secondary vertical pointing menu"><a class="item"
+                                                                        href="{% url 'safety:list' %}">安全信息</a></div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="title active"><i class="dropdown icon"></i> 进度管理</div>
+                <div class="content">
+                    <div class="ui secondary vertical pointing menu">
+                        <a class="item" href="{% url 'schedule:list' %}">进度信息</a>
+                        <a class="item" href="{% url 'schedule:detail' %}">进度详情</a>
+                        <a class="item" href="{% url 'schedule:chart' %}">进度报表</a></div>
+                </div>
             </div>
         </div>
-    </header>
-    {% block content %}
-    {% endblock content %}
-    {% block footer %}
-    {% endblock footer %}
-    <script>$('#main').click(function () {
-            $('.sidebar').sidebar('toggle')
-        })
-        $('.ui.accordion').accordion()
-        $('.ui.dropdown').dropdown()</script>
-    {% block script %}
-    {% endblock script %}
+    </div>
+</header>
+<div class="message">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="ui {{ message.tags }}  message">
+                <i class="close icon"></i>
+                <div class="header">{{ message }}</div>
+                <p>5秒后关闭</p>
+            </div>
+            <script>
+                let i = 5;
+                let a = setInterval(() => {
+                    if (i == 1) {
+                        $('.message .close').closest('.message').transition('fade')
+                        clearInterval(a)
+                    } else {
+                        i--
+                        $('.message p').html(i + '秒后关闭')
+                    }
+                }, 1000)
+            </script>
+        {% endfor %}
+    {% endif %}
+</div>
+{% block content %}
+{% endblock content %}
+{% block footer %}
+{% endblock footer %}
+<script>
+    $('#main').click(function () {
+        $('.sidebar').sidebar('toggle')
+    })
+    $('.ui.accordion').accordion()
+    $('.ui.dropdown').dropdown()
+    $('.message .close').on('click', function () {
+        $(this).closest('.message').transition('fade')
+    })
+</script>
+{% block script %}
+{% endblock script %}
 </body>
 
 

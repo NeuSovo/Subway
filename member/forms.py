@@ -118,7 +118,7 @@ class AccountUpdateForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm)
         fields = ['username', 'enp', 'last_name', 'position', 'roles']
 
 
-class MemberForm(forms.ModelForm):
+class MemberForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
     class Meta:
         model = Member
         fields = '__all__'

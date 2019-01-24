@@ -19,15 +19,12 @@ class MaterialAddView(PassRequestMixin, SuccessMessageMixin, CreateView):
     success_message = '%(name)s 添加成功'
 
 
-
-
 class MaterialUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
     model = Material
     form_class = MaterialForm
     template_name = 'material/material_update_form.html'
     success_url = reverse_lazy('material:list')
     success_message = '%(name)s 更新成功'
-
 
 
 class MaterialDeleteView(DeleteAjaxMixin, DeleteView):
@@ -128,4 +125,3 @@ def export_material_data(request):
         file_name=file_name,
         colnames=colnames
     )
-

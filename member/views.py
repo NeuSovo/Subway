@@ -180,13 +180,10 @@ class DeptDeleteView(DeleteAjaxMixin, DeleteView):
 
 class MemberAddView(PassRequestMixin, SuccessMessageMixin, CreateView):
     model = Member
-    template_name = "member/member_add_update_form.html"
     form_class = MemberForm
+    template_name = "member/member_add_update_form.html"
     success_message = '添加成功'
     success_url = reverse_lazy('member:member_list')
-
-    def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)
 
 
 class MemberDeleteView(DeleteAjaxMixin, DeleteView):
