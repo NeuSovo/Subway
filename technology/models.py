@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
 
 class TechnologyFile(models.Model):
 
@@ -28,3 +26,4 @@ class TechnologyFile(models.Model):
     file_s = models.FileField(
         verbose_name='文件', upload_to='technology_file', max_length=100)
     upload_date = models.DateTimeField(auto_now_add=True)
+

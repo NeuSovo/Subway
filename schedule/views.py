@@ -35,3 +35,4 @@ class ScheduleFileDeleteView(DeleteView):
 
 class ScheduleFileDetailView(DetailView):
     template_name = "TEMPLATE_NAME"
+

@@ -43,8 +43,8 @@ class MaterialStock(models.Model):
         (1, 'out')
     )
 
-    material = models.ForeignKey(Material, related_name='record', on_delete=models.CASCADE)
-    count = models.IntegerField(default=0, verbose_name='数量')
+    material = models.ForeignKey(Material, related_name='material', on_delete=models.CASCADE)
+    num = models.IntegerField(default=0, verbose_name='数量')
     operation_date = models.DateTimeField(auto_now_add=True, verbose_name='操作日期')
     operation_type = models.IntegerField(default=0, choices=operation_choices, verbose_name='操作类型')
     create_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
