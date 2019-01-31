@@ -1,6 +1,7 @@
 from django.db import models
 from core.utils import validate_file_extension
 
+
 class TechnologyFile(models.Model):
 
     profess_choiced = (
