@@ -1,4 +1,5 @@
 from django.db import models
+from core.utils import validate_file_extension
 
 
 class SafetyFile(models.Model):
@@ -16,5 +17,5 @@ class SafetyFile(models.Model):
     file_type = models.IntegerField(
         verbose_name='文件类型', choices=file_type_choiced, default=0)
     file_s = models.FileField(
-        verbose_name='文件', upload_to='Safety_file', max_length=100)
+        verbose_name='文件', upload_to='safety/%Y/%m/%d/', null=True, blank=True, validators=[validate_file_extension])
     upload_date = models.DateTimeField(auto_now_add=True)

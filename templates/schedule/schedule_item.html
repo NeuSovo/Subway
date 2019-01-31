@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+    <script src={% static 'javascript/g2/g2.min.js' %}></script>
+    <script src={% static 'javascript/g2/data-set.min.js' %}></script>
+{% endblock %}
+{% block content %}
+    <section>
+        <div class="ui segment"><h1 class="ui header aligned center">三月内日开累统计</h1>
+            <div id="mountNode"></div>
+        </div>
+    </section>
+{% endblock %}
+{% block script %}
+    <script>var data = [];
+    var n = 31;
+    for (var i = 0; i < 90; i++) {
+        var now = Date();
+        data[i] = {};
+        data[i].time = new Date(now).getTime() + i * 1000 * 3600 * 24;
+        var random = Math.floor(Math.random() * 10);
+        data[i].value = random
+    }
+    var chart = new G2.Chart({
+        container: 'mountNode',
+        forceFit: true,
+        height: window.innerHeight - 200,
+        padding: [100, 60, 30, 0]
+    });
+    chart.source(data, {
+        time: {
+            type: 'timeCat',
+            mask: 'YYYY.MM.DD'
+        },
+        value: {
+            min: 0,
+            alias: '日开累'
+        }
+    });
+    chart.coord('helix', {
+        startAngle: 0.5 * Math.PI,
+        endAngle: 5.5 * Math.PI
+    });
+    chart.axis('time', {
+        line: null
+    });
+    chart.interval().position('time*value').color('value', '#4cadff-#ff4f71').size(1);
+    chart.render();
+    </script>
+{% endblock %}

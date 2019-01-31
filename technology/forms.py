@@ -1,7 +1,11 @@
 from django import forms
 from .models import TechnologyFile
+from bootstrap_modal_forms.mixins import PopRequestMixin, CreateUpdateAjaxMixin
 
-class TechnologyFileForm(forms.ModelForm):
+
+class TechnologyFileForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
+
+
     """Form definition for TechnologyFile."""
 
     class Meta:

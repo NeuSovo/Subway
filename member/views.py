@@ -64,7 +64,8 @@ class AssignAccountView(PassRequestMixin, SuccessMessageMixin, CreateView):
 
     def form_valid(self, form):
         self.object = form.save()
-        self.object.enp = form.cleaned_data.get('password1')
+        self.object.enp = en_password(form.cleaned_data.get('password1'))
+        print(self.object.enp, form.cleaned_data.get('password1'))
         self.object.user_dept = self.dept
         self.object.roles.add(*list(form.cleaned_data.get('roles')))
         return super(AssignAccountView, self).form_valid(form)
@@ -85,8 +86,8 @@ class AssignAccountUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView)
 
     def form_valid(self, form):
         self.object = form.save()
-        self.object.enp = form.cleaned_data.get('enp')
-        self.object.set_password(self.object.enp)
+        self.object.enp = en_password(form.cleaned_data.get('enp'))
+        self.object.set_password(form.cleaned_data.get('enp'))
         self.object.roles.clear()
         self.object.roles.add(*list(form.cleaned_data.get('roles')))
         return super(AssignAccountUpdateView, self).form_valid(form)
@@ -177,10 +178,11 @@ class DeptDeleteView(DeleteAjaxMixin, DeleteView):
     success_url = reverse_lazy("member:dept_list")
 
 
-class MemberAddView(CreateView):
+class MemberAddView(PassRequestMixin, SuccessMessageMixin, CreateView):
     model = Member
-    template_name = "member/member_add_update_form.html"
     form_class = MemberForm
+    template_name = "member/member_add_update_form.html"
+    success_message = '添加成功'
     success_url = reverse_lazy('member:member_list')
 
 
@@ -251,7 +253,7 @@ class MemberListDetailView(MemberListView):
 
 class MemberUpdateView(UpdateView):
     model = Member
-    template_name = "member/member_add_update_form.html"
+    template_name = "member/member_add_update_form2.html"
     form_class = MemberForm
     success_message = '%s 更新成功'
     success_url = reverse_lazy('member:member_list')
@@ -355,5 +357,5 @@ def depass_view(request):
     try:	
         depass = de_password(salt)	
         return JsonResponse({'msg': 'ok', 'pass': depass})	
-    except Exception as e:	
+    except Exception as e:
         return JsonResponse({'msg': str(e)})

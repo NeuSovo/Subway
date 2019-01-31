@@ -14,27 +14,6 @@ class Material(models.Model):
     def __str__(self):
         return self.name
 
-    def in_stock(self, user, num):
-        try:
-            with transaction.atomic():
-                self.objects.material_set.create(num=num, create_user=user, operation_type=0)
-                self.num += num
-                self.save()
-                return True
-        except:
-            return False
-
-    def out_stock(self, user, num):
-        try:
-            with transaction.atomic():
-                self.objects.material_set.create(num=num, create_user=user, operation_type=1)
-                self.num -= num
-                self.save()
-                return True
-        except Exception as e:
-            print(e)
-            return False
-
 
 class MaterialStock(models.Model):
 
