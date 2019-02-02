@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+    {% include "_modal.html" %}
+    <section>
+        <div class="ui segment">
+            <h1 class="ui header aligned center">部门管理</h1>
+            <table class="ui table celled line single fixed" id="table">
+                <thead>
+                <tr class="center aligned">
+                    <th>部门id</th>
+                    <th>部门名称</th>
+                    <th>负责人</th>
+                    <th>职务</th>
+                    <th>联系电话</th>
+                    <th class="four wide">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for dept in object_list %}
+                    <tr class="center aligned">
+                        <td>{{ dept.id }} </td>
+                        <td>{{ dept.dept_name }}</td>
+                        <td>{{ dept.dept_boss }}</td>
+                        <td>{{ dept.dept_position }}</td>
+                        <td>{{ dept.boos_phone }}</td>
+                        <td>
+                            <div class="ui vertical animated button primary basic left floated edit_depart">
+                                <div class="hidden content update_dept"
+                                     data-id="{% url 'member:dept_update' dept.id %}">编辑
+                                </div>
+                                <div class="visible content"><i class="edit icon"></i></div>
+                            </div>
+                            <div class="ui vertical animated button negative basic center floated remove_depart">
+                                <div class="hidden content delete_dept"
+                                     data-id="{% url 'member:dept_delete' dept.id %}">删除
+                                </div>
+                                <div class="visible content"><i class="remove user icon"></i></div>
+                            </div>
+                            <div class="ui vertical animated button positive basic right floated add_account"
+                                 data-id="{% url 'member:dept_assign_account' dept.id %}">
+                                <div class="hidden content">分配</div>
+                                <div class="visible content"><i class="add user icon"></i></div>
+                            </div>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <div class="ui icon orange message"><i class="hide icon"></i>
+                        <div class="content">
+                            <div class="header">目前没有一条数据</div>
+                            <p>请试着添加一条数据后再试。</p>
+                        </div>
+                    </div>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th colspan="6">
+                        <button class="create_dept ui labeled icon button positive right floated add_depart"><i
+                                class="users icon"></i>
+                            添加部门
+                        </button>
+                        {% include '_page.html' %}
+                    </th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </section>
+{% endblock content %}
+{% block script %}
+    <script>
+        $('.add_account').each(function () {
+            $(this).modalForm({formURL: $(this).data('id')})
+        })
+        $(".create_dept").modalForm({formURL: "{% url 'member:dept_create' %}"});
+        $(".update_dept").each(function () {
+            $(this).modalForm({formURL: $(this).data('id')})
+        })
+        $(".delete_dept").each(function () {
+            $(this).modalForm({formURL: $(this).data('id')})
+        })
+    </script>
+{% endblock script %}

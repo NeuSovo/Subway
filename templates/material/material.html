@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% block content %}
+{% include "_modal.html" %}
+<section>
+    <div class="ui segment">
+        <h1 class="ui header aligned center">物料信息</h1>
+        <a href="{% url 'material:stock_record' %}">
+            <button class="ui right labeled icon button primary"><i class="right info icon"></i> 操作记录</button>
+        </a>
+        <div class="ui animated fade right floated button">
+            <div class="hidden content"><i class="upload icon"></i></div>
+            <div class="visible content">导出全部二维码</div>
+        </div>
+        <div class="ui buttons right floated">
+            <form action="{% url 'material:import' %}" id="import_form" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="ui labeled icon button right floated my_import" id="import"><i class="upload icon"></i>
+                    导入
+                </div>
+            </form>
+            <div class="or"></div>
+            <a class="ui right labeled icon button my_export" href="{% url 'material:export' %}"><i class="download icon"></i>
+                导出</a>
+        </div>
+        <table class="ui table celled line single fixed" id="table">
+            <thead>
+                <tr class="center aligned">
+                    <th>编号</th>
+                    <th>物资名称</th>
+                    <th>型号</th>
+                    <th>数量</th>
+                    <th>单位</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for material in object_list %}
+                <tr class="center aligned">
+                    <td>{{ material.id }}</td>
+                    <td>{{ material.name }}</td>
+                    <td>{{ material.type_id }}</td>
+                    <td>{{ material.num }}</td>
+                    <td>{{ material.unit }}</td>
+                    <td><a class="ui vertical animated button positive basic center floated my_qrcode">
+                            <div class="visible content">二维码</div>
+                            <div class="hidden content"><i class="qrcode icon"></i></div>
+                        </a><a class="ui vertical animated button primary basic center floated my_edit_member">
+                            <div class="visible content">编辑
+                            </div>
+                            <div class="hidden content update_material" data-id="{% url 'material:update' material.id %}"><i
+                                    class="edit icon"></i></div>
+                        </a><a class="ui vertical animated button primary basic center floated my_edit_member">
+                            <div class="visible content">出/入库</div>
+                            <div class="hidden content inout_stock" data-id="{% url 'material:in_out_stock' material.id %}"><i
+                                    class="edit icon"></i></div>
+                        </a><a class="ui vertical animated button negative basic center floated my_remove">
+                            <div class="visible content ">删除
+                            </div>
+                            <div class="hidden content delete_material" data-id="{% url 'material:delete' material.id %}"><i
+                                    class="remove user icon"></i>
+                            </div>
+                        </a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="6">
+                        <button class="ui labeled icon button positive right floated add_material"><i class="users icon"></i>
+                            添加物料
+                        </button>
+                        {% include '_page.html' %}
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="ui modal inout_stock">
+            <i class="close icon"></i>
+            <div class="header">
+                出/入库
+            </div>
+            <form action="" method="post" id="inout_stock_form">
+                {% csrf_token %}
+                <div class="image content">
+                    <div class="ui form">
+                        <div class="field">
+                            <label>变动数量</label>
+                            <input type="number" name="count" placeholder="数量">
+                        </div>
+                        <div class="field">
+                            <label>操作类型</label>
+                            <div class="menu">
+                                <input type="radio" value=0 name='type_id'>入库
+                                <input type="radio" value=1 name='type_id'>出库
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>操作人</label>
+                            <p>{{ user }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui black deny button">取消</div>
+                    <button type="button" class="ui btn positive right labeled icon button" onclick="inout_stock()">提交<i
+                            class="checkmark icon"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+{% block script %}
+<script>
+    $('.add_material').each(function () {
+        $(this).modalForm({ formURL: "{% url 'material:add' %}" })
+    })
+    $(".update_material").each(function () {
+        $(this).modalForm({ formURL: $(this).data('id') })
+    })
+    $(".delete_material").each(function () {
+        $(this).modalForm({ formURL: $(this).data('id') })
+    })
+
+    $(".hidden.content.inout_stock").click(function () {
+        console.log($(this).data('id'))
+        $("#inout_stock_form").attr("action", $(this).data('id'))
+        $(".ui.modal.inout_stock").modal('show')
+    })
+
+    $('#import').after('<input type="file" id="load_xls" name="docfile" style="display:none" onchange ="uploadFile()" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">');
+    $('#import').click(function () {
+        document.getElementById("load_xls").click();
+    })
+
+    function inout_stock() {
+        var inout_stock_form = $("#inout_stock_form")[0]
+
+        $.ajax({
+            url: inout_stock_form.action,
+            type: 'POST',
+            data: new FormData(inout_stock_form),
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                console.log(data)
+                location.reload()
+            }
+        })
+    }
+
+    function uploadFile() {
+        let import_form = $("#import_form")[0];
+        let myform = new FormData(import_form);
+        myform.append('file', $('#load_xls')[0].files[0]);
+        $.ajax({
+            url: import_form.action,
+            type: "POST",
+            data: myform,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                console.log(data)
+                location.reload();
+
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        })
+    }
+</script>
+{% endblock script %}
