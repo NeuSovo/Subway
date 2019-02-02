@@ -1,0 +1,366 @@
+{% extends 'base.html' %}
+{% block content %}
+    <section>
+        <div class="ui segment"><h1 class="ui header aligned center">设备信息</h1>
+            <div class="ui floating labeled icon dropdown button"><i class="filter icon"></i><span
+                    class="text">全部</span>
+                <div class="menu">
+                    <div class="header"><i class="tags icon"></i>选取部门</div>
+                    <div class="divider"></div>
+                    <div class="item">全部部门</div>
+                    <div class="item">项目部</div>
+                    <div class="item">电力变电</div>
+                </div>
+            </div>
+            <div class="ui animated fade right floated button">
+                <div class="hidden content"><i class="upload icon"></i></div>
+                <div class="visible content">导出全部二维码</div>
+            </div>
+            <div class="ui buttons right floated">
+                <button class="ui labeled icon button right floated my_import"><i class="download icon"></i> 导入</button>
+                <div class="or"></div>
+                <button class="ui right labeled icon button my_export"><i class="upload icon"></i> 导出</button>
+            </div>
+            <table class="ui table celled line single fixed" id="table">
+                <thead>
+                <tr class="center aligned">
+                    <th>编号</th>
+                    <th>设备名称</th>
+                    <th>设备状态</th>
+                    <th>自检/验收人</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="center aligned">
+                    <td>a123</td>
+                    <td>设备0</td>
+                    <td>安装</td>
+                    <td>张三</td>
+                    <td><a class="ui vertical animated button positive basic center floated qrcode">
+                        <div class="visible content">二维码</div>
+                        <div class="hidden content"><i class="qrcode icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated edit">
+                        <div class="visible content">编辑</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated disabled">
+                        <div class="visible content">详情</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button negative basic center floated remove">
+                        <div class="visible content">删除</div>
+                        <div class="hidden content"><i class="remove user icon"></i></div>
+                    </a></td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a123</td>
+                    <td>设备1</td>
+                    <td>安装</td>
+                    <td>张三</td>
+                    <td><a class="ui vertical animated button positive basic center floated qrcode">
+                        <div class="visible content">二维码</div>
+                        <div class="hidden content"><i class="qrcode icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated edit">
+                        <div class="visible content">编辑</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated disabled">
+                        <div class="visible content">详情</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button negative basic center floated remove">
+                        <div class="visible content">删除</div>
+                        <div class="hidden content"><i class="remove user icon"></i></div>
+                    </a></td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a123</td>
+                    <td>设备2</td>
+                    <td>安装</td>
+                    <td>张三</td>
+                    <td><a class="ui vertical animated button positive basic center floated qrcode">
+                        <div class="visible content">二维码</div>
+                        <div class="hidden content"><i class="qrcode icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated edit">
+                        <div class="visible content">编辑</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated disabled">
+                        <div class="visible content">详情</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button negative basic center floated remove">
+                        <div class="visible content">删除</div>
+                        <div class="hidden content"><i class="remove user icon"></i></div>
+                    </a></td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a123</td>
+                    <td>设备3</td>
+                    <td>安装</td>
+                    <td>张三</td>
+                    <td><a class="ui vertical animated button positive basic center floated qrcode">
+                        <div class="visible content">二维码</div>
+                        <div class="hidden content"><i class="qrcode icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated edit">
+                        <div class="visible content">编辑</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated disabled">
+                        <div class="visible content">详情</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button negative basic center floated remove">
+                        <div class="visible content">删除</div>
+                        <div class="hidden content"><i class="remove user icon"></i></div>
+                    </a></td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a123</td>
+                    <td>设备4</td>
+                    <td>安装</td>
+                    <td>张三</td>
+                    <td><a class="ui vertical animated button positive basic center floated qrcode">
+                        <div class="visible content">二维码</div>
+                        <div class="hidden content"><i class="qrcode icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated edit">
+                        <div class="visible content">编辑</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated disabled">
+                        <div class="visible content">详情</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button negative basic center floated remove">
+                        <div class="visible content">删除</div>
+                        <div class="hidden content"><i class="remove user icon"></i></div>
+                    </a></td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a123</td>
+                    <td>设备5</td>
+                    <td>安装</td>
+                    <td>张三</td>
+                    <td><a class="ui vertical animated button positive basic center floated qrcode">
+                        <div class="visible content">二维码</div>
+                        <div class="hidden content"><i class="qrcode icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated edit">
+                        <div class="visible content">编辑</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated disabled">
+                        <div class="visible content">详情</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button negative basic center floated remove">
+                        <div class="visible content">删除</div>
+                        <div class="hidden content"><i class="remove user icon"></i></div>
+                    </a></td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a123</td>
+                    <td>设备6</td>
+                    <td>安装</td>
+                    <td>张三</td>
+                    <td><a class="ui vertical animated button positive basic center floated qrcode">
+                        <div class="visible content">二维码</div>
+                        <div class="hidden content"><i class="qrcode icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated edit">
+                        <div class="visible content">编辑</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated disabled">
+                        <div class="visible content">详情</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button negative basic center floated remove">
+                        <div class="visible content">删除</div>
+                        <div class="hidden content"><i class="remove user icon"></i></div>
+                    </a></td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a123</td>
+                    <td>设备7</td>
+                    <td>安装</td>
+                    <td>张三</td>
+                    <td><a class="ui vertical animated button positive basic center floated qrcode">
+                        <div class="visible content">二维码</div>
+                        <div class="hidden content"><i class="qrcode icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated edit">
+                        <div class="visible content">编辑</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated disabled">
+                        <div class="visible content">详情</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button negative basic center floated remove">
+                        <div class="visible content">删除</div>
+                        <div class="hidden content"><i class="remove user icon"></i></div>
+                    </a></td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a123</td>
+                    <td>设备8</td>
+                    <td>安装</td>
+                    <td>张三</td>
+                    <td><a class="ui vertical animated button positive basic center floated qrcode">
+                        <div class="visible content">二维码</div>
+                        <div class="hidden content"><i class="qrcode icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated edit">
+                        <div class="visible content">编辑</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated disabled">
+                        <div class="visible content">详情</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button negative basic center floated remove">
+                        <div class="visible content">删除</div>
+                        <div class="hidden content"><i class="remove user icon"></i></div>
+                    </a></td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a123</td>
+                    <td>设备9</td>
+                    <td>安装</td>
+                    <td>张三</td>
+                    <td><a class="ui vertical animated button positive basic center floated qrcode">
+                        <div class="visible content">二维码</div>
+                        <div class="hidden content"><i class="qrcode icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated edit">
+                        <div class="visible content">编辑</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated disabled">
+                        <div class="visible content">详情</div>
+                        <div class="hidden content"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button negative basic center floated remove">
+                        <div class="visible content">删除</div>
+                        <div class="hidden content"><i class="remove user icon"></i></div>
+                    </a></td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th colspan="5">
+                        <button class="ui labeled icon button positive right floated add_depart"><i
+                                class="users icon"></i>
+                            添加设备
+                        </button>
+                        <div class="ui pagination menu right floated"><a class="item">1</a>
+                            <div class="disabled item">...</div>
+                            <a class="item">10</a><a class="item active">11</a><a class="item">12</a></div>
+                    </th>
+                </tr>
+                </tfoot>
+            </table><!-- item 操作-->
+            <div class="ui modal edit large"><i class="close icon"></i>
+                <div class="header">编辑文件</div>
+                <div class="image content">
+                    <div class="ui form">
+                        <div class="field"><label>文件标题</label>
+                            <div class="fields">
+                                <div class="field"><input type="text" placeholder="请输入文件标题"
+                                                          value="一号线二期正线变电所大型设备吊装及运输方案">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field"><label>点击图片上传文件</label>
+                            <div class="ui move reveal my_upload">
+                                <div class="visible content"><img class="ui small image"
+                                                                  src="https://semantic-ui.qyears.com/images/wireframe/square-image.png">
+                                </div>
+                                <div class="hidden content"><img class="ui small image"
+                                                                 src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui black deny button">取消</div>
+                    <div class="ui positive right labeled icon button">提交<i class="checkmark icon"></i></div>
+                </div>
+            </div>
+            <div class="ui basic modal remove">
+                <div class="ui icon header"><i class="remove user icon"></i> 确认删除文件吗</div>
+                <div class="content"><p>该文件的所有信息会清空,重新添加用户时二维码重新生成!</p></div>
+                <div class="actions">
+                    <div class="ui red basic cancel inverted button"><i class="remove icon"></i> 否</div>
+                    <div class="ui green ok inverted button"><i class="checkmark icon"></i> 是</div>
+                </div>
+            </div>
+            <div class="ui modal qrcode large basic icon">
+                <div class="ui icon header"><img class="icon my_img"
+                                                 src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg">李徐成
+                </div>
+                <div class="image content">
+                    <div class="description">
+                        <div class="ui vertically divided grid" style="margin-left:-4rem">
+                            <div class="four column row">
+                                <div class="column"><p>工号</p></div>
+                                <div class="column"><p>A123</p></div>
+                                <div class="column"><p>头像</p></div>
+                                <div class="column"><img class="ui mini image rounded my_img"
+                                                         src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg"
+                                                         style="margin:0 0;"></div>
+                            </div>
+                            <div class="four column row">
+                                <div class="column"><p>联系方式</p></div>
+                                <div class="column"><p>123456789</p></div>
+                                <div class="column"><p>性别</p></div>
+                                <div class="column"><p>男</p></div>
+                            </div>
+                            <div class="four column row">
+                                <div class="column"><p>民族</p></div>
+                                <div class="column"><p>汉族</p></div>
+                                <div class="column"><p>血型</p></div>
+                                <div class="column"><p>o型</p></div>
+                            </div>
+                            <div class="four column row">
+                                <div class="column"><p>身份证</p></div>
+                                <div class="column"><p>6101221111111</p></div>
+                                <div class="column"><p>出生日期</p></div>
+                                <div class="column"><p>1999.99.99</p></div>
+                            </div>
+                            <div class="four column row">
+                                <div class="column"><p>职位</p></div>
+                                <div class="column"><p>部长</p></div>
+                                <div class="column"><p>部门</p></div>
+                                <div class="column"><p>技术部</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui black deny button">取消</div>
+                    <div class="ui positive right labeled icon button">下载二维码<i class="checkmark icon"></i></div>
+                </div>
+            </div><!-- global 操作-->
+            <div class="ui modal add large"><i class="close icon"></i>
+                <div class="header">新增文件</div>
+                <div class="image content">
+                    <div class="ui form">
+                        <div class="field"><label>文件标题</label>
+                            <div class="fields">
+                                <div class="field"><input type="text" placeholder="请输入文件标题"></div>
+                            </div>
+                        </div>
+                        <div class="field"><label>点击图片上传文件</label>
+                            <div class="ui move reveal my_upload">
+                                <div class="visible content"><img class="ui small image"
+                                                                  src="https://semantic-ui.qyears.com/images/wireframe/square-image.png">
+                                </div>
+                                <div class="hidden content"><img class="ui small image"
+                                                                 src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui black deny button">取消</div>
+                    <div class="ui positive right labeled icon button">提交<i class="checkmark icon"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block script %}
+    <script>$('.add_depart').click(function () {
+        $('.ui.modal.member').modal('show')
+    })
+    $('.my_edit_member').click(function () {
+        $('.ui.modal.edit').modal('show')
+    })
+    $('.my_qrcode').click(function () {
+        $('.ui.modal.qrcode').modal('show')
+    })
+    $('.my_remove').click(function () {
+        $('.ui.modal.remove').modal('show')
+    })
+    $('.ui.dropdown').dropdown()</script>
+{% endblock %}

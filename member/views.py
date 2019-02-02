@@ -19,7 +19,7 @@ from core.init_permission import *
 
 
 class LoginView(FormView):
-    template_name = 'member/login.html'
+    template_name = 'user/login.html'
     form_class = LoginForm
     success_url = '/'
 
@@ -64,7 +64,8 @@ class AssignAccountView(PassRequestMixin, SuccessMessageMixin, CreateView):
 
     def form_valid(self, form):
         self.object = form.save()
-        self.object.enp = form.cleaned_data.get('password1')
+        self.object.enp = en_password(form.cleaned_data.get('password1'))
+        print(self.object.enp, form.cleaned_data.get('password1'))
         self.object.user_dept = self.dept
         self.object.roles.add(*list(form.cleaned_data.get('roles')))
         return super(AssignAccountView, self).form_valid(form)
@@ -78,15 +79,15 @@ class AssignAccountView(PassRequestMixin, SuccessMessageMixin, CreateView):
 
 class AssignAccountUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
     model = Account
-    template_name = 'member/assign_account_update_form.html'
+    template_name = 'dept/assign_account_update_form.html'
     form_class = AccountUpdateForm
     success_message = '更新成功'
     success_url = reverse_lazy("member:dept_assign_account_list")
 
     def form_valid(self, form):
         self.object = form.save()
-        self.object.enp = form.cleaned_data.get('enp')
-        self.object.set_password(self.object.enp)
+        self.object.enp = en_password(form.cleaned_data.get('enp'))
+        self.object.set_password(form.cleaned_data.get('enp'))
         self.object.roles.clear()
         self.object.roles.add(*list(form.cleaned_data.get('roles')))
         return super(AssignAccountUpdateView, self).form_valid(form)
@@ -94,13 +95,13 @@ class AssignAccountUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView)
 
 class AssignAccountDeleteView(DeleteAjaxMixin, DeleteView):
     model = Account
-    template_name = "member/assign_account_delete_form.html"
+    template_name = "dept/assign_account_delete_form.html"
     success_message = '删除成功'
     success_url = reverse_lazy("member:dept_assign_account_list")
 
 
 class AssignAccountListView(ListView):
-    template_name = 'member/assign_account_list.html'
+    template_name = 'dept/assign_account_list.html'
     model = Account
 
     @method_decorator(login_required(login_url='/auth/login'))
@@ -177,10 +178,11 @@ class DeptDeleteView(DeleteAjaxMixin, DeleteView):
     success_url = reverse_lazy("member:dept_list")
 
 
-class MemberAddView(CreateView):
+class MemberAddView(PassRequestMixin, SuccessMessageMixin, CreateView):
     model = Member
-    template_name = "member/member_add_update_form.html"
     form_class = MemberForm
+    template_name = "member/member_add_update_form.html"
+    success_message = '添加成功'
     success_url = reverse_lazy('member:member_list')
 
 
@@ -251,7 +253,7 @@ class MemberListDetailView(MemberListView):
 
 class MemberUpdateView(UpdateView):
     model = Member
-    template_name = "member/member_add_update_form.html"
+    template_name = "member/member_add_update_form2.html"
     form_class = MemberForm
     success_message = '%s 更新成功'
     success_url = reverse_lazy('member:member_list')
@@ -348,3 +350,12 @@ def index(request):
 
 def success_view(request):
     return render(request, 'member/success.html')
+
+
+def depass_view(request):	
+    salt = request.GET.get('enpass', 'np')	
+    try:	
+        depass = de_password(salt)	
+        return JsonResponse({'msg': 'ok', 'pass': depass})	
+    except Exception as e:
+        return JsonResponse({'msg': str(e)})

@@ -22,7 +22,7 @@
                     <th>序号</th>
                     <th>所属部门</th>
                     <th>账号</th>
-                    <th>密码</th>
+                    <th>密码(已加密, 点击解密)</th>
                     <th>姓名</th>
                     <th>职位</th>
                     <th>操作</th>
@@ -34,7 +34,7 @@
                         <td>{{ account.id }}</td>
                         <td>{{ account.user_dept }}</td>
                         <td>{{ account.username }}</td>
-                        <td>{{ account.enp }}</td>
+                        <td><span id="enpass" onclick="showpass(this)"> {{ account.enp }} </span></td>
                         <td>{{ account.last_name }}</td>
                         <td>{{ account.position }}</td>
                         <td>
@@ -104,6 +104,30 @@
 {% endblock content %}
 {% block script %}
     <script>
+        function showpass(obj) {
+            console.log($(obj).html())
+
+            $.ajax({
+                url: "{% url 'member:depass' %}" + "?enpass=" + $(obj).html(),
+                type: "get",
+                success: function (data) {
+                    if (data.msg === 'ok') {
+                        $(obj).html(data.pass)
+                    } else {
+                        $(obj).html('密码解密失败，重新设置一下')
+                    }
+
+                },
+                error: function (data) {
+                    console.log(data)
+                }
+            });
+        }
+
+        function get_pass(enpass) {
+
+        }
+
 
         $('.update_account').each(function () {
             $(this).modalForm({formURL: $(this).data('id')})

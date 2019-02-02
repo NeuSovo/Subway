@@ -1,8 +1,11 @@
 import qrcode
 import base64
+import pyDes
 
 from django.contrib.auth.models import AnonymousUser
 from django.utils.six import BytesIO
+
+k = pyDes.des(b"DESCRYPT", pyDes.CBC, b"\0\0\0\0\0\0\0\0", pad=None, padmode=pyDes.PAD_PKCS5)
 
 
 def gen_qrcode(data):
@@ -13,6 +16,14 @@ def gen_qrcode(data):
     image_stream = buf.getvalue()
 
     return image_stream
+
+
+def en_password(passwd):
+    return str(base64.b64encode(k.encrypt(passwd)), 'utf-8')
+
+
+def de_password(salt):
+    return str(k.decrypt(base64.b64decode(salt)), 'utf-8')
 
 
 def en_base64(txt):
@@ -43,4 +54,14 @@ def permission(request):
     permissions = user.roles.all().values('permissions__code').distinct()
     for item in permissions:
         res[item['permissions__code']] = True
+    print(res)
     return res
+
+
+def validate_file_extension(value):
+    import os
+    from django.core.exceptions import ValidationError
+    ext = os.path.splitext(value.name)[1] # [0] returns path+filename
+    valid_extensions = ['.pdf', '.doc', '.docx', '.jpg', '.png', '.xlsx', '.xls']
+    if not ext.lower() in valid_extensions:
+     raise ValidationError(u'不支持此类型的文件')

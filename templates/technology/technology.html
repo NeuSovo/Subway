@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block content %}
+    {% include "_modal.html" %}
+    <section>
+        <div class="ui segment">
+            <h1 class="ui header aligned center">技术信息</h1>
+            <div class="ui secondary pointing menu">
+                <a class="item {% if select_profess == 0 %} active {% endif %}"
+                   href="{% url 'technology:list_profess' 0 %}">电力变电</a>
+                <a class="item {% if select_profess == 1 %} active {% endif %}"
+                   href="{% url 'technology:list_profess' 1 %}">接触网</a>
+                <a class="item {% if select_profess == 2 %} active {% endif %}"
+                   href="{% url 'technology:list_profess' 2 %}">通信</a>
+                <a class="item {% if select_profess == 3 %} active {% endif %}"
+                   href="{% url 'technology:list_profess' 3 %}">信号</a>
+            </div>
+            <div class="ui floating labeled icon dropdown button">
+                <i class="filter icon"></i>
+                <span class="text">{{ select_type }}</span>
+                <div class="menu">
+                    <div class="header"><i class="tags icon"></i>选取类别</div>
+                    <div class="divider"></div>
+                    <a class="item" href="{% url 'technology:list_profess' select_profess %}" data-value="5">全部</a>
+                    <a class="item" href="{% url 'technology:list_type' select_profess 0 %}" data-value="6">图纸会审情况</a>
+                    <a class="item" href="{% url 'technology:list_type' select_profess 1 %}" data-value="7">技术交底</a>
+                    <a class="item" href="{% url 'technology:list_type' select_profess 2 %}" data-value="8">作业指导书</a>
+                    <a class="item" href="{% url 'technology:list_type' select_profess 3 %}" data-value="9">工艺工法</a>
+                </div>
+            </div>
+            <div class="ui animated fade right floated button">
+                <div class="hidden content"><i class="upload icon"></i></div>
+                <div class="visible content">导出全部二维码</div>
+            </div>
+            <div class="ui buttons right floated">
+                <button class="ui labeled icon button right floated my_import"><i class="download icon"></i> 导入</button>
+                <div class="or"></div>
+                <button class="ui right labeled icon button my_export"><i class="upload icon"></i> 导出</button>
+            </div>
+            <table class="ui table celled line single fixed" id="table">
+                <thead>
+                <tr class="center aligned">
+                    <th>编号</th>
+                    <th>标题</th>
+                    <th>专业</th>
+                    <th>类别</th>
+                    <th class="four wide">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in object_list %}
+                    <tr class="center aligned">
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.get_profess_display }}</td>
+                        <td>{{ item.get_file_type_display }}</td>
+                        <td>
+                            <a class="ui vertical animated button positive basic center floated qrcode">
+                                <div class="visible content">二维码</div>
+                                <div class="hidden content"><i class="qrcode icon"></i></div>
+                            </a>
+                            <a class="ui vertical animated button primary basic center floated edit"
+                               data-id="{% url 'technology:update' item.id %}">
+                                <div class="visible content">编辑</div>
+                                <div class="hidden content"><i class="edit icon"></i></div>
+                            </a>
+                            <a class="ui vertical animated button primary basic center floated disabled">
+                                <div class="visible content">查看</div>
+                                <div class="hidden content"><i class="edit icon"></i></div>
+                            </a>
+                            <a class="ui vertical animated button negative basic center floated remove"
+                               data-id="{% url 'technology:delete' item.id %}">
+                                <div class="visible content">删除</div>
+                                <div class="hidden content"><i class="remove user icon"></i></div>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th colspan="5">
+                        <button class="ui labeled icon button positive right floated add"><i class="users icon"></i>
+                            添加文件
+                        </button>
+                        {% include '_page.html' %}
+                    </th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </section>
+
+{% endblock content %}
+{% block script %}
+    <script>
+        $('button.add').modalForm({formURL: '{% url 'technology:add' %}'})
+        $('a.edit').each(function () {
+            $(this).modalForm({formURL: $(this).data('id')})
+        })
+        $('a.remove').each(function () {
+            $(this).modalForm({
+                formURL: $(this).data('id')
+            })
+        })
+    </script>
+{% endblock script %}

@@ -23,7 +23,6 @@
 
 .modal-content {
     padding: 20px;
-
 }
 
 .message {
@@ -34,4 +33,32 @@
 form .actions {
     display: flex;
     justify-content: flex-end;
+}
+
+
+
+.g2-guide-html {
+  width: 100px;
+  height: 80px;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 0.2;
+}
+.g2-guide-html .title {
+  font-size: 12px;
+  color: #8c8c8c;
+  font-weight: 300;
+}
+.g2-guide-html .value {
+  font-size: 32px;
+  color: #000;
+  font-weight: bold;
+}
+#mountNode1 {
+  width: 40vw;
+  float: left;
+}
+#mountNode2 {
+  width: 40vw;
+  float: right;
 }

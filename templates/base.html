@@ -12,7 +12,6 @@
     <script src="{% static 'javascript/jquery-3.2.1.min.js' %}"></script>
     <script src="{% static 'javascript/semantic.min.js' %}"></script>
     <script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
-
     <title>Document</title>
     {% block style %}
     {% endblock style %}
@@ -64,20 +63,40 @@
             <div class="item">
                 <div class="title active"><i class="dropdown icon"></i> 物资管理</div>
                 <div class="content">
-                    <div class="ui secondary vertical pointing menu"><a class="item"
-                                                                        href="{% url 'material:list' %}">物资信息</a><a
+                    <div class="ui secondary vertical pointing menu"><a class="item" href="{% url 'material:list' %}">物资信息</a><a
                             class="item" href="{% url 'material:stock_record' %}">进出库记录</a>
                     </div>
                 </div>
             </div>
             <div class="item">
                 <div class="title active"><i class="dropdown icon"></i> 技术管理</div>
+                <div class="content">
+                    <div class="ui secondary vertical pointing menu"><a class="item" href="{% url 'technology:list' %}">技术信息</a>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="title active"><i class="dropdown icon"></i> 设备管理</div>
+                <div class="content">
+                    <div class="ui secondary vertical pointing menu"><a class="item"
+                                                                        href="{% url 'device:list' %}">设备信息</a></div>
+                </div>
             </div>
             <div class="item">
                 <div class="title active"><i class="dropdown icon"></i> 安全管理</div>
+                <div class="content">
+                    <div class="ui secondary vertical pointing menu"><a class="item"
+                                                                        href="{% url 'safety:list' %}">安全信息</a></div>
+                </div>
             </div>
             <div class="item">
-                <div class="title active"><i class="dropdown icon"></i> 验收管理</div>
+                <div class="title active"><i class="dropdown icon"></i> 进度管理</div>
+                <div class="content">
+                    <div class="ui secondary vertical pointing menu">
+                        <a class="item" href="{% url 'schedule:list' %}">进度信息</a>
+                        <a class="item" href="{% url 'schedule:detail' %}">进度详情</a>
+                        <a class="item" href="{% url 'schedule:chart' %}">进度报表</a></div>
+                </div>
             </div>
         </div>
     </div>

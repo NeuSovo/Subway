@@ -1,7 +1,5 @@
 # Subway
-[![Build Status](https://travis-ci.com/zxh326/Subway.svg?token=dSTB74Ayn9yR3XY9qzQq&branch=master)](https://travis-ci.com/zxh326/Subway)
-* **不要**再master分支直接修改
-
+[![Build Status](https://travis-ci.com/NeuSovo/Subway.svg?branch=test)](https://travis-ci.com/NeuSovo/Subway)
 
 
 #### 流程图

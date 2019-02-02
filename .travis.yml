@@ -2,10 +2,12 @@ language: python
 python:
   - "3.6"
 
-# 只监听 test 分支的改动
 branches:
   only:
   - test
+  - master
+  - dev-backend
+  - dev-frontend
 
 install:
   - pip install -r requirements.txt
