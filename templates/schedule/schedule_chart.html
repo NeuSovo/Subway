@@ -26,200 +26,110 @@
                     <div class="item">机场</div>
                 </div>
             </div>
-            <div class="ui floating labeled icon dropdown button"><i class="filter icon"></i><span
-                    class="text">设备安装</span>
-                <div class="menu">
-                    <div class="header"><i class="tags icon"></i>选取作业</div>
-                    <div class="divider"></div>
-                    <div class="item">设备安装</div>
-                    <div class="item">埋线</div>
-                </div>
-            </div>
             <div style="overflow:hidden">
-                <div id="mountNode1"></div>
-                <div id="mountNode2"></div>
+                <div id="mountNode"></div>
+                <div class="bottom-tool-box"><img class="sort-button" src="../static/sort.png"></div>
             </div>
         </div>
     </section>
 {% endblock %}
 {% block script %}
     <script>
+        var sortType = 'positive'
         var data = [{
-            type: '开累完成量',
-            value: 6
+            type: '设备安装1',
+            value: 34
         }, {
-            type: '剩余总量',
-            value: 27
-        }];
-        var sum = 33;
-        var ds = new DataSet();
-        var dv = ds.createView().source(data);
-        dv.transform({
-            type: 'map',
-            callback: function callback(row) {
-                row.percent = parseFloat(row.value / sum);
-                return row;
-            }
-        });
+            type: '设备安装2',
+            value: 85
+        }, {
+            type: '设备安装3',
+            value: 103
+        }, {
+            type: '设备安装4',
+            value: 142
+        }, {
+            type: '设备安装5',
+            value: 251
+        }, {
+            type: '设备安装6',
+            value: 367
+        }, {
+            type: '设备安装7',
+            value: 491
+        }, {
+            type: '设备安装8',
+            value: 672
+        }, {
+            type: '设备安装9',
+            value: 868
+        }, {
+            type: '设备安装',
+            value: 1234
+        }]
         var chart = new G2.Chart({
-            container: 'mountNode1',
+            container: 'mountNode',
             forceFit: true,
-            height: window.innerHeight - 300,
-            padding: 'auto'
-        });
-        chart.source(dv);
-        chart.tooltip(false);
-        chart.legend({
-            position: 'right-center',
-            offsetX: -100
-        });
-        chart.coord('theta', {
-            radius: 0.75,
-            innerRadius: 0.6
-        });
-        chart.intervalStack()
-            .position('percent')
-            .color('type', ['#0a7aca', '#0a9afe'])
-            .opacity(1)
-            .label('percent', {
-                offset: -18,
+            height: window.innerHeight,
+            padding: [20, 40, 50, 124]
+        })
+        chart.source(data, {
+            value: {
+                max: 1300,
+                min: 0,
+                nice: false,
+                alias: '开累量'
+            }
+        })
+        chart.axis('type', {
+            label: {
                 textStyle: {
-                    fill: 'white',
-                    fontSize: 20,
-                    shadowBlur: 2,
-                    shadowColor: 'rgba(0, 0, 0, .45)'
-                },
-                rotate: 0,
-                autoRotate: false,
-                formatter: function formatter(text, item) {
-                    return String(parseInt(item.point.percent * 100)) + '%';
+                    fill: '#8d8d8d',
+                    fontSize: 18
                 }
-            });
-        chart.guide().html({
-            position: ['50%', '50%'],
-            html: `<div class="g2-guide-html"><p class="title">设计总量</p><p class="value">${sum}</p></div>`
-        });
-        chart.on('interval:mouseenter', function (ev) {
-            var data = ev.data._origin;
-            $(".g2-guide-html").css('opacity', 1);
-            $(".g2-guide-html .title").text(data.type);
-            $(".g2-guide-html .value").text(data.value);
-        });
-
-        chart.on('interval:mouseleave', function () {
-            $(".g2-guide-html .title").text('设计总量');
-            $(".g2-guide-html .value").text(sum);
-        });
-        chart.render();
-    </script>
-    <script>var data = [{
-        time: '第一周',
-        type: '实际开累量',
-        value: 6
-    }, {
-        time: '第一周',
-        type: '计划开累量',
-        value: 6
-    }, {
-        time: '第二周',
-        type: '实际开累量',
-        value: 8
-    }, {
-        time: '第二周',
-        type: '计划开累量',
-        value: 10
-    }, {
-        time: '第三周',
-        type: '实际开累量',
-        value: 0
-    }, {
-        time: '第三周',
-        type: '计划开累量',
-        value: 10
-    }, {
-        time: '第四周',
-        type: '实际开累量',
-        value: 0
-    }, {
-        time: '第四周',
-        type: '计划开累量',
-        value: 7
-    }];
-    const dataSet = new DataSet({
-        state: {
-            time: '第四周',
-            type: '计划开累量',
-            value: 7
-        }
-    });
-
-    // step2 创建 DataView
-    const dataView = dataSet.createView().source(data);
-    dataView.transform({ // 把数据行逆序排列
-        type: 'reverse'
-    });
-
-    var chart = new G2.Chart({
-        container: 'mountNode2',
-        forceFit: true,
-        height: window.innerHeight - 300,
-        padding: [100, 100, 100, 200]
-    });
-    chart.coord().transpose();
-    chart.source(dataView);
-    chart.scale('value', {
-        alias: '开累量',
-        type: 'linear',
-        range: [0, 0.9]
-    });
-    chart.axis('time', {
-        label: {
-            textStyle: {
-                fill: '#aaaaaa',
-                fontSize: 18
+            },
+            tickLine: {
+                alignWithLabel: false,
+                length: 0
+            },
+            line: {
+                lineWidth: 0
             }
-        },
-        tickLine: {
-            alignWithLabel: false,
-            length: 0
-        },
-        line: {
-            lineWidth: 0
-        }
-    });
+        })
+        chart.axis('value', {
+            label: null,
+            title: {
+                offset: 30,
+                textStyle: {
+                    fontSize: 18,
+                    fontWeight: 300
+                }
+            }
+        })
+        chart.legend(false)
+        chart.coord().transpose()
+        chart.interval().position('type*value').size(26).opacity(1).label('value', {
+            textStyle: {
+                fill: '#8d8d8d'
+            },
+            offset: 10
+        })
+        chart.render()
+        $('.sort-button').click(function () {
+            sortType = sortType === 'positive' ? 'negative' : 'positive'
+            sortData(sortType)
+            chart.repaint()
+        })
 
-    chart.axis('value', {
-        label: {
-            textStyle: {
-                fill: '#aaaaaa',
-                fontSize: 18
+        function sortData(sortType) {
+            if (sortType === 'positive') {
+                data.sort(function (a, b) {
+                    return b.value - a.value
+                })
+            } else {
+                data.sort(function (a, b) {
+                    return a.value - b.value
+                })
             }
-            // formatter: function formatter (text) {
-            // 	return text.replace (/(\d)(?=(?:\d{3})+$)/g, '$1,');
-            // }
-        },
-        line: {
-            lineWidth: 0
-        },
-        title: {
-            offset: 80,
-            textStyle: {
-                fill: '#666',
-                fontSize: 28,
-                fontWeight: 300
-            }
-        }
-    });
-    chart.legend({
-        position: 'left-center'
-    });
-    chart.interval().position('time*value').color('type', ['#40a9ff', 'red']).size(26).opacity(1).label('value', {
-        textStyle: {
-            fill: '#8d8d8d'
-        },
-        offset: 10
-    });
-    ;
-    chart.render();
-    </script>
+        }</script>
 {% endblock %}

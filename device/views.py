@@ -23,3 +23,15 @@ class DeviceFileDeleteView(DeleteView):
 
 class DeviceFileDetailView(DetailView):
     template_name = "TEMPLATE_NAME"
+
+
+class QrCodeView(TemplateView):
+    template_name = "setting/setting_qr.html"
+
+
+class FrontendView(TemplateView):
+    template_name = "setting/setting_fronted.html"
+
+
+class BackendView(TemplateView):
+    template_name = "setting/setting_backend.html"

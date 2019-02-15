@@ -1,15 +1,29 @@
 {% extends 'base.html' %}
 {% block content %}
     <section>
-        <div class="ui segment"><h1 class="ui header aligned center">设备信息</h1>
-            <div class="ui floating labeled icon dropdown button"><i class="filter icon"></i><span
-                    class="text">全部</span>
+        <div class="ui segment">
+            <h1 class="ui header aligned center">设备信息</h1>
+            <div class="ui secondary pointing menu">
+                <a class="item active "
+                   href="">电力变电</a>
+                <a class="item"
+                   href="">接触网</a>
+                <a class="item"
+                   href="">通信</a>
+                <a class="item"
+                   href="">信号</a>
+            </div>
+            <div class="ui floating labeled icon dropdown button">
+                <i class="filter icon"></i>
+                <span class="text">全部</span>
                 <div class="menu">
-                    <div class="header"><i class="tags icon"></i>选取部门</div>
+                    <div class="header"><i class="tags icon"></i>选取项目</div>
                     <div class="divider"></div>
-                    <div class="item">全部部门</div>
-                    <div class="item">项目部</div>
-                    <div class="item">电力变电</div>
+                    <a class="item" href="" data-value="5">全部</a>
+                    <a class="item" href="" data-value="6">图纸会审情况</a>
+                    <a class="item" href="" data-value="7">技术交底</a>
+                    <a class="item" href="" data-value="8">作业指导书</a>
+                    <a class="item" href="" data-value="9">工艺工法</a>
                 </div>
             </div>
             <div class="ui animated fade right floated button">

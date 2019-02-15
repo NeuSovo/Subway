@@ -26,6 +26,7 @@
                 <p>IQ工程管理平台</p>
             </div>
         </div>
+        <img src="{% static 'header.png' %}">
         <div class="right menu">
             <div class="item">
                 <p>欢迎您,{{ user.username }}</p>
@@ -98,6 +99,16 @@
                         <a class="item" href="{% url 'schedule:chart' %}">进度报表</a></div>
                 </div>
             </div>
+            <div class="item">
+                <div class="title active"><i class="dropdown icon"></i> 系统设置</div>
+                <div class="content">
+                    <div class="ui secondary vertical pointing menu">
+                        <a class="item" href="{% url 'device:qrCode' %}">二维码设置</a>
+                        <a class="item" href="{% url 'device:backend' %}">后台设置</a>
+                        <a class="item" href="{% url 'device:frontend' %}">移动端设置</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </header>
@@ -126,8 +137,11 @@
 </div>
 {% block content %}
 {% endblock content %}
-{% block footer %}
-{% endblock footer %}
+<footer>
+    <div class="main"><img src="{% static 'logo.png' %}"><span>中铁电气化局集团有限公司西安电务工程分公司</span></div>
+    <div class="desc">
+        <span>©China Railway Electrification Bureau Group Co., Ltd. Xi'an Electrical Engineering Branch</span></div>
+</footer>
 <script>
     $('#main').click(function () {
         $('.sidebar').sidebar('toggle')
