@@ -9,8 +9,12 @@ class DeviceFileListView(TemplateView):
     template_name = "device/device.html"
 
 
-class DeviceFileCreateView(CreateView):
-    template_name = "TEMPLATE_NAME"
+class DeviceDetialView(TemplateView):
+    template_name = "device/device_detail.html"
+
+
+class DeviceFileCreateView(TemplateView):
+    template_name = "device/add_update_form.html"
 
 
 class DeviceFileUpdatView(UpdateView):

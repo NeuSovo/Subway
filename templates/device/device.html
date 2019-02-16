@@ -12,6 +12,10 @@
                    href="">通信</a>
                 <a class="item"
                    href="">信号</a>
+                <div class="right menu">
+                    <a href="" class="item">导出全部专业二维码</a>
+                    <a href="" class="item">添加专业</a>
+                </div>
             </div>
             <div class="ui floating labeled icon dropdown button">
                 <i class="filter icon"></i>
@@ -26,6 +30,9 @@
                     <a class="item" href="" data-value="9">工艺工法</a>
                 </div>
             </div>
+            <a href="{% url 'device:detail' %}">
+                <button class="ui right labeled icon button primary"><i class="right info icon"></i> 查看详细</button>
+            </a>
             <div class="ui animated fade right floated button">
                 <div class="hidden content"><i class="upload icon"></i></div>
                 <div class="visible content">导出全部二维码</div>
@@ -240,13 +247,22 @@
                 <tfoot>
                 <tr>
                     <th colspan="5">
-                        <button class="ui labeled icon button positive right floated add_depart"><i
-                                class="users icon"></i>
-                            添加设备
-                        </button>
+                        <a href="{% url 'device:add' %}">
+                            <button class="ui labeled icon button positive right floated add_depart"><i
+                                    class="users icon"></i>
+                                添加设备
+                            </button>
+                        </a>
                         <div class="ui pagination menu right floated"><a class="item">1</a>
                             <div class="disabled item">...</div>
                             <a class="item">10</a><a class="item active">11</a><a class="item">12</a></div>
+                        <button class="ui labeled icon button blue left floated update"><i class="users icon"></i><span>  修改类别</span>
+                        </button>
+                        <button class="ui labeled icon button negative left floated delete disabled"><i
+                                class="users icon"></i><span> 删除类别</span>
+                        </button>
+                        <button class="ui labeled icon button black basic left floated append"><i
+                                class="users icon"></i><span>导出该专业二维码</span></button>
                     </th>
                 </tr>
                 </tfoot>
