@@ -6,8 +6,12 @@ class DeviceFileListView(TemplateView):
     template_name = "device/device.html"
 
 
-class DeviceFileCreateView(CreateView):
-    template_name = "TEMPLATE_NAME"
+class DeviceDetialView(TemplateView):
+    template_name = "device/device_detail.html"
+
+
+class DeviceFileCreateView(TemplateView):
+    template_name = "device/add_update_form.html"
 
 
 class DeviceFileUpdatView(UpdateView):
@@ -20,3 +24,15 @@ class DeviceFileDeleteView(DeleteView):
 
 class DeviceFileDetailView(DetailView):
     template_name = "TEMPLATE_NAME"
+
+
+class QrCodeView(TemplateView):
+    template_name = "setting/setting_qr.html"
+
+
+class FrontendView(TemplateView):
+    template_name = "setting/setting_fronted.html"
+
+
+class BackendView(TemplateView):
+    template_name = "setting/setting_backend.html"

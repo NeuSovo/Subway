@@ -6,45 +6,78 @@
 {% endblock %}
 {% block content %}
     <section>
-        <div class="ui segment"><h1 class="ui header aligned center">三月内日开累统计</h1>
+        <div class="ui segment"><h1 class="ui header aligned center">开累统计</h1>
             <div id="mountNode"></div>
         </div>
     </section>
 {% endblock %}
 {% block script %}
-    <script>var data = [];
-    var n = 31;
-    for (var i = 0; i < 90; i++) {
-        var now = Date();
-        data[i] = {};
-        data[i].time = new Date(now).getTime() + i * 1000 * 3600 * 24;
-        var random = Math.floor(Math.random() * 10);
-        data[i].value = random
-    }
-    var chart = new G2.Chart({
-        container: 'mountNode',
-        forceFit: true,
-        height: window.innerHeight - 200,
-        padding: [100, 60, 30, 0]
-    });
-    chart.source(data, {
-        time: {
-            type: 'timeCat',
-            mask: 'YYYY.MM.DD'
-        },
-        value: {
-            min: 0,
-            alias: '日开累'
-        }
-    });
-    chart.coord('helix', {
-        startAngle: 0.5 * Math.PI,
-        endAngle: 5.5 * Math.PI
-    });
-    chart.axis('time', {
-        line: null
-    });
-    chart.interval().position('time*value').color('value', '#4cadff-#ff4f71').size(1);
-    chart.render();
-    </script>
+    <script>
+        var data = [{
+            type: '开累完成量',
+            value: 6
+        }, {
+            type: '剩余总量',
+            value: 27
+        }]
+        var sum = 33
+        var ds = new DataSet()
+        var dv = ds.createView().source(data)
+        dv.transform({
+            type: 'map',
+            callback: function callback(row) {
+                row.percent = parseFloat(row.value / sum)
+                return row
+            }
+        })
+        var chart = new G2.Chart({
+            container: 'mountNode',
+            forceFit: true,
+            height: window.innerHeight - 300,
+            padding: 'auto'
+        })
+        chart.source(dv)
+        chart.tooltip(false)
+        chart.legend({
+            position: 'right-center',
+            offsetX: -100
+        })
+        chart.coord('theta', {
+            radius: 0.75,
+            innerRadius: 0.6
+        })
+        chart.intervalStack()
+            .position('percent')
+            .color('type', ['#0a7aca', '#0a9afe'])
+            .opacity(1)
+            .label('percent', {
+                offset: -18,
+                textStyle: {
+                    fill: 'white',
+                    fontSize: 20,
+                    shadowBlur: 2,
+                    shadowColor: 'rgba(0, 0, 0, .45)'
+                },
+                rotate: 0,
+                autoRotate: false,
+                formatter: function formatter(text, item) {
+                    return String(parseInt(item.point.percent * 100)) + '%'
+                }
+            })
+        chart.guide().html({
+            position: ['50%', '50%'],
+            html: `<div class="g2-guide-html"><p class="title">设计总量</p><p class="value">${sum}</p></div>`
+        })
+        chart.on('interval:mouseenter', function (ev) {
+            var data = ev.data._origin
+            $(".g2-guide-html").css('opacity', 1)
+            $(".g2-guide-html .title").text(data.type)
+            $(".g2-guide-html .value").text(data.value)
+        })
+
+        chart.on('interval:mouseleave', function () {
+            $(".g2-guide-html .title").text('设计总量')
+            $(".g2-guide-html .value").text(sum)
+        })
+        chart.render()</script>
 {% endblock %}
