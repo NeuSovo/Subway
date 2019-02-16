@@ -1,10 +1,10 @@
 from django.http import Http404
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 
-from .models import TechnologyFile
-from .forms import TechnologyFileForm
+from .models import TechnologyFile, Profess
+from .forms import TechnologyFileForm, ProfessForm
 from bootstrap_modal_forms.mixins import PassRequestMixin, DeleteAjaxMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
@@ -16,15 +16,17 @@ class TechnologyFileListView(ListView):
 
     def __init__(self):
         super().__init__()
-        self.profess = 0
+        self.profess_all = Profess.objects.all()
+        self.profess = self.profess_all[0] if len(self.profess_all) > 0 else 0
         self.type = None
 
     def get(self, request, *args, **kwargs):
-        self.profess = kwargs.get('profess_id') or self.profess
+        profess_id = kwargs.get('profess_id')
+        if profess_id:
+            self.profess = get_object_or_404(Profess, pk=profess_id)
         self.type = kwargs.get('type_id')
 
-        if (self.profess is not None and self.profess >= len(self.model.profess_choiced)) or (
-                self.type is not None and self.type >= len(self.model.file_type_choiced)):
+        if (self.type is not None and self.type >= len(self.model.file_type_choiced)):
             raise Http404
 
         return super().get(request, *args, **kwargs)
@@ -42,6 +44,7 @@ class TechnologyFileListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
+        context['profess_s'] = self.profess_all
         context['select_profess'] = self.profess
         context['select_type'] = self.type
         return context
@@ -73,4 +76,28 @@ class TechnologyFileDeleteView(DeleteAjaxMixin, DeleteView):
     form_class = TechnologyFileForm
     template_name = "technology/delete_form.html"
     success_message = '删除成功'
+    success_url = reverse_lazy('technology:list')
+
+
+class ProfessCreateView(PassRequestMixin, SuccessMessageMixin, CreateView):
+    model = Profess
+    form_class = ProfessForm
+    template_name = "technology/add_update_profess_form.html"
+    success_message = '%(name)s 添加成功'
+    success_url = reverse_lazy('technology:list')
+
+
+class ProfessUpdateView(UpdateView):
+    model = Profess
+    form_class = ProfessForm
+    template_name = "technology/add_update_profess_form.html"
+    success_message = '%(name)s 更新成功'
+    success_url = reverse_lazy('technology:list')
+
+
+class ProfessDeleteView(DeleteView):
+    model = Profess
+    form_class = ProfessForm
+    success_message = '%(name)s 删除成功'
+    template_name = "technology/delete_profess.html"
     success_url = reverse_lazy('technology:list')

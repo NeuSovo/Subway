@@ -13,6 +13,7 @@ class TechnologyFile(models.Model):
     file_type_choiced = (
         (0, '图纸会审情况'),
         (1, '技术交底'),
+ 
         (2, '作业指导书'),
         (3, '工艺工法')
     )
@@ -20,10 +21,24 @@ class TechnologyFile(models.Model):
     # 编号 暂定自增
     id = models.AutoField(primary_key=True, verbose_name='编号')
     title = models.CharField(max_length=100, verbose_name='标题')
-    profess = models.IntegerField(
-        verbose_name='专业', choices=profess_choiced, default=0)
+    profess = models.ForeignKey(to="Profess", related_name='profess', on_delete=models.SET_NULL, verbose_name='专业', null=True)
     file_type = models.IntegerField(
         verbose_name='文件类型', choices=file_type_choiced, default=0)
     file_s = models.FileField(
         verbose_name='文件', upload_to='technology/%Y/%m/%d/', null=True, blank=True, validators=[validate_file_extension])
     upload_date = models.DateTimeField(auto_now_add=True)
+
+
+class Profess(models.Model):
+    """Model definition for Profess."""
+    name = models.CharField(max_length=30)
+
+    class Meta:
+        """Meta definition for Profess."""
+
+        verbose_name = 'Profess'
+        verbose_name_plural = 'Professs'
+
+    def __str__(self):
+        """Unicode representation of Profess."""
+        return self.name
