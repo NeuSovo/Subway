@@ -1,5 +1,5 @@
 from django.http import Http404
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 
@@ -18,9 +18,12 @@ class TechnologyFileListView(ListView):
         super().__init__()
         self.profess_all = Profess.objects.all()
         self.profess = self.profess_all[0] if len(self.profess_all) > 0 else 0
+
         self.type = None
 
     def get(self, request, *args, **kwargs):
+        if not self.profess:
+            return HttpResponseRedirect(reverse_lazy('technology:add_profess'))
         profess_id = kwargs.get('profess_id')
         if profess_id:
             self.profess = get_object_or_404(Profess, pk=profess_id)
@@ -34,7 +37,6 @@ class TechnologyFileListView(ListView):
     def get_queryset(self):
         queryset = super(TechnologyFileListView, self).get_queryset()
         queryset = queryset.filter(profess=self.profess)
-        print(self.type is not None)
         if self.type is not None:
             queryset = queryset.filter(file_type=self.type)
             self.type = self.model.file_type_choiced[self.type][1]
@@ -87,7 +89,7 @@ class ProfessCreateView(PassRequestMixin, SuccessMessageMixin, CreateView):
     success_url = reverse_lazy('technology:list')
 
 
-class ProfessUpdateView(UpdateView):
+class ProfessUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
     model = Profess
     form_class = ProfessForm
     template_name = "technology/add_update_profess_form.html"

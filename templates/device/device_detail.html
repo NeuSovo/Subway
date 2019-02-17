@@ -1,319 +1,332 @@
 {% extends 'base.html' %}
 {% block content %}
     <section>
-    <div class="ui segment"><h1 class="ui header aligned center">设备详情</h1>
-        <div class="ui floating labeled icon dropdown button"><i class="filter icon"></i><span class="text">全部</span>
-            <div class="menu">
-                <div class="header"><i class="tags icon"></i>选取部门</div>
-                <div class="divider"></div>
-                <div class="item">部门1</div>
-                <div class="item">部门2</div>
-                <div class="item">部门3</div>
+        <div class="ui segment"><h1 class="ui header aligned center">设备详情</h1>
+             <div class="ui secondary pointing menu">
+                <a class="item active "
+                   href="">电力变电</a>
+                <a class="item"
+                   href="">接触网</a>
+                <a class="item"
+                   href="">通信</a>
+                <a class="item"
+                   href="">信号</a>
             </div>
+            <a href="{% url 'device:list' %}">
+                <button class="ui right labeled icon button primary basic"><i class="right info icon"></i> 设备信息</button>
+            </a>
+            <table class="ui structured table celled line single fixed" id="table">
+                <thead>
+                <tr class="center aligned">
+                    <th rowspan="2">编号</th>
+                    <th rowspan="2">设备名称</th>
+                    <th rowspan="2">专业</th>
+                    <th colspan="12">基本信息</th>
+                    <th colspan="7">检验试验</th>
+                    <th colspan="2">设备保养要求</th>
+                </tr>
+                <tr class="center aligned">
+                    <th>站点</th>
+                    <th>安装位置</th>
+                    <th>主要部件生产厂家</th>
+                    <th>材料名称</th>
+                    <th>规格型号</th>
+                    <th>进场时间</th>
+                    <th>生产厂家</th>
+                    <th>合格证号</th>
+                    <th>使用部位</th>
+                    <th>现场验收结论</th>
+                    <th>状态（安装/调试）</th>
+                    <th>自检/验收人（监理）</th>
+                    <th>实验方式</th>
+                    <th>取样地点</th>
+                    <th>取样时间</th>
+                    <th>取样人</th>
+                    <th>检验项目</th>
+                    <th>检验日期</th>
+                    <th>执行标准</th>
+                    <th>保养内容</th>
+                    <th>注意事项</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="center aligned">
+                    <td>a123</td>
+                    <td>设备0</td>
+                    <td>电力变电</td>
+                    <td>站点1</td>
+                    <td>位置1</td>
+                    <td>主要部件生产厂家</td>
+                    <td>材料名称</td>
+                    <td>规格型号</td>
+                    <td>进场时间</td>
+                    <td>生产厂家</td>
+                    <td>合格证号</td>
+                    <td>使用部位</td>
+                    <td>现场验收结论</td>
+                    <td>状态（安装/调试）</td>
+                    <td>自检/验收人（监理）</td>
+                    <td>实验方式</td>
+                    <td>取样地点</td>
+                    <td>取样时间</td>
+                    <td>取样人</td>
+                    <td>检验项目</td>
+                    <td>检验日期</td>
+                    <td>执行标准</td>
+                    <td>保养内容</td>
+                    <td>注意事项</td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a123</td>
+                    <td>设备1</td>
+                    <td>电力变电</td>
+                    <td>站点2</td>
+                    <td>位置2</td>
+                    <td>主要部件生产厂家</td>
+                    <td>材料名称</td>
+                    <td>规格型号</td>
+                    <td>进场时间</td>
+                    <td>生产厂家</td>
+                    <td>合格证号</td>
+                    <td>使用部位</td>
+                    <td>现场验收结论</td>
+                    <td>状态（安装/调试）</td>
+                    <td>自检/验收人（监理）</td>
+                    <td>实验方式</td>
+                    <td>取样地点</td>
+                    <td>取样时间</td>
+                    <td>取样人</td>
+                    <td>检验项目</td>
+                    <td>检验日期</td>
+                    <td>执行标准</td>
+                    <td>保养内容</td>
+                    <td>注意事项</td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a123</td>
+                    <td>设备2</td>
+                    <td>电力变电</td>
+                    <td>站点3</td>
+                    <td>位置3</td>
+                    <td>主要部件生产厂家</td>
+                    <td>材料名称</td>
+                    <td>规格型号</td>
+                    <td>进场时间</td>
+                    <td>生产厂家</td>
+                    <td>合格证号</td>
+                    <td>使用部位</td>
+                    <td>现场验收结论</td>
+                    <td>状态（安装/调试）</td>
+                    <td>自检/验收人（监理）</td>
+                    <td>实验方式</td>
+                    <td>取样地点</td>
+                    <td>取样时间</td>
+                    <td>取样人</td>
+                    <td>检验项目</td>
+                    <td>检验日期</td>
+                    <td>执行标准</td>
+                    <td>保养内容</td>
+                    <td>注意事项</td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a123</td>
+                    <td>设备3</td>
+                    <td>电力变电</td>
+                    <td>站点4</td>
+                    <td>位置4</td>
+                    <td>主要部件生产厂家</td>
+                    <td>材料名称</td>
+                    <td>规格型号</td>
+                    <td>进场时间</td>
+                    <td>生产厂家</td>
+                    <td>合格证号</td>
+                    <td>使用部位</td>
+                    <td>现场验收结论</td>
+                    <td>状态（安装/调试）</td>
+                    <td>自检/验收人（监理）</td>
+                    <td>实验方式</td>
+                    <td>取样地点</td>
+                    <td>取样时间</td>
+                    <td>取样人</td>
+                    <td>检验项目</td>
+                    <td>检验日期</td>
+                    <td>执行标准</td>
+                    <td>保养内容</td>
+                    <td>注意事项</td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a123</td>
+                    <td>设备4</td>
+                    <td>电力变电</td>
+                    <td>站点5</td>
+                    <td>位置5</td>
+                    <td>主要部件生产厂家</td>
+                    <td>材料名称</td>
+                    <td>规格型号</td>
+                    <td>进场时间</td>
+                    <td>生产厂家</td>
+                    <td>合格证号</td>
+                    <td>使用部位</td>
+                    <td>现场验收结论</td>
+                    <td>状态（安装/调试）</td>
+                    <td>自检/验收人（监理）</td>
+                    <td>实验方式</td>
+                    <td>取样地点</td>
+                    <td>取样时间</td>
+                    <td>取样人</td>
+                    <td>检验项目</td>
+                    <td>检验日期</td>
+                    <td>执行标准</td>
+                    <td>保养内容</td>
+                    <td>注意事项</td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a123</td>
+                    <td>设备5</td>
+                    <td>电力变电</td>
+
+                    <td>站点6</td>
+                    <td>位置6</td>
+                    <td>主要部件生产厂家</td>
+                    <td>材料名称</td>
+                    <td>规格型号</td>
+                    <td>进场时间</td>
+                    <td>生产厂家</td>
+                    <td>合格证号</td>
+                    <td>使用部位</td>
+                    <td>现场验收结论</td>
+                    <td>状态（安装/调试）</td>
+                    <td>自检/验收人（监理）</td>
+                    <td>实验方式</td>
+                    <td>取样地点</td>
+                    <td>取样时间</td>
+                    <td>取样人</td>
+                    <td>检验项目</td>
+                    <td>检验日期</td>
+                    <td>执行标准</td>
+                    <td>保养内容</td>
+                    <td>注意事项</td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a123</td>
+                    <td>设备6</td>
+                    <td>电力变电</td>
+
+                    <td>站点7</td>
+                    <td>位置7</td>
+                    <td>主要部件生产厂家</td>
+                    <td>材料名称</td>
+                    <td>规格型号</td>
+                    <td>进场时间</td>
+                    <td>生产厂家</td>
+                    <td>合格证号</td>
+                    <td>使用部位</td>
+                    <td>现场验收结论</td>
+                    <td>状态（安装/调试）</td>
+                    <td>自检/验收人（监理）</td>
+                    <td>实验方式</td>
+                    <td>取样地点</td>
+                    <td>取样时间</td>
+                    <td>取样人</td>
+                    <td>检验项目</td>
+                    <td>检验日期</td>
+                    <td>执行标准</td>
+                    <td>保养内容</td>
+                    <td>注意事项</td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a123</td>
+                    <td>设备7</td>
+                    <td>电力变电</td>
+
+                    <td>站点8</td>
+                    <td>位置8</td>
+                    <td>主要部件生产厂家</td>
+                    <td>材料名称</td>
+                    <td>规格型号</td>
+                    <td>进场时间</td>
+                    <td>生产厂家</td>
+                    <td>合格证号</td>
+                    <td>使用部位</td>
+                    <td>现场验收结论</td>
+                    <td>状态（安装/调试）</td>
+                    <td>自检/验收人（监理）</td>
+                    <td>实验方式</td>
+                    <td>取样地点</td>
+                    <td>取样时间</td>
+                    <td>取样人</td>
+                    <td>检验项目</td>
+                    <td>检验日期</td>
+                    <td>执行标准</td>
+                    <td>保养内容</td>
+                    <td>注意事项</td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a123</td>
+                    <td>设备8</td>
+                    <td>电力变电</td>
+
+                    <td>站点9</td>
+                    <td>位置9</td>
+                    <td>主要部件生产厂家</td>
+                    <td>材料名称</td>
+                    <td>规格型号</td>
+                    <td>进场时间</td>
+                    <td>生产厂家</td>
+                    <td>合格证号</td>
+                    <td>使用部位</td>
+                    <td>现场验收结论</td>
+                    <td>状态（安装/调试）</td>
+                    <td>自检/验收人（监理）</td>
+                    <td>实验方式</td>
+                    <td>取样地点</td>
+                    <td>取样时间</td>
+                    <td>取样人</td>
+                    <td>检验项目</td>
+                    <td>检验日期</td>
+                    <td>执行标准</td>
+                    <td>保养内容</td>
+                    <td>注意事项</td>
+                </tr>
+                <tr class="center aligned">
+                    <td>a123</td>
+                    <td>设备9</td>
+                    <td>电力变电</td>
+
+                    <td>站点10</td>
+                    <td>位置10</td>
+                    <td>主要部件生产厂家</td>
+                    <td>材料名称</td>
+                    <td>规格型号</td>
+                    <td>进场时间</td>
+                    <td>生产厂家</td>
+                    <td>合格证号</td>
+                    <td>使用部位</td>
+                    <td>现场验收结论</td>
+                    <td>状态（安装/调试）</td>
+                    <td>自检/验收人（监理）</td>
+                    <td>实验方式</td>
+                    <td>取样地点</td>
+                    <td>取样时间</td>
+                    <td>取样人</td>
+                    <td>检验项目</td>
+                    <td>检验日期</td>
+                    <td>执行标准</td>
+                    <td>保养内容</td>
+                    <td>注意事项</td>
+                </tr>
+                </tbody>
+
+                <tfoot>
+                <tr>
+                    <th colspan="23">
+                        <div class="ui pagination menu right floated"><a class="item">1</a>
+                            <div class="disabled item">...</div>
+                            <a class="item">10</a><a class="item active">11</a><a class="item">12</a></div>
+                    </th>
+                </tr>
+                </tfoot>
+            </table>
         </div>
-        <a href="{% url 'device:list' %}">
-            <button class="ui right labeled icon button primary basic"><i class="right info icon"></i> 设备信息</button>
-        </a>
-        <table class="ui structured table celled line single fixed" id="table">
-            <thead>
-            <tr class="center aligned">
-                <th rowspan="2">编号</th>
-                <th rowspan="2">设备名称</th>
-                <th colspan="12">基本信息</th>
-                <th colspan="7">检验试验</th>
-                <th colspan="2">设备保养要求</th>
-            </tr>
-            <tr class="center aligned">
-                <th>站点</th>
-                <th>安装位置</th>
-                <th>主要部件生产厂家</th>
-                <th>材料名称</th>
-                <th>规格型号</th>
-                <th>进场时间</th>
-                <th>生产厂家</th>
-                <th>合格证号</th>
-                <th>使用部位</th>
-                <th>现场验收结论</th>
-                <th>状态（安装/调试）</th>
-                <th>自检/验收人（监理）</th>
-                <th>实验方式</th>
-                <th>取样地点</th>
-                <th>取样时间</th>
-                <th>取样人</th>
-                <th>检验项目</th>
-                <th>检验日期</th>
-                <th>执行标准</th>
-                <th>保养内容</th>
-                <th>注意事项</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="center aligned">
-                <td>a123</td>
-                <td>设备0</td>
-                <td>站点1</td>
-                <td>位置1</td>
-                <td>主要部件生产厂家</td>
-                <td>材料名称</td>
-                <td>规格型号</td>
-                <td>进场时间</td>
-                <td>生产厂家</td>
-                <td>合格证号</td>
-                <td>使用部位</td>
-                <td>现场验收结论</td>
-                <td>状态（安装/调试）</td>
-                <td>自检/验收人（监理）</td>
-                <td>实验方式</td>
-                <td>取样地点</td>
-                <td>取样时间</td>
-                <td>取样人</td>
-                <td>检验项目</td>
-                <td>检验日期</td>
-                <td>执行标准</td>
-                <td>保养内容</td>
-                <td>注意事项</td>
-            </tr>
-            <tr class="center aligned">
-                <td>a123</td>
-                <td>设备1</td>
-                <td>站点2</td>
-                <td>位置2</td>
-                <td>主要部件生产厂家</td>
-                <td>材料名称</td>
-                <td>规格型号</td>
-                <td>进场时间</td>
-                <td>生产厂家</td>
-                <td>合格证号</td>
-                <td>使用部位</td>
-                <td>现场验收结论</td>
-                <td>状态（安装/调试）</td>
-                <td>自检/验收人（监理）</td>
-                <td>实验方式</td>
-                <td>取样地点</td>
-                <td>取样时间</td>
-                <td>取样人</td>
-                <td>检验项目</td>
-                <td>检验日期</td>
-                <td>执行标准</td>
-                <td>保养内容</td>
-                <td>注意事项</td>
-            </tr>
-            <tr class="center aligned">
-                <td>a123</td>
-                <td>设备2</td>
-                <td>站点3</td>
-                <td>位置3</td>
-                <td>主要部件生产厂家</td>
-                <td>材料名称</td>
-                <td>规格型号</td>
-                <td>进场时间</td>
-                <td>生产厂家</td>
-                <td>合格证号</td>
-                <td>使用部位</td>
-                <td>现场验收结论</td>
-                <td>状态（安装/调试）</td>
-                <td>自检/验收人（监理）</td>
-                <td>实验方式</td>
-                <td>取样地点</td>
-                <td>取样时间</td>
-                <td>取样人</td>
-                <td>检验项目</td>
-                <td>检验日期</td>
-                <td>执行标准</td>
-                <td>保养内容</td>
-                <td>注意事项</td>
-            </tr>
-            <tr class="center aligned">
-                <td>a123</td>
-                <td>设备3</td>
-                <td>站点4</td>
-                <td>位置4</td>
-                <td>主要部件生产厂家</td>
-                <td>材料名称</td>
-                <td>规格型号</td>
-                <td>进场时间</td>
-                <td>生产厂家</td>
-                <td>合格证号</td>
-                <td>使用部位</td>
-                <td>现场验收结论</td>
-                <td>状态（安装/调试）</td>
-                <td>自检/验收人（监理）</td>
-                <td>实验方式</td>
-                <td>取样地点</td>
-                <td>取样时间</td>
-                <td>取样人</td>
-                <td>检验项目</td>
-                <td>检验日期</td>
-                <td>执行标准</td>
-                <td>保养内容</td>
-                <td>注意事项</td>
-            </tr>
-            <tr class="center aligned">
-                <td>a123</td>
-                <td>设备4</td>
-                <td>站点5</td>
-                <td>位置5</td>
-                <td>主要部件生产厂家</td>
-                <td>材料名称</td>
-                <td>规格型号</td>
-                <td>进场时间</td>
-                <td>生产厂家</td>
-                <td>合格证号</td>
-                <td>使用部位</td>
-                <td>现场验收结论</td>
-                <td>状态（安装/调试）</td>
-                <td>自检/验收人（监理）</td>
-                <td>实验方式</td>
-                <td>取样地点</td>
-                <td>取样时间</td>
-                <td>取样人</td>
-                <td>检验项目</td>
-                <td>检验日期</td>
-                <td>执行标准</td>
-                <td>保养内容</td>
-                <td>注意事项</td>
-            </tr>
-            <tr class="center aligned">
-                <td>a123</td>
-                <td>设备5</td>
-                <td>站点6</td>
-                <td>位置6</td>
-                <td>主要部件生产厂家</td>
-                <td>材料名称</td>
-                <td>规格型号</td>
-                <td>进场时间</td>
-                <td>生产厂家</td>
-                <td>合格证号</td>
-                <td>使用部位</td>
-                <td>现场验收结论</td>
-                <td>状态（安装/调试）</td>
-                <td>自检/验收人（监理）</td>
-                <td>实验方式</td>
-                <td>取样地点</td>
-                <td>取样时间</td>
-                <td>取样人</td>
-                <td>检验项目</td>
-                <td>检验日期</td>
-                <td>执行标准</td>
-                <td>保养内容</td>
-                <td>注意事项</td>
-            </tr>
-            <tr class="center aligned">
-                <td>a123</td>
-                <td>设备6</td>
-                <td>站点7</td>
-                <td>位置7</td>
-                <td>主要部件生产厂家</td>
-                <td>材料名称</td>
-                <td>规格型号</td>
-                <td>进场时间</td>
-                <td>生产厂家</td>
-                <td>合格证号</td>
-                <td>使用部位</td>
-                <td>现场验收结论</td>
-                <td>状态（安装/调试）</td>
-                <td>自检/验收人（监理）</td>
-                <td>实验方式</td>
-                <td>取样地点</td>
-                <td>取样时间</td>
-                <td>取样人</td>
-                <td>检验项目</td>
-                <td>检验日期</td>
-                <td>执行标准</td>
-                <td>保养内容</td>
-                <td>注意事项</td>
-            </tr>
-            <tr class="center aligned">
-                <td>a123</td>
-                <td>设备7</td>
-                <td>站点8</td>
-                <td>位置8</td>
-                <td>主要部件生产厂家</td>
-                <td>材料名称</td>
-                <td>规格型号</td>
-                <td>进场时间</td>
-                <td>生产厂家</td>
-                <td>合格证号</td>
-                <td>使用部位</td>
-                <td>现场验收结论</td>
-                <td>状态（安装/调试）</td>
-                <td>自检/验收人（监理）</td>
-                <td>实验方式</td>
-                <td>取样地点</td>
-                <td>取样时间</td>
-                <td>取样人</td>
-                <td>检验项目</td>
-                <td>检验日期</td>
-                <td>执行标准</td>
-                <td>保养内容</td>
-                <td>注意事项</td>
-            </tr>
-            <tr class="center aligned">
-                <td>a123</td>
-                <td>设备8</td>
-                <td>站点9</td>
-                <td>位置9</td>
-                <td>主要部件生产厂家</td>
-                <td>材料名称</td>
-                <td>规格型号</td>
-                <td>进场时间</td>
-                <td>生产厂家</td>
-                <td>合格证号</td>
-                <td>使用部位</td>
-                <td>现场验收结论</td>
-                <td>状态（安装/调试）</td>
-                <td>自检/验收人（监理）</td>
-                <td>实验方式</td>
-                <td>取样地点</td>
-                <td>取样时间</td>
-                <td>取样人</td>
-                <td>检验项目</td>
-                <td>检验日期</td>
-                <td>执行标准</td>
-                <td>保养内容</td>
-                <td>注意事项</td>
-            </tr>
-            <tr class="center aligned">
-                <td>a123</td>
-                <td>设备9</td>
-                <td>站点10</td>
-                <td>位置10</td>
-                <td>主要部件生产厂家</td>
-                <td>材料名称</td>
-                <td>规格型号</td>
-                <td>进场时间</td>
-                <td>生产厂家</td>
-                <td>合格证号</td>
-                <td>使用部位</td>
-                <td>现场验收结论</td>
-                <td>状态（安装/调试）</td>
-                <td>自检/验收人（监理）</td>
-                <td>实验方式</td>
-                <td>取样地点</td>
-                <td>取样时间</td>
-                <td>取样人</td>
-                <td>检验项目</td>
-                <td>检验日期</td>
-                <td>执行标准</td>
-                <td>保养内容</td>
-                <td>注意事项</td>
-            </tr>
-            </tbody>
-            <div class="ui icon orange message"><i class="hide icon"></i>
-                <div class="content">
-                    <div class="header">目前没有一条数据</div>
-                    <p>请试着添加一条数据后再试。</p></div>
-            </div>
-            <tfoot>
-            <tr>
-                <th colspan="23">
-                    <div class="ui pagination menu right floated"><a class="item">1</a>
-                        <div class="disabled item">...</div>
-                        <a class="item">10</a><a class="item active">11</a><a class="item">12</a></div>
-                </th>
-            </tr>
-            </tfoot>
-        </table>
-    </div>
-</section>
+    </section>
 {% endblock %}
