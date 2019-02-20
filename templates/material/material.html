@@ -4,6 +4,20 @@
     <section>
         <div class="ui segment">
             <h1 class="ui header aligned center">物料信息</h1>
+        <div class="ui secondary pointing menu">
+                <a class="item active "
+                   href="">电力变电</a>
+                <a class="item"
+                   href="">接触网</a>
+                <a class="item"
+                   href="">通信</a>
+                <a class="item"
+                   href="">信号</a>
+                <div class="right menu">
+                    <a href="" class="item">导出全部专业二维码</a>
+                    <a href="" class="item">添加专业</a>
+                </div>
+            </div>
             <a href="{% url 'material:stock_record' %}">
                 <button class="ui right labeled icon button primary"><i class="right info icon"></i> 操作记录</button>
             </a>
@@ -28,6 +42,8 @@
                 <tr class="center aligned">
                     <th>编号</th>
                     <th>物资名称</th>
+                    <th>生产厂家</th>
+                    <th>专业</th>
                     <th>型号</th>
                     <th>数量</th>
                     <th>单位</th>
@@ -39,6 +55,8 @@
                     <tr class="center aligned">
                         <td>{{ material.id }}</td>
                         <td>{{ material.name }}</td>
+                        <td>生产厂家</td>
+                        <td>电力变电</td>
                         <td>{{ material.type_id }}</td>
                         <td>{{ material.num }}</td>
                         <td>{{ material.unit }}</td>
@@ -69,11 +87,18 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                    <th colspan="6">
+                    <th colspan="8">
                         <button class="ui labeled icon button positive right floated add_material"><i
                                 class="users icon"></i>
                             添加物料
                         </button>
+                        <button class="ui labeled icon button blue left floated update"><i class="users icon"></i><span>  修改专业</span>
+                        </button>
+                        <button class="ui labeled icon button negative left floated delete disabled"><i
+                                class="users icon"></i><span> 删除专业</span>
+                        </button>
+                        <button class="ui labeled icon button black basic left floated append"><i
+                                class="users icon"></i><span>导出该专业二维码</span></button>
                         {% include '_page.html' %}
                     </th>
                 </tr>
@@ -112,8 +137,7 @@
                     <div class="actions" style="margin: 10px">
                         <div class="ui black deny button">取消</div>
                         <button type="button" class="ui btn positive right labeled icon button" onclick="inout_stock()">
-                            提交<i
-                                class="checkmark icon"></i>
+                            提交<i class="checkmark icon"></i>
                         </button>
                     </div>
                 </form>

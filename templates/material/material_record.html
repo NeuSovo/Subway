@@ -1,26 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
-{% include "_modal.html" %}
-<section>
-    <div class="ui segment">
-        <h1 class="ui header aligned center">操作记录</h1>
-        <div class="ui floating labeled icon dropdown button">
-            <i class="filter icon"></i>
-            <label>{{ select_material }}</label>
-            <div class="menu">
-                <div class="header"><i class="tags icon"></i>选取物资</div>
-                <div class="divider"></div>
-                <a class="item" href="{% url 'material:stock_record' %}">全部</a>
-                {% for material in material_list %}
-                <a class="item" href="{% url 'material:stock_record_with_id' material.id  %}">{{ material.name }} </a>
-                {% endfor %}
+    {% include "_modal.html" %}
+    <section>
+        <div class="ui segment">
+            <h1 class="ui header aligned center">操作记录</h1>
+            <div class="ui secondary pointing menu">
+                <a class="item active "
+                   href="">电力变电</a>
+                <a class="item"
+                   href="">接触网</a>
+                <a class="item"
+                   href="">通信</a>
+                <a class="item"
+                   href="">信号</a>
+
             </div>
-        </div>
-        <a href="{% url 'material:list' %}">
-            <button class="ui right labeled icon button primary basic"><i class="right info icon"></i> 物料信息</button>
-        </a>
-        <table class="ui table celled line single fixed" id="table">
-            <thead>
+            <div class="ui floating labeled icon dropdown button">
+                <i class="filter icon"></i>
+                <label>{{ select_material }}</label>
+                <div class="menu">
+                    <div class="header"><i class="tags icon"></i>选取物资</div>
+                    <div class="divider"></div>
+                    <a class="item" href="{% url 'material:stock_record' %}">全部</a>
+                    {% for material in material_list %}
+                        <a class="item"
+                           href="{% url 'material:stock_record_with_id' material.id %}">{{ material.name }} </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <a href="{% url 'material:list' %}">
+                <button class="ui right labeled icon button primary basic"><i class="right info icon"></i> 物料信息</button>
+            </a>
+            <table class="ui table celled line single fixed" id="table">
+                <thead>
                 <tr class="center aligned">
                     <th>编号</th>
                     <th>物资名称</th>
@@ -32,52 +44,52 @@
                     <th>数量</th>
                     <th>操作人</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 {% for record in object_list %}
-                <tr class="center aligned">
-                    <td>{{ record.material.id }}</td>
-                    <td>{{ record.material.name}}</td>
-                    <td>{{ record.material.type_id }}</td>
-                    <td>{{ record.material.num }}</td>
-                    <td>{{ record.material.unit }}</td>
-                    <td>{{ record.operation_date }}</td>
-                    <td>{{ record.operation_type }}</td>
-                    <td>{{ record.count }}</td>
-                    <td>{{ record.create_user }}</td>
-                </tr>
+                    <tr class="center aligned">
+                        <td>{{ record.material.id }}</td>
+                        <td>{{ record.material.name }}</td>
+                        <td>{{ record.material.type_id }}</td>
+                        <td>{{ record.material.num }}</td>
+                        <td>{{ record.material.unit }}</td>
+                        <td>{{ record.operation_date }}</td>
+                        <td>{{ record.operation_type }}</td>
+                        <td>{{ record.count }}</td>
+                        <td>{{ record.create_user }}</td>
+                    </tr>
 
                 {% empty %}
-                <div class="ui icon orange message"><i class="hide icon"></i>
-                    <div class="content">
-                        <div class="header">目前没有一条数据</div>
-                        <p>请试着添加一条数据后再试。</p>
+                    <div class="ui icon orange message"><i class="hide icon"></i>
+                        <div class="content">
+                            <div class="header">目前没有一条数据</div>
+                            <p>请试着添加一条数据后再试。</p>
+                        </div>
                     </div>
-                </div>
                 {% endfor %}
-            </tbody>
-            <tfoot>
+                </tbody>
+                <tfoot>
                 <tr>
                     {% include '_page.html' %}
                 </tr>
-            </tfoot>
-        </table>
-    </div>
-</section>
+                </tfoot>
+            </table>
+        </div>
+    </section>
 
 
 {% endblock content %}
 {% block script %}
-<script>
-    $('.add_account').each(function () {
-        $(this).modalForm({ formURL: $(this).data('id') })
-    })
-    $(".create_dept").modalForm({ formURL: "{% url 'member:dept_create' %}" });
-    $(".update_dept").each(function () {
-        $(this).modalForm({ formURL: $(this).data('id') })
-    })
-    $(".delete_dept").each(function () {
-        $(this).modalForm({ formURL: $(this).data('id') })
-    })
-</script>
+    <script>
+        $('.add_account').each(function () {
+            $(this).modalForm({formURL: $(this).data('id')})
+        })
+        $(".create_dept").modalForm({formURL: "{% url 'member:dept_create' %}"});
+        $(".update_dept").each(function () {
+            $(this).modalForm({formURL: $(this).data('id')})
+        })
+        $(".delete_dept").each(function () {
+            $(this).modalForm({formURL: $(this).data('id')})
+        })
+    </script>
 {% endblock script %}
