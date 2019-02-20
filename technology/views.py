@@ -23,7 +23,7 @@ class TechnologyFileListView(ListView):
 
     def get(self, request, *args, **kwargs):
         if not self.profess:
-            return HttpResponseRedirect(reverse_lazy('technology:add_profess'))
+            return HttpResponseRedirect(reverse_lazy('technology:init_profess'))
         profess_id = kwargs.get('profess_id')
         if profess_id:
             self.profess = get_object_or_404(Profess, pk=profess_id)
@@ -85,6 +85,14 @@ class ProfessCreateView(PassRequestMixin, SuccessMessageMixin, CreateView):
     model = Profess
     form_class = ProfessForm
     template_name = "technology/add_update_profess_form.html"
+    success_message = '%(name)s 添加成功'
+    success_url = reverse_lazy('technology:list')
+
+
+class ProfessInitView(PassRequestMixin, SuccessMessageMixin, CreateView):
+    model = Profess
+    form_class = ProfessForm
+    template_name = "technology/init_profess_form.html"
     success_message = '%(name)s 添加成功'
     success_url = reverse_lazy('technology:list')
 

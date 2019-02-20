@@ -13,7 +13,6 @@ class TechnologyFile(models.Model):
     file_type_choiced = (
         (0, '图纸会审情况'),
         (1, '技术交底'),
- 
         (2, '作业指导书'),
         (3, '工艺工法')
     )

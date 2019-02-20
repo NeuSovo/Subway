@@ -117,7 +117,7 @@
 <div class="message">
     {% if messages %}
         {% for message in messages %}
-            <div class="ui {{ message.tags }}  message">
+            <div class="ui {{ message.tags }} global message">
                 <i class="close icon"></i>
                 <div class="header">{{ message }}</div>
                 <p>5秒后关闭</p>
@@ -130,7 +130,7 @@
                         clearInterval(a)
                     } else {
                         i--
-                        $('.message p').html(i + '秒后关闭')
+                        $('.message.global p').html(i + '秒后关闭')
                     }
                 }, 1000)
             </script>
