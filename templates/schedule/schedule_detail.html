@@ -2,16 +2,23 @@
 {% block content %}
     <section>
         <div class="ui segment"><h1 class="ui header aligned center">进度管理</h1>
-            <div class="ui floating labeled icon dropdown button"><i class="filter icon"></i><span
-                    class="text">全部</span>
-                <div class="menu">
-                    <div class="header"><i class="tags icon"></i>选取部门</div>
-                    <div class="divider"></div>
-                    <div class="item">全部地点</div>
-                    <div class="item">车站</div>
-                    <div class="item">机场</div>
+            <div class="ui secondary pointing menu">
+                <a class="item active "
+                   href="">电力变电</a>
+                <a class="item"
+                   href="">接触网</a>
+                <a class="item"
+                   href="">通信</a>
+                <a class="item"
+                   href="">信号</a>
+                <div class="right menu">
+                    <a href="" class="item">导出全部专业二维码</a>
+                    <a href="" class="item">添加专业</a>
                 </div>
             </div>
+             <a href="{% url 'schedule:list' %}">
+                <button class="ui right labeled icon button primary basic"><i class="right info icon"></i>进度操作</button>
+            </a>
             <div class="ui animated fade right floated button">
                 <div class="hidden content"><i class="upload icon"></i></div>
                 <div class="visible content">导出全部二维码</div>
@@ -27,6 +34,7 @@
                     <th>编号</th>
                     <th>施工地点</th>
                     <th>作业名称</th>
+                    <th>专业</th>
                     <th>单位</th>
                     <th>开累完成率</th>
                     <th>设计总量</th>
@@ -43,142 +51,9 @@
                 <tr class="center aligned">
                     <td>0</td>
                     <td>车站</td>
+
                     <td>设备安装</td>
-                    <td>台</td>
-                    <td>85%</td>
-                    <td>33</td>
-                    <td>6</td>
-                    <td>27</td>
-                    <td>6</td>
-                    <td>6</td>
-                    <td>0</td>
-                    <td>3</td>
-                    <td>2</td>
-                </tr>
-                <tr class="center aligned">
-                    <td>1</td>
-                    <td>车站</td>
-                    <td>设备安装</td>
-                    <td>台</td>
-                    <td>85%</td>
-                    <td>33</td>
-                    <td>6</td>
-                    <td>27</td>
-                    <td>6</td>
-                    <td>6</td>
-                    <td>0</td>
-                    <td>3</td>
-                    <td>2</td>
-                </tr>
-                <tr class="center aligned">
-                    <td>2</td>
-                    <td>车站</td>
-                    <td>设备安装</td>
-                    <td>台</td>
-                    <td>85%</td>
-                    <td>33</td>
-                    <td>6</td>
-                    <td>27</td>
-                    <td>6</td>
-                    <td>6</td>
-                    <td>0</td>
-                    <td>3</td>
-                    <td>2</td>
-                </tr>
-                <tr class="center aligned">
-                    <td>3</td>
-                    <td>车站</td>
-                    <td>设备安装</td>
-                    <td>台</td>
-                    <td>85%</td>
-                    <td>33</td>
-                    <td>6</td>
-                    <td>27</td>
-                    <td>6</td>
-                    <td>6</td>
-                    <td>0</td>
-                    <td>3</td>
-                    <td>2</td>
-                </tr>
-                <tr class="center aligned">
-                    <td>4</td>
-                    <td>车站</td>
-                    <td>设备安装</td>
-                    <td>台</td>
-                    <td>85%</td>
-                    <td>33</td>
-                    <td>6</td>
-                    <td>27</td>
-                    <td>6</td>
-                    <td>6</td>
-                    <td>0</td>
-                    <td>3</td>
-                    <td>2</td>
-                </tr>
-                <tr class="center aligned">
-                    <td>5</td>
-                    <td>车站</td>
-                    <td>设备安装</td>
-                    <td>台</td>
-                    <td>85%</td>
-                    <td>33</td>
-                    <td>6</td>
-                    <td>27</td>
-                    <td>6</td>
-                    <td>6</td>
-                    <td>0</td>
-                    <td>3</td>
-                    <td>2</td>
-                </tr>
-                <tr class="center aligned">
-                    <td>6</td>
-                    <td>车站</td>
-                    <td>设备安装</td>
-                    <td>台</td>
-                    <td>85%</td>
-                    <td>33</td>
-                    <td>6</td>
-                    <td>27</td>
-                    <td>6</td>
-                    <td>6</td>
-                    <td>0</td>
-                    <td>3</td>
-                    <td>2</td>
-                </tr>
-                <tr class="center aligned">
-                    <td>7</td>
-                    <td>车站</td>
-                    <td>设备安装</td>
-                    <td>台</td>
-                    <td>85%</td>
-                    <td>33</td>
-                    <td>6</td>
-                    <td>27</td>
-                    <td>6</td>
-                    <td>6</td>
-                    <td>0</td>
-                    <td>3</td>
-                    <td>2</td>
-                </tr>
-                <tr class="center aligned">
-                    <td>8</td>
-                    <td>车站</td>
-                    <td>设备安装</td>
-                    <td>台</td>
-                    <td>85%</td>
-                    <td>33</td>
-                    <td>6</td>
-                    <td>27</td>
-                    <td>6</td>
-                    <td>6</td>
-                    <td>0</td>
-                    <td>3</td>
-                    <td>2</td>
-                </tr>
-                <tr class="center aligned">
-                    <td>9</td>
-                    <td>车站</td>
-                    <td>设备安装</td>
+                     <td>电力变电</td>
                     <td>台</td>
                     <td>85%</td>
                     <td>33</td>
@@ -193,7 +68,7 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                    <th colspan="13">
+                    <th colspan="14">
                         <div class="ui pagination menu right floated"><a class="item">1</a>
                             <div class="disabled item">...</div>
                             <a class="item">10</a><a class="item active">11</a><a class="item">12</a></div>

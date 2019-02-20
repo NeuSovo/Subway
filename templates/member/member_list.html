@@ -20,6 +20,10 @@
             <a href="{% url 'member:member_list_detail' %}">
                 <button class="ui right labeled icon button primary"><i class="right info icon"></i> 查看详细</button>
             </a>
+            <div class="ui animated fade right floated button">
+                <div class="hidden content"><i class="upload icon"></i></div>
+                <div class="visible content">导出全部二维码</div>
+            </div>
             <div class="ui buttons right floated">
                 <form action="{% url 'member:member_import' %}" id="import_form" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -88,7 +92,8 @@
                 <tr>
                     <th colspan="6">
                         {% if member_add or user.is_superuser %}
-                            <button class="ui labeled icon button positive right floated add_member" data-id="{% url 'member:member_add' %}"><i
+                            <button class="ui labeled icon button positive right floated add_member"
+                                    data-id="{% url 'member:member_add' %}"><i
                                     class="users icon"></i>
                                 添加员工
                             </button>
