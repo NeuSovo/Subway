@@ -8,6 +8,8 @@ class Material(models.Model):
     id = models.AutoField(primary_key=True, verbose_name='编号')
     name = models.CharField(max_length=155, verbose_name='名称')
     type_id = models.CharField(max_length=20, verbose_name='型号')
+    profess = models.ForeignKey(to="Profess", related_name='profess', on_delete=models.SET_NULL, verbose_name='专业', null=True)
+    manufacturer = models.CharField(max_length=30, verbose_name='生产厂家', default='无')
     num = models.IntegerField(default=0, verbose_name='数量')
     unit = models.CharField(max_length=10, verbose_name='单位')
 
@@ -27,3 +29,18 @@ class MaterialStock(models.Model):
     operation_date = models.DateTimeField(auto_now_add=True, verbose_name='操作日期')
     operation_type = models.IntegerField(default=0, choices=operation_choices, verbose_name='操作类型')
     create_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+
+class Profess(models.Model):
+    """Model definition for Profess."""
+    name = models.CharField(max_length=30)
+
+    class Meta:
+        """Meta definition for Profess."""
+
+        verbose_name = 'Profess'
+        verbose_name_plural = 'Professs'
+
+    def __str__(self):
+        """Unicode representation of Profess."""
+        return self.name

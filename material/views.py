@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.db import transaction, IntegrityError
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
@@ -8,7 +8,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 import django_excel as excel
 
 from .models import *
-from .forms import MaterialForm
+from .forms import MaterialForm, ProfessForm
 
 
 class MaterialAddView(PassRequestMixin, SuccessMessageMixin, CreateView):
@@ -39,6 +39,31 @@ class MaterialListView(ListView):
     template_name = 'material/material.html'
     paginate_by = 100
 
+    def __init__(self):
+        super().__init__()
+        self.profess_all = Profess.objects.all()
+        self.profess = self.profess_all[0] if len(self.profess_all) > 0 else 0
+
+    def get(self, request, *args, **kwargs):
+        if not self.profess:
+            return HttpResponseRedirect(reverse_lazy('material:init_profess'))
+        profess_id = kwargs.get('profess_id')
+        if profess_id:
+            self.profess = get_object_or_404(Profess, pk=profess_id)
+
+        return super().get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        queryset = super(MaterialListView, self).get_queryset()
+        queryset = queryset.filter(profess=self.profess)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['profess_s'] = self.profess_all
+        context['select_profess'] = self.profess
+        return context
+
 
 class MaterialStockRecordView(ListView):
     model = MaterialStock
@@ -62,6 +87,38 @@ class MaterialStockRecordView(ListView):
         else:
             context['select_material'] = '全部'
         return context
+
+
+class ProfessCreateView(PassRequestMixin, SuccessMessageMixin, CreateView):
+    model = Profess
+    form_class = ProfessForm
+    template_name = "material/add_update_profess_form.html"
+    success_message = '%(name)s 添加成功'
+    success_url = reverse_lazy('material:list')
+
+
+class ProfessInitView(PassRequestMixin, SuccessMessageMixin, CreateView):
+    model = Profess
+    form_class = ProfessForm
+    template_name = "material/init_profess_form.html"
+    success_message = '%(name)s 添加成功'
+    success_url = reverse_lazy('material:list')
+
+
+class ProfessUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
+    model = Profess
+    form_class = ProfessForm
+    template_name = "material/add_update_profess_form.html"
+    success_message = '%(name)s 更新成功'
+    success_url = reverse_lazy('material:list')
+
+
+class ProfessDeleteView(DeleteView):
+    model = Profess
+    form_class = ProfessForm
+    success_message = '%(name)s 删除成功'
+    template_name = "material/delete_profess.html"
+    success_url = reverse_lazy('material:list')
 
 
 def material_in_out_stock(request, **kwargs):
