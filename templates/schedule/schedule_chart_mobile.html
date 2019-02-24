@@ -1,92 +1,123 @@
-<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>a</title><link rel="stylesheet" href="../style/semantic.min.css"><link rel="stylesheet" href="../style/mobile.css"><script src="../javascript/jquery-3.2.1.min.js"></script><script src="../javascript/semantic.min.js"></script><script src="../javascript/g2/g2.min.js"></script><script src="../javascript/g2/data-set.min.js"></script></head><body><div class="bg"><img src="../static/mobile.jpg"></div><header class="header"><img src="../static/logo.png"><span>IQ信息管理系统</span></header><div class="content"><div class="table"><div class="title">进度总图表</div><div class="ui floating labeled icon dropdown button"><i class="filter icon"></i><span class="text">电力变电</span><div class="menu"><div class="header"><i class="tags icon"></i>选取部门</div><div class="divider"></div><div class="item">项目部</div><div class="item">电力变电</div></div></div><div style="overflow:hidden"><div id="mountNode"></div></div></div></div><footer class="footer"><div class="row">中铁电气化局集团有限公司西安电务工程分公司</div><div class="desc"><div class="left">©China Railway Electrification Bureau Group Co., Ltd. Xi'an Electrical Engineering Branch</div><div class="right"><img src="../static/header.png"></div></div></footer><script>$ ('.ui.dropdown').dropdown ()
-var sortType = 'positive';
-var data = [{
-	type: '设备安装1',
-	value: 34
-}, {
-	type: '设备安装2',
-	value: 85
-}, {
-	type: '设备安装3',
-	value: 103
-}, {
-	type: '设备安装4',
-	value: 142
-}, {
-	type: '设备安装5',
-	value: 251
-}, {
-	type: '设备安装6',
-	value: 367
-}, {
-	type: '设备安装7',
-	value: 491
-}, {
-	type: '设备安装8',
-	value: 672
-}, {
-	type: '设备安装9',
-	value: 868
-}, {
-	type: '设备安装',
-	value: 1234
-}];
-var chart = new G2.Chart ({
-	container: 'mountNode',
-	forceFit: true,
-	height: window.innerHeight,
-	padding: [20, 30, 0, 100]
-});
-chart.source (data, {
-	value: {
-		max: 1300,
-		min: 0,
-		nice: false,
-		alias: '开累量'
-	}
-});
-chart.axis ('type', {
-	label: {
-		textStyle: {
-			fill: '#8d8d8d',
-			fontSize: 18
-		}
-	},
-	tickLine: {
-		alignWithLabel: false,
-		length: 0
-	},
-	line: {
-		lineWidth: 0
-	}
-});
-chart.axis ('value', {
-	label: null,
-	title:null
-});
-chart.legend (false);
-chart.coord ().transpose ();
-chart.interval ().position ('type*value').size (26).opacity (1).label ('value', {
-	textStyle: {
-		fill: '#8d8d8d'
-	},
-	offset: 10
-});
-chart.render ();
-$ ('.sort-button').click (function () {
-	sortType = sortType === 'positive' ? 'negative' : 'positive';
-	sortData (sortType);
-	chart.repaint ();
-});
+{% extends 'mobile.html' %}
 
-function sortData (sortType) {
-	if (sortType === 'positive') {
-		data.sort (function (a, b) {
-			return b.value - a.value;
-		});
-	} else {
-		data.sort (function (a, b) {
-			return a.value - b.value;
-		});
-	}
-}</script></body></html>
+{% load static %}
+
+{% block style %}
+    <script src="{% static 'javascript/g2/g2.min.js' %}"></script>
+    <script src="{% static 'javascript/g2/data-set.min.js' %}"></script>
+{% endblock %}
+{% block content %}
+    <div class="content">
+        <div class="table">
+            <div class="title">进度总图表</div>
+            <div class="ui floating labeled icon dropdown button"><i class="filter icon"></i><span
+                    class="text">电力变电</span>
+                <div class="menu">
+                    <div class="header"><i class="tags icon"></i>选取部门</div>
+                    <div class="divider"></div>
+                    <div class="item">项目部</div>
+                    <div class="item">电力变电</div>
+                </div>
+            </div>
+            <div style="overflow:hidden">
+                <div id="mountNode"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script>
+        $('.ui.dropdown').dropdown()
+        var sortType = 'positive';
+        var data = [{
+            type: '设备安装1',
+            value: 34
+        }, {
+            type: '设备安装2',
+            value: 85
+        }, {
+            type: '设备安装3',
+            value: 103
+        }, {
+            type: '设备安装4',
+            value: 142
+        }, {
+            type: '设备安装5',
+            value: 251
+        }, {
+            type: '设备安装6',
+            value: 367
+        }, {
+            type: '设备安装7',
+            value: 491
+        }, {
+            type: '设备安装8',
+            value: 672
+        }, {
+            type: '设备安装9',
+            value: 868
+        }, {
+            type: '设备安装',
+            value: 1234
+        }];
+        var chart = new G2.Chart({
+            container: 'mountNode',
+            forceFit: true,
+            height: window.innerHeight,
+            padding: [20, 30, 0, 100]
+        });
+        chart.source(data, {
+            value: {
+                max: 1300,
+                min: 0,
+                nice: false,
+                alias: '开累量'
+            }
+        });
+        chart.axis('type', {
+            label: {
+                textStyle: {
+                    fill: '#8d8d8d',
+                    fontSize: 18
+                }
+            },
+            tickLine: {
+                alignWithLabel: false,
+                length: 0
+            },
+            line: {
+                lineWidth: 0
+            }
+        });
+        chart.axis('value', {
+            label: null,
+            title: null
+        });
+        chart.legend(false);
+        chart.coord().transpose();
+        chart.interval().position('type*value').size(26).opacity(1).label('value', {
+            textStyle: {
+                fill: '#8d8d8d'
+            },
+            offset: 10
+        });
+        chart.render();
+        $('.sort-button').click(function () {
+            sortType = sortType === 'positive' ? 'negative' : 'positive';
+            sortData(sortType);
+            chart.repaint();
+        });
+
+        function sortData(sortType) {
+            if (sortType === 'positive') {
+                data.sort(function (a, b) {
+                    return b.value - a.value;
+                });
+            } else {
+                data.sort(function (a, b) {
+                    return a.value - b.value;
+                });
+            }
+        }</script>
+{% endblock %}
+
