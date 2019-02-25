@@ -15,17 +15,17 @@ backMode_2 = {
         "position": (630, 450),
     },
     "text": [{
-        "size": 70,
+        "size": 60,
         "ttf": static_ttf,
         "color": "#000000",
         "position": (200, 620),
-        "frame": (300, 20),
+        "frame": (500, 20),
     }, {
-        "size": 70,
+        "size": 60,
         "ttf": static_ttf,
         "color": "#000000",
         "position": (200, 820),
-        "frame": (300, 20),
+        "frame": (500, 20),
     }],  
 }
 
@@ -37,23 +37,23 @@ backMode_3 = {
         "position": (630, 450),
     },
     "text": [{
-        "size": 70,
+        "size": 60,
         "ttf": static_ttf,
         "color": "#000000",
         "position": (200, 560),
-        "frame": (300, 20),
+        "frame": (500, 20),
     }, {
-        "size": 70,
+        "size": 60,
         "ttf": static_ttf,
         "color": "#000000",
         "position": (200, 720),
-        "frame": (300, 20),
+        "frame": (500, 20),
     }, {
-        "size": 70,
+        "size": 60,
         "ttf": static_ttf,
         "color": "#000000",
         "position": (200, 870),
-        "frame": (300, 20),
+        "frame": (500, 20),
     }],
 }
 

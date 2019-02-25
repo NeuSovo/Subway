@@ -5,6 +5,8 @@ from core.utils import validate_file_extension
 from core.QR import make_pic
 
 QR_DIR = os.path.join(settings.MEDIA_ROOT, 'safety_qr')
+if not os.path.exists(QR_DIR):
+    os.makedirs(QR_DIR)
 
 class SafetyFile(models.Model):
 

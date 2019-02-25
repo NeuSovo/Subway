@@ -6,6 +6,8 @@ from core.utils import *
 from core.QR import make_pic
 
 QR_DIR = os.path.join(settings.MEDIA_ROOT, 'member_qr')
+if not os.path.exists(QR_DIR):
+    os.makedirs(QR_DIR)
 
 class Departments(models.Model):
     dept_name = models.CharField(

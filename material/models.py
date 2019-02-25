@@ -20,7 +20,7 @@ class Material(models.Model):
         return self.name
 
     def gen_qrcode_img(self):
-        qr = make_pic([self.profess, self.name, self.manufacturer], '/material/detail/'+ str(self.id))
+        qr = make_pic([str(self.profess), self.name, self.manufacturer], '/material/detail/'+ str(self.id))
         qr.save(os.path.join(QR_DIR, str(self.id) + '.png'), quality=100)
 
 
