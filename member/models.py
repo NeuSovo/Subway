@@ -1,9 +1,11 @@
+import os
 from django.db import models
 from django.contrib.auth.models import AbstractUser, UserManager
+from django.conf import settings
 from core.utils import *
+from core.QR import make_pic
 
-urls = 'http://127.0.0.1:8000/member/member_detail'
-
+QR_DIR = os.path.join(settings.MEDIA_ROOT, 'member_qr')
 
 class Departments(models.Model):
     dept_name = models.CharField(
@@ -114,7 +116,12 @@ class Member(models.Model):
 
     @property
     def qrcode_content(self):
-        return urls + en_base64(self.id)
+        return en_base64(self.id)
+
+    def gen_qrcode_img(self):
+        qr = make_pic([self.name, self.dept.dept_name], '/member/member_detail/'+ str(self.id))
+        qr.save(os.path.join(QR_DIR, str(self.id) + '.png'), quality=100)
+
 
     @property
     def get_dept_name(self):

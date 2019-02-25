@@ -263,14 +263,6 @@ class MemberDetailView(DetailView):
     model = Member
     template_name = "member/mobile.html"
 
-    def get_object(self, queryset=None):
-        try:
-            self.kwargs[self.pk_url_kwarg] = de_base64(
-                self.kwargs.get(self.pk_url_kwarg))
-        except Exception as e:
-            raise
-        return super(MemberDetailView, self).get_object(queryset)
-
     def get_context_data(self, **kwargs):
         context = super(MemberDetailView, self).get_context_data(**kwargs)
         setattr(context['object'], 'qrcode',

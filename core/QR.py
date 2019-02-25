@@ -1,8 +1,14 @@
-from PIL import Image, ImageDraw, ImageFont
+import os
 import qrcode
+from PIL import Image, ImageDraw, ImageFont
+from django.conf import settings
 
-backMode = {
-    "back_url": "qr.png",
+static_root =  settings.STATIC_ROOT
+static_ttf = os.path.join(static_root, 'FZXBSJW.TTF')
+QRcode_f_url = 'http://127.0.0.1:8000'
+
+backMode_2 = {
+    "back_url": os.path.join(static_root, "qr.png"),
     "size": (1440, 1440),
     "QR": {
         "frame": (620, 620),
@@ -10,15 +16,43 @@ backMode = {
     },
     "text": [{
         "size": 70,
-        "ttf": "FZXBSJW.TTF",
+        "ttf": static_ttf,
         "color": "#000000",
         "position": (200, 620),
         "frame": (300, 20),
     }, {
         "size": 70,
-        "ttf": "FZXBSJW.TTF",
+        "ttf": static_ttf,
         "color": "#000000",
         "position": (200, 820),
+        "frame": (300, 20),
+    }],  
+}
+
+backMode_3 = {
+    "back_url": os.path.join(static_root, "qr.png"),
+    "size": (1440, 1440),
+    "QR": {
+        "frame": (620, 620),
+        "position": (630, 450),
+    },
+    "text": [{
+        "size": 70,
+        "ttf": static_ttf,
+        "color": "#000000",
+        "position": (200, 560),
+        "frame": (300, 20),
+    }, {
+        "size": 70,
+        "ttf": static_ttf,
+        "color": "#000000",
+        "position": (200, 720),
+        "frame": (300, 20),
+    }, {
+        "size": 70,
+        "ttf": static_ttf,
+        "color": "#000000",
+        "position": (200, 870),
         "frame": (300, 20),
     }],
 }
@@ -64,8 +98,7 @@ def write_line(backimg, text, tmode):  # 给单个文本框填充数据
     return backimg, tend
 
 
-def write_text(img, text, tmodeList):  # 写文本
-    tlist = text.split("\n")
+def write_text(img, tlist, tmodeList):  # 写文本
     mnum = 0
     draw = ImageDraw.Draw(img)
     for t in tlist:
@@ -84,15 +117,16 @@ def write_text(img, text, tmodeList):  # 写文本
     return img
 
 
-def make_pic(mode, text, data):
+def make_pic(text, data):
+    mode = backMode_2 if len(text) == 2 else backMode_3
     img = Image.open(mode["back_url"])  # 读取背景图片
-    QR_res = make_QR(data, mode["QR"]["frame"][0],
+    QR_res = make_QR(QRcode_f_url + data, mode["QR"]["frame"][0],
                      mode["QR"]["frame"][1])  # 创建二维码
     img = com_pic(QR_res, img, mode["QR"]["position"])  # 合成1
     img = write_text(img, text, mode["text"])  # 写文本
-    img.save('A.PNG', quality=100)
+    # img.save('A.PNG', quality=100)
+    return img
 
 
-make_pic(backMode, "晚风窃\n的月色",
-         "http://bd.kuwo.cn/yinyue/41230185")
-exit()
+# make_pic(["晚风大大", "的月色", "阿瓦萨搜索"], "QRcode data")
+
