@@ -1,6 +1,9 @@
-from django.db import models, transaction
+import os
+from django.db import models
 from django.conf import settings
+from core.QR import make_pic
 
+QR_DIR = os.path.join(settings.MEDIA_ROOT, 'material_qr')
 
 class Material(models.Model):
 
@@ -15,6 +18,10 @@ class Material(models.Model):
 
     def __str__(self):
         return self.name
+
+    def gen_qrcode_img(self):
+        qr = make_pic([self.profess, self.name, self.manufacturer], '/material/detail/'+ str(self.id))
+        qr.save(os.path.join(QR_DIR, str(self.id) + '.png'), quality=100)
 
 
 class MaterialStock(models.Model):

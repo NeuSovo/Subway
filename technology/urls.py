@@ -12,6 +12,7 @@ urlpatterns = [
     path('add', TechnologyFileCreateView.as_view(), name='add'),
     path('update/<int:pk>', TechnologyFileUpdateView.as_view(), name='update'),
     path('delete/<int:pk>', TechnologyFileDeleteView.as_view(), name='delete'),
+    path('detail/<int:pk>', TechnologyFileDetailView.as_view(), name='detail'),
     path('init_profess', ProfessInitView.as_view(), name='init_profess'),
     path('add_profess', ProfessCreateView.as_view(), name='add_profess'),
     path('update_profess/<int:pk>', ProfessUpdateView.as_view(), name='update_profess'),

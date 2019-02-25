@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.db import transaction, IntegrityError
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from bootstrap_modal_forms.mixins import PassRequestMixin, DeleteAjaxMixin
 from django.contrib.messages.views import SuccessMessageMixin
 import django_excel as excel
@@ -25,6 +25,11 @@ class MaterialUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
     template_name = 'material/material_update_form.html'
     success_url = reverse_lazy('material:list')
     success_message = '%(name)s 更新成功'
+
+
+class MaterialDetailView(DetailView):
+    model = Material
+    template_name = "TEMPLATE_NAME"
 
 
 class MaterialDeleteView(DeleteAjaxMixin, DeleteView):

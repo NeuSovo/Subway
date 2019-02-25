@@ -7,5 +7,6 @@ urlpatterns = [
     path('list/<int:type_id>', SafetyFileListView.as_view(), name='list_with_type'),
     path('add', SafetyFileCreateView.as_view(), name='add'),
     path('update/<int:pk>', SafetyFileUpdatView.as_view(), name='update'),
-    path('delete/<int:pk>', SafetyFileDetailView.as_view(), name='delete'),
+    path('delete/<int:pk>', SafetyFileDeleteView.as_view(), name='delete'),
+    path('detail/<int:pk>', SafetyFileDetailView.as_view(), name='detail'),
 ]

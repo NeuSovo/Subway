@@ -9,6 +9,7 @@ urlpatterns = [
     path('add', MaterialAddView.as_view(), name='add'),
     path('update/<int:pk>', MaterialUpdateView.as_view(), name='update'),
     path('delete/<int:pk>', MaterialDeleteView.as_view(), name='delete'),
+    path('detail/<int:pk>', MaterialDetailView.as_view(), name='detail'),
     path('import', import_material_data, name='import'),
     path('export', export_material_data, name='export'),
 
