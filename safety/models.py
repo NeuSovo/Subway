@@ -5,8 +5,11 @@ from core.utils import validate_file_extension
 from core.QR import make_pic
 
 QR_DIR = os.path.join(settings.MEDIA_ROOT, 'safety_qr')
+QR_NAME_TEM = '安全二维码_%s.png'
+
 if not os.path.exists(QR_DIR):
     os.makedirs(QR_DIR)
+
 
 class SafetyFile(models.Model):
 
@@ -26,7 +29,21 @@ class SafetyFile(models.Model):
         verbose_name='文件', upload_to='safety/%Y/%m/%d/', null=True, blank=True, validators=[validate_file_extension])
     upload_date = models.DateTimeField(auto_now_add=True)
 
-
     def gen_qrcode_img(self):
-        qr = make_pic([self.title, self.file_type_choiced[self.file_type][1]], '/safety/detail/'+ str(self.id))
-        qr.save(os.path.join(QR_DIR, str(self.id) + '.png'), quality=100)
+        qr = make_pic([self.title, self.file_type_choiced[self.file_type]
+                       [1]], '/safety/detail/' + str(self.id))
+        qr.save(os.path.join(QR_DIR, QR_NAME_TEM % self.id), quality=100)
+
+    @property
+    def qrcode(self):
+        return '/media/safety_qr/' + QR_NAME_TEM % self.id
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if not os.path.exists(os.path.join(QR_DIR, QR_NAME_TEM % self.id)):
+            self.gen_qrcode_img()
+
+    @property
+    def file_url(self):
+        if self.file_s and hasattr(self.file_s, 'url'):
+            return self.file_s.url

@@ -40,25 +40,27 @@
                     <td>{{ item.title }}</td>
                     <td>{{ item.get_file_type_display}}</td>
                     <td>
-                            <a class="ui vertical animated button positive basic center floated qrcode">
-                                <div class="visible content">二维码</div>
-                                <div class="hidden content"><i class="qrcode icon"></i></div>
-                            </a>
-                            <a class="ui vertical animated button primary basic center floated edit"
-                                data-id="{% url 'safety:update' item.id %}">
-                                <div class="visible content">编辑</div>
-                                <div class="hidden content"><i class="edit icon"></i></div>
-                            </a>
-                            <a class="ui vertical animated button primary basic center floated disabled">
-                                <div class="visible content">查看</div>
-                                <div class="hidden content"><i class="edit icon"></i></div>
-                            </a>
-                            <a class="ui vertical animated button negative basic center floated remove"
-                                data-id="{% url 'safety:delete' item.id %}">
-                                <div class="visible content">删除</div>
-                                <div class="hidden content"><i class="remove user icon"></i></div>
-                            </a>
-                        </td>
+                        <a class="ui vertical animated button positive basic right floated my_qrcode"
+                            href="{{ item.qrcode }}" download>
+                            <div class="visible content">二维码</div>
+                            <div class="hidden content"><i class="qrcode icon"></i></div>
+                        </a>
+                        <a class="ui vertical animated button primary basic center floated edit"
+                            data-id="{% url 'safety:update' item.id %}">
+                            <div class="visible content">编辑</div>
+                            <div class="hidden content"><i class="edit icon"></i></div>
+                        </a>
+                        <a class="ui vertical animated button primary basic center floated " 
+                            href="{{ item.file_url|default_if_none:'#' }}">
+                            <div class="visible content">查看</div>
+                            <div class="hidden content"><i class="edit icon"></i></div>
+                        </a>
+                        <a class="ui vertical animated button negative basic center floated remove"
+                            data-id="{% url 'safety:delete' item.id %}">
+                            <div class="visible content">删除</div>
+                            <div class="hidden content"><i class="remove user icon"></i></div>
+                        </a>
+                    </td>
                 </tr>
                 {% empty %}
                 <div class="ui icon orange message"><i class="hide icon"></i>

@@ -124,7 +124,7 @@ class MemberForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
         fields = '__all__'
 
 
-class MemberUpdateForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
+class MemberUpdateForm(forms.ModelForm):
     class Meta:
         model = Member
         fields = '__all__'

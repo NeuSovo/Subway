@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
 
@@ -64,5 +64,13 @@ class SafetyFileDeleteView(DeleteView):
 
 class SafetyFileDetailView(DetailView):
     model = SafetyFile
-    form_class = SafetyFileForm
-    template_name = "safety/delete_form.html"
+
+    def get(self, request, *args, **kwargs):
+        
+        return redirect(self.get_object().file_s.url)
+ 
+    def get_context_data(self, **kwargs):
+        context = super(SafetyFileDetailView, self).get_context_data(**kwargs)
+        print (self.object.file_s.url)
+        
+    

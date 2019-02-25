@@ -1,21 +1,24 @@
+from datetime import datetime
+
 import django_excel as excel
+from bootstrap_modal_forms.mixins import DeleteAjaxMixin, PassRequestMixin
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.messages.views import SuccessMessageMixin
 from django.db import IntegrityError, transaction
 from django.http import Http404, JsonResponse
 from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import (CreateView, UpdateView, DeleteView, DetailView, FormView,
-                                  ListView, View)
-from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib import messages
+from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
+                                  ListView, UpdateView, View)
 
-from bootstrap_modal_forms.mixins import PassRequestMixin, DeleteAjaxMixin
+from core.init_permission import *
+from core.utils import *
+
 from .forms import *
 from .models import *
-from core.utils import *
-from core.init_permission import *
 
 
 class LoginView(FormView):
@@ -224,8 +227,6 @@ class MemberListView(ListView):
         else:
             queryset = queryset.filter(dept=self.dept)
 
-        for i in queryset:
-            setattr(i, 'qrcode', i.qrcode_content)
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -254,7 +255,7 @@ class MemberListDetailView(MemberListView):
 class MemberUpdateView(UpdateView):
     model = Member
     template_name = "member/member_add_update_form2.html"
-    form_class = MemberForm
+    form_class = MemberUpdateForm
     success_message = '%s 更新成功'
     success_url = reverse_lazy('member:member_list')
 
@@ -308,7 +309,6 @@ def import_member_data(request):
 
 
 def export_member_data(request, dept_id=None):
-    from datetime import datetime
     file_name = '员工表_'
     if dept_id:
         dept = get_object_or_404(Departments, pk=dept_id)
@@ -351,3 +351,22 @@ def depass_view(request):
         return JsonResponse({'msg': 'ok', 'pass': depass})	
     except Exception as e:
         return JsonResponse({'msg': str(e)})
+
+
+@login_required(login_url='/auth/login')
+def export_qr_with_dept(request, dept_id=None):
+    file_name = '员工二维码_'
+    if dept_id:
+        dept = get_object_or_404(Departments, pk=dept_id)
+        qr = Member.objects.filter(dept_id=dept_id)
+        file_name += dept.dept_name + '_'
+    else:
+        qr = Member.objects.all()
+    
+    file_name += datetime.now().strftime("%Y-%m-%d") + '.zip'
+    s = compress_file([os.path.join(QR_DIR, QR_NAME_TEM % i.member_id) for i in qr])
+    response = HttpResponse(content_type="application/zip")
+    response["Content-Disposition"] = "attachment; filename=" +  file_name.encode('utf-8').decode('ISO-8859-1')
+    s.seek(0)
+    response.write(s.read())
+    return response
