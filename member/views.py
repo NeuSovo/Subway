@@ -265,8 +265,6 @@ class MemberDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(MemberDetailView, self).get_context_data(**kwargs)
-        setattr(context['object'], 'qrcode',
-                context.get('object').qrcode_content)
         return context
 
 
