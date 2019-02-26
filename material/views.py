@@ -138,7 +138,6 @@ def material_in_out_stock(request, **kwargs):
     material = get_object_or_404(Material, pk=kwargs.get('pk'))
     in_or_out = int(request.POST.get('type_id'))  # 0 in 1 out
     count = int(request.POST.get('count'))
-    print(material, in_or_out, count, type(request.user))
     try:
         with transaction.atomic():
             material.num += count if not in_or_out else -count

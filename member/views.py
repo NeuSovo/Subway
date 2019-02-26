@@ -68,7 +68,6 @@ class AssignAccountView(PassRequestMixin, SuccessMessageMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save()
         self.object.enp = en_password(form.cleaned_data.get('password1'))
-        print(self.object.enp, form.cleaned_data.get('password1'))
         self.object.user_dept = self.dept
         self.object.roles.add(*list(form.cleaned_data.get('roles')))
         return super(AssignAccountView, self).form_valid(form)
@@ -244,7 +243,6 @@ class MemberListView(ListView):
                 pk=self.request.user.user_dept.id)
             context['select_dept'] = self.dept.dept_name
             context['download_dept'] = self.dept.id
-        print(context)
         return context
 
 
