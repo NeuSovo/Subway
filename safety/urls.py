@@ -9,4 +9,6 @@ urlpatterns = [
     path('update/<int:pk>', SafetyFileUpdatView.as_view(), name='update'),
     path('delete/<int:pk>', SafetyFileDeleteView.as_view(), name='delete'),
     path('detail/<int:pk>', SafetyFileDetailView.as_view(), name='detail'),
+    path('export_qr', export_qr, name='export_qr'),
+
 ]

@@ -1,14 +1,20 @@
-from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
-from django.db import transaction, IntegrityError
-from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
-from bootstrap_modal_forms.mixins import PassRequestMixin, DeleteAjaxMixin
-from django.contrib.messages.views import SuccessMessageMixin
-import django_excel as excel
+from datetime import datetime
 
-from .models import *
+import django_excel as excel
+from bootstrap_modal_forms.mixins import DeleteAjaxMixin, PassRequestMixin
+from django.contrib.messages.views import SuccessMessageMixin
+from django.db import IntegrityError, transaction
+from django.http import JsonResponse
+from django.shortcuts import (HttpResponse, HttpResponseRedirect,
+                              get_object_or_404, render)
+from django.urls import reverse_lazy
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
+
+from core.utils import compress_file
+
 from .forms import MaterialForm, ProfessForm
+from .models import *
 
 
 class MaterialAddView(PassRequestMixin, SuccessMessageMixin, CreateView):
@@ -85,10 +91,12 @@ class MaterialStockRecordView(ListView):
         return queryset
 
     def get_context_data(self, **kwargs):
-        context = super(MaterialStockRecordView, self).get_context_data(**kwargs)
+        context = super(MaterialStockRecordView,
+                        self).get_context_data(**kwargs)
         context['material_list'] = Material.objects.all()
         if self.pk:
-            context['select_material'] = get_object_or_404(Material, pk=self.pk)
+            context['select_material'] = get_object_or_404(
+                Material, pk=self.pk)
         else:
             context['select_material'] = '全部'
         return context
@@ -134,7 +142,8 @@ def material_in_out_stock(request, **kwargs):
     try:
         with transaction.atomic():
             material.num += count if not in_or_out else -count
-            material.record.create(count=count, operation_type=in_or_out, create_user=request.user)
+            material.record.create(
+                count=count, operation_type=in_or_out, create_user=request.user)
             material.save()
             return JsonResponse({'msg': 'ok'})
     except Exception as e:
@@ -187,3 +196,18 @@ def export_material_data(request):
         file_name=file_name,
         colnames=colnames
     )
+
+
+def export_qr(request, dept_id=None):
+    file_name = '物资二维码_'
+    qr = Material.objects.all()
+
+    file_name += datetime.now().strftime("%Y-%m-%d") + '.zip'
+    s = compress_file(
+        [os.path.join(QR_DIR_3, QR_3_NAME_TEM % i.id) for i in qr])
+    response = HttpResponse(content_type="application/zip")
+    response["Content-Disposition"] = "attachment; filename=" + \
+        file_name.encode('utf-8').decode('ISO-8859-1')
+    s.seek(0)
+    response.write(s.read())
+    return response

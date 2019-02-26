@@ -12,6 +12,7 @@ urlpatterns = [
     path('detail/<int:pk>', MaterialDetailView.as_view(), name='detail'),
     path('import', import_material_data, name='import'),
     path('export', export_material_data, name='export'),
+    path('export_qr', export_qr, name='export_qr'),
 
     path('stock/record', MaterialStockRecordView.as_view(), name='stock_record'),
     path('stock/record/<int:pk>', MaterialStockRecordView.as_view(), name='stock_record_with_id'),

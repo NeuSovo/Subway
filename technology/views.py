@@ -1,13 +1,18 @@
+from datetime import datetime
+
+from bootstrap_modal_forms.mixins import DeleteAjaxMixin, PassRequestMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.http import Http404
-from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
+from django.shortcuts import (HttpResponse, HttpResponseRedirect,
+                              get_object_or_404, render)
+from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 
-from .models import TechnologyFile, Profess
-from .forms import TechnologyFileForm, ProfessForm
-from bootstrap_modal_forms.mixins import PassRequestMixin, DeleteAjaxMixin
-from django.contrib.messages.views import SuccessMessageMixin
-from django.urls import reverse_lazy
+from core.utils import compress_file
+
+from .forms import ProfessForm, TechnologyFileForm
+from .models import *
 
 
 class TechnologyFileListView(ListView):
@@ -111,3 +116,18 @@ class ProfessDeleteView(DeleteView):
     success_message = '%(name)s 删除成功'
     template_name = "technology/delete_profess.html"
     success_url = reverse_lazy('technology:list')
+
+
+def export_qr(request, dept_id=None):
+    file_name = '技术二维码_'
+    qr = TechnologyFile.objects.all()
+
+    file_name += datetime.now().strftime("%Y-%m-%d") + '.zip'
+    s = compress_file(
+        [os.path.join(QR_DIR_3, QR_3_NAME_TEM % i.id) for i in qr])
+    response = HttpResponse(content_type="application/zip")
+    response["Content-Disposition"] = "attachment; filename=" + \
+        file_name.encode('utf-8').decode('ISO-8859-1')
+    s.seek(0)
+    response.write(s.read())
+    return response

@@ -1,9 +1,14 @@
-from django.shortcuts import redirect
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
-from django.urls import reverse_lazy
+from datetime import datetime
 
-from .models import SafetyFile
+from django.shortcuts import HttpResponse, redirect
+from django.urls import reverse_lazy
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
+
+from core.utils import compress_file
+
 from .forms import SafetyFileForm
+from .models import *
 
 
 class SafetyFileListView(ListView):
@@ -74,3 +79,14 @@ class SafetyFileDetailView(DetailView):
         print (self.object.file_s.url)
         
     
+def export_qr(request, dept_id=None):
+    file_name = '安全二维码_'
+    qr = SafetyFile.objects.all()
+    
+    file_name += datetime.now().strftime("%Y-%m-%d") + '.zip'
+    s = compress_file([os.path.join(QR_DIR, QR_NAME_TEM % i.id) for i in qr])
+    response = HttpResponse(content_type="application/zip")
+    response["Content-Disposition"] = "attachment; filename=" +  file_name.encode('utf-8').decode('ISO-8859-1')
+    s.seek(0)
+    response.write(s.read())
+    return response
