@@ -1,26 +1,24 @@
 {% extends 'base.html' %}
-{% load static %}
-{% block style %}
-    <script src="{% static 'javascript/laydate/laydate.js' %}"></script>
-{% endblock %}
 {% block content %}
+{% include "_modal.html" %}
     <section>
         <div class="ui segment"><h1 class="ui header aligned center">进度管理</h1>
-           <div class="ui secondary pointing menu">
-                <a class="item active "
-                   href="">电力变电</a>
-                <a class="item"
-                   href="">接触网</a>
-                <a class="item"
-                   href="">通信</a>
-                <a class="item"
-                   href="">信号</a>
-                <div class="right menu">
-                    <a href="" class="item">导出全部专业二维码</a>
-                    <a href="" class="item">添加专业</a>
-                </div>
+        <div class="ui secondary pointing menu">
+
+            {% for profess in profess_s %}
+            <a class="item
+            {% ifequal select_profess profess %}
+                active
+            {% endifequal %}
+                " href="{% url 'schedule:list_profess' profess.id %}">{{ profess.name }}</a>
+            {% endfor %}
+            <div class="right menu">
+                <a href="" class="item">导出全部专业二维码</a>
+                <a href="#" class="item add_profess" onclick="return false">添加专业</a>
+
             </div>
-             <a href="{% url 'schedule:detail' %}">
+        </div>
+             <a href="{% url 'schedule:list_detail_with_profess' select_profess.id %}">
                 <button class="ui right labeled icon button primary"><i class="right info icon"></i>进度详情</button>
             </a>
             <div class="ui animated fade right floated button">
@@ -48,186 +46,77 @@
                 </tr>
                 </thead>
                 <tbody>
+                {% for item in object_list %}
                 <tr class="center aligned">
-                    <td>0</td>
-                    <td>车站</td>
-                    <td>电力变电</td>
-                    <td>设备安装</td>
-                    <td>台</td>
-                    <td>85%</td>
-                    <td>33</td>
-                    <td>6</td>
-                    <td>27</td>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.location }}</td>
+                    <td>{{ item.job_name }}</td>
+                    <td>{{ item.profess }}</td>
+                    <td>{{ item.unit }}</td>
+                    <td>{% widthratio  item.done_count  item.design_total  100 %}%</td>
+                    <td>{{ item.design_total }}</td>
+                    <td>{{ item.done_count }}</td>
+                    <td>{{ item.undone_count }}</td>
                     <td><a class="ui vertical animated button positive basic center floated qrcode">
                         <div class="visible content">二维码</div>
                         <div class="hidden content"><i class="qrcode icon"></i></div>
                     </a><a class="ui vertical animated button primary basic center floated edit">
                         <div class="visible content">编辑</div>
-                        <div class="hidden content"><i class="edit icon"></i></div>
-                    </a><a class="ui vertical animated button primary basic center floated day">
-                        <div class="visible content">日开累</div>
-                        <div class="hidden content"><i class="edit icon"></i></div>
+                        <div class="hidden content update_schedule" data-id="{% url 'schedule:update' item.id %}"><i class="edit icon"></i></div>
                     </a><a class="ui vertical animated button primary basic center floated"
-                           href="{% url 'schedule:item' %}">
+                           href="{% url 'schedule:item_chart' item.id %}">
                         <div class="visible content">任务报表</div>
                         <div class="hidden content"><i class="edit icon"></i></div>
                     </a><a class="ui vertical animated button negative basic center floated remove">
                         <div class="visible content">删除</div>
-                        <div class="hidden content"><i class="remove user icon"></i></div>
+                        <div class="hidden content delete_schedule" data-id="{% url 'schedule:delete' item.id %}"><i class="remove user icon"></i></div>
                     </a></td>
                 </tr>
+                {% endfor %}
                 </tbody>
                 <tfoot>
                 <tr>
                     <th colspan="10">
-                        <button class="ui labeled icon button positive right floated add"><i class="users icon"></i>
+                        <button class="ui labeled icon button positive right floated add_schedule"><i class="users icon"></i>
                             添加任务
                         </button>
-                        <div class="ui pagination menu right floated"><a class="item">1</a>
-                            <div class="disabled item">...</div>
-                            <a class="item">10</a><a class="item active">11</a><a class="item">12</a></div>
-                        <button class="ui labeled icon button blue left floated update"><i class="users icon"></i><span>  修改专业</span>
+                        <button class="ui labeled icon button blue left floated update_profess"><i
+                                class="users icon"></i><span>
+                                修改当前专业信息</span>
                         </button>
-                        <button class="ui labeled icon button negative left floated delete disabled"><i
-                                class="users icon"></i><span> 删除专业</span>
+                        <button class="ui labeled icon button negative left floated delete_profess
+                            {% ifequal object_list|length 0 %}
+                            {% else %}
+                            disabled
+                            {% endifequal %}"
+                            <i class=" users icon"></i><span> 删除当前专业</span>
                         </button>
-                        <button class="ui labeled icon button black basic left floated append"><i
-                                class="users icon"></i><span>导出该专业二维码</span></button>
+                        <a class="ui labeled icon button black basic left floated append" href="{{ select_profess.qrcode }}" download><i
+                            class="users icon"></i><span>导出该专业二维码</span></a>
+                        {% include '_page.html' %}
                     </th>
                 </tr>
                 </tfoot>
             </table><!-- item 操作-->
-            <div class="ui modal edit large"><i class="close icon"></i>
-                <div class="header">日开累</div>
-                <div class="image content">
-                    <div class="ui form">
-                        <div class="field">
-                            <div class="fields">
-                                <div class="field"><label>开累量</label><input type="text" placeholder="" value=""></div>
-                                <div class="field"><label>开累日期</label><input id="layDay" type="text"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="actions">
-                    <div class="ui black deny button">取消</div>
-                    <div class="ui positive right labeled icon button">提交<i class="checkmark icon"></i></div>
-                </div>
-            </div>
-            <div class="ui basic modal remove">
-                <div class="ui icon header"><i class="remove user icon"></i> 确认删除文件吗</div>
-                <div class="content"><p>该文件的所有信息会清空,重新添加用户时二维码重新生成!</p></div>
-                <div class="actions">
-                    <div class="ui red basic cancel inverted button"><i class="remove icon"></i> 否</div>
-                    <div class="ui green ok inverted button"><i class="checkmark icon"></i> 是</div>
-                </div>
-            </div>
-            <div class="ui modal qrcode large basic icon">
-                <div class="ui icon header"><img class="icon my_img"
-                                                 src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg">李徐成
-                </div>
-                <div class="image content">
-                    <div class="description">
-                        <div class="ui vertically divided grid" style="margin-left:-4rem">
-                            <div class="four column row">
-                                <div class="column"><p>工号</p></div>
-                                <div class="column"><p>A123</p></div>
-                                <div class="column"><p>头像</p></div>
-                                <div class="column"><img class="ui mini image rounded my_img"
-                                                         src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg"
-                                                         style="margin:0 0;"></div>
-                            </div>
-                            <div class="four column row">
-                                <div class="column"><p>联系方式</p></div>
-                                <div class="column"><p>123456789</p></div>
-                                <div class="column"><p>性别</p></div>
-                                <div class="column"><p>男</p></div>
-                            </div>
-                            <div class="four column row">
-                                <div class="column"><p>民族</p></div>
-                                <div class="column"><p>汉族</p></div>
-                                <div class="column"><p>血型</p></div>
-                                <div class="column"><p>o型</p></div>
-                            </div>
-                            <div class="four column row">
-                                <div class="column"><p>身份证</p></div>
-                                <div class="column"><p>6101221111111</p></div>
-                                <div class="column"><p>出生日期</p></div>
-                                <div class="column"><p>1999.99.99</p></div>
-                            </div>
-                            <div class="four column row">
-                                <div class="column"><p>职位</p></div>
-                                <div class="column"><p>部长</p></div>
-                                <div class="column"><p>部门</p></div>
-                                <div class="column"><p>技术部</p></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="actions">
-                    <div class="ui black deny button">取消</div>
-                    <div class="ui positive right labeled icon button">下载二维码<i class="checkmark icon"></i></div>
-                </div>
-            </div><!-- global 操作-->
-            <div class="ui modal add large">
-                <div class="header">新增任务</div>
-                <div class="image content">
-                    <div class="ui form">
-                        <div class="field">
-                            <div class="fields">
-                                <div class="field"><label>施工地点</label><input type="text"></div>
-                                <div class="field"><label>作业名称</label><input type="text"></div>
-                                <div class="field"><label>单位</label><input type="text"></div>
-                                <div class="field"><label>设计总量</label><input type="text"></div>
-                                <div class="field"><label>完成计划</label><input id="layDate" type="text"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="actions">
-                    <div class="ui black deny button">取消</div>
-                    <div class="ui positive right labeled icon button">提交<i class="checkmark icon"></i></div>
-                </div>
-            </div>
         </div>
     </section>
 {% endblock %}
 {% block script %}
-    <script>$('a.qrcode').click(function () {
-        $('.modal.qrcode').modal('show')
+    <script>
+    $('.add_schedule').each(function () {
+        $(this).modalForm({ formURL: "{% url 'schedule:add' %}" })
     })
-    $('a.edit').click(function () {
-        $('.ui.modal.add').modal('show')
+    $(".update_schedule").each(function () {
+        $(this).modalForm({ formURL: $(this).data('id') })
     })
-    $('a.remove').click(function () {
-        $('.ui.modal.remove').modal('show')
+    $(".delete_schedule").each(function () {
+        $(this).modalForm({ formURL: $(this).data('id') })
     })
-    $('a.day').click(function () {
-        $('.ui.modal.edit').modal('show')
-    })
-
-
-    $('button.add').click(function () {
-        $('.ui.modal.add').modal('show')
-    })
-
-    laydate.render({
-        elem: '#layDate', //指定元素
-        range: true,
-        done: function (value, date, endDate) {
-            console.log(value); //得到日期生成的值，如：2017-08-18
-            console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-            console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
-        }
-    });
-    laydate.render({
-        elem: '#layDay', //指定元素
-        value: new Date(),
-        done: function (value, date, endDate) {
-            console.log(value); //得到日期生成的值，如：2017-08-18
-            console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-            console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
-        }
-    });
+    $('.add_profess').modalForm({ formURL: '{% url 'schedule:add_profess' %}'})
+    $('button.update_profess').modalForm({ formURL: '{% url 'schedule:update_profess' select_profess.id %}'})
+    $('button.delete_profess').modalForm({ formURL: '{% url 'schedule:delete_profess' select_profess.id %}'})
+    {% if profess_isValid %}
+    alert("{{ profess_isValid}}")
+    {% endif %}
     </script>
 {% endblock %}

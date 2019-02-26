@@ -9,13 +9,15 @@
     <section>
         <div class="ui segment"><h1 class="ui header aligned center">进度总图表</h1>
             <div class="ui floating labeled icon dropdown button"><i class="filter icon"></i><span
-                    class="text">电力变电</span>
+                    class="text">{{ select_profess }}</span>
                 <div class="menu">
                     <div class="header"><i class="tags icon"></i>选取专业</div>
                     <div class="divider"></div>
-                    <div class="item">电力变电</div>
-                    <div class="item">接触网</div>
+                    {% for profess in profess_s %}
+                        <a class="item" href="{% url 'schedule:list_chart_with_profess' profess.id%}" > {{profess}}</a>
+                    {% endfor %}
                 </div>
+
             </div>
             <div style="overflow:hidden">
                 <div id="mountNode"></div>
@@ -27,7 +29,8 @@
 {% block script %}
     <script>
         var sortType = 'positive'
-        var data = [{
+        var data = [ {% for item in object_list %}{type: '{{item.job_name}}' ,value:{{item.done_count}}}, {% endfor %}]
+        var data1 = [{
             type: '设备安装1',
             value: 34
         }, {
@@ -53,7 +56,7 @@
             value: 672
         }, {
             type: '设备安装9',
-            value: 868
+            value: 8688
         }, {
             type: '设备安装',
             value: 1234

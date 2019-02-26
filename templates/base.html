@@ -97,8 +97,8 @@
                 <div class="content">
                     <div class="ui secondary vertical pointing menu">
                         <a class="item" href="{% url 'schedule:list' %}">进度信息</a>
-                        <a class="item" href="{% url 'schedule:detail' %}">进度详情</a>
-                        <a class="item" href="{% url 'schedule:chart' %}">进度报表</a></div>
+                        <a class="item" href="{% url 'schedule:list_detail' %}">进度详情</a>
+                        <a class="item" href="{% url 'schedule:list_chart' %}">进度报表</a></div>
                 </div>
             </div>
             <div class="item">
@@ -144,7 +144,7 @@
     <div class="desc">
         <span>©China Railway Electrification Bureau Group Co., Ltd. Xi'an Electrical Engineering Branch</span></div>
 </footer>
-<script>
+<script>                
     $('#main').click(function () {
         $('.sidebar').sidebar('toggle')
     })

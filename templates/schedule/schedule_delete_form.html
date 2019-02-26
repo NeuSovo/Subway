@@ -1,0 +1,23 @@
+<form method="post" action="">
+    {% csrf_token %}
+    <div class="ui icon header">
+        <i class="remove user icon">
+        </i> 确认删除"{{ object.job_name }} 编号为{{ object.id }} 的任务吗?
+    </div>
+    <div class="actions">
+        <div class="ui red  cancel inverted button"><i class="remove icon"></i> 否</div>
+        <button type="submit" class="ui green ok inverted button"><i class="checkmark icon"></i> 是</button>
+    </div>
+</form>
+{% block style %}
+    <style>
+        .modal-content form {
+            text-align: center;
+        }
+
+        .actions {
+            margin: 20px;
+        }
+
+    </style>
+{% endblock %}
