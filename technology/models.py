@@ -17,12 +17,6 @@ if not os.path.exists(QR_DIR_2):
 
 class TechnologyFile(models.Model):
 
-    profess_choiced = (
-        (0, '电力变电'),
-        (1, '接触网'),
-        (2, '通信'),
-        (3, '信号')
-    )
     file_type_choiced = (
         (0, '图纸会审情况'),
         (1, '技术交底'),
@@ -57,6 +51,14 @@ class TechnologyFile(models.Model):
     def file_url(self):
         if self.file_s and hasattr(self.file_s, 'url'):
             return self.file_s.url
+
+    @property
+    def profess_name(self):
+        return str(self.profess)
+
+    @property
+    def type_display(self):
+        return self.get_file_type_display()
 
 
 class Profess(models.Model):

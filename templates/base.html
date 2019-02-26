@@ -119,7 +119,7 @@
         {% for message in messages %}
             <div class="ui {{ message.tags }} global message">
                 <i class="close icon"></i>
-                <div class="header">{{ message }}</div>
+                <div class="header">{{ message | safe }}</div>
                 <p>5秒后关闭</p>
             </div>
             <script>
@@ -153,6 +153,50 @@
     $('.message .close').on('click', function () {
         $(this).closest('.message').transition('fade')
     })
+
+    $('#import').after('<input type="file" id="load_xls" name="docfile" style="display:none" onchange ="uploadFile()" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">');
+    $('#import').click(function () {
+        document.getElementById("load_xls").click();
+    })
+
+    function inout_stock() {
+        var inout_stock_form = $("#inout_stock_form")[0]
+        $.ajax({
+            url: inout_stock_form.action,
+            type: 'POST',
+            data: new FormData(inout_stock_form),
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                console.log(data)
+                location.reload()
+            },
+            error: function(data){
+                location.reload()
+            }
+        })
+    }
+
+    function uploadFile() {
+        let import_form = $("#import_form")[0];
+        let myform = new FormData(import_form);
+        myform.append('file', $('#load_xls')[0].files[0]);
+        $.ajax({
+            url: import_form.action,
+            type: "POST",
+            data: myform,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                console.log(data)
+                location.reload();
+
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        })
+    }
 </script>
 {% block script %}
 {% endblock script %}

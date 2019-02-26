@@ -131,5 +131,5 @@ class Member(models.Model):
             self.gen_qrcode_img()
 
     @property
-    def get_dept_name(self):
+    def dept_name(self):
         return str(self.dept)

@@ -38,6 +38,10 @@ class SafetyFile(models.Model):
     def qrcode(self):
         return '/media/safety_qr/' + QR_NAME_TEM % self.id
 
+    @property
+    def type_display(self):
+        return self.get_file_type_display()
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if not os.path.exists(os.path.join(QR_DIR, QR_NAME_TEM % self.id)):

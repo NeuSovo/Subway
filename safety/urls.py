@@ -11,4 +11,7 @@ urlpatterns = [
     path('detail/<int:pk>', SafetyFileDetailView.as_view(), name='detail'),
     path('export_qr', export_qr, name='export_qr'),
 
+    path('import', import_safety_data, name='import'),
+    path('export', export_safety_data, name='export'),
+
 ]

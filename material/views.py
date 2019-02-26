@@ -1,3 +1,4 @@
+from django.contrib import messages
 from datetime import datetime
 
 import django_excel as excel
@@ -67,6 +68,7 @@ class MaterialListView(ListView):
     def get_queryset(self):
         queryset = super(MaterialListView, self).get_queryset()
         queryset = queryset.filter(profess=self.profess)
+        print(len(queryset))
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -152,48 +154,53 @@ def material_in_out_stock(request, **kwargs):
 
 def import_material_data(request):
     # 导入数据
+    mapdict = {
+        "名称": "name",
+        "生产厂家": "manufacturer",
+        "专业id": "profess_id",
+        '型号': 'type_id',
+        '数量': 'num',
+        '单位': 'unit',
+    }
     if request.method == "POST":
         try:
             request.FILES['docfile'].save_to_database(
                 name_columns_by_row=0,
                 model=Material,
-                mapdict=['id', 'name', 'type_id', 'num', 'unit'])
-
-            context = {
-                'import_msg': 'ok'
-            }
+                mapdict=mapdict)
+            messages.success(request, "导入成功")
 
         except IntegrityError as e:
             print(e)
-            context = {
-                'import_msg': '请检查Excel是否与已有数据重复'
-            }
+            messages.error(
+                request, '导入失败：请检查Excel内容是否有以下错误: </br> 1.数据重复</br> 2.专业id不存在')
         except ValueError as e:
             print(e)
-            context = {
-                'import_msg': '数据格式错误'
-            }
-        return JsonResponse(context)
-
+            messages.error(
+                request, '导入失败：请检查Excel内容是否有以下错误: </br> 1.数据格式错误 例如id类存在汉字或字母')
+        except Exception as e:
+            messages.error(request, str(e))
+        return JsonResponse({'msg': 'd'})
     else:
         pass
 
 
 def export_material_data(request):
-    from datetime import datetime
     file_name = '物资表_'
     queryset = Material.objects.all()
 
     file_name += datetime.now().strftime("%Y-%m-%d")
 
-    column_names = ['id', 'name', 'type_id', 'num', 'unit']
-    colnames = ['物资编号', '名称', '型号', '数量', '单位']
+    column_names = ['id', 'name', 'manufacturer',
+                    'profess_id', 'profess_name', 'type_id', 'num', 'unit']
+    colnames = ['物资编号', '名称', '生产厂家', '专业id', '专业名称', '型号', '数量', '单位']
     return excel.make_response_from_query_sets(
         queryset,
         column_names,
         'xls',
         file_name=file_name,
-        colnames=colnames
+        colnames=colnames,
+        sheet_name='物资数据',
     )
 
 

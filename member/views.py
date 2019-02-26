@@ -117,7 +117,8 @@ class AssignAccountListView(ListView):
         return super(AssignAccountListView, self).get(request, *args, **kwargs)
 
     def get_queryset(self):
-        queryset = super(AssignAccountListView, self).get_queryset().filter(enp__isnull=False)
+        queryset = super(AssignAccountListView,
+                         self).get_queryset().filter(enp__isnull=False)
         if self.dept_id:
             queryset = queryset.filter(user_dept_id=self.dept_id)
         return queryset
@@ -278,29 +279,35 @@ def qrcode_view(request, data):
 
 def import_member_data(request):
     # 导入数据
+    mapdict = {
+        "员工工号": 'member_id',
+        "部门id": 'dept_id',
+        "部门名字": 'dept_name',
+        '姓名': 'name',
+        '性别': 'sex',
+        '生日': 'birthday',
+        '职位': 'position',
+        '电话': 'phone',
+        '民族': 'nation',
+        '血型': 'blood_type'
+    }
     if request.method == "POST":
         try:
             request.FILES['docfile'].save_to_database(
                 name_columns_by_row=0,
                 model=Member,
-                mapdict=['member_id', 'dept_id', 'name', 'sex', 'birthday', 'position', 'phone', 'nation',
-                         'blood_type'])
-
-            context = {
-                'import_msg': 'ok'
-            }
+                mapdict=mapdict)
+            messages.success(request, "导入成功")
 
         except IntegrityError as e:
             print(e)
-            context = {
-                'import_msg': '请检查Excel是否与已有数据重复'
-            }
+            messages.error(request, '导入失败：请检查Excel内容是否有以下错误: </br> 1.员工工号与已有数据重复</br> 2.部门id不存在')
         except ValueError as e:
             print(e)
-            context = {
-                'import_msg': '数据格式错误'
-            }
-        return JsonResponse(context)
+            messages.error(request, '导入失败：请检查Excel内容是否有以下错误: </br> 1.数据格式错误 例如id类存在汉字或字母')
+        except Exception as e:
+            messages.error(request, str(e))
+        return JsonResponse({'msg': 'd'})
 
     else:
         pass
@@ -317,7 +324,7 @@ def export_member_data(request, dept_id=None):
 
     file_name += datetime.now().strftime("%Y-%m-%d")
 
-    column_names = ['member_id', 'dept_id', 'get_dept_name', 'name', 'sex', 'birthday', 'position', 'phone', 'nation',
+    column_names = ['member_id', 'dept_id', 'dept_name', 'name', 'sex', 'birthday', 'position', 'phone', 'nation',
                     'blood_type']
     colnames = ['员工工号', '部门id', '部门名字', '姓名',
                 '性别', '生日', '职位', '电话', '民族', '血型']
@@ -326,7 +333,7 @@ def export_member_data(request, dept_id=None):
         column_names,
         'xls',
         file_name=file_name,
-        colnames=colnames
+        colnames=colnames,
     )
 
 
@@ -342,11 +349,11 @@ def success_view(request):
     return render(request, 'member/success.html')
 
 
-def depass_view(request):	
-    salt = request.GET.get('enpass', 'np')	
-    try:	
-        depass = de_password(salt)	
-        return JsonResponse({'msg': 'ok', 'pass': depass})	
+def depass_view(request):
+    salt = request.GET.get('enpass', 'np')
+    try:
+        depass = de_password(salt)
+        return JsonResponse({'msg': 'ok', 'pass': depass})
     except Exception as e:
         return JsonResponse({'msg': str(e)})
 
@@ -360,11 +367,13 @@ def export_qr_with_dept(request, dept_id=None):
         file_name += dept.dept_name + '_'
     else:
         qr = Member.objects.all()
-    
+
     file_name += datetime.now().strftime("%Y-%m-%d") + '.zip'
-    s = compress_file([os.path.join(QR_DIR, QR_NAME_TEM % i.member_id) for i in qr])
+    s = compress_file(
+        [os.path.join(QR_DIR, QR_NAME_TEM % i.member_id) for i in qr])
     response = HttpResponse(content_type="application/zip")
-    response["Content-Disposition"] = "attachment; filename=" +  file_name.encode('utf-8').decode('ISO-8859-1')
+    response["Content-Disposition"] = "attachment; filename=" + \
+        file_name.encode('utf-8').decode('ISO-8859-1')
     s.seek(0)
     response.write(s.read())
     return response

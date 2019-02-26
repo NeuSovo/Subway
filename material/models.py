@@ -30,10 +30,21 @@ class Material(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        """Meta definition for Profess."""
+
+        verbose_name = 'Material'
+        verbose_name_plural = 'Materials'
+        ordering = ['id']
 
     @property
     def qrcode(self):
         return '/media/material_qr_3/' + QR_3_NAME_TEM % self.id
+
+    @property
+    def profess_name(self):
+        return str(self.profess)
 
     def gen_qrcode_img(self):
         qr = make_pic([str(self.profess), self.name,
