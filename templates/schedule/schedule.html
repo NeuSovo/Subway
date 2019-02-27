@@ -1,24 +1,24 @@
 {% extends 'base.html' %}
 {% block content %}
-{% include "_modal.html" %}
+    {% include "_modal.html" %}
     <section>
         <div class="ui segment"><h1 class="ui header aligned center">进度管理</h1>
-        <div class="ui secondary pointing menu">
+            <div class="ui secondary pointing menu">
 
-            {% for profess in profess_s %}
-            <a class="item
+                {% for profess in profess_s %}
+                    <a class="item
             {% ifequal select_profess profess %}
                 active
             {% endifequal %}
                 " href="{% url 'schedule:list_profess' profess.id %}">{{ profess.name }}</a>
-            {% endfor %}
-            <div class="right menu">
-                <a href="" class="item">导出全部专业二维码</a>
-                <a href="#" class="item add_profess" onclick="return false">添加专业</a>
+                {% endfor %}
+                <div class="right menu">
+                    <a href="" class="item">导出全部专业二维码</a>
+                    <a href="#" class="item add_profess" onclick="return false">添加专业</a>
 
+                </div>
             </div>
-        </div>
-             <a href="{% url 'schedule:list_detail_with_profess' select_profess.id %}">
+            <a href="{% url 'schedule:list_detail_with_profess' select_profess.id %}">
                 <button class="ui right labeled icon button primary"><i class="right info icon"></i>进度详情</button>
             </a>
             <div class="ui animated fade right floated button">
@@ -47,37 +47,40 @@
                 </thead>
                 <tbody>
                 {% for item in object_list %}
-                <tr class="center aligned">
-                    <td>{{ item.id }}</td>
-                    <td>{{ item.location }}</td>
-                    <td>{{ item.job_name }}</td>
-                    <td>{{ item.profess }}</td>
-                    <td>{{ item.unit }}</td>
-                    <td>{% widthratio  item.done_count  item.design_total  100 %}%</td>
-                    <td>{{ item.design_total }}</td>
-                    <td>{{ item.done_count }}</td>
-                    <td>{{ item.undone_count }}</td>
-                    <td><a class="ui vertical animated button positive basic center floated qrcode">
-                        <div class="visible content">二维码</div>
-                        <div class="hidden content"><i class="qrcode icon"></i></div>
-                    </a><a class="ui vertical animated button primary basic center floated edit">
-                        <div class="visible content">编辑</div>
-                        <div class="hidden content update_schedule" data-id="{% url 'schedule:update' item.id %}"><i class="edit icon"></i></div>
-                    </a><a class="ui vertical animated button primary basic center floated"
-                           href="{% url 'schedule:item_chart' item.id %}">
-                        <div class="visible content">任务报表</div>
-                        <div class="hidden content"><i class="edit icon"></i></div>
-                    </a><a class="ui vertical animated button negative basic center floated remove">
-                        <div class="visible content">删除</div>
-                        <div class="hidden content delete_schedule" data-id="{% url 'schedule:delete' item.id %}"><i class="remove user icon"></i></div>
-                    </a></td>
-                </tr>
+                    <tr class="center aligned">
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.location }}</td>
+                        <td>{{ item.job_name }}</td>
+                        <td>{{ item.profess }}</td>
+                        <td>{{ item.unit }}</td>
+                        <td>{% widthratio item.done_count item.design_total 100 %}%</td>
+                        <td>{{ item.design_total }}</td>
+                        <td>{{ item.done_count }}</td>
+                        <td>{{ item.undone_count }}</td>
+                        <td><a class="ui vertical animated button positive basic center floated qrcode">
+                            <div class="visible content">二维码</div>
+                            <div class="hidden content"><i class="qrcode icon"></i></div>
+                        </a><a class="ui vertical animated button primary basic center floated edit">
+                            <div class="visible content">编辑</div>
+                            <div class="hidden content update_schedule" data-id="{% url 'schedule:update' item.id %}"><i
+                                    class="edit icon"></i></div>
+                        </a><a class="ui vertical animated button primary basic center floated"
+                               href="{% url 'schedule:item_chart' item.id %}">
+                            <div class="visible content">任务报表</div>
+                            <div class="hidden content"><i class="edit icon"></i></div>
+                        </a><a class="ui vertical animated button negative basic center floated remove">
+                            <div class="visible content">删除</div>
+                            <div class="hidden content delete_schedule" data-id="{% url 'schedule:delete' item.id %}"><i
+                                    class="remove user icon"></i></div>
+                        </a></td>
+                    </tr>
                 {% endfor %}
                 </tbody>
                 <tfoot>
                 <tr>
                     <th colspan="10">
-                        <button class="ui labeled icon button positive right floated add_schedule"><i class="users icon"></i>
+                        <button class="ui labeled icon button positive right floated add_schedule"><i
+                                class="users icon"></i>
                             添加任务
                         </button>
                         <button class="ui labeled icon button blue left floated update_profess"><i
@@ -89,10 +92,11 @@
                             {% else %}
                             disabled
                             {% endifequal %}"
-                            <i class=" users icon"></i><span> 删除当前专业</span>
+                        <i class=" users icon"></i><span> 删除当前专业</span>
                         </button>
-                        <a class="ui labeled icon button black basic left floated append" href="{{ select_profess.qrcode }}" download><i
-                            class="users icon"></i><span>导出该专业二维码</span></a>
+                        <a class="ui labeled icon button black basic left floated append"
+                           href="{{ select_profess.qrcode }}" download><i
+                                class="users icon"></i><span>导出该专业二维码</span></a>
                         {% include '_page.html' %}
                     </th>
                 </tr>
@@ -103,20 +107,20 @@
 {% endblock %}
 {% block script %}
     <script>
-    $('.add_schedule').each(function () {
-        $(this).modalForm({ formURL: "{% url 'schedule:add' %}" })
-    })
-    $(".update_schedule").each(function () {
-        $(this).modalForm({ formURL: $(this).data('id') })
-    })
-    $(".delete_schedule").each(function () {
-        $(this).modalForm({ formURL: $(this).data('id') })
-    })
-    $('.add_profess').modalForm({ formURL: '{% url 'schedule:add_profess' %}'})
-    $('button.update_profess').modalForm({ formURL: '{% url 'schedule:update_profess' select_profess.id %}'})
-    $('button.delete_profess').modalForm({ formURL: '{% url 'schedule:delete_profess' select_profess.id %}'})
-    {% if profess_isValid %}
-    alert("{{ profess_isValid}}")
-    {% endif %}
+        $('.add_schedule').each(function () {
+            $(this).modalForm({formURL: "{% url 'schedule:add' %}"})
+        })
+        $(".update_schedule").each(function () {
+            $(this).modalForm({formURL: $(this).data('id')})
+        })
+        $(".delete_schedule").each(function () {
+            $(this).modalForm({formURL: $(this).data('id')})
+        })
+        $('.add_profess').modalForm({formURL: '{% url 'schedule:add_profess' %}'})
+        $('button.update_profess').modalForm({formURL: '{% url 'schedule:update_profess' select_profess.id %}'})
+        $('button.delete_profess').modalForm({formURL: '{% url 'schedule:delete_profess' select_profess.id %}'})
+        {% if profess_isValid %}
+            alert("{{ profess_isValid}}")
+        {% endif %}
     </script>
 {% endblock %}

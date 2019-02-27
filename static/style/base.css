@@ -41,6 +41,9 @@ form .actions {
     padding-top: 5px !important;
     height: 2.6em !important;
 }
+.ui.negative.message{
+    margin-bottom: 10px;
+}
 
 
 /* chart 样式  */

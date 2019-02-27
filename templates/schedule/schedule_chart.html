@@ -30,6 +30,7 @@
     <script>
         var sortType = 'positive'
         var data = [ {% for item in object_list %}{type: '{{item.job_name}}' ,value:{{item.done_count}}}, {% endfor %}]
+        console.log(data)
         var data1 = [{
             type: '设备安装1',
             value: 34
@@ -69,7 +70,7 @@
         })
         chart.source(data, {
             value: {
-                max: 1300,
+                max: 100,
                 min: 0,
                 nice: false,
                 alias: '开累量'
