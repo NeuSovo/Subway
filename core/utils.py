@@ -9,8 +9,6 @@ from django.utils.six import BytesIO, StringIO
 
 k = pyDes.des(b"DESCRYPT", pyDes.CBC, b"\0\0\0\0\0\0\0\0", pad=None, padmode=pyDes.PAD_PKCS5)
 
-k = pyDes.des(b"DESCRYPT", pyDes.CBC, b"\0\0\0\0\0\0\0\0", pad=None, padmode=pyDes.PAD_PKCS5)
-
 
 def gen_qrcode(data):
     img = qrcode.make(data)
