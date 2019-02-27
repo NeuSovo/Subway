@@ -17,6 +17,7 @@ from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
 from core.init_permission import *
 from core.utils import *
 
+from bootstrap_modal_forms.mixins import PassRequestMixin, DeleteAjaxMixin
 from .forms import *
 from .models import *
 
