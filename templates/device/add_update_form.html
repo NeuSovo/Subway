@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/style/semantic.min.css">
+    <link rel="stylesheet" href="/static/style/base.css">
+    <script src="/static/javascript/jquery-3.2.1.min.js"></script>
+    <script src="/static/javascript/semantic.min.js"></script>
+    <title>Document</title>
+    {% block style %}
+    {% endblock style %}
+</head>
+
+<body>
+<div class="ui segment" style="margin: 50px">
+    <form class="ui form">
+        <h4 class="ui dividing header">设备信息表单</h4>
+        <div class="field">
+            <label>基本信息</label>
+            <div class="four fields">
+                <div class="field">
+                    <input type="text" name="" placeholder="设备名称">
+                </div>
+                <div class="field">
+                    <input type="text" name="" placeholder="站点">
+                </div>
+                <div class="field">
+                    <input type="text" name="" placeholder="安装位置">
+                </div>
+                <div class="field">
+                    <input type="text" name="" placeholder="主要部件生产厂家">
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <div class="four fields">
+                <div class="field">
+                    <input type="text" name="" placeholder="材料名称">
+                </div>
+                <div class="field">
+                    <input type="text" name="" placeholder="规格型号">
+                </div>
+                <div class="field">
+                    <input type="text" name="" placeholder="进场时间">
+                </div>
+                <div class="field">
+                    <input type="text" name="" placeholder="生产厂家">
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <div class="four fields">
+                <div class="field">
+                    <input type="text" name="" placeholder="合格证号">
+                </div>
+                <div class="field">
+                    <input type="text" name="" placeholder="使用部位">
+                </div>
+                <div class="field">
+                    <input type="text" name="" placeholder="现场验收结论">
+                </div>
+                <div class="field">
+                    <input type="text" name="" placeholder="自检/验收人">
+                </div>
+            </div>
+        </div>
+        <div class="ui segment">
+            <div class="field">
+                <div class="ui toggle checkbox">
+                    <input type="checkbox" name="gift" tabindex="0" class="hidden">
+                    <label>状态（安装/调试）</label>
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <label>校验实验</label>
+            <div class="four fields">
+                <div class="field">
+                    <input type="text" name="" placeholder="实验方式">
+                </div>
+                <div class="field">
+                    <input type="text" name="" placeholder="取样地点">
+                </div>
+                <div class="field">
+                    <input type="text" name="" placeholder="取样时间">
+                </div>
+                <div class="field">
+                    <input type="text" name="" placeholder="取样人">
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <div class="three fields">
+                <div class="field">
+                    <input type="text" name="" placeholder="检验项目">
+                </div>
+                <div class="field">
+                    <input type="text" name="" placeholder="检验日期">
+                </div>
+                <div class="field">
+                    <input type="text" name="" placeholder="执行标准">
+                </div>
+            </div>
+            <div class="field">
+                <label for="">检验报告</label>
+                <input type="file" name="" placeholder="">
+            </div>
+        </div>
+        <h4 class="ui dividing header">设备保养要求</h4>
+        <div class="field">
+            <label>保养内容</label>
+            <div class="field">
+                <input type="text" name="" placeholder="保养内容">
+            </div>
+        </div>
+        <div class="field">
+            <label>注意事项</label>
+            <div class="field">
+                <input type="text" name="" placeholder="注意事项">
+            </div>
+        </div>
+        <a href="{% url 'device:list' %}">
+            <div class="ui button" tabindex="0">Submit Order</div>
+        </a>
+    </form>
+</div>
+<script>
+    function close_page() {
+        window.opener = null
+        window.open('', '_self')
+        window.close()
+    }
+
+    $('.ui.checkbox').checkbox()
+</script>
+</body>
+
+</html>

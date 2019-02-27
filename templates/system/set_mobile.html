@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="ui segment qrSet"><h1 class="ui header aligned center">移动端定制</h1>
+        <div class="ui divider"></div>
+        <div class="ui container">
+            <div class="left"><span class="desc">header图片：</span><img class="img" src="../static/header.png"
+                                                                      style="height:4em"></div>
+            <div class="right">
+                <button class="ui button">上传</button>
+            </div>
+        </div>
+        <div class="ui divider"></div>
+        <div class="ui container">
+            <div class="left"><span class="desc">移动端背景：</span><img class="img" src="../static/mobile.jpg"
+                                                                   style="height:6em"></div>
+            <div class="right">
+                <button class="ui button">上传</button>
+            </div>
+        </div>
+        <div class="ui divider"></div>
+        <div class="ui container">
+            <div class="left"><span class="desc">footer图标：</span><img class="img" src="../static/logo.png"
+                                                                      style="height:4em"></div>
+            <div class="right">
+                <div class="ui button">上传</div>
+            </div>
+        </div>
+        <div class="ui container">
+            <div class="left"><span class="desc">footer文字：</span><span>中铁电气化局集团有限公司西安电务工程分公司</span></div>
+            <div class="right">
+                <div class="ui button">更改</div>
+            </div>
+        </div>
+        <div class="ui container">
+            <div class="left"><span class="desc">footer注释：</span><span>China Railway Electrification Bureau Group Co., Ltd. Xi'an Electrical Engineering Branch</span>
+            </div>
+            <div class="right">
+                <div class="ui button">更改</div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

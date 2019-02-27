@@ -20,6 +20,10 @@
             <a href="{% url 'member:member_list_detail' %}">
                 <button class="ui right labeled icon button primary"><i class="right info icon"></i> 查看详细</button>
             </a>
+            <div class="ui animated fade right floated button">
+                <div class="hidden content"><i class="upload icon"></i></div>
+                <a class="visible content" href="{% url 'member:export_qr_with_dept' download_dept %}">导出{{select_dept}}部门二维码</a>
+            </div>
             <div class="ui buttons right floated">
                 <form action="{% url 'member:member_import' %}" id="import_form" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -59,8 +63,8 @@
                         <td>{{ member.dept }}</td>
                         <td>{{ member.phone }}</td>
                         <td><a class="ui vertical animated button positive basic right floated my_qrcode"
-                               href="{% url 'member:qrcode' member.qrcode %}"
-                               download="{{ member.member_id }}_{{ member.name }}">
+                               href="{{ member.qrcode }}"
+                               download>
                             <div class="hidden content">二维码</div>
                             <div class="visible content"><i class="qrcode icon"></i></div>
                         </a><a class="ui vertical animated button primary basic left floated my_edit_member">
@@ -88,7 +92,8 @@
                 <tr>
                     <th colspan="6">
                         {% if member_add or user.is_superuser %}
-                            <button class="ui labeled icon button positive right floated add_member" data-id="{% url 'member:member_add' %}"><i
+                            <button class="ui labeled icon button positive right floated add_member"
+                                    data-id="{% url 'member:member_add' %}"><i
                                     class="users icon"></i>
                                 添加员工
                             </button>
@@ -118,31 +123,5 @@
 
 
         $('.ui.dropdown').dropdown()
-
-        $('#import').after('<input type="file" id="load_xls" name="docfile" style="display:none" onchange ="uploadFile()" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">');
-        $('#import').click(function () {
-            document.getElementById("load_xls").click();
-        })
-
-        function uploadFile() {
-            let import_form = $("#import_form")[0];
-            let myform = new FormData(import_form);
-            myform.append('file', $('#load_xls')[0].files[0]);
-            $.ajax({
-                url: import_form.action,
-                type: "POST",
-                data: myform,
-                contentType: false,
-                processData: false,
-                success: function (data) {
-                    console.log(data)
-                    location.reload();
-
-                },
-                error: function (data) {
-                    console.log(data)
-                }
-            })
-        }
     </script>
 {% endblock %}

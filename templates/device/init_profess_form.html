@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="ui container" style="margin-top: 30vh">
+        <div class="ui segment">
+            <div class="ui dividing header">初始化专业信息</div>
+            <form method="post" enctype="multipart/form-data">
+                <!--i.close.icon-->
+                {% csrf_token %}
+                <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+                <div class="ui form">
+                    <div class="fields">
+                        {% for field in form %}
+                            <div class="field">
+                                {#                                <label for="">{{ field.label }}</label>#}
+                                <label for=""> 添加专业名称</label>
+                                {{ field }}</div>
+                            <div class="{% if field.errors %} invalid{% endif %}">
+                                {% for error in field.errors %}
+                                    <p class="ui negative message" style="padding: 0;">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="actions">
+                    <button type="submit" class="ui submit-btn btn positive right labeled icon button">提交<i
+                            class="checkmark icon"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

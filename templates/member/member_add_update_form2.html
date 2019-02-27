@@ -16,10 +16,10 @@
 
 <body>
     <div class="ui segment">
-        <form action="{% url 'member:member_add' %}" id="add_member" method="POST" class="ui form fullscreen" enctype="multipart/form-data">
+        <form id="update_member" method="POST" class="ui form fullscreen" enctype="multipart/form-data">
             <!--i.close.icon-->
             {% csrf_token %}
-            <div class="ui dividing header">新增员工</div>
+            <div class="ui dividing header">更新员工信息</div>
             <div class="field"><label>基本属性</label>
                 <div class="fields">
                     <div class="field">

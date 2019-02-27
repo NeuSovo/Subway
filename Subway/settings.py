@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'technology',  # 技术
     'device',  # 设备
     'safety',  # 安全
-    'schedule'  # 进度
+    'schedule',  # 进度
+    'system'
 ]
 
 MIDDLEWARE = [

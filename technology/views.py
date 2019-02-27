@@ -1,13 +1,21 @@
-from django.http import Http404
-from django.shortcuts import render
+from datetime import datetime
+
+import django_excel as excel
+from bootstrap_modal_forms.mixins import DeleteAjaxMixin, PassRequestMixin
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
+from django.db import IntegrityError
+from django.http import Http404, JsonResponse
+from django.shortcuts import (HttpResponse, HttpResponseRedirect,
+                              get_object_or_404, render)
+from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 
-from .models import TechnologyFile
-from .forms import TechnologyFileForm
-from bootstrap_modal_forms.mixins import PassRequestMixin, DeleteAjaxMixin
-from django.contrib.messages.views import SuccessMessageMixin
-from django.urls import reverse_lazy
+from core.utils import compress_file
+
+from .forms import ProfessForm, TechnologyFileForm
+from .models import *
 
 
 class TechnologyFileListView(ListView):
@@ -16,15 +24,20 @@ class TechnologyFileListView(ListView):
 
     def __init__(self):
         super().__init__()
-        self.profess = 0
+        self.profess_all = Profess.objects.all()
+        self.profess = self.profess_all[0] if len(self.profess_all) > 0 else 0
+
         self.type = None
 
     def get(self, request, *args, **kwargs):
-        self.profess = kwargs.get('profess_id') or self.profess
+        if not self.profess:
+            return HttpResponseRedirect(reverse_lazy('technology:init_profess'))
+        profess_id = kwargs.get('profess_id')
+        if profess_id:
+            self.profess = get_object_or_404(Profess, pk=profess_id)
         self.type = kwargs.get('type_id')
 
-        if (self.profess is not None and self.profess >= len(self.model.profess_choiced)) or (
-                self.type is not None and self.type >= len(self.model.file_type_choiced)):
+        if (self.type is not None and self.type >= len(self.model.file_type_choiced)):
             raise Http404
 
         return super().get(request, *args, **kwargs)
@@ -32,7 +45,6 @@ class TechnologyFileListView(ListView):
     def get_queryset(self):
         queryset = super(TechnologyFileListView, self).get_queryset()
         queryset = queryset.filter(profess=self.profess)
-        print(self.type is not None)
         if self.type is not None:
             queryset = queryset.filter(file_type=self.type)
             self.type = self.model.file_type_choiced[self.type][1]
@@ -42,6 +54,7 @@ class TechnologyFileListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
+        context['profess_s'] = self.profess_all
         context['select_profess'] = self.profess
         context['select_type'] = self.type
         return context
@@ -74,3 +87,99 @@ class TechnologyFileDeleteView(DeleteAjaxMixin, DeleteView):
     template_name = "technology/delete_form.html"
     success_message = '删除成功'
     success_url = reverse_lazy('technology:list')
+
+
+class ProfessCreateView(PassRequestMixin, SuccessMessageMixin, CreateView):
+    model = Profess
+    form_class = ProfessForm
+    template_name = "technology/add_update_profess_form.html"
+    success_message = '%(name)s 添加成功'
+    success_url = reverse_lazy('technology:list')
+
+
+class ProfessInitView(PassRequestMixin, SuccessMessageMixin, CreateView):
+    model = Profess
+    form_class = ProfessForm
+    template_name = "technology/init_profess_form.html"
+    success_message = '%(name)s 添加成功'
+    success_url = reverse_lazy('technology:list')
+
+
+class ProfessUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
+    model = Profess
+    form_class = ProfessForm
+    template_name = "technology/add_update_profess_form.html"
+    success_message = '%(name)s 更新成功'
+    success_url = reverse_lazy('technology:list')
+
+
+class ProfessDeleteView(DeleteView):
+    model = Profess
+    form_class = ProfessForm
+    success_message = '%(name)s 删除成功'
+    template_name = "technology/delete_profess.html"
+    success_url = reverse_lazy('technology:list')
+
+
+def export_qr(request, dept_id=None):
+    file_name = '技术二维码_'
+    qr = TechnologyFile.objects.all()
+
+    file_name += datetime.now().strftime("%Y-%m-%d") + '.zip'
+    s = compress_file(
+        [os.path.join(QR_DIR_3, QR_3_NAME_TEM % i.id) for i in qr])
+    response = HttpResponse(content_type="application/zip")
+    response["Content-Disposition"] = "attachment; filename=" + \
+        file_name.encode('utf-8').decode('ISO-8859-1')
+    s.seek(0)
+    response.write(s.read())
+    return response
+
+
+def import_technology_data(request):
+    # 导入数据
+    mapdict = {
+        "标题": 'title',
+        "文件类型id": 'file_type',
+        '专业id': 'profess_id'
+    }
+    if request.method == "POST":
+        try:
+            request.FILES['docfile'].save_to_database(
+                name_columns_by_row=0,
+                model=TechnologyFile,
+                mapdict=mapdict)
+            messages.success(request, "导入成功")
+
+        except IntegrityError as e:
+            print(e)
+            messages.error(
+                request, '导入失败：请检查Excel内容是否有以下错误: </br> 1.数据重复</br> 2.专业id不存在')
+        except ValueError as e:
+            print(e)
+            messages.error(
+                request, '导入失败：请检查Excel内容是否有以下错误: </br> 1.数据格式错误 例如id类存在汉字或字母')
+        except Exception as e:
+            messages.error(request, str(e))
+        return JsonResponse({'msg': 'd'})
+
+    else:
+        pass
+
+
+def export_technology_data(request):
+    file_name = '技术文件表_'
+    techs = TechnologyFile.objects.all()
+
+    file_name += datetime.now().strftime("%Y-%m-%d")
+
+    column_names = ['id', 'title', 'file_type',
+                    'type_display', 'profess_id', 'profess_name', ]
+    colnames = ['编号', '标题', '文件类型id', '类型名称', '专业id', '专业名称', ]
+    return excel.make_response_from_query_sets(
+        techs,
+        column_names,
+        'xls',
+        file_name=file_name,
+        colnames=colnames,
+    )

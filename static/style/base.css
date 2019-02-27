@@ -1,3 +1,5 @@
+/*全局组件样式微调*/
+
 #table {
     border-spacing: 2px;
 }
@@ -35,30 +37,120 @@ form .actions {
     justify-content: flex-end;
 }
 
+.field select {
+    padding-top: 5px !important;
+    height: 2.6em !important;
+}
+.ui.negative.message{
+    margin-bottom: 10px;
+}
+
+
+/* chart 样式  */
+#mountNode1 {
+    width: 40vw;
+    float: left;
+}
+
+#mountNode2 {
+    width: 40vw;
+    float: right;
+}
 
 
 .g2-guide-html {
-  width: 100px;
-  height: 80px;
-  vertical-align: middle;
-  text-align: center;
-  line-height: 0.2;
+    width: 100px;
+    height: 80px;
+    vertical-align: middle;
+    text-align: center;
+    line-height: 0.2;
 }
+
 .g2-guide-html .title {
-  font-size: 12px;
-  color: #8c8c8c;
-  font-weight: 300;
+    font-size: 12px;
+    color: #8c8c8c;
+    font-weight: 300;
 }
+
 .g2-guide-html .value {
-  font-size: 32px;
-  color: #000;
-  font-weight: bold;
+    font-size: 32px;
+    color: #000;
+    font-weight: bold;
 }
-#mountNode1 {
-  width: 40vw;
-  float: left;
+
+
+.bottom-tool-box {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 40px;
+    z-index: 1000;
 }
-#mountNode2 {
-  width: 40vw;
-  float: right;
+
+.bottom-tool-box .sort-button {
+    width: auto;
+    height: 40%;
+    position: absolute;
+    top: -17%;
+    left: 56%;
+}
+
+/*setting 样式 */
+
+.qrSet {
+    overflow: hidden;
+}
+
+.qrSet .container {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.qrSet .left {
+    font-size: 2em;
+}
+
+.qrSet .left .img {
+    vertical-align: middle;
+}
+
+
+/*全局样式组件*/
+
+header .ui.menu {
+    height: 4em;
+}
+
+header .ui.menu img {
+    position: absolute;
+    left: 43%;
+    top: -1px;
+    height: 4em;
+}
+
+footer {
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    background: #2e3033;
+    color: #fff;
+    padding: 10px;
+}
+
+footer img {
+    height: 2em;
+    margin-right: 10px;
+    border-radius: 50%;
+    vertical-align: bottom;
+}
+
+section {
+    max-height: 83vh;
+    min-height: 80vh;
+    overflow: auto;
 }

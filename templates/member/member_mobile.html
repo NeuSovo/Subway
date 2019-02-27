@@ -1,0 +1,43 @@
+{% extends 'mobile.html' %}
+{% block style %}
+    <style>
+        .content {
+            padding-top: 1px;
+            margin: 5vh 5vw;
+            min-height: 80vh;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, .8);
+            padding-bottom: 2rem;
+            box-shadow: 1px 1px 5px #abb4bf;
+        }
+
+        .content div {
+            margin-top: 3rem;
+            color: #666;
+            text-align: center;
+            font-size: 2rem;
+            font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            font-weight: lighter;
+        }
+
+        .content .name {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .content .avatar img {
+            width: 200px;
+            border-radius: 30px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="content">
+        <div class="avatar"><img src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg"></div>
+        <div class="name">张三</div>
+        <div class="phone">123456789</div>
+        <div class="position"> 设计师</div>
+        <div class="blood">O型血</div>
+        <div class="department">电力变电部</div>
+    </div>
+{% endblock %}

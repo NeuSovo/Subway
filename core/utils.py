@@ -1,9 +1,13 @@
+from os.path import basename
 import qrcode
 import base64
 import pyDes
+import zipfile
 
 from django.contrib.auth.models import AnonymousUser
-from django.utils.six import BytesIO
+from django.utils.six import BytesIO, StringIO
+
+k = pyDes.des(b"DESCRYPT", pyDes.CBC, b"\0\0\0\0\0\0\0\0", pad=None, padmode=pyDes.PAD_PKCS5)
 
 k = pyDes.des(b"DESCRYPT", pyDes.CBC, b"\0\0\0\0\0\0\0\0", pad=None, padmode=pyDes.PAD_PKCS5)
 
@@ -65,3 +69,11 @@ def validate_file_extension(value):
     valid_extensions = ['.pdf', '.doc', '.docx', '.jpg', '.png', '.xlsx', '.xls']
     if not ext.lower() in valid_extensions:
      raise ValidationError(u'不支持此类型的文件')
+
+
+def compress_file(files):
+    mm = BytesIO()
+    with zipfile.ZipFile(mm, 'w') as z:
+        for i in files:
+            z.write(i, basename(i))
+    return mm

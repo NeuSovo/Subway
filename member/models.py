@@ -1,9 +1,14 @@
+import os
 from django.db import models
 from django.contrib.auth.models import AbstractUser, UserManager
+from django.conf import settings
 from core.utils import *
+from core.QR import make_pic
 
-urls = 'http://127.0.0.1:8000/member/member_detail'
-
+QR_DIR = os.path.join(settings.MEDIA_ROOT, 'member_qr')
+QR_NAME_TEM = '员工二维码_%s.png'
+if not os.path.exists(QR_DIR):
+    os.makedirs(QR_DIR)
 
 class Departments(models.Model):
     dept_name = models.CharField(
@@ -111,11 +116,20 @@ class Member(models.Model):
     def __str__(self):
         """Unicode representation of Member."""
         return self.dept.dept_name + '/' + self.name
+ 
+    @property
+    def qrcode(self):
+        return '/media/member_qr/' + QR_NAME_TEM % self.member_id
+
+    def gen_qrcode_img(self):
+        qr = make_pic([self.name, self.dept.dept_name], '/member/member_detail/'+ str(self.id))
+        qr.save(os.path.join(QR_DIR, QR_NAME_TEM % self.member_id), quality=100)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if not os.path.exists(os.path.join(QR_DIR, QR_NAME_TEM % self.member_id)):
+            self.gen_qrcode_img()
 
     @property
-    def qrcode_content(self):
-        return urls + en_base64(self.id)
-
-    @property
-    def get_dept_name(self):
+    def dept_name(self):
         return str(self.dept)
