@@ -1,0 +1,37 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>a</title>
+    <link rel="stylesheet" href="{% static 'style/semantic.min.css' %}">
+    <link rel="stylesheet" href="{% static 'style/mobile.css' %}">
+    <script src="{% static 'javascript/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'javascript/semantic.min.js' %}"></script>
+    {% block style %}
+    {% endblock %}
+</head>
+<body>
+<div class="bg"><img src="../static/mobile.jpg"></div>
+<header class="header">
+    {% block header %}
+    {% endblock %}
+    <img src="../static/logo.png">
+    <span>IQ信息管理系统</span>
+</header>
+{% block content %}
+{% endblock %}
+<footer class="footer">
+    <div class="row">中铁电气化局集团有限公司西安电务工程分公司</div>
+    <div class="desc">
+        <div class="left">©China Railway Electrification Bureau Group Co., Ltd. Xi'an Electrical Engineering Branch
+        </div>
+        <div class="right"><img src="../static/header.png"></div>
+    </div>
+</footer>
+{% block script %}
+{% endblock %}
+</body>
+</html>

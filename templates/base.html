@@ -26,6 +26,7 @@
                 <p>IQ工程管理平台</p>
             </div>
         </div>
+        <img src="{% static 'header.png' %}">
         <div class="right menu">
             <div class="item">
                 <p>欢迎您,{{ user.username }}</p>
@@ -78,8 +79,10 @@
             <div class="item">
                 <div class="title active"><i class="dropdown icon"></i> 设备管理</div>
                 <div class="content">
-                    <div class="ui secondary vertical pointing menu"><a class="item"
-                                                                        href="{% url 'device:list' %}">设备信息</a></div>
+                    <div class="ui secondary vertical pointing menu">
+                        <a class="item" href="{% url 'device:list' %}">设备信息</a>
+                        <a href="{% url 'device:detail' %}" class="item">设备详情</a>
+                    </div>
                 </div>
             </div>
             <div class="item">
@@ -94,8 +97,18 @@
                 <div class="content">
                     <div class="ui secondary vertical pointing menu">
                         <a class="item" href="{% url 'schedule:list' %}">进度信息</a>
-                        <a class="item" href="{% url 'schedule:detail' %}">进度详情</a>
-                        <a class="item" href="{% url 'schedule:chart' %}">进度报表</a></div>
+                        <a class="item" href="{% url 'schedule:list_detail' %}">进度详情</a>
+                        <a class="item" href="{% url 'schedule:list_chart' %}">进度报表</a></div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="title active"><i class="dropdown icon"></i> 系统设置</div>
+                <div class="content">
+                    <div class="ui secondary vertical pointing menu">
+                        <a class="item" href="{% url 'system:set_qr' %}">二维码设置</a>
+                        <a class="item" href="{% url 'system:set_backend' %}">后台设置</a>
+                        <a class="item" href="{% url 'system:set_mobile' %}">移动端设置</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -104,9 +117,9 @@
 <div class="message">
     {% if messages %}
         {% for message in messages %}
-            <div class="ui {{ message.tags }}  message">
+            <div class="ui {{ message.tags }} global message">
                 <i class="close icon"></i>
-                <div class="header">{{ message }}</div>
+                <div class="header">{{ message | safe }}</div>
                 <p>5秒后关闭</p>
             </div>
             <script>
@@ -117,7 +130,7 @@
                         clearInterval(a)
                     } else {
                         i--
-                        $('.message p').html(i + '秒后关闭')
+                        $('.message.global p').html(i + '秒后关闭')
                     }
                 }, 1000)
             </script>
@@ -126,9 +139,12 @@
 </div>
 {% block content %}
 {% endblock content %}
-{% block footer %}
-{% endblock footer %}
-<script>
+<footer>
+    <div class="main"><img src="{% static 'logo.png' %}"><span>中铁电气化局集团有限公司西安电务工程分公司</span></div>
+    <div class="desc">
+        <span>©China Railway Electrification Bureau Group Co., Ltd. Xi'an Electrical Engineering Branch</span></div>
+</footer>
+<script>                
     $('#main').click(function () {
         $('.sidebar').sidebar('toggle')
     })
@@ -137,6 +153,50 @@
     $('.message .close').on('click', function () {
         $(this).closest('.message').transition('fade')
     })
+
+    $('#import').after('<input type="file" id="load_xls" name="docfile" style="display:none" onchange ="uploadFile()" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">');
+    $('#import').click(function () {
+        document.getElementById("load_xls").click();
+    })
+
+    function inout_stock() {
+        var inout_stock_form = $("#inout_stock_form")[0]
+        $.ajax({
+            url: inout_stock_form.action,
+            type: 'POST',
+            data: new FormData(inout_stock_form),
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                console.log(data)
+                location.reload()
+            },
+            error: function(data){
+                location.reload()
+            }
+        })
+    }
+
+    function uploadFile() {
+        let import_form = $("#import_form")[0];
+        let myform = new FormData(import_form);
+        myform.append('file', $('#load_xls')[0].files[0]);
+        $.ajax({
+            url: import_form.action,
+            type: "POST",
+            data: myform,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                console.log(data)
+                location.reload();
+
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        })
+    }
 </script>
 {% block script %}
 {% endblock script %}

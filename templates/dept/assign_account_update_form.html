@@ -10,11 +10,9 @@
         </div>
         <div class="ui form">
             {% for field in form %}
-            <div class="field">
-
+                <div class="field">
                 {{ field.label }}
                 {{ field }}
-
                 {% if field.help_text %}
                     <br><br>
                     {{ field.help_text }}

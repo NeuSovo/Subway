@@ -1,0 +1,30 @@
+<form method="post" enctype="multipart/form-data">
+    <div class="ui dividing header">添加安全文件</div>
+    <div class="image content">
+        <!--i.close.icon-->
+        {% csrf_token %}
+        <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+        <div class="ui form">
+            <div class="four fields">
+                {% for field in form %}
+                    <div class="field">{{ field }}</div>
+                    <div class="{% if field.errors %} invalid{% endif %}">
+                        {% for error in field.errors %}
+                            <p class="ui negative message" style="padding: 0;">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui black deny button">取消</div>
+        <button type="submit" class="ui submit-btn btn positive right labeled icon button">提交<i
+                class="checkmark icon"></i>
+        </button>
+    </div>
+</form>

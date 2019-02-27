@@ -1,0 +1,86 @@
+{% extends 'mobile.html' %}
+
+{% load static %}
+
+
+{% block style %}
+    <script src="{% static 'javascript/g2/g2.min.js' %}"></script>
+    <script src="{% static 'javascript/g2/data-set.min.js' %}"></script>
+{% endblock %}
+{% block content %}
+    <div class="content">
+        <div class="table">
+            <div class="title">任务报表</div>
+            <div id="mountNode"></div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script>
+        var data = [{
+            type: '开累完成量',
+            value: 6
+        }, {
+            type: '剩余总量',
+            value: 27
+        }];
+        var sum = 33;
+        var ds = new DataSet();
+        var dv = ds.createView().source(data);
+        dv.transform({
+            type: 'map',
+            callback: function callback(row) {
+                row.percent = parseFloat(row.value / sum);
+                return row;
+            }
+        });
+        var chart = new G2.Chart({
+            container: 'mountNode',
+            forceFit: true,
+            height: 300,
+            padding: 'auto'
+        });
+        chart.source(dv);
+        chart.tooltip(false);
+        chart.legend({
+            position: 'bottom',
+        });
+        chart.coord('theta', {
+            radius: 0.75,
+            innerRadius: 0.6
+        });
+        chart.intervalStack()
+            .position('percent')
+            .color('type', ['#0a7aca', '#0a9afe'])
+            .opacity(1)
+            .label('percent', {
+                offset: -18,
+                textStyle: {
+                    fill: 'white',
+                    fontSize: 20,
+                    shadowBlur: 2,
+                    shadowColor: 'rgba(0, 0, 0, .45)'
+                },
+                rotate: 0,
+                autoRotate: false,
+                formatter: function formatter(text, item) {
+                    return String(parseInt(item.point.percent * 100)) + '%';
+                }
+            });
+        chart.guide().html({
+            position: ['50%', '50%'],
+            html: `<div class="g2-guide-html"><p class="title">设计总量</p><p class="value">${sum}</p></div>`
+        });
+        chart.on('interval:touchstart', function (ev) {
+            var data = ev.data._origin;
+            $(".g2-guide-html").css('opacity', 1);
+            $(".g2-guide-html .title").text(data.type);
+            $(".g2-guide-html .value").text(data.value);
+        });
+
+        chart.on('interval:touchend', function () {
+            $(".g2-guide-html .title").text('设计总量');
+            $(".g2-guide-html .value").text(sum);
+        });
+        chart.render();</script>
+{% endblock %}

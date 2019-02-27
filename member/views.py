@@ -1,21 +1,24 @@
+from datetime import datetime
+
 import django_excel as excel
+from bootstrap_modal_forms.mixins import DeleteAjaxMixin, PassRequestMixin
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.messages.views import SuccessMessageMixin
 from django.db import IntegrityError, transaction
 from django.http import Http404, JsonResponse
 from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import (CreateView, UpdateView, DeleteView, DetailView, FormView,
-                                  ListView, View)
-from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib import messages
+from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
+                                  ListView, UpdateView, View)
 
-from bootstrap_modal_forms.mixins import PassRequestMixin, DeleteAjaxMixin
+from core.init_permission import *
+from core.utils import *
+
 from .forms import *
 from .models import *
-from core.utils import *
-from core.init_permission import *
 
 
 class LoginView(FormView):
@@ -65,7 +68,6 @@ class AssignAccountView(PassRequestMixin, SuccessMessageMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save()
         self.object.enp = en_password(form.cleaned_data.get('password1'))
-        print(self.object.enp, form.cleaned_data.get('password1'))
         self.object.user_dept = self.dept
         self.object.roles.add(*list(form.cleaned_data.get('roles')))
         return super(AssignAccountView, self).form_valid(form)
@@ -115,7 +117,8 @@ class AssignAccountListView(ListView):
         return super(AssignAccountListView, self).get(request, *args, **kwargs)
 
     def get_queryset(self):
-        queryset = super(AssignAccountListView, self).get_queryset().filter(enp__isnull=False)
+        queryset = super(AssignAccountListView,
+                         self).get_queryset().filter(enp__isnull=False)
         if self.dept_id:
             queryset = queryset.filter(user_dept_id=self.dept_id)
         return queryset
@@ -224,8 +227,6 @@ class MemberListView(ListView):
         else:
             queryset = queryset.filter(dept=self.dept)
 
-        for i in queryset:
-            setattr(i, 'qrcode', i.qrcode_content)
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -243,7 +244,6 @@ class MemberListView(ListView):
                 pk=self.request.user.user_dept.id)
             context['select_dept'] = self.dept.dept_name
             context['download_dept'] = self.dept.id
-        print(context)
         return context
 
 
@@ -254,7 +254,7 @@ class MemberListDetailView(MemberListView):
 class MemberUpdateView(UpdateView):
     model = Member
     template_name = "member/member_add_update_form2.html"
-    form_class = MemberForm
+    form_class = MemberUpdateForm
     success_message = '%s 更新成功'
     success_url = reverse_lazy('member:member_list')
 
@@ -263,18 +263,8 @@ class MemberDetailView(DetailView):
     model = Member
     template_name = "member/mobile.html"
 
-    def get_object(self, queryset=None):
-        try:
-            self.kwargs[self.pk_url_kwarg] = de_base64(
-                self.kwargs.get(self.pk_url_kwarg))
-        except Exception as e:
-            raise
-        return super(MemberDetailView, self).get_object(queryset)
-
     def get_context_data(self, **kwargs):
         context = super(MemberDetailView, self).get_context_data(**kwargs)
-        setattr(context['object'], 'qrcode',
-                context.get('object').qrcode_content)
         return context
 
 
@@ -287,36 +277,41 @@ def qrcode_view(request, data):
 
 def import_member_data(request):
     # 导入数据
+    mapdict = {
+        "员工工号": 'member_id',
+        "部门id": 'dept_id',
+        "部门名字": 'dept_name',
+        '姓名': 'name',
+        '性别': 'sex',
+        '生日': 'birthday',
+        '职位': 'position',
+        '电话': 'phone',
+        '民族': 'nation',
+        '血型': 'blood_type'
+    }
     if request.method == "POST":
         try:
             request.FILES['docfile'].save_to_database(
                 name_columns_by_row=0,
                 model=Member,
-                mapdict=['member_id', 'dept_id', 'name', 'sex', 'birthday', 'position', 'phone', 'nation',
-                         'blood_type'])
-
-            context = {
-                'import_msg': 'ok'
-            }
+                mapdict=mapdict)
+            messages.success(request, "导入成功")
 
         except IntegrityError as e:
             print(e)
-            context = {
-                'import_msg': '请检查Excel是否与已有数据重复'
-            }
+            messages.error(request, '导入失败：请检查Excel内容是否有以下错误: </br> 1.员工工号与已有数据重复</br> 2.部门id不存在')
         except ValueError as e:
             print(e)
-            context = {
-                'import_msg': '数据格式错误'
-            }
-        return JsonResponse(context)
+            messages.error(request, '导入失败：请检查Excel内容是否有以下错误: </br> 1.数据格式错误 例如id类存在汉字或字母')
+        except Exception as e:
+            messages.error(request, str(e))
+        return JsonResponse({'msg': 'd'})
 
     else:
         pass
 
 
 def export_member_data(request, dept_id=None):
-    from datetime import datetime
     file_name = '员工表_'
     if dept_id:
         dept = get_object_or_404(Departments, pk=dept_id)
@@ -327,7 +322,7 @@ def export_member_data(request, dept_id=None):
 
     file_name += datetime.now().strftime("%Y-%m-%d")
 
-    column_names = ['member_id', 'dept_id', 'get_dept_name', 'name', 'sex', 'birthday', 'position', 'phone', 'nation',
+    column_names = ['member_id', 'dept_id', 'dept_name', 'name', 'sex', 'birthday', 'position', 'phone', 'nation',
                     'blood_type']
     colnames = ['员工工号', '部门id', '部门名字', '姓名',
                 '性别', '生日', '职位', '电话', '民族', '血型']
@@ -336,7 +331,7 @@ def export_member_data(request, dept_id=None):
         column_names,
         'xls',
         file_name=file_name,
-        colnames=colnames
+        colnames=colnames,
     )
 
 
@@ -352,10 +347,31 @@ def success_view(request):
     return render(request, 'member/success.html')
 
 
-def depass_view(request):	
-    salt = request.GET.get('enpass', 'np')	
-    try:	
-        depass = de_password(salt)	
-        return JsonResponse({'msg': 'ok', 'pass': depass})	
+def depass_view(request):
+    salt = request.GET.get('enpass', 'np')
+    try:
+        depass = de_password(salt)
+        return JsonResponse({'msg': 'ok', 'pass': depass})
     except Exception as e:
         return JsonResponse({'msg': str(e)})
+
+
+@login_required(login_url='/auth/login')
+def export_qr_with_dept(request, dept_id=None):
+    file_name = '员工二维码_'
+    if dept_id:
+        dept = get_object_or_404(Departments, pk=dept_id)
+        qr = Member.objects.filter(dept_id=dept_id)
+        file_name += dept.dept_name + '_'
+    else:
+        qr = Member.objects.all()
+
+    file_name += datetime.now().strftime("%Y-%m-%d") + '.zip'
+    s = compress_file(
+        [os.path.join(QR_DIR, QR_NAME_TEM % i.member_id) for i in qr])
+    response = HttpResponse(content_type="application/zip")
+    response["Content-Disposition"] = "attachment; filename=" + \
+        file_name.encode('utf-8').decode('ISO-8859-1')
+    s.seek(0)
+    response.write(s.read())
+    return response
