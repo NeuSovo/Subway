@@ -5,7 +5,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
 from django.urls import reverse_lazy
 from .models import *
-from .forms import ProfessForm, DeviceForm
+from .forms import ProfessForm, DeviceForm, DeviceTestInfoForm
 
 
 class DeviceAddView(PassRequestMixin, SuccessMessageMixin, CreateView):
@@ -14,6 +14,14 @@ class DeviceAddView(PassRequestMixin, SuccessMessageMixin, CreateView):
     template_name = 'device/device_create_form.html'
     success_url = reverse_lazy('device:list')
     success_message = '%(name)s 添加成功'
+
+
+class DeviceTestInfoUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
+    model = DeviceTestInfo
+    form_class = DeviceTestInfoForm
+    template_name = 'device/device_create_form.html'
+    success_url = reverse_lazy('device:list')
+    success_message = '更新成功'
 
 
 class DeviceUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
@@ -66,6 +74,11 @@ class DeviceListView(ListView):
         context['profess_s'] = self.profess_all
         context['select_profess'] = self.profess
         return context
+
+
+class DeviceListDetailView(DeviceListView):
+    template_name = 'device/device_list_detail.html'
+    pass
 
 
 class ProfessCreateView(PassRequestMixin, SuccessMessageMixin, CreateView):

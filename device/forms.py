@@ -1,6 +1,6 @@
 from django import forms
 from bootstrap_modal_forms.mixins import PopRequestMixin, CreateUpdateAjaxMixin
-from .models import Device, Profess
+from .models import Device, Profess, DeviceTestInfo
 
 
 class DeviceForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
@@ -10,12 +10,14 @@ class DeviceForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
 
 
 class ProfessForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
-
-
-    """Form definition for Profess."""
-
     class Meta:
         """Meta definition for Professform."""
 
         model = Profess
+        fields = '__all__'
+
+
+class DeviceTestInfoForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
+    class Meta:
+        model = DeviceTestInfo
         fields = '__all__'

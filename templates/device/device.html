@@ -20,7 +20,7 @@
     
                 </div>
             </div>
-            <a href="{% url 'device:detail' %}">
+            <a href="{% url 'device:list_detail' %}">
                 <button class="ui right labeled icon button primary"><i class="right info icon"></i> 查看详细</button>
             </a>
             <div class="ui animated fade right floated button">
@@ -48,7 +48,7 @@
                     <td>{{ item.id }}</td>
                     <td>{{ item.name }}</td>
                     <td>{{ item.get_status_id_display}}</td>
-                    <td>{{ item.acceptor }}</td>
+                    <td>{{ item.test.acceptor }}</td>
                     <td><a class="ui vertical animated button positive basic center floated qrcode"
                             href="{{ item.qrcode }}" download  >
                         <div class="visible content">二维码</div>
@@ -56,6 +56,9 @@
                     </a><a class="ui vertical animated button primary basic center floated ">
                         <div class="visible content">编辑</div>
                         <div class="hidden content update_device" data-id="{% url 'device:update' item.id %}"><i class="edit icon"></i></div>
+                    </a><a class="ui vertical animated button primary basic center floated ">
+                        <div class="visible content">验收</div>
+                        <div class="hidden content update_test_device" data-id="{% url 'device:update_test_device' item.id %}"><i class="edit icon"></i></div>
                     </a><a class="ui vertical animated button negative basic center floated">
                         <div class="visible content">删除</div>
                         <div class="hidden content delete_device" data-id="{% url 'device:delete' item.id %}"><i class="remove user icon"></i></div>
@@ -106,6 +109,9 @@
         $(this).modalForm({ formURL: $(this).data('id') })
     })
     $(".delete_device").each(function () {
+        $(this).modalForm({ formURL: $(this).data('id') })
+    })
+    $(".update_test_device").each(function () {
         $(this).modalForm({ formURL: $(this).data('id') })
     })
     $('.add_profess').modalForm({ formURL: '{% url 'device:add_profess' %}'})
