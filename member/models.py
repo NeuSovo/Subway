@@ -133,3 +133,6 @@ class Member(models.Model):
     @property
     def dept_name(self):
         return str(self.dept)
+
+
+

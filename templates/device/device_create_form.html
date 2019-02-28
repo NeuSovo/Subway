@@ -1,5 +1,5 @@
-<form method="post" enctype="multipart/form-data">
-    <div class="ui dividing header">添加成员</div>
+<form action="" id="add_dept" method="POST" class="depart">
+    <div class="ui dividing header">添加设备</div>
     <div class="image content">
         <!--i.close.icon-->
         {% csrf_token %}
@@ -8,14 +8,18 @@
                 {{ error }}
             {% endfor %}
         </div>
-        <div class="ui form">
+        <div class="ui form warning">
             {% for field in form %}
-
                 <div class="field">
-                    <label>{{ field.label }}</label>{{ field }}</div>
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+                </div>
+                {% if field.help_text %}
+                    <p class="ui warning message" style="padding: 8px 0;">{{ field.help_text }}</p>
+                {% endif %}
                 <div class="{% if field.errors %} invalid{% endif %}">
                     {% for error in field.errors %}
-                        <p class="ui negative message">{{ error }}</p>
+                        <p class="ui negative message" style="padding: 8px 0;">{{ error }}</p>
                     {% endfor %}
                 </div>
             {% endfor %}

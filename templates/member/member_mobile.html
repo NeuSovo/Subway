@@ -1,4 +1,5 @@
 {% extends 'mobile.html' %}
+{% load tag %}
 {% block style %}
     <style>
         .content {
@@ -33,11 +34,14 @@
 {% endblock %}
 {% block content %}
     <div class="content">
-        <div class="avatar"><img src="https://semantic-ui.qyears.com/images/avatar/large/steve.jpg"></div>
-        <div class="name">张三</div>
-        <div class="phone">123456789</div>
-        <div class="position"> 设计师</div>
-        <div class="blood">O型血</div>
-        <div class="department">电力变电部</div>
+        <div class="avatar"><img src=" {{ object.member_avatar.url }}"></div>
+        <div class="name">{{ object.name }}</div>
+        <div>{{ object.birthday }}</div>
+        <div>{{ object.sex }}</div>
+        <div>{{ object.nation }}</div>
+        <div class="phone">{{ object.phone }}</div>
+        <div class="position">{{ object.position }}</div>
+        <div class="blood">{{ object.blood_type }}</div>
+        <div class="department">{{ object.dept_name }}</div>
     </div>
 {% endblock %}

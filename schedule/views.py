@@ -9,6 +9,7 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 from .forms import *
 
+
 class ScheduleAddView(PassRequestMixin, SuccessMessageMixin, CreateView):
     model = Schedule
     form_class = ScheduleForm
@@ -27,7 +28,7 @@ class ScheduleUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
 
 class ScheduleDetailView(DetailView):
     model = Schedule
-    template_name = "TEMPLATE_NAME"
+    template_name = "schedule/schedule_mobile.html"
 
 
 class ScheduleDeleteView(DeleteAjaxMixin, DeleteView):
@@ -78,9 +79,14 @@ class ScheduleListChartView(ScheduleListView):
     template_name = "schedule/schedule_chart.html"
 
 
-class ScheduleDetailView(DetailView):
+class ScheduleListMobileView(ScheduleListView):
     model = Schedule
-    template_name = "NAME"
+    template_name = "schedule/schedule_chart_mobile.html"
+
+
+class ScheduleItemMobileView(DetailView):
+    model = Schedule
+    template_name = "schedule/schedule_item_mobile.html"
 
 
 class ScheduleItemChartView(DetailView):

@@ -36,7 +36,7 @@ class MaterialUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
 
 class MaterialDetailView(DetailView):
     model = Material
-    template_name = "TEMPLATE_NAME"
+    template_name = "material/material_mobile.html"
 
 
 class MaterialDeleteView(DeleteAjaxMixin, DeleteView):
@@ -44,6 +44,7 @@ class MaterialDeleteView(DeleteAjaxMixin, DeleteView):
     form_class = MaterialForm
     template_name = 'material/material_delete_form.html'
     success_url = reverse_lazy('material:list')
+    success_message = '删除成功'
 
 
 class MaterialListView(ListView):
@@ -213,7 +214,7 @@ def export_qr(request, dept_id=None):
         [os.path.join(QR_DIR_3, QR_3_NAME_TEM % i.id) for i in qr])
     response = HttpResponse(content_type="application/zip")
     response["Content-Disposition"] = "attachment; filename=" + \
-        file_name.encode('utf-8').decode('ISO-8859-1')
+                                      file_name.encode('utf-8').decode('ISO-8859-1')
     s.seek(0)
     response.write(s.read())
     return response

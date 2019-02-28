@@ -1,15 +1,18 @@
 {% extends 'mobile.html' %}
+{% load tag %}
 {% block content %}
     <div class="content">
         <div class="table">
             <div class="title">物料信息</div>
-            <div class="row"><span>编号</span><span>1</span></div>
-            <div class="row"><span>物资名称</span><span>钢筋</span></div>
-            <div class="row"><span>生产厂家</span><span>某某厂家</span></div>
-            <div class="row"><span>专业</span><span>电力变电</span></div>
-            <div class="row"><span>型号</span><span>X-1</span></div>
-            <div class="row"><span>数量</span><span>20</span></div>
-            <div class="row"><span>单位</span><span>吨</span></div>
+            <div class="row"><span>{% verbose_name object 'id' %}</span><span>{{ object.id }}</span></div>
+            <div class="row"><span>{% verbose_name object 'name' %}</span><span>{{ object.name }}</span></div>
+            <div class="row"><span>{% verbose_name object 'type_id' %}</span><span>{{ object.type_id }}</span></div>
+            <div class="row"><span>{% verbose_name object 'profess' %}</span><span>{{ object.profess_name }}</span>
+            </div>
+            <div class="row"><span>{% verbose_name object 'manufacturer' %}</span><span>{{ object.manufacturer }}</span>
+            </div>
+            <div class="row"><span>{% verbose_name object 'num' %}</span><span>{{ object.num }}</span></div>
+            <div class="row"><span>{% verbose_name object 'unit' %}</span><span>{{ object.unit }}</span></div>
         </div>
     </div>
 {% endblock %}

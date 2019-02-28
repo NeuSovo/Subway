@@ -78,7 +78,7 @@ class TechnologyFileUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView
 
 class TechnologyFileDetailView(DetailView):
     model = TechnologyFile
-    template_name = "TEMPLATE_NAME"
+    template_name = "technology/technology_mobile.html"
 
 
 class TechnologyFileDeleteView(DeleteAjaxMixin, DeleteView):

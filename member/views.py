@@ -253,7 +253,7 @@ class MemberListDetailView(MemberListView):
 
 class MemberUpdateView(UpdateView):
     model = Member
-    template_name = "member/member_add_update_form2.html"
+    template_name = "member/member_add_update_form.html"
     form_class = MemberUpdateForm
     success_message = '%s 更新成功'
     success_url = reverse_lazy('member:member_list')
@@ -261,7 +261,7 @@ class MemberUpdateView(UpdateView):
 
 class MemberDetailView(DetailView):
     model = Member
-    template_name = "member/mobile.html"
+    template_name = "member/member_mobile.html"
 
     def get_context_data(self, **kwargs):
         context = super(MemberDetailView, self).get_context_data(**kwargs)
@@ -371,7 +371,9 @@ def export_qr_with_dept(request, dept_id=None):
         [os.path.join(QR_DIR, QR_NAME_TEM % i.member_id) for i in qr])
     response = HttpResponse(content_type="application/zip")
     response["Content-Disposition"] = "attachment; filename=" + \
-        file_name.encode('utf-8').decode('ISO-8859-1')
+                                      file_name.encode('utf-8').decode('ISO-8859-1')
     s.seek(0)
     response.write(s.read())
     return response
+
+

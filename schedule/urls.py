@@ -16,6 +16,9 @@ urlpatterns = [
     path('detail/<int:pk>', ScheduleDetailView.as_view(), name='detail'),
     path('item_chart/<int:pk>', ScheduleItemChartView.as_view(), name='item_chart'),
 
+    path('mobile/<int:pk>', ScheduleItemMobileView.as_view(), name='mobile_item'),
+    path('mobile', ScheduleListMobileView.as_view(), name='mobile'),
+
     path('init_profess', ProfessInitView.as_view(), name='init_profess'),
     path('add_profess', ProfessCreateView.as_view(), name='add_profess'),
     path('update_profess/<int:pk>', ProfessUpdateView.as_view(), name='update_profess'),

@@ -17,14 +17,14 @@
 {% endblock %}
 {% block script %}
     <script>
-        var data = [{
+       var data = [{
             type: '开累完成量',
-            value: 6
+            value: {{ object.done_count }}
         }, {
             type: '剩余总量',
-            value: 27
-        }];
-        var sum = 33;
+            value: {{ object.undone_count}}
+        }]
+        var sum = {{ object.design_total }}
         var ds = new DataSet();
         var dv = ds.createView().source(data);
         dv.transform({
