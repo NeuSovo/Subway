@@ -37,6 +37,7 @@ class ScheduleDeleteView(DeleteAjaxMixin, DeleteView):
     form_class = ScheduleForm
     template_name = 'schedule/schedule_delete_form.html'
     success_url = reverse_lazy('schedule:list')
+    success_message = '删除成功'
 
 
 class ScheduleListView(ListView):
@@ -128,7 +129,6 @@ class ProfessDeleteView(DeleteView):
 
 
 def QR1(request):
-    
     profess_s = Profess.objects.all()
     context = {
         'profess_s': profess_s,
