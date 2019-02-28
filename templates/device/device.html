@@ -15,7 +15,7 @@
                     " href="{% url 'device:list_profess' profess.id %}">{{ profess.name }}</a>
                 {% endfor %}
                 <div class="right menu">
-                    <a href="" class="item">导出全部专业二维码</a>
+                    <a href="{% url 'device:qr1_make' %}" download="设备一级二维码.png" class="item">导出全部专业二维码</a>
                     <a href="#" class="item add_profess" onclick="return false">添加专业</a>
 
                 </div>

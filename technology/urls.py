@@ -23,7 +23,9 @@ urlpatterns = [
 
     path('import', import_technology_data, name='import'),
     path('export', export_technology_data, name='export'),
-     path('qr1', QR1),
-     path('qr2/<int:profess_id>', QR2)
+    path('qr1', QR1),
+    path('qr2/<int:profess_id>', QR2),
+    path('qr1_make', qr1_make, name='qr1_make')
+
 
 ]

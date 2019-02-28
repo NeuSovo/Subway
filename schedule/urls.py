@@ -24,5 +24,8 @@ urlpatterns = [
     path('update_profess/<int:pk>', ProfessUpdateView.as_view(), name='update_profess'),
     path('delete_profess/<int:pk>', ProfessDeleteView.as_view(), name='delete_profess'),
     path('qr1', QR1),
-    path('qr2/<int:profess_id>', QR2)
+    path('qr2/<int:profess_id>', QR2),
+    path('qr1_make', qr1_make, name='qr1_make'),
+    path('qr4_make', qr4_make, name='qr4_make')
+
 ]

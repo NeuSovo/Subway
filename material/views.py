@@ -13,6 +13,7 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 
 from core.utils import compress_file
+from core.QR import make_qr_pic
 
 from .forms import MaterialForm, ProfessForm
 from .models import *
@@ -242,3 +243,13 @@ def QR2(request, profess_id):
         'url': '/material/detail/'
     }
     return render(request, 'system/professs_mobile.html', context=context)
+
+
+def qr1_make(request):
+    img = make_pic(['物资信息', '全部专业'], '/meterial/qr1')
+    img.save('test.png')
+    try:
+        with open('test.png', "rb") as f:
+            return HttpResponse(f.read(), content_type="image/png")
+    except Exception as e:
+        raise e

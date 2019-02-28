@@ -208,3 +208,13 @@ def QR2(request, profess_id):
         'url': '/technology/detail/'
     }
     return render(request, 'system/professs_mobile.html', context=context)
+
+
+def qr1_make(request):
+    img = make_pic(['技术信息', '全部专业'], '/technology/qr1')
+    img.save('test.png')
+    try:
+        with open('test.png', "rb") as f:
+            return HttpResponse(f.read(), content_type="image/png")
+    except Exception as e:
+        raise e

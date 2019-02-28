@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 from .forms import *
+from core.QR import make_pic
 
 
 class ScheduleAddView(PassRequestMixin, SuccessMessageMixin, CreateView):
@@ -149,3 +150,23 @@ def QR2(request, profess_id):
         'url': '/schedule/detail/'
     }
     return render(request, 'system/professs_mobile.html', context=context)
+
+
+def qr1_make(request):
+    img = make_pic(['进度信息', '全部专业'], '/schedule/qr1')
+    img.save('test.png')
+    try:
+        with open('test.png', "rb") as f:
+            return HttpResponse(f.read(), content_type="image/png")
+    except Exception as e:
+        raise e
+
+
+def qr4_make(request):
+    img = make_pic(['进度总图表', '全部专业'], '/schedule/mobile')
+    img.save('test.png')
+    try:
+        with open('test.png', "rb") as f:
+            return HttpResponse(f.read(), content_type="image/png")
+    except Exception as e:
+        raise e

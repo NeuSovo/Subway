@@ -17,8 +17,10 @@
                         <a class="item" href="{% url 'schedule:list_chart_with_profess' profess.id%}" > {{profess}}</a>
                     {% endfor %}
                 </div>
-
             </div>
+            <a class="ui labeled icon button black basic right floated append"
+                           href="{% url 'schedule:qr4_make' %}" download="进度总图表二维码.png"><i
+                                class="users icon"></i><span>导出二维码</span></a>
             <div style="overflow:hidden">
                 <div id="mountNode"></div>
                 <div class="bottom-tool-box"><img class="sort-button" src="../static/sort.png"></div>
