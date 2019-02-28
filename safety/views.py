@@ -68,6 +68,11 @@ class SafetyFileDeleteView(DeleteAjaxMixin, DeleteView):
     success_url = reverse_lazy('safety:list')
 
 
+class SafetyFileMobileView(DetailView):
+    model = SafetyFile
+    template_name = 'safety/safe_mobile.html'
+
+
 class SafetyFileDetailView(DetailView):
     model = SafetyFile
 
@@ -83,7 +88,7 @@ def export_qr(request, dept_id=None):
     s = compress_file([os.path.join(QR_DIR, QR_NAME_TEM % i.id) for i in qr])
     response = HttpResponse(content_type="application/zip")
     response["Content-Disposition"] = "attachment; filename=" + \
-        file_name.encode('utf-8').decode('ISO-8859-1')
+                                      file_name.encode('utf-8').decode('ISO-8859-1')
     s.seek(0)
     response.write(s.read())
     return response
@@ -126,7 +131,7 @@ def export_safety_data(request):
     file_name += datetime.now().strftime("%Y-%m-%d")
 
     column_names = ['id', 'title', 'file_type', 'type_display']
-    colnames = ['编号', '标题', '文件类型id', '类型名称' ]
+    colnames = ['编号', '标题', '文件类型id', '类型名称']
     return excel.make_response_from_query_sets(
         safetys,
         column_names,

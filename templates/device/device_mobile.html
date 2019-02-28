@@ -1,22 +1,23 @@
 {% extends 'mobile.html' %}
+{% load tag %}
 {% block content %}
     <div class="content">
         <div class="table">
             <div class="title">设备信息</div>
-            <div class="row"><span>编号</span><span>1</span></div>
-            <div class="row"><span>物资名称</span><span>钢筋</span></div>
-            <div class="row"><span>生产厂家</span><span>某某厂家</span></div>
-            <div class="row"><span>专业</span><span>电力变电</span></div>
-            <div class="row"><span>型号</span><span>X-1</span></div>
-            <div class="row"><span>数量</span><span>20</span></div>
-            <div class="row"><span>单位</span><span>吨</span></div>
-            <div class="row"><span>编号</span><span>1</span></div>
-            <div class="row"><span>物资名称</span><span>钢筋</span></div>
-            <div class="row"><span>生产厂家</span><span>某某厂家</span></div>
-            <div class="row"><span>专业</span><span>电力变电</span></div>
-            <div class="row"><span>型号</span><span>X-1</span></div>
-            <div class="row"><span>数量</span><span>20</span></div>
-            <div class="row"><span>单位</span><span>吨</span></div>
+            <div class="row"><span>{% verbose_name object 'id' %}</span><span>{{ object.id }}</span></div>
+            <div class="row"><span>{% verbose_name object 'name' %}</span><span>{{ object.name }}</span></div>
+            <div class="row"><span>{% verbose_name object 'profess' %}</span><span>{{ object.profess_name }}</span>
+            </div>
+            <div class="row"><span>{% verbose_name object 'status_id' %}</span><span>{{ object.status_id }}</span></div>
+            <div class="row"><span>{% verbose_name object 'z1' %}</span><span>{{ object.z1 }}</span></div>
+            <div class="row"><span>{% verbose_name object 'z2' %}</span><span>{{ object.z2 }}</span></div>
+            <div class="row"><span>{% verbose_name object 'z3' %}</span><span>{{ object.z3 }}</span></div>
+            <div class="row"><span>{% verbose_name object 'z4' %}</span><span>{{ object.z4 }}</span></div>
+            <div class="row"><span>{% verbose_name object 'z5' %}</span><span>{{ object.z5 }}</span></div>
+            <div class="row"><span>{% verbose_name object 'z6' %}</span><span>{{ object.z6 }}</span></div>
+            <div class="row"><span>{% verbose_name object 'z7' %}</span><span>{{ object.z7 }}</span></div>
+            <div class="row"><span>{% verbose_name object 'z8' %}</span><span>{{ object.z8 }}</span></div>
+            <div class="row"><span>{% verbose_name object 'z9' %}</span><span>{{ object.z9 }}</span></div>
             <div class="row click"><span>查看文件</span><i class="angle right icon"></i></div>
         </div>
     </div>

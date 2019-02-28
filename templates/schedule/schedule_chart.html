@@ -31,37 +31,6 @@
         var sortType = 'positive'
         var data = [ {% for item in object_list %}{type: '{{item.job_name}}' ,value:{{item.done_count}}}, {% endfor %}]
         console.log(data)
-        var data1 = [{
-            type: '设备安装1',
-            value: 34
-        }, {
-            type: '设备安装2',
-            value: 85
-        }, {
-            type: '设备安装3',
-            value: 103
-        }, {
-            type: '设备安装4',
-            value: 142
-        }, {
-            type: '设备安装5',
-            value: 251
-        }, {
-            type: '设备安装6',
-            value: 367
-        }, {
-            type: '设备安装7',
-            value: 491
-        }, {
-            type: '设备安装8',
-            value: 672
-        }, {
-            type: '设备安装9',
-            value: 8688
-        }, {
-            type: '设备安装',
-            value: 1234
-        }]
         var chart = new G2.Chart({
             container: 'mountNode',
             forceFit: true,

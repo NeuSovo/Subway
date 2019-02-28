@@ -8,7 +8,7 @@ urlpatterns = [
     path('list_profess/<int:profess_id>', DeviceListView.as_view(), name="list_profess"),
     path('list_detail_profess/<int:profess_id>', DeviceListDetailView.as_view(), name='list_detail_profess'),
 
-    path('detail', DeviceDetailView.as_view(), name='detail'),
+    path('detail/<int:pk>', DeviceDetailView.as_view(), name='detail'),
     path('add', DeviceAddView.as_view(), name='add'),
     path('update/<int:pk>', DeviceUpdateView.as_view(), name='update'),
     path('delete/<int:pk>', DeviceDeleteView.as_view(), name='delete'),

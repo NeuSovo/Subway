@@ -32,9 +32,9 @@ class DeviceUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
     success_message = '%(name)s 更新成功'
 
 
-class DeviceDetailView(TemplateView):
+class DeviceDetailView(DetailView):
     model = Device
-    template_name = "device/device_detail.html"
+    template_name = "device/device_mobile.html"
 
 
 class DeviceDeleteView(DeleteAjaxMixin, DeleteView):
@@ -42,6 +42,7 @@ class DeviceDeleteView(DeleteAjaxMixin, DeleteView):
     form_class = DeviceForm
     template_name = 'device/device_delete_form.html'
     success_url = reverse_lazy('device:list')
+    success_message = '删除成功'
 
 
 class DeviceListView(ListView):

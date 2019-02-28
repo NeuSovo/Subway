@@ -1,20 +1,31 @@
 {% extends 'mobile.html' %}
+{% load tag %}
 {% block content %}
-   <div class="content">
-    <div class="table">
-        <div class="title">进度信息</div>
-        <div class="row"><span>编号</span><span>1</span></div>
-        <div class="row"><span>施工地点</span><span>车站</span></div>
-        <div class="row"><span>作业名称</span><span>设备安装</span></div>
-        <div class="row"><span>专业</span><span>电力变电</span></div>
-        <div class="row"><span>单位</span><span>台</span></div>
-        <div class="row"><span>开累完成率</span><span>85%</span></div>
-        <div class="row"><span>设计总量</span><span>33</span></div>
-        <div class="row"><span>开累完成量</span><span>6</span></div>
-        <div class="row"><span>剩余总量</span><span>27</span></div>
-        <div class="row"><span>上周计划完成量</span><span>1</span></div>
-        <div class="row"><span>上周实际完成量</span><span>2</span></div>
-        <a class="row click" href="schedule_item_mobile.html"><span>进度报表</span><i class="angle right icon"></i></a>
+    <div class="content">
+        <div class="table">
+            <div class="title">进度信息</div>
+            <div class="row"><span>{% verbose_name object 'id' %}</span><span>{{ object.id }}</span></div>
+            <div class="row"><span>{% verbose_name object 'job_name' %}</span><span>{{ object.job_name }}</span></div>
+            <div class="row"><span>{% verbose_name object 'profess' %}</span><span>{{ object.profess }}</span></div>
+            <div class="row"><span>{% verbose_name object 'unit' %}</span><span>{{ object.unit }}</span></div>
+            <div class="row"><span>{% verbose_name object 'location' %}</span><span>{{ object.location }}</span></div>
+            <div class="row"><span>{% verbose_name object 'done_count' %}</span><span>{{ object.done_count }}</span>
+            </div>
+            <div class="row"><span>{% verbose_name object 'design_total' %}</span><span>{{ object.design_total }}</span>
+            </div>
+            <div class="row">
+                <span>{% verbose_name object 'last_week_plan' %}</span><span>{{ object.last_week_plan }}</span></div>
+            <div class="row">
+                <span>{% verbose_name object 'last_week_actual' %}</span><span>{{ object.last_week_actual }}</span>
+            </div>
+            <div class="row">
+                <span>{% verbose_name object 'now_week_plan' %}</span><span>{{ object.now_week_plan }}</span></div>
+            <div class="row">
+                <span>{% verbose_name object 'now_week_actual' %}</span><span>{{ object.now_week_actual }}</span></div>
+            <div class="row"><span>{% verbose_name object 'now_week' %}</span><span>{{ object.now_week }}</span></div>
+
+            <a class="row click" href="{% url 'schedule:mobile_item' object.id %}"><span>进度报表</span><i
+                    class="angle right icon"></i></a>
+        </div>
     </div>
-</div>
 {% endblock %}
