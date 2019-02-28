@@ -8,6 +8,8 @@ from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 from .forms import *
+from core.QR import make_pic
+
 
 class ScheduleAddView(PassRequestMixin, SuccessMessageMixin, CreateView):
     model = Schedule
@@ -27,7 +29,7 @@ class ScheduleUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
 
 class ScheduleDetailView(DetailView):
     model = Schedule
-    template_name = "TEMPLATE_NAME"
+    template_name = "schedule/schedule_mobile.html"
 
 
 class ScheduleDeleteView(DeleteAjaxMixin, DeleteView):
@@ -78,9 +80,14 @@ class ScheduleListChartView(ScheduleListView):
     template_name = "schedule/schedule_chart.html"
 
 
-class ScheduleDetailView(DetailView):
+class ScheduleListMobileView(ScheduleListView):
     model = Schedule
-    template_name = "NAME"
+    template_name = "schedule/schedule_chart_mobile.html"
+
+
+class ScheduleItemMobileView(DetailView):
+    model = Schedule
+    template_name = "schedule/schedule_item_mobile.html"
 
 
 class ScheduleItemChartView(DetailView):
@@ -118,3 +125,48 @@ class ProfessDeleteView(DeleteView):
     success_message = '%(name)s 删除成功'
     template_name = "schedule/delete_profess.html"
     success_url = reverse_lazy('schedule:list')
+
+
+def QR1(request):
+    
+    profess_s = Profess.objects.all()
+    context = {
+        'profess_s': profess_s,
+        'title': '进度信息',
+        'url': '/schedule/qr2/'
+
+    }
+    return render(request, 'system/profess_mobile.html', context=context)
+
+
+def QR2(request, profess_id):
+    profess = get_object_or_404(Profess, pk=profess_id)
+
+    queryset = Schedule.objects.filter(profess=profess)
+    context = {
+        'object_list': queryset,
+        'select_profess': profess,
+        'title': '进度信息',
+        'url': '/schedule/detail/'
+    }
+    return render(request, 'system/professs_mobile.html', context=context)
+
+
+def qr1_make(request):
+    img = make_pic(['进度信息', '全部专业'], '/schedule/qr1')
+    img.save('test.png')
+    try:
+        with open('test.png', "rb") as f:
+            return HttpResponse(f.read(), content_type="image/png")
+    except Exception as e:
+        raise e
+
+
+def qr4_make(request):
+    img = make_pic(['进度总图表', '全部专业'], '/schedule/mobile')
+    img.save('test.png')
+    try:
+        with open('test.png', "rb") as f:
+            return HttpResponse(f.read(), content_type="image/png")
+    except Exception as e:
+        raise e

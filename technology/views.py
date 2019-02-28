@@ -78,7 +78,7 @@ class TechnologyFileUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView
 
 class TechnologyFileDetailView(DetailView):
     model = TechnologyFile
-    template_name = "TEMPLATE_NAME"
+    template_name = "technology/technology_mobile.html"
 
 
 class TechnologyFileDeleteView(DeleteAjaxMixin, DeleteView):
@@ -183,3 +183,38 @@ def export_technology_data(request):
         file_name=file_name,
         colnames=colnames,
     )
+
+
+def QR1(request):
+    
+    profess_s = Profess.objects.all()
+    context = {
+        'profess_s': profess_s,
+        'title': '技术信息',
+        'url': '/technology/qr2/'
+
+    }
+    return render(request, 'system/profess_mobile.html', context=context)
+
+
+def QR2(request, profess_id):
+    profess = get_object_or_404(Profess, pk=profess_id)
+
+    queryset = TechnologyFile.objects.filter(profess=profess)
+    context = {
+        'object_list': queryset,
+        'select_profess': profess,
+        'title': '技术信息',
+        'url': '/technology/detail/'
+    }
+    return render(request, 'system/professs_mobile.html', context=context)
+
+
+def qr1_make(request):
+    img = make_pic(['技术信息', '全部专业'], '/technology/qr1')
+    img.save('test.png')
+    try:
+        with open('test.png', "rb") as f:
+            return HttpResponse(f.read(), content_type="image/png")
+    except Exception as e:
+        raise e

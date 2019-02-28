@@ -32,9 +32,9 @@ class DeviceUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
     success_message = '%(name)s 更新成功'
 
 
-class DeviceDetailView(TemplateView):
+class DeviceDetailView(DetailView):
     model = Device
-    template_name = "device/device_detail.html"
+    template_name = "device/device_mobile.html"
 
 
 class DeviceDeleteView(DeleteAjaxMixin, DeleteView):
@@ -42,6 +42,7 @@ class DeviceDeleteView(DeleteAjaxMixin, DeleteView):
     form_class = DeviceForm
     template_name = 'device/device_delete_form.html'
     success_url = reverse_lazy('device:list')
+    success_message = '删除成功'
 
 
 class DeviceListView(ListView):
@@ -111,3 +112,38 @@ class ProfessDeleteView(DeleteView):
     success_message = '%(name)s 删除成功'
     template_name = "device/delete_profess.html"
     success_url = reverse_lazy('device:list')
+
+
+def QR1(request):
+    
+    profess_s = Profess.objects.all()
+    context = {
+        'profess_s': profess_s,
+        'title': '设备信息',
+        'url': '/device/qr2/'
+
+    }
+    return render(request, 'system/profess_mobile.html', context=context)
+
+
+def QR2(request, profess_id):
+    profess = get_object_or_404(Profess, pk=profess_id)
+
+    queryset = Device.objects.filter(profess=profess)
+    context = {
+        'object_list': queryset,
+        'select_profess': profess,
+        'title': '设备信息',
+        'url': '/device/detail/'
+    }
+    return render(request, 'system/professs_mobile.html', context=context)
+
+
+def qr1_make(request):
+    img = make_pic(['设备信息', '全部专业'], '/device/qr1')
+    img.save('test.png')
+    try:
+        with open('test.png', "rb") as f:
+            return HttpResponse(f.read(), content_type="image/png")
+    except Exception as e:
+        raise e

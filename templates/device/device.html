@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-{% include "_modal.html" %}
+    {% include "_modal.html" %}
 
     <section>
         <div class="ui segment">
@@ -8,19 +8,19 @@
             <div class="ui secondary pointing menu">
 
                 {% for profess in profess_s %}
-                <a class="item
+                    <a class="item
                 {% ifequal select_profess profess %}
                     active
                 {% endifequal %}
                     " href="{% url 'device:list_profess' profess.id %}">{{ profess.name }}</a>
                 {% endfor %}
                 <div class="right menu">
-                    <a href="" class="item">导出全部专业二维码</a>
+                    <a href="{% url 'device:qr1_make' %}" download="设备一级二维码.png" class="item">导出全部专业二维码</a>
                     <a href="#" class="item add_profess" onclick="return false">添加专业</a>
-    
+
                 </div>
             </div>
-            <a href="{% url 'device:list_detail' %}">
+            <a href="{% url 'device:list_detail_profess' select_profess.id %}">
                 <button class="ui right labeled icon button primary"><i class="right info icon"></i> 查看详细</button>
             </a>
             <div class="ui animated fade right floated button">
@@ -44,33 +44,36 @@
                 </thead>
                 <tbody>
                 {% for item in object_list %}
-                <tr class="center aligned">
-                    <td>{{ item.id }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.get_status_id_display}}</td>
-                    <td>{{ item.test.acceptor }}</td>
-                    <td><a class="ui vertical animated button positive basic center floated qrcode"
-                            href="{{ item.qrcode }}" download  >
-                        <div class="visible content">二维码</div>
-                        <div class="hidden content"><i class="qrcode icon"></i></div>
-                    </a><a class="ui vertical animated button primary basic center floated ">
-                        <div class="visible content">编辑</div>
-                        <div class="hidden content update_device" data-id="{% url 'device:update' item.id %}"><i class="edit icon"></i></div>
-                    </a><a class="ui vertical animated button primary basic center floated ">
-                        <div class="visible content">验收</div>
-                        <div class="hidden content update_test_device" data-id="{% url 'device:update_test_device' item.id %}"><i class="edit icon"></i></div>
-                    </a><a class="ui vertical animated button negative basic center floated">
-                        <div class="visible content">删除</div>
-                        <div class="hidden content delete_device" data-id="{% url 'device:delete' item.id %}"><i class="remove user icon"></i></div>
-                    </a></td>
-                </tr>
+                    <tr class="center aligned">
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.get_status_id_display }}</td>
+                        <td>{{ item.test.acceptor }}</td>
+                        <td><a class="ui vertical animated button positive basic center floated qrcode"
+                               href="{{ item.qrcode }}" download>
+                            <div class="visible content">二维码</div>
+                            <div class="hidden content"><i class="qrcode icon"></i></div>
+                        </a><a class="ui vertical animated button primary basic center floated ">
+                            <div class="visible content">编辑</div>
+                            <div class="hidden content update_device" data-id="{% url 'device:update' item.id %}"><i
+                                    class="edit icon"></i></div>
+                        </a><a class="ui vertical animated button primary basic center floated ">
+                            <div class="visible content">验收</div>
+                            <div class="hidden content update_test_device"
+                                 data-id="{% url 'device:update_test_device' item.id %}"><i class="edit icon"></i></div>
+                        </a><a class="ui vertical animated button negative basic center floated">
+                            <div class="visible content">删除</div>
+                            <div class="hidden content delete_device" data-id="{% url 'device:delete' item.id %}"><i
+                                    class="remove user icon"></i></div>
+                        </a></td>
+                    </tr>
                 {% empty %}
-                <div class="ui icon orange message"><i class="hide icon"></i>
-                    <div class="content">
-                        <div class="header">目前没有一条数据</div>
-                        <p>请试着添加一条数据后再试。</p>
+                    <div class="ui icon orange message"><i class="hide icon"></i>
+                        <div class="content">
+                            <div class="header">目前没有一条数据</div>
+                            <p>请试着添加一条数据后再试。</p>
+                        </div>
                     </div>
-                </div>
                 {% endfor %}
                 <tfoot>
                 <tr>
@@ -87,11 +90,12 @@
                             {% ifequal object_list|length 0 %}
                             {% else %}
                             disabled
-                            {% endifequal %}"
+                            {% endifequal %}">
                             <i class=" users icon"></i><span> 删除当前专业</span>
                         </button>
-                        <a class="ui labeled icon button black basic left floated append" href="{{ select_profess.qrcode }}" download><i
-                            class="users icon"></i><span>导出该专业二维码</span></a>
+                        <a class="ui labeled icon button black basic left floated append"
+                           href="{{ select_profess.qrcode }}" download><i
+                                class="users icon"></i><span>导出该专业二维码</span></a>
                         {% include '_page.html' %}
                     </th>
                 </tr>
@@ -102,23 +106,23 @@
 {% endblock %}
 {% block script %}
     <script>
-    $('.add_device').each(function () {
-        $(this).modalForm({ formURL: "{% url 'device:add' %}" })
-    })
-    $(".update_device").each(function () {
-        $(this).modalForm({ formURL: $(this).data('id') })
-    })
-    $(".delete_device").each(function () {
-        $(this).modalForm({ formURL: $(this).data('id') })
-    })
-    $(".update_test_device").each(function () {
-        $(this).modalForm({ formURL: $(this).data('id') })
-    })
-    $('.add_profess').modalForm({ formURL: '{% url 'device:add_profess' %}'})
-    $('button.update_profess').modalForm({ formURL: '{% url 'device:update_profess' select_profess.id %}'})
-    $('button.delete_profess').modalForm({ formURL: '{% url 'device:delete_profess' select_profess.id %}'})
-    {% if profess_isValid %}
-    alert("{{ profess_isValid}}")
-    {% endif %}
+        $('.add_device').each(function () {
+            $(this).modalForm({formURL: "{% url 'device:add' %}"})
+        })
+        $(".update_device").each(function () {
+            $(this).modalForm({formURL: $(this).data('id')})
+        })
+        $(".delete_device").each(function () {
+            $(this).modalForm({formURL: $(this).data('id')})
+        })
+        $(".update_test_device").each(function () {
+            $(this).modalForm({formURL: $(this).data('id')})
+        })
+        $('.add_profess').modalForm({formURL: '{% url 'device:add_profess' %}'})
+        $('button.update_profess').modalForm({formURL: '{% url 'device:update_profess' select_profess.id %}'})
+        $('button.delete_profess').modalForm({formURL: '{% url 'device:delete_profess' select_profess.id %}'})
+        {% if profess_isValid %}
+            alert("{{ profess_isValid}}")
+        {% endif %}
     </script>
 {% endblock %}

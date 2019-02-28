@@ -1,45 +1,44 @@
 {% extends "base.html" %}
 {% block content %}
-{% include "_modal.html" %}
-<section>
-    <div class="ui segment">
-        <h1 class="ui header aligned center">物料信息</h1>
-        <div class="ui secondary pointing menu">
+    {% include "_modal.html" %}
+    <section>
+        <div class="ui segment">
+            <h1 class="ui header aligned center">物料信息</h1>
+            <div class="ui secondary pointing menu">
 
-            {% for profess in profess_s %}
-            <a class="item
+                {% for profess in profess_s %}
+                    <a class="item
             {% ifequal select_profess profess %}
                 active
             {% endifequal %}
                 " href="{% url 'material:list_profess' profess.id %}">{{ profess.name }}</a>
-            {% endfor %}
-            <div class="right menu">
-                <a href="" class="item">导出全部专业二维码</a>
-                <a href="#" class="item add_profess" onclick="return false">添加专业</a>
-
-            </div>
-        </div>
-        <a href="{% url 'material:stock_record' %}">
-            <button class="ui right labeled icon button primary"><i class="right info icon"></i> 操作记录</button>
-        </a>
-        <div class="ui animated fade right floated button">
-            <div class="hidden content"><i class="upload icon"></i></div>
-            <a class="visible content" href="{% url 'material:export_qr' %}">导出全部二维码</a>
-        </div>
-        <div class="ui buttons right floated">
-            <form action="{% url 'material:import' %}" id="import_form" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="ui labeled icon button right floated my_import" id="import"><i class="upload icon"></i>
-                    导入
+                {% endfor %}
+                <div class="right menu">
+                    <a href="{% url 'material:qr1_make' %}" download="物资一级二维码.png" class="item">导出全部专业二维码</a>
+                    <a href="#" class="item add_profess" onclick="return false">添加专业</a>
                 </div>
-            </form>
-            <div class="or"></div>
-            <a class="ui right labeled icon button my_export" href="{% url 'material:export' %}"><i
-                    class="download icon"></i>
-                导出</a>
-        </div>
-        <table class="ui table celled line single fixed" id="table">
-            <thead>
+            </div>
+            <a href="{% url 'material:stock_record' %}">
+                <button class="ui right labeled icon button primary"><i class="right info icon"></i> 操作记录</button>
+            </a>
+            <div class="ui animated fade right floated button">
+                <div class="hidden content"><i class="upload icon"></i></div>
+                <a class="visible content" href="{% url 'material:export_qr' %}">导出全部二维码</a>
+            </div>
+            <div class="ui buttons right floated">
+                <form action="{% url 'material:import' %}" id="import_form" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="ui labeled icon button right floated my_import" id="import"><i class="upload icon"></i>
+                        导入
+                    </div>
+                </form>
+                <div class="or"></div>
+                <a class="ui right labeled icon button my_export" href="{% url 'material:export' %}"><i
+                        class="download icon"></i>
+                    导出</a>
+            </div>
+            <table class="ui table celled line single fixed" id="table">
+                <thead>
                 <tr class="center aligned">
                     <th>编号</th>
                     <th>物资名称</th>
@@ -50,41 +49,47 @@
                     <th>单位</th>
                     <th class="four wide">操作</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 {% for material in object_list %}
-                <tr class="center aligned">
-                    <td>{{ material.id }}</td>
-                    <td>{{ material.name }}</td>
-                    <td>生产厂家</td>
-                    <td>电力变电</td>
-                    <td>{{ material.type_id }}</td>
-                    <td>{{ material.num }}</td>
-                    <td>{{ material.unit }}</td>
-                    <td><a class="ui vertical animated button positive basic right floated my_qrcode"
-                            href="{{ material.qrcode }}" download>
-                            <div class="visible content">二维码</div>
-                            <div class="hidden content"><i class="qrcode icon"></i></div>
-                        </a><a class="ui vertical animated button primary basic center floated my_edit_member">
-                            <div class="visible content">编辑
-                            </div>
-                            <div class="hidden content update_material"
-                                data-id="{% url 'material:update' material.id %}"><i class="edit icon"></i></div>
-                        </a><a class="ui vertical animated button primary basic center floated my_edit_member">
-                            <div class="visible content">出/入库</div>
-                            <div class="hidden content inout_stock"
-                                data-id="{% url 'material:in_out_stock' material.id %}"><i class="edit icon"></i></div>
-                        </a><a class="ui vertical animated button negative basic center floated my_remove">
-                            <div class="visible content ">删除
-                            </div>
-                            <div class="hidden content delete_material"
-                                data-id="{% url 'material:delete' material.id %}"><i class="remove user icon"></i>
-                            </div>
-                        </a></td>
-                </tr>
+                    <tr class="center aligned">
+                        <td>{{ material.id }}</td>
+                        <td>{{ material.name }}</td>
+                        <td>{{ material.manufacturer }}</td>
+                        <td>{{ material.profess }}</td>
+                        <td>{{ material.type_id }}</td>
+                        <td>{{ material.num }}</td>
+                        <td>{{ material.unit }}</td>
+                        <td>
+                            <a class="ui vertical animated button positive basic center floated my_qrcode"
+                               href="{{ material.qrcode }}" download>
+                                <div class="visible content">二维码</div>
+                                <div class="hidden content"><i class="qrcode icon"></i></div>
+                            </a>
+                            <a class="ui vertical animated button primary basic center floated my_edit_member">
+                                <div class="visible content">编辑
+                                </div>
+                                <div class="hidden content update_material"
+                                     data-id="{% url 'material:update' material.id %}"><i class="edit icon"></i></div>
+                            </a>
+                            <a class="ui vertical animated button primary basic center floated my_edit_member">
+                                <div class="visible content">出/入库</div>
+                                <div class="hidden content inout_stock"
+                                     data-id="{% url 'material:in_out_stock' material.id %}"><i class="edit icon"></i>
+                                </div>
+                            </a>
+                            <a class="ui vertical animated button negative basic center floated my_remove">
+                                <div class="visible content ">删除
+                                </div>
+                                <div class="hidden content delete_material"
+                                     data-id="{% url 'material:delete' material.id %}"><i class="remove user icon"></i>
+                                </div>
+                            </a>
+                        </td>
+                    </tr>
                 {% endfor %}
-            </tbody>
-            <tfoot>
+                </tbody>
+                <tfoot>
                 <tr>
                     <th colspan="8">
                         <button class="ui labeled icon button positive right floated add_material"><i
@@ -99,82 +104,83 @@
                             {% ifequal object_list|length 0 %}
                             {% else %}
                             disabled
-                            {% endifequal %}"
+                            {% endifequal %}">
                             <i class=" users icon"></i><span> 删除当前专业</span>
                         </button>
-                        <a class="ui labeled icon button black basic left floated append" href="{{ select_profess.qrcode }}" download><i
-                            class="users icon"></i><span>导出该专业二维码</span></a>
+                        <a class="ui labeled icon button black basic left floated append"
+                           href="{{ select_profess.qrcode }}" download><i
+                                class="users icon"></i><span>导出该专业二维码</span></a>
                         {% include '_page.html' %}
                     </th>
                 </tr>
-            </tfoot>
-        </table>
-        <div class="ui modal inout_stock">
-            <div class="ui dividing header">
-                出/入库
-            </div>
-            <form action="" class="ui form" method="post" id="inout_stock_form">
-                {% csrf_token %}
-                <div class="image content" style="margin: 20px">
-                    <div class="ui form">
-                        <div class="ui inline four fields">
-                            <div class="field">
-                                <input type="number" name="count" placeholder="变动数量">
-                            </div>
-                            <div class="field">
-                                <label for="type_id">操作类型</label>
-                                <div class="ui radio checkbox">
-                                    <input type="radio" value=0 name='type_id'><label for="">入库</label>
+                </tfoot>
+            </table>
+            <div class="ui modal inout_stock">
+                <div class="ui dividing header">
+                    出/入库
+                </div>
+                <form action="" class="ui form" method="post" id="inout_stock_form">
+                    {% csrf_token %}
+                    <div class="image content" style="margin: 20px">
+                        <div class="ui form">
+                            <div class="ui inline four fields">
+                                <div class="field">
+                                    <input type="number" name="count" placeholder="变动数量">
                                 </div>
-                            </div>
-                            <div class="field">
-                                <div class="ui radio checkbox">
-                                    <input type="radio" value=1 name='type_id'><label for="">出库</label>
+                                <div class="field">
+                                    <label for="type_id">操作类型</label>
+                                    <div class="ui radio checkbox">
+                                        <input type="radio" value=0 name='type_id'><label for="">入库</label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="field">
-                                <label>操作人</label>
-                                <p>{{ user }}</p>
+                                <div class="field">
+                                    <div class="ui radio checkbox">
+                                        <input type="radio" value=1 name='type_id'><label for="">出库</label>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label>操作人</label>
+                                    <p>{{ user }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="actions" style="margin: 10px">
-                    <div class="ui black deny button">取消</div>
-                    <button type="button" class="ui btn positive right labeled icon button" onclick="inout_stock()">
-                        提交<i class="checkmark icon"></i>
-                    </button>
-                </div>
-            </form>
+                    <div class="actions" style="margin: 10px">
+                        <div class="ui black deny button">取消</div>
+                        <button type="button" class="ui btn positive right labeled icon button" onclick="inout_stock()">
+                            提交<i class="checkmark icon"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
 {% endblock content %}
 {% block script %}
-<script>
-    $('.add_material').each(function () {
-        $(this).modalForm({ formURL: "{% url 'material:add' %}" })
-    })
-    $(".update_material").each(function () {
-        $(this).modalForm({ formURL: $(this).data('id') })
-    })
-    $(".delete_material").each(function () {
-        $(this).modalForm({ formURL: $(this).data('id') })
-    })
+    <script>
+        $('.add_material').each(function () {
+            $(this).modalForm({formURL: "{% url 'material:add' %}"})
+        })
+        $(".update_material").each(function () {
+            $(this).modalForm({formURL: $(this).data('id')})
+        })
+        $(".delete_material").each(function () {
+            $(this).modalForm({formURL: $(this).data('id')})
+        })
 
-    $(".hidden.content.inout_stock").click(function () {
-        $("#inout_stock_form").attr("action", $(this).data('id'))
-        $(".ui.modal.inout_stock").modal('show')
-    })
+        $(".hidden.content.inout_stock").click(function () {
+            $("#inout_stock_form").attr("action", $(this).data('id'))
+            $(".ui.modal.inout_stock").modal('show')
+        })
 
-    $('.add_profess').modalForm({ formURL: '{% url 'material:add_profess' %}'})
-    $('button.update_profess').modalForm({ formURL: '{% url 'material:update_profess' select_profess.id %}'})
-    $('button.delete_profess').modalForm({ formURL: '{% url 'material:delete_profess' select_profess.id %}'})
-    {% if profess_isValid %}
-    alert("{{ profess_isValid}}")
-    {% endif %}
+        $('.add_profess').modalForm({formURL: '{% url 'material:add_profess' %}'})
+        $('button.update_profess').modalForm({formURL: '{% url 'material:update_profess' select_profess.id %}'})
+        $('button.delete_profess').modalForm({formURL: '{% url 'material:delete_profess' select_profess.id %}'})
+        {% if profess_isValid %}
+            alert("{{ profess_isValid}}")
+        {% endif %}
 
-    $('.ui.radio.checkbox').checkbox()
-</script>
+        $('.ui.radio.checkbox').checkbox()
+    </script>
 {% endblock script %}

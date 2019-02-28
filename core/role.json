@@ -1,0 +1,265 @@
+[
+    {
+        "model": "member.account",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$120000$TuQDiOl81QQn$dOvqJn1fqn3LGy+H3l/mfS3WS833pkDPQdovh70cUi4=",
+            "last_login": "2019-02-28T11:21:43.757Z",
+            "is_superuser": true,
+            "username": "zzde",
+            "first_name": "",
+            "last_name": "",
+            "email": "1@qq.cc",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2019-01-11T14:40:00Z",
+            "user_dept": null,
+            "position": null,
+            "enp": null,
+            "groups": [],
+            "user_permissions": [],
+            "roles": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ]
+        }
+    },
+    {
+        "model": "member.role",
+        "pk": 1,
+        "fields": {
+            "title": "员工管理",
+            "permissions": [
+                1,
+                2,
+                3
+            ]
+        }
+    },
+    {
+        "model": "member.role",
+        "pk": 2,
+        "fields": {
+            "title": "物资管理",
+            "permissions": [
+                4,
+                5,
+                6
+            ]
+        }
+    },
+    {
+        "model": "member.role",
+        "pk": 3,
+        "fields": {
+            "title": "技术管理",
+            "permissions": [
+                7,
+                8,
+                9
+            ]
+        }
+    },
+    {
+        "model": "member.role",
+        "pk": 4,
+        "fields": {
+            "title": "设备管理",
+            "permissions": [
+                10,
+                11,
+                12
+            ]
+        }
+    },
+    {
+        "model": "member.role",
+        "pk": 5,
+        "fields": {
+            "title": "安全管理",
+            "permissions": [
+                13,
+                14,
+                15
+            ]
+        }
+    },
+    {
+        "model": "member.role",
+        "pk": 6,
+        "fields": {
+            "title": "进度管理",
+            "permissions": [
+                16,
+                17,
+                18
+            ]
+        }
+    },
+    {
+        "model": "member.permission",
+        "pk": 1,
+        "fields": {
+            "title": "员工添加",
+            "url": "/member/member_add",
+            "code": "member_add"
+        }
+    },
+    {
+        "model": "member.permission",
+        "pk": 2,
+        "fields": {
+            "title": "员工更新",
+            "url": "/member/member_update",
+            "code": "member_update"
+        }
+    },
+    {
+        "model": "member.permission",
+        "pk": 3,
+        "fields": {
+            "title": "员工删除",
+            "url": "/member/member_delete",
+            "code": "member_delete"
+        }
+    },
+    {
+        "model": "member.permission",
+        "pk": 4,
+        "fields": {
+            "title": "物资添加",
+            "url": "/material/add",
+            "code": "material_add"
+        }
+    },
+    {
+        "model": "member.permission",
+        "pk": 5,
+        "fields": {
+            "title": "物资更新",
+            "url": "/material/update",
+            "code": "material_update"
+        }
+    },
+    {
+        "model": "member.permission",
+        "pk": 6,
+        "fields": {
+            "title": "物资删除",
+            "url": "/material/delete",
+            "code": "material_delete"
+        }
+    },
+    {
+        "model": "member.permission",
+        "pk": 7,
+        "fields": {
+            "title": "技术添加",
+            "url": "/technology/add",
+            "code": "technology_add"
+        }
+    },
+    {
+        "model": "member.permission",
+        "pk": 8,
+        "fields": {
+            "title": "技术更新",
+            "url": "/technology/update",
+            "code": "technology_update"
+        }
+    },
+    {
+        "model": "member.permission",
+        "pk": 9,
+        "fields": {
+            "title": "技术删除",
+            "url": "/technology/delete",
+            "code": "technology_delete"
+        }
+    },
+    {
+        "model": "member.permission",
+        "pk": 10,
+        "fields": {
+            "title": "设备添加",
+            "url": "/device/add",
+            "code": "device_add"
+        }
+    },
+    {
+        "model": "member.permission",
+        "pk": 11,
+        "fields": {
+            "title": "设备更新",
+            "url": "/device/update",
+            "code": "device_update"
+        }
+    },
+    {
+        "model": "member.permission",
+        "pk": 12,
+        "fields": {
+            "title": "设备删除",
+            "url": "/device/delete",
+            "code": "device_delete"
+        }
+    },
+    {
+        "model": "member.permission",
+        "pk": 13,
+        "fields": {
+            "title": "安全添加",
+            "url": "/safety/add",
+            "code": "safety_add"
+        }
+    },
+    {
+        "model": "member.permission",
+        "pk": 14,
+        "fields": {
+            "title": "安全更新",
+            "url": "/safety/update",
+            "code": "safety_update"
+        }
+    },
+    {
+        "model": "member.permission",
+        "pk": 15,
+        "fields": {
+            "title": "安全删除",
+            "url": "/safety/delete",
+            "code": "safety_delete"
+        }
+    },
+    {
+        "model": "member.permission",
+        "pk": 16,
+        "fields": {
+            "title": "进度添加",
+            "url": "/schedule/add",
+            "code": "schedule_add"
+        }
+    },
+    {
+        "model": "member.permission",
+        "pk": 17,
+        "fields": {
+            "title": "进度更新",
+            "url": "/schedule/update",
+            "code": "schedule_update"
+        }
+    },
+    {
+        "model": "member.permission",
+        "pk": 18,
+        "fields": {
+            "title": "进度删除",
+            "url": "/schedule/delete",
+            "code": "schedule_delete"
+        }
+    }
+]

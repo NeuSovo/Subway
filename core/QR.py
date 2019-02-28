@@ -2,6 +2,7 @@ import os
 import qrcode
 from PIL import Image, ImageDraw, ImageFont
 from django.conf import settings
+from django.utils.six import BytesIO, StringIO
 
 static_root =  settings.STATIC_ROOT
 static_ttf = os.path.join(static_root, 'FZXBSJW.TTF')
@@ -130,3 +131,11 @@ def make_pic(text, data):
 
 # make_pic(["晚风大大", "的月色", "阿瓦萨搜索"], "QRcode data")
 
+def make_qr_pic(text, data):
+    img = make_pic(text, data)
+
+    buf = BytesIO()
+    img.save(buf)
+    image_stream = buf.getvalue()
+
+    return image_stream

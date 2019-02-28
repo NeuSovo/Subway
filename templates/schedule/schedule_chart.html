@@ -17,8 +17,10 @@
                         <a class="item" href="{% url 'schedule:list_chart_with_profess' profess.id%}" > {{profess}}</a>
                     {% endfor %}
                 </div>
-
             </div>
+            <a class="ui labeled icon button black basic right floated append"
+                           href="{% url 'schedule:qr4_make' %}" download="进度总图表二维码.png"><i
+                                class="users icon"></i><span>导出二维码</span></a>
             <div style="overflow:hidden">
                 <div id="mountNode"></div>
                 <div class="bottom-tool-box"><img class="sort-button" src="../static/sort.png"></div>
@@ -31,37 +33,6 @@
         var sortType = 'positive'
         var data = [ {% for item in object_list %}{type: '{{item.job_name}}' ,value:{{item.done_count}}}, {% endfor %}]
         console.log(data)
-        var data1 = [{
-            type: '设备安装1',
-            value: 34
-        }, {
-            type: '设备安装2',
-            value: 85
-        }, {
-            type: '设备安装3',
-            value: 103
-        }, {
-            type: '设备安装4',
-            value: 142
-        }, {
-            type: '设备安装5',
-            value: 251
-        }, {
-            type: '设备安装6',
-            value: 367
-        }, {
-            type: '设备安装7',
-            value: 491
-        }, {
-            type: '设备安装8',
-            value: 672
-        }, {
-            type: '设备安装9',
-            value: 8688
-        }, {
-            type: '设备安装',
-            value: 1234
-        }]
         var chart = new G2.Chart({
             container: 'mountNode',
             forceFit: true,

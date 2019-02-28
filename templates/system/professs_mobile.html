@@ -1,0 +1,16 @@
+{% extends 'mobile.html' %}
+{% block header %}
+    <div class="home"><i class="chevron left icon"></i></div>
+{% endblock %}
+{% block content %}
+<div class="content">
+        <div class="table">
+        <div class="title">{{ title }}</div>
+        <div class="desc">{{ select_profess }}</div>
+        {% for item in object_list %}
+            <a class="row click" href="{{url}}{{item.id}}"><span>{{ item.title }}{{ item.name }}{{item.job_name}} </span><i class="angle right icon"></i></a>
+        {% endfor %} 
+    </div>
+</div>
+
+{% endblock %}

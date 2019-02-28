@@ -14,7 +14,7 @@
                 " href="{% url 'technology:list_profess' profess.id %}">{{ profess.name }}</a>
             {% endfor %}
             <div class="right menu">
-                <a href="" class="item">导出全部专业二维码</a>
+                <a href="{% url 'technology:qr1_make' %}" download="技术一级二维码.png" class="item">导出全部专业二维码</a>
                 <a href="#" class="item add_profess" onclick="return false">添加专业</a>
             </div>
         </div>
@@ -103,6 +103,8 @@
             <tfoot>
                 <tr>
                     <th colspan="5">
+                        
+                            
                         <button class="ui labeled icon button positive right floated add"><i class="users icon"></i>
                             添加文件
                         </button>

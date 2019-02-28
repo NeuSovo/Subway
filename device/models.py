@@ -25,7 +25,7 @@ class Device(models.Model):
     )
 
     id = models.AutoField(primary_key=True, verbose_name='编号')
-    name = models.CharField(max_length=155, verbose_name='名称')
+    name = models.CharField(max_length=155, verbose_name='设备名称')
     status_id = models.IntegerField(
         default=0, choices=status_choiced, verbose_name='状态')
     profess = models.ForeignKey(to="Profess", related_name='profess',
@@ -72,7 +72,7 @@ class Device(models.Model):
 
 
 class DeviceTestInfo(models.Model):
-    device = models.OneToOneField(Device, on_delete=models.CASCADE, related_name='test')
+    device = models.OneToOneField(Device, on_delete=models.CASCADE, related_name='test', primary_key=True)
     z1  = models.CharField('实验方式', max_length=50, null=True, blank=True)
     z2  = models.CharField('取样地点', max_length=50, null=True, blank=True)
     z3  = models.DateTimeField('取样时间', null=True, blank=True)

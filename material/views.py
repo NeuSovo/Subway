@@ -13,6 +13,7 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 
 from core.utils import compress_file
+from core.QR import make_qr_pic
 
 from .forms import MaterialForm, ProfessForm
 from .models import *
@@ -36,7 +37,7 @@ class MaterialUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
 
 class MaterialDetailView(DetailView):
     model = Material
-    template_name = "TEMPLATE_NAME"
+    template_name = "material/material_mobile.html"
 
 
 class MaterialDeleteView(DeleteAjaxMixin, DeleteView):
@@ -44,6 +45,7 @@ class MaterialDeleteView(DeleteAjaxMixin, DeleteView):
     form_class = MaterialForm
     template_name = 'material/material_delete_form.html'
     success_url = reverse_lazy('material:list')
+    success_message = '删除成功'
 
 
 class MaterialListView(ListView):
@@ -213,7 +215,41 @@ def export_qr(request, dept_id=None):
         [os.path.join(QR_DIR_3, QR_3_NAME_TEM % i.id) for i in qr])
     response = HttpResponse(content_type="application/zip")
     response["Content-Disposition"] = "attachment; filename=" + \
-        file_name.encode('utf-8').decode('ISO-8859-1')
+                                      file_name.encode('utf-8').decode('ISO-8859-1')
     s.seek(0)
     response.write(s.read())
     return response
+
+
+def QR1(request):
+    
+    profess_s = Profess.objects.all()
+    context = {
+        'profess_s': profess_s,
+        'title': '物资信息',
+        'url': '/material/qr2/'
+
+    }
+    return render(request, 'system/profess_mobile.html', context=context)
+
+def QR2(request, profess_id):
+    profess = get_object_or_404(Profess, pk=profess_id)
+
+    queryset =  Material.objects.filter(profess=profess)
+    context = {
+        'object_list': queryset,
+        'select_profess': profess,
+        'title': '物资信息',
+        'url': '/material/detail/'
+    }
+    return render(request, 'system/professs_mobile.html', context=context)
+
+
+def qr1_make(request):
+    img = make_pic(['物资信息', '全部专业'], '/meterial/qr1')
+    img.save('test.png')
+    try:
+        with open('test.png', "rb") as f:
+            return HttpResponse(f.read(), content_type="image/png")
+    except Exception as e:
+        raise e

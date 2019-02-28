@@ -11,7 +11,7 @@
                     " href="{% url 'device:list_profess' profess.id %}">{{ profess.name }}</a>
                 {% endfor %}
             </div>
-            <a href="{% url 'device:list' %}">
+            <a href="{% url 'device:list_profess' select_profess.id %}">
                 <button class="ui right labeled icon button primary basic"><i class="right info icon"></i> 设备信息</button>
             </a>
             <table class="ui structured table celled line single fixed" id="table">

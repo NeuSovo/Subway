@@ -1,13 +1,15 @@
 {% extends 'mobile.html' %}
+{% load tag %}
 {% block content %}
     <div class="content">
         <div class="table">
             <div class="title">技术信息</div>
-            <div class="row"><span>编号</span><span>1</span></div>
-            <div class="row"><span>标题</span><span>文件1</span></div>
-            <div class="row"><span>专业</span><span>电力变电</span></div>
-            <div class="row"><span>类别</span><span>图纸会审情况</span></div>
-            <div class="row click"><span>查看文件</span><i class="angle right icon"></i></div>
+            <div class="row"><span> {% verbose_name object 'id' %}</span><span>{{ object.id }}</span></div>
+            <div class="row"><span>{% verbose_name object 'title' %}</span><span>{{ object.title }}</span></div>
+            <div class="row"><span>{% verbose_name object 'profess' %}</span><span>{{ object.profess_name }}</span>
+            </div>
+            <div class="row"><span>{% verbose_name object 'file_type' %}</span><span>{{ object.file_type }}</span></div>
+            <a class="row click" href="{{ object.file_url |default_if_none:'#' }}"><span>查看文件</span><i class="angle right icon"></i></a>
         </div>
     </div>
 {% endblock %}
