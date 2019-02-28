@@ -25,25 +25,27 @@
                 <a class="visible content"
                    href="{% url 'member:export_qr_with_dept' download_dept %}">导出{{ select_dept }}部门二维码</a>
             </div>
-            <div class="ui buttons right floated">
-                <form action="{% url 'member:member_import' %}" id="import_form" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="ui labeled icon button right floated my_import" id="import"><i
-                            class="upload icon"></i>
-                        导入
-                    </div>
-                </form>
-                <div class="or"></div>
-                {% ifequal download_dept 0 %}
-                    <a class="ui right labeled icon button my_export" href="{% url 'member:member_export' %}"><i
-                            class="download icon"></i>
-                        导出</a>
-                {% else %}
-                    <a class="ui right labeled icon button my_export"
-                       href="{% url 'member:member_export_with_id' download_dept %}"><i
-                            class="upload icon"></i> 导出</a>
-                {% endifequal %}
-            </div>
+            {% if member_add or user.is_superuser %}
+                <div class="ui buttons right floated">
+                    <form action="{% url 'member:member_import' %}" id="import_form" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="ui labeled icon button right floated my_import" id="import"><i
+                                class="upload icon"></i>
+                            导入
+                        </div>
+                    </form>
+                    <div class="or"></div>
+                    {% ifequal download_dept 0 %}
+                        <a class="ui right labeled icon button my_export" href="{% url 'member:member_export' %}"><i
+                                class="download icon"></i>
+                            导出</a>
+                    {% else %}
+                        <a class="ui right labeled icon button my_export"
+                           href="{% url 'member:member_export_with_id' download_dept %}"><i
+                                class="upload icon"></i> 导出</a>
+                    {% endifequal %}
+                </div>
+            {% endif %}
             <table class="ui table celled line single fixed" id="table">
                 <thead>
                 <tr class="center aligned">
@@ -63,22 +65,30 @@
                         <td>{{ member.position }}</td>
                         <td>{{ member.dept }}</td>
                         <td>{{ member.phone }}</td>
-                        <td><a class="ui vertical animated button positive basic right floated my_qrcode"
+                        <td>
+                            <a class="ui vertical animated button positive basic right floated my_qrcode"
                                href="{{ member.qrcode }}"
                                download>
-                            <div class="hidden content">二维码</div>
-                            <div class="visible content"><i class="qrcode icon"></i></div>
-                        </a><a class="ui vertical animated button primary basic left floated my_edit_member">
-                            <div class="hidden content update_member"
-                                 data-id="{% url 'member:member_update' member.id %}">编辑
-                            </div>
-                            <div class="visible content"><i class="edit icon"></i></div>
-                        </a><a class="ui vertical animated button negative basic center floated my_remove">
-                            <div class="hidden content delete_member"
-                                 data-id="{% url 'member:member_delete' member.id %}">删除
-                            </div>
-                            <div class="visible content"><i class="remove user icon"></i></div>
-                        </a></td>
+                                <div class="hidden content">二维码</div>
+                                <div class="visible content"><i class="qrcode icon"></i></div>
+                            </a>
+                            {% if member_update or user.is_superuser %}
+                                <a class="ui vertical animated button primary basic left floated my_edit_member">
+                                    <div class="hidden content update_member"
+                                         data-id="{% url 'member:member_update' member.id %}">编辑
+                                    </div>
+                                    <div class="visible content"><i class="edit icon"></i></div>
+                                </a>
+                            {% endif %}
+                            {% if member_delete or user.is_superuser %}
+                                <a class="ui vertical animated button negative basic center floated my_remove">
+                                    <div class="hidden content delete_member"
+                                         data-id="{% url 'member:member_delete' member.id %}">删除
+                                    </div>
+                                    <div class="visible content"><i class="remove user icon"></i></div>
+                                </a>
+                            {% endif %}
+                        </td>
                     </tr>
                 {% empty %}
                     <div class="ui icon orange message"><i class="hide icon"></i>

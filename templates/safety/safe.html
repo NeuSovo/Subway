@@ -1,108 +1,117 @@
 {% extends 'base.html' %}
 {% block content %}
-{% include "_modal.html" %}
-<section>
-    <div class="ui segment">
-        <h1 class="ui header aligned center">安全管理</h1>
-        <div class="ui floating labeled icon dropdown button"><i class="filter icon"></i><span
-                class="text">{{ select_type }}</span>
-            <div class="menu">
-                <div class="header"><i class="tags icon"></i>项目分类</div>
-                <div class="divider"></div>
-                <a class="item" href="{% url 'safety:list' %}">全部</a>
-                {% for type in type_s %}
-                <a class="item" href="{% url 'safety:list_with_type' type.0 %}">{{type.1}}</a>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="ui animated fade right floated button">
-            <div class="hidden content"><i class="upload icon"></i></div>
-            <a class="visible content" href="{% url 'safety:export_qr' %}">导出全部二维码</a>
-        </div>
-        <div class="ui buttons right floated">
-            <form action="{% url 'safety:import' %}" id="import_form" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="ui labeled icon button right floated my_import" id="import"><i class="upload icon"></i>
-                    导入
+    {% include "_modal.html" %}
+    <section>
+        <div class="ui segment">
+            <h1 class="ui header aligned center">安全管理</h1>
+            <div class="ui floating labeled icon dropdown button"><i class="filter icon"></i><span
+                    class="text">{{ select_type }}</span>
+                <div class="menu">
+                    <div class="header"><i class="tags icon"></i>项目分类</div>
+                    <div class="divider"></div>
+                    <a class="item" href="{% url 'safety:list' %}">全部</a>
+                    {% for type in type_s %}
+                        <a class="item" href="{% url 'safety:list_with_type' type.0 %}">{{ type.1 }}</a>
+                    {% endfor %}
                 </div>
-            </form>
-            <div class="or"></div>
-            <a class="ui right labeled icon button my_export" href="{% url 'safety:export' %}"><i
-                    class="download icon"></i>
-                导出</a>
-        </div>
-        <table class="ui table celled line single fixed" id="table">
-            <thead>
+            </div>
+            <div class="ui animated fade right floated button">
+                <div class="hidden content"><i class="upload icon"></i></div>
+                <a class="visible content" href="{% url 'safety:export_qr' %}">导出全部二维码</a>
+            </div>
+            {% if safety_add or user.is_superuser %}
+                <div class="ui buttons right floated">
+                    <form action="{% url 'safety:import' %}" id="import_form" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="ui labeled icon button right floated my_import" id="import"><i
+                                class="upload icon"></i>
+                            导入
+                        </div>
+                    </form>
+                    <div class="or"></div>
+                    <a class="ui right labeled icon button my_export" href="{% url 'safety:export' %}"><i
+                            class="download icon"></i>
+                        导出</a>
+                </div>
+            {% endif %}
+            <table class="ui table celled line single fixed" id="table">
+                <thead>
                 <tr class="center aligned">
                     <th>编号</th>
                     <th>标题</th>
                     <th>分类</th>
                     <th>操作</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 {% for item in object_list %}
-                <tr class="center aligned">
-                    <td>{{ item.id }}</td>
-                    <td>{{ item.title }}</td>
-                    <td>{{ item.get_file_type_display}}</td>
-                    <td>
-                        <a class="ui vertical animated button positive basic right floated my_qrcode"
-                            href="{{ item.qrcode }}" download>
-                            <div class="visible content">二维码</div>
-                            <div class="hidden content"><i class="qrcode icon"></i></div>
-                        </a>
-                        <a class="ui vertical animated button primary basic center floated edit"
-                            data-id="{% url 'safety:update' item.id %}">
-                            <div class="visible content">编辑</div>
-                            <div class="hidden content"><i class="edit icon"></i></div>
-                        </a>
-                        <a class="ui vertical animated button primary basic center floated " 
-                            href="{{ item.file_url|default_if_none:'#' }}">
-                            <div class="visible content">查看</div>
-                            <div class="hidden content"><i class="edit icon"></i></div>
-                        </a>
-                        <a class="ui vertical animated button negative basic center floated remove"
-                            data-id="{% url 'safety:delete' item.id %}">
-                            <div class="visible content">删除</div>
-                            <div class="hidden content"><i class="remove user icon"></i></div>
-                        </a>
-                    </td>
-                </tr>
+                    <tr class="center aligned">
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.get_file_type_display }}</td>
+                        <td>
+                            <a class="ui vertical animated button positive basic center floated my_qrcode"
+                               href="{{ item.qrcode }}" download>
+                                <div class="visible content">二维码</div>
+                                <div class="hidden content"><i class="qrcode icon"></i></div>
+                            </a>
+                            {% if user.is_superuser or safety_update %}
+                                <a class="ui vertical animated button primary basic center floated edit"
+                                   data-id="{% url 'safety:update' item.id %}">
+                                    <div class="visible content">编辑</div>
+                                    <div class="hidden content"><i class="edit icon"></i></div>
+                                </a>
+                            {% endif %}
+                            <a class="ui vertical animated button primary basic center floated {% if not item.file_url %}disabled{% endif %} "
+                               href="{{ item.file_url|default_if_none:'#' }}">
+                                <div class="visible content">查看</div>
+                                <div class="hidden content"><i class="edit icon"></i></div>
+                            </a>
+                            {% if user.is_superuser or safety_delete %}
+                                <a class="ui vertical animated button negative basic center floated remove"
+                                   data-id="{% url 'safety:delete' item.id %}">
+                                    <div class="visible content">删除</div>
+                                    <div class="hidden content"><i class="remove user icon"></i></div>
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
                 {% empty %}
-                <div class="ui icon orange message"><i class="hide icon"></i>
-                    <div class="content">
-                        <div class="header">目前没有一条数据</div>
-                        <p>请试着添加一条数据后再试。</p>
+                    <div class="ui icon orange message"><i class="hide icon"></i>
+                        <div class="content">
+                            <div class="header">目前没有一条数据</div>
+                            <p>请试着添加一条数据后再试。</p>
+                        </div>
                     </div>
-                </div>
                 {% endfor %}
 
-            </tbody>
-            <tfoot>
+                </tbody>
+                <tfoot>
                 <tr>
                     <th colspan="4">
-                        <button class="ui labeled icon button positive right floated add"><i class="users icon"></i>
-                            添加文件
-                        </button>
+                        {% if user.is_superuser or safety_add %}
+                            <button class="ui labeled icon button positive right floated add"><i class="users icon"></i>
+                                添加文件
+                            </button>
+                        {% endif %}
                         {% include '_page.html' %}
                     </th>
                 </tr>
-            </tfoot>
-        </table><!-- item 操作-->
-    </div>
-</section>
-{% endblock content%}
+                </tfoot>
+            </table><!-- item 操作-->
+        </div>
+    </section>
+{% endblock content %}
 {% block script %}
-<script>
-    $('button.add').modalForm({ formURL: '{% url 'safety:add' %}'})
-    $('a.edit').each(function () {
-        $(this).modalForm({ formURL: $(this).data('id') })
-    })
-    $('a.remove').each(function () {
-        $(this).modalForm({
-            formURL: $(this).data('id')
+    <script>
+        $('button.add').modalForm({formURL: '{% url 'safety:add' %}'})
+        $('a.edit').each(function () {
+            $(this).modalForm({formURL: $(this).data('id')})
         })
-    })
-</script>
+        $('a.remove').each(function () {
+            $(this).modalForm({
+                formURL: $(this).data('id')
+            })
+        })
+    </script>
 {% endblock %}

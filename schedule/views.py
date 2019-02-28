@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from bootstrap_modal_forms.mixins import DeleteAjaxMixin, PassRequestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db import IntegrityError, transaction
@@ -7,8 +9,11 @@ from django.shortcuts import (HttpResponse, HttpResponseRedirect,
 from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
-from .forms import *
+
 from core.QR import make_pic
+from core.utils import compress_file
+
+from .forms import *
 
 
 class ScheduleAddView(PassRequestMixin, SuccessMessageMixin, CreateView):
@@ -37,6 +42,7 @@ class ScheduleDeleteView(DeleteAjaxMixin, DeleteView):
     form_class = ScheduleForm
     template_name = 'schedule/schedule_delete_form.html'
     success_url = reverse_lazy('schedule:list')
+    success_message = '删除成功'
 
 
 class ScheduleListView(ListView):
@@ -128,7 +134,6 @@ class ProfessDeleteView(DeleteView):
 
 
 def QR1(request):
-    
     profess_s = Profess.objects.all()
     context = {
         'profess_s': profess_s,
@@ -170,3 +175,18 @@ def qr4_make(request):
             return HttpResponse(f.read(), content_type="image/png")
     except Exception as e:
         raise e
+
+
+def export_qr(request, dept_id=None):
+    file_name = '进度二维码_'
+    qr = Schedule.objects.all()
+
+    file_name += datetime.now().strftime("%Y-%m-%d") + '.zip'
+    s = compress_file(
+        [os.path.join(QR_DIR_3, QR_3_NAME_TEM % i.id) for i in qr])
+    response = HttpResponse(content_type="application/zip")
+    response["Content-Disposition"] = "attachment; filename=" + \
+                                      file_name.encode('utf-8').decode('ISO-8859-1')
+    s.seek(0)
+    response.write(s.read())
+    return response

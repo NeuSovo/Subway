@@ -5,7 +5,6 @@
         <div class="ui segment">
             <h1 class="ui header aligned center">物料信息</h1>
             <div class="ui secondary pointing menu">
-
                 {% for profess in profess_s %}
                     <a class="item
             {% ifequal select_profess profess %}
@@ -13,10 +12,12 @@
             {% endifequal %}
                 " href="{% url 'material:list_profess' profess.id %}">{{ profess.name }}</a>
                 {% endfor %}
-                <div class="right menu">
-                    <a href="{% url 'material:qr1_make' %}" download="物资一级二维码.png" class="item">导出全部专业二维码</a>
-                    <a href="#" class="item add_profess" onclick="return false">添加专业</a>
-                </div>
+                {% if material_add or user.is_superuser %}
+                    <div class="right menu">
+                        <a href="{% url 'material:qr1_make' %}" download="物资一级二维码.png" class="item">导出全部专业二维码</a>
+                        <a href="#" class="item add_profess" onclick="return false">添加专业</a>
+                    </div>
+                {% endif %}
             </div>
             <a href="{% url 'material:stock_record' %}">
                 <button class="ui right labeled icon button primary"><i class="right info icon"></i> 操作记录</button>
@@ -25,18 +26,21 @@
                 <div class="hidden content"><i class="upload icon"></i></div>
                 <a class="visible content" href="{% url 'material:export_qr' %}">导出全部二维码</a>
             </div>
-            <div class="ui buttons right floated">
-                <form action="{% url 'material:import' %}" id="import_form" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="ui labeled icon button right floated my_import" id="import"><i class="upload icon"></i>
-                        导入
-                    </div>
-                </form>
-                <div class="or"></div>
-                <a class="ui right labeled icon button my_export" href="{% url 'material:export' %}"><i
-                        class="download icon"></i>
-                    导出</a>
-            </div>
+            {% if material_add or user.is_superuser %}
+                <div class="ui buttons right floated">
+                    <form action="{% url 'material:import' %}" id="import_form" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="ui labeled icon button right floated my_import" id="import"><i
+                                class="upload icon"></i>
+                            导入
+                        </div>
+                    </form>
+                    <div class="or"></div>
+                    <a class="ui right labeled icon button my_export" href="{% url 'material:export' %}"><i
+                            class="download icon"></i>
+                        导出</a>
+                </div>
+            {% endif %}
             <table class="ui table celled line single fixed" id="table">
                 <thead>
                 <tr class="center aligned">
@@ -66,25 +70,33 @@
                                 <div class="visible content">二维码</div>
                                 <div class="hidden content"><i class="qrcode icon"></i></div>
                             </a>
-                            <a class="ui vertical animated button primary basic center floated my_edit_member">
-                                <div class="visible content">编辑
-                                </div>
-                                <div class="hidden content update_material"
-                                     data-id="{% url 'material:update' material.id %}"><i class="edit icon"></i></div>
-                            </a>
-                            <a class="ui vertical animated button primary basic center floated my_edit_member">
-                                <div class="visible content">出/入库</div>
-                                <div class="hidden content inout_stock"
-                                     data-id="{% url 'material:in_out_stock' material.id %}"><i class="edit icon"></i>
-                                </div>
-                            </a>
-                            <a class="ui vertical animated button negative basic center floated my_remove">
-                                <div class="visible content ">删除
-                                </div>
-                                <div class="hidden content delete_material"
-                                     data-id="{% url 'material:delete' material.id %}"><i class="remove user icon"></i>
-                                </div>
-                            </a>
+                            {% if user.is_superuser or material_update %}
+                                <a class="ui vertical animated button primary basic center floated my_edit_member">
+                                    <div class="visible content">编辑
+                                    </div>
+                                    <div class="hidden content update_material"
+                                         data-id="{% url 'material:update' material.id %}"><i class="edit icon"></i>
+                                    </div>
+                                </a>
+
+                                <a class="ui vertical animated button primary basic center floated my_edit_member">
+                                    <div class="visible content">出/入库</div>
+                                    <div class="hidden content inout_stock"
+                                         data-id="{% url 'material:in_out_stock' material.id %}"><i
+                                            class="edit icon"></i>
+                                    </div>
+                                </a>
+                            {% endif %}
+                            {% if user.is_superuser or material_delete %}
+                                <a class="ui vertical animated button negative basic center floated my_remove">
+                                    <div class="visible content ">删除
+                                    </div>
+                                    <div class="hidden content delete_material"
+                                         data-id="{% url 'material:delete' material.id %}"><i
+                                            class="remove user icon"></i>
+                                    </div>
+                                </a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
@@ -92,24 +104,28 @@
                 <tfoot>
                 <tr>
                     <th colspan="8">
-                        <button class="ui labeled icon button positive right floated add_material"><i
-                                class="users icon"></i>
-                            添加物料
-                        </button>
-                        <button class="ui labeled icon button blue left floated update_profess"><i
-                                class="users icon"></i><span>
+                        {% if user.is_superuser or material_add %}
+                            <button class="ui labeled icon button positive right floated add_material"><i
+                                    class="users icon"></i>
+                                添加物料
+                            </button>
+                        {% endif %}
+                        {% if material_add or user.is_superuser %}
+                            <button class="ui labeled icon button blue left floated update_profess"><i
+                                    class="users icon"></i><span>
                                 修改当前专业信息</span>
-                        </button>
-                        <button class="ui labeled icon button negative left floated delete_profess
+                            </button>
+                            <button class="ui labeled icon button negative left floated delete_profess
                             {% ifequal object_list|length 0 %}
                             {% else %}
                             disabled
                             {% endifequal %}">
-                            <i class=" users icon"></i><span> 删除当前专业</span>
-                        </button>
-                        <a class="ui labeled icon button black basic left floated append"
-                           href="{{ select_profess.qrcode }}" download><i
-                                class="users icon"></i><span>导出该专业二维码</span></a>
+                                <i class=" users icon"></i><span> 删除当前专业</span>
+                            </button>
+                            <a class="ui labeled icon button black basic left floated append"
+                               href="{{ select_profess.qrcode }}" download><i
+                                    class="users icon"></i><span>导出该专业二维码</span></a>
+                        {% endif %}
                         {% include '_page.html' %}
                     </th>
                 </tr>

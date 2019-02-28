@@ -29,12 +29,12 @@ def de_password(salt):
 
 
 def en_base64(txt):
-    tmp = base64.b64encode(str(txt).encode('utf-8'))
+    tmp = base64.urlsafe_b64encode(str(txt).encode('utf-8'))
     return str(tmp, 'utf-8')
 
 
 def de_base64(txt):
-    uid = base64.b64decode(txt.encode('utf-8'))
+    uid = base64.urlsafe_b64decode(txt.encode('utf-8'))
     uid = str(uid, 'utf-8')
 
     return uid
