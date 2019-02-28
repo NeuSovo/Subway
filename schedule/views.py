@@ -124,3 +124,28 @@ class ProfessDeleteView(DeleteView):
     success_message = '%(name)s 删除成功'
     template_name = "schedule/delete_profess.html"
     success_url = reverse_lazy('schedule:list')
+
+
+def QR1(request):
+    
+    profess_s = Profess.objects.all()
+    context = {
+        'profess_s': profess_s,
+        'title': '进度信息',
+        'url': '/schedule/qr2/'
+
+    }
+    return render(request, 'system/profess_mobile.html', context=context)
+
+
+def QR2(request, profess_id):
+    profess = get_object_or_404(Profess, pk=profess_id)
+
+    queryset = Schedule.objects.filter(profess=profess)
+    context = {
+        'object_list': queryset,
+        'select_profess': profess,
+        'title': '进度信息',
+        'url': '/schedule/detail/'
+    }
+    return render(request, 'system/professs_mobile.html', context=context)

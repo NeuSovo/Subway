@@ -218,3 +218,27 @@ def export_qr(request, dept_id=None):
     s.seek(0)
     response.write(s.read())
     return response
+
+
+def QR1(request):
+    
+    profess_s = Profess.objects.all()
+    context = {
+        'profess_s': profess_s,
+        'title': '物资信息',
+        'url': '/material/qr2/'
+
+    }
+    return render(request, 'system/profess_mobile.html', context=context)
+
+def QR2(request, profess_id):
+    profess = get_object_or_404(Profess, pk=profess_id)
+
+    queryset =  Material.objects.filter(profess=profess)
+    context = {
+        'object_list': queryset,
+        'select_profess': profess,
+        'title': '物资信息',
+        'url': '/material/detail/'
+    }
+    return render(request, 'system/professs_mobile.html', context=context)

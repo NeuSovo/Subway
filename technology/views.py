@@ -183,3 +183,28 @@ def export_technology_data(request):
         file_name=file_name,
         colnames=colnames,
     )
+
+
+def QR1(request):
+    
+    profess_s = Profess.objects.all()
+    context = {
+        'profess_s': profess_s,
+        'title': '技术信息',
+        'url': '/technology/qr2/'
+
+    }
+    return render(request, 'system/profess_mobile.html', context=context)
+
+
+def QR2(request, profess_id):
+    profess = get_object_or_404(Profess, pk=profess_id)
+
+    queryset = TechnologyFile.objects.filter(profess=profess)
+    context = {
+        'object_list': queryset,
+        'select_profess': profess,
+        'title': '技术信息',
+        'url': '/technology/detail/'
+    }
+    return render(request, 'system/professs_mobile.html', context=context)

@@ -21,7 +21,9 @@ urlpatterns = [
          ProfessDeleteView.as_view(), name='delete_profess'),
     path('export_qr', export_qr, name='export_qr'),
 
-     path('import', import_technology_data, name='import'),
+    path('import', import_technology_data, name='import'),
     path('export', export_technology_data, name='export'),
+     path('qr1', QR1),
+     path('qr2/<int:profess_id>', QR2)
 
 ]
