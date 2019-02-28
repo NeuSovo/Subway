@@ -3,14 +3,22 @@
     <div class="home"><i class="chevron left icon"></i></div>
 {% endblock %}
 {% block content %}
-    <div class="content">
-        <div class="table">
-            <div class="title">技术信息</div>
-            <div class="desc">电力变电->选择类别</div>
-            <div class="row click"><span>图纸会审情况</span><i class="angle right icon"></i></div>
-            <div class="row click"><span>技术交底</span><i class="angle right icon"></i></div>
-            <div class="row click"><span>作业指导书</span><i class="angle right icon"></i></div>
-            <div class="row click"><span>工艺功法</span><i class="angle right icon"></i></div>
+    <div class="table">
+        <div class="title">技术信息</div>
+        <div class="desc">电力变电->选择类别</div>
+        <div class="ui floating labeled icon dropdown button three"><i class="filter icon"></i><span
+                class="text">全部</span>
+            <div class="menu">
+                <div class="header"><i class="tags icon"></i>选取类别</div>
+                <div class="divider"></div>
+                <div class="item" data-value="6">全部</div>
+                <div class="item" data-value="7">图纸会审</div>
+                <div class="item" data-value="8">作业指导书</div>
+            </div>
         </div>
+        <div class="row click"><span>标题1</span><i class="angle right icon"></i></div>
+        <div class="row click"><span>标题2</span><i class="angle right icon"></i></div>
+        <div class="row click"><span>标题3</span><i class="angle right icon"></i></div>
+        <div class="row click"><span>标题4</span><i class="angle right icon"></i></div>
     </div>
 {% endblock %}
