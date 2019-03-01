@@ -29,6 +29,28 @@
         }
     },
     {
+        "model": "member.account",
+        "pk": 2,
+        "fields": {
+            "password": "pbkdf2_sha256$120000$XG5pTsj7kx7C$P+L1FkSh9ExDF72KtNV8X2/u9mBsD2Z9eDIuZ14IRoY=",
+            "last_login": null,
+            "is_superuser": true,
+            "username": "admin",
+            "first_name": "",
+            "last_name": "",
+            "email": "2@qq.cc",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2019-03-01T06:10:29.532Z",
+            "user_dept": null,
+            "position": null,
+            "enp": null,
+            "groups": [],
+            "user_permissions": [],
+            "roles": []
+        }
+    },
+    {
         "model": "member.role",
         "pk": 1,
         "fields": {
