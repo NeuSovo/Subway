@@ -28,6 +28,9 @@ urlpatterns = [
     path('qr1_make', qr1_make, name='qr1_make'),
     path('qr4_make', qr4_make, name='qr4_make'),
     path('export_qr', export_qr, name='export_qr'),
+    
+    path('import', import_schedule_data, name='import'),
+    path('export', export_schedule_data, name='export'),
 
 
 ]

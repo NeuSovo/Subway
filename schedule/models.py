@@ -23,10 +23,11 @@ class Schedule(models.Model):
 
         verbose_name = 'Schedule'
         verbose_name_plural = 'Schedules'
+        ordering = ['id']
 
     def __str__(self):
         """Unicode representation of Schedule."""
-        return self.name
+        return self.job_name
 
     @property
     def undone_count(self):

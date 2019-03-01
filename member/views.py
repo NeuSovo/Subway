@@ -89,8 +89,9 @@ class AssignAccountUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView)
 
     def form_valid(self, form):
         self.object = form.save()
-        self.object.enp = en_password(form.cleaned_data.get('enp'))
-        self.object.set_password(form.cleaned_data.get('enp'))
+        if self.object.enp != form.cleaned_data.get('enp'):
+            self.object.enp = en_password(form.cleaned_data.get('enp'))
+            self.object.set_password(form.cleaned_data.get('enp'))
         self.object.roles.clear()
         self.object.roles.add(*list(form.cleaned_data.get('roles')))
         return super(AssignAccountUpdateView, self).form_valid(form)
@@ -354,7 +355,7 @@ def depass_view(request):
         depass = de_password(salt)
         return JsonResponse({'msg': 'ok', 'pass': depass})
     except Exception as e:
-        return JsonResponse({'msg': str(e)})
+        return JsonResponse({'msg': 'ok', 'pass': salt, 'e': str(e)})
 
 
 @login_required(login_url='/auth/login')
