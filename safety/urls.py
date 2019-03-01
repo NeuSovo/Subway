@@ -14,5 +14,4 @@ urlpatterns = [
 
     path('import', import_safety_data, name='import'),
     path('export', export_safety_data, name='export')
-
 ]

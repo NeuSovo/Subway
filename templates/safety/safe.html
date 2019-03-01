@@ -19,7 +19,7 @@
                 <div class="hidden content"><i class="upload icon"></i></div>
                 <a class="visible content" href="{% url 'safety:export_qr' %}">导出全部二维码</a>
             </div>
-            {% if user.is_superuser %}
+            {% if safety_add or user.is_superuser %}
                 <div class="ui buttons right floated">
                     <form action="{% url 'safety:import' %}" id="import_form" enctype="multipart/form-data">
                         {% csrf_token %}

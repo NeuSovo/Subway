@@ -2,7 +2,7 @@ import os
 from django.db import models
 from django.conf import settings
 from core.QR import make_pic
-
+from core.utils import AutoOneToOneField
 
 QR_DIR_3 = os.path.join(settings.MEDIA_ROOT, 'device_qr_3')
 QR_DIR_2 = os.path.join(settings.MEDIA_ROOT, 'device_qr_2')
@@ -58,6 +58,10 @@ class Device(models.Model):
     def profess_name(self):
         return str(self.profess)
 
+    @property
+    def status_name(self):
+        return self.status_choiced[self.status_id][1]
+
     def gen_qrcode_img(self):
         qr = make_pic([str(self.profess), self.name], '/device/detail/' + str(self.id))
         qr.save(os.path.join(QR_DIR_3, QR_3_NAME_TEM % self.id), quality=100)
@@ -72,7 +76,7 @@ class Device(models.Model):
 
 
 class DeviceTestInfo(models.Model):
-    device = models.OneToOneField(Device, on_delete=models.CASCADE, related_name='test', primary_key=True)
+    device = AutoOneToOneField(Device, on_delete=models.CASCADE, related_name='test', primary_key=True)
     z1  = models.CharField('实验方式', max_length=50, null=True, blank=True)
     z2  = models.CharField('取样地点', max_length=50, null=True, blank=True)
     z3  = models.DateTimeField('取样时间', null=True, blank=True)
@@ -86,6 +90,10 @@ class DeviceTestInfo(models.Model):
 
     acceptor = models.CharField(
         max_length=30, verbose_name='验收人', null=True, blank=True)
+    
+    @property
+    def device_name(self):
+        return self.device.name
 
 
 class Profess(models.Model):

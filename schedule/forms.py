@@ -1,6 +1,6 @@
 from django import forms
 from bootstrap_modal_forms.mixins import PopRequestMixin, CreateUpdateAjaxMixin
-from .models import Schedule, Profess
+from .models import *
 
 
 class ScheduleForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):

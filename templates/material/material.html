@@ -12,7 +12,7 @@
             {% endifequal %}
                 " href="{% url 'material:list_profess' profess.id %}">{{ profess.name }}</a>
                 {% endfor %}
-                {% if user.is_superuser %}
+                {% if material_add or user.is_superuser %}
                     <div class="right menu">
                         <a href="{% url 'material:qr1_make' %}" download="物资一级二维码.png" class="item">导出全部专业二维码</a>
                         <a href="#" class="item add_profess" onclick="return false">添加专业</a>
@@ -26,7 +26,7 @@
                 <div class="hidden content"><i class="upload icon"></i></div>
                 <a class="visible content" href="{% url 'material:export_qr' %}">导出全部二维码</a>
             </div>
-            {% if user.is_superuser %}
+            {% if material_add or user.is_superuser %}
                 <div class="ui buttons right floated">
                     <form action="{% url 'material:import' %}" id="import_form" enctype="multipart/form-data">
                         {% csrf_token %}
@@ -110,7 +110,7 @@
                                 添加物料
                             </button>
                         {% endif %}
-                        {% if user.is_superuser %}
+                        {% if material_add or user.is_superuser %}
                             <button class="ui labeled icon button blue left floated update_profess"><i
                                     class="users icon"></i><span>
                                 修改当前专业信息</span>

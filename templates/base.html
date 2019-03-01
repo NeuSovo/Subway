@@ -155,10 +155,14 @@
     })
 
     $('#import').after('<input type="file" id="load_xls" name="docfile" style="display:none" onchange ="uploadFile()" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">');
+    // $('#import_test').after('<input type="file" id="load_test_xls" name="docfile" style="display:none" onchange ="uploadFile1()" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">');
+
     $('#import').click(function () {
         document.getElementById("load_xls").click();
     })
-
+    // $('#import_test').click(function () {
+    //     document.getElementById("load_test_xls").click();
+    // })
     function inout_stock() {
         var inout_stock_form = $("#inout_stock_form")[0]
         $.ajax({
@@ -194,9 +198,32 @@
             },
             error: function (data) {
                 console.log(data)
+                location.reload()
             }
         })
     }
+
+    // function uploadFile1(){
+    //     let import_form = $("#import_test_form")[0];
+    //     let myform = new FormData(import_form);
+    //     myform.append('file', $('#load_test_xls')[0].files[0]);
+    //     $.ajax({
+    //         url: import_form.action,
+    //         type: "POST",
+    //         data: myform,
+    //         contentType: false,
+    //         processData: false,
+    //         success: function (data) {
+    //             console.log(data)
+    //             location.reload();
+
+    //         },
+    //         error: function (data) {
+    //             console.log(data)
+    //             location.reload()
+    //         }
+    //     })
+    // }
 </script>
 {% block script %}
 {% endblock script %}

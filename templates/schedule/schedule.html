@@ -13,7 +13,7 @@
                 " href="{% url 'schedule:list_profess' profess.id %}">{{ profess.name }}</a>
                 {% endfor %}
                 <div class="right menu">
-                    {% if user.is_superuser %}
+                    {% if schedule_add or user.is_superuser %}
                         <a href="{% url 'schedule:qr1_make' %}" download="进度一级二维码.png" class="item">导出全部专业二维码</a>
                         <a href="#" class="item add_profess" onclick="return false">添加专业</a>
                     {% endif %}
@@ -24,14 +24,21 @@
             </a>
             <div class="ui animated fade right floated button">
                 <div class="hidden content"><i class="upload icon"></i></div>
-                <div class="visible content">导出全部二维码</div>
+                <a class="visible content" href="{% url 'schedule:export_qr' %}">导出全部二维码</a>
             </div>
-            {% if user.is_superuser %}
-                <div class="ui buttons right floated">
-                    <button class="ui labeled icon button right floated my_import"><i class="download icon"></i> 导入
-                    </button>
+            {% if schedule_add or user.is_superuser %}
+            <div class="ui buttons right floated">
+                    <form action="{% url 'schedule:import' %}" id="import_form" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="ui labeled icon button right floated my_import" id="import"><i
+                                class="upload icon"></i>
+                            导入
+                        </div>
+                    </form>
                     <div class="or"></div>
-                    <button class="ui right labeled icon button my_export"><i class="upload icon"></i> 导出</button>
+                    <a class="ui right labeled icon button my_export" href="{% url 'schedule:export' %}"><i
+                            class="download icon"></i>
+                        导出</a>                     
                 </div>
             {% endif %}
             <table class="ui table celled line single fixed" id="table">
@@ -62,7 +69,8 @@
                         <td>{{ item.done_count }}</td>
                         <td>{{ item.undone_count }}</td>
                         <td>
-                            <a class="ui vertical animated button positive basic center floated qrcode">
+                            <a class="ui vertical animated button positive basic center floated qrcode"
+                                href="{{ item.qrcode }}" download>
                                 <div class="visible content">二维码</div>
                                 <div class="hidden content"><i class="qrcode icon"></i></div>
                             </a>
@@ -100,7 +108,7 @@
                                 添加任务
                             </button>
                         {% endif %}
-                        {% if user.is_superuser %}
+                        {% if schedule_add or user.is_superuser %}
                             <button class="ui labeled icon button blue left floated update_profess"><i
                                     class="users icon"></i><span>
                                 修改当前专业信息</span>

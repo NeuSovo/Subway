@@ -25,7 +25,7 @@
                 <a class="visible content"
                    href="{% url 'member:export_qr_with_dept' download_dept %}">导出{{ select_dept }}部门二维码</a>
             </div>
-            {% if user.is_superuser %}
+            {% if member_add or user.is_superuser %}
                 <div class="ui buttons right floated">
                     <form action="{% url 'member:member_import' %}" id="import_form" enctype="multipart/form-data">
                         {% csrf_token %}

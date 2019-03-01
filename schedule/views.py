@@ -1,3 +1,7 @@
+from django.contrib import messages
+from datetime import datetime
+
+import django_excel as excel
 from bootstrap_modal_forms.mixins import DeleteAjaxMixin, PassRequestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db import IntegrityError, transaction
@@ -7,8 +11,11 @@ from django.shortcuts import (HttpResponse, HttpResponseRedirect,
 from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
-from .forms import *
+
 from core.QR import make_pic
+from core.utils import compress_file
+
+from .forms import *
 
 
 class ScheduleAddView(PassRequestMixin, SuccessMessageMixin, CreateView):
@@ -170,3 +177,77 @@ def qr4_make(request):
             return HttpResponse(f.read(), content_type="image/png")
     except Exception as e:
         raise e
+
+
+def export_qr(request, dept_id=None):
+    file_name = '进度二维码_'
+    qr = Schedule.objects.all()
+
+    file_name += datetime.now().strftime("%Y-%m-%d") + '.zip'
+    s = compress_file(
+        [os.path.join(QR_DIR_3, QR_3_NAME_TEM % i.id) for i in qr])
+    response = HttpResponse(content_type="application/zip")
+    response["Content-Disposition"] = "attachment; filename=" + \
+                                      file_name.encode(
+                                          'utf-8').decode('ISO-8859-1')
+    s.seek(0)
+    response.write(s.read())
+    return response
+
+
+def import_schedule_data(request):
+    # 导入数据
+    mapdict = {
+        '作业名称': 'job_name',
+        '专业id': 'profess_id',
+        '单位': 'unit',
+        '施工地点': 'location',
+        '开累完成量': 'done_count',
+        '设计总量': 'design_total',
+        '上周计划完成量': 'last_week_plan',
+        '上周实际完成量': 'last_week_actual',
+        '本周计划完成量': 'now_week_plan',
+        '完成总周数': 'now_week_actual',
+        '当前周目': 'now_week',
+    }
+    if request.method == "POST":
+        try:
+            request.FILES['docfile'].save_to_database(
+                name_columns_by_row=0,
+                model=Schedule,
+                mapdict=mapdict)
+            messages.success(request, "导入成功")
+
+        except IntegrityError as e:
+            print(e)
+            messages.error(
+                request, '导入失败：请检查Excel内容是否有以下错误: </br> 1.数据重复</br> 2.专业id不存在')
+        except ValueError as e:
+            print(e)
+            messages.error(
+                request, '导入失败：请检查Excel内容是否有以下错误: </br> 1.数据格式错误 例如id类存在汉字或字母')
+        except Exception as e:
+            messages.error(request, str(e))
+        return JsonResponse({'msg': 'd'})
+    else:
+        pass
+
+
+def export_schedule_data(request):
+    file_name = '进度表_'
+    queryset = Schedule.objects.all()
+
+    file_name += datetime.now().strftime("%Y-%m-%d")
+
+    column_names = ['id', 'job_name', 'profess_id', 'profess_name', 'unit', 'location', 'done_count', 'design_total',
+                    'last_week_plan', 'last_week_actual', 'now_week_plan', 'now_week_actual', 'now_week']
+    colnames = ['进度编号', '作业名称', '专业id', '专业名称', '单位',
+                '施工地点', '开累完成量', '设计总量', '上周计划完成量', '上周实际完成量', '本周计划完成量', '完成总周数', '当前周目']
+    return excel.make_response_from_query_sets(
+        queryset,
+        column_names,
+        'xls',
+        file_name=file_name,
+        colnames=colnames,
+        sheet_name='进度数据',
+    )

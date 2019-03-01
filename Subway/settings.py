@@ -62,8 +62,25 @@ MIDDLEWARE = [
 ]
 
 VALID_LIST = [
-    '/member/member_add',
-    '/member/dept*'
+    '/member/member_add*',
+    '/member/member_update*',
+    '/member/member_delete*',
+    '/member/dept*',
+    '/material/add*',
+    '/material/update*',
+    '/material/delete*',
+    '/technology/add*',
+    '/technology/update*',
+    '/technology/delete*',
+    '/device/add*',
+    '/device/update*',
+    '/device/delete*',
+    '/safety/add*',
+    '/safety/update*',
+    '/safety/delete*',
+    '/schedule/add*',
+    '/schedule/update*',
+    '/schedule/delete*'
 ]
 
 ROOT_URLCONF = 'Subway.urls'
