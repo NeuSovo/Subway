@@ -21,11 +21,11 @@ def gen_qrcode(data):
 
 
 def en_password(passwd):
-    return str(base64.b64encode(k.encrypt(passwd)), 'utf-8')
+    return str(base64.urlsafe_b64encode(k.encrypt(passwd)), 'utf-8')
 
 
 def de_password(salt):
-    return str(k.decrypt(base64.b64decode(salt)), 'utf-8')
+    return str(k.decrypt(base64.urlsafe_b64decode(salt)), 'utf-8')
 
 
 def en_base64(txt):

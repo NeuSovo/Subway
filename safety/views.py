@@ -5,7 +5,7 @@ from bootstrap_modal_forms.mixins import DeleteAjaxMixin, PassRequestMixin
 from django.contrib import messages
 from django.db import IntegrityError
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import HttpResponse, redirect
+from django.shortcuts import HttpResponse, redirect, get_object_or_404, render
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,

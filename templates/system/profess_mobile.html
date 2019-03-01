@@ -1,0 +1,15 @@
+{% extends 'mobile.html' %}
+{% block header %}
+    <div class="home"><i class="chevron left icon"></i></div>
+{% endblock %}
+{% block content %}
+    <div class="content">
+        <div class="table">
+            <div class="title">{{ title }}</div>
+            <div class="desc">全部专业->选择专业</div>
+            {% for profess in profess_s %}
+                <a class="row click" href="{{ url }}{{ profess.id }}"><span>{{ profess}}</span><i class="angle right icon"></i></a>
+            {% endfor %} 
+        </div>
+    </div>
+{% endblock %}
