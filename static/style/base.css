@@ -134,7 +134,6 @@ header .ui.menu img {
 
 footer {
     text-align: center;
-    position: fixed;
     bottom: 0;
     width: 100vw;
     background: #2e3033;
@@ -150,7 +149,10 @@ footer img {
 }
 
 section {
-    max-height: 83vh;
-    min-height: 80vh;
-    overflow: auto;
+    min-height: 85vh;
+    overflow: hidden;
+}
+section.big {
+    min-height: 85vh;
+    overflow: hidden;
 }
