@@ -11,11 +11,14 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-import raven
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
-RAVEN_CONFIG = {
-    'dsn': 'https://0cc9701bfdaf414fbaaaf3c3c28a15c5:50d99f12d4b54913b47add2242bf8343@sentry.io/1406320',
-}
+sentry_sdk.init(
+    dsn="https://0cc9701bfdaf414fbaaaf3c3c28a15c5@sentry.io/1406320",
+    integrations=[DjangoIntegration()],
+    send_default_pii=True
+)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -42,9 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'core.templatetags',
-
     'bootstrap_modal_forms',
-    'raven.contrib.django.raven_compat',
 
     'member',  # 部门&员工
     'material',  # 物资

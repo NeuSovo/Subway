@@ -213,7 +213,6 @@ class MemberListView(ListView):
     def get(self, request, *args, **kwargs):
         dept_id = kwargs.get('dept_id')
         self.dept = None
-        raise ValueError
 
         if dept_id is None:
             if not request.user.is_superuser:
