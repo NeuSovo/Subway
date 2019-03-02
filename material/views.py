@@ -16,7 +16,7 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
 
 from core.utils import compress_file
 from core.QR import make_qr_pic
-
+from urllib.parse import quote
 from .forms import MaterialForm, ProfessForm
 from .models import *
 
@@ -216,8 +216,7 @@ def export_qr(request, dept_id=None):
     s = compress_file(
         [os.path.join(QR_DIR_3, QR_3_NAME_TEM % i.id) for i in qr])
     response = HttpResponse(content_type="application/zip")
-    response["Content-Disposition"] = "attachment; filename=" + \
-                                      file_name.encode('utf-8').decode('ISO-8859-1')
+    response["Content-Disposition"] = "attachment; filename={}".format(quote(file_name))
     s.seek(0)
     response.write(s.read())
     return response

@@ -16,7 +16,7 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
                                   ListView, UpdateView, View)
-
+from urllib.parse import quote
 from core.init_permission import *
 from core.utils import *
 
@@ -376,8 +376,7 @@ def export_qr_with_dept(request, dept_id=None):
     s = compress_file(
         [os.path.join(QR_DIR, QR_NAME_TEM % i.member_id) for i in qr])
     response = HttpResponse(content_type="application/zip")
-    response["Content-Disposition"] = "attachment; filename=" + \
-                                      file_name.encode('utf-8').decode('ISO-8859-1')
+    response["Content-Disposition"] = "attachment; filename={}".format(quote(file_name))
     s.seek(0)
     response.write(s.read())
     return response
