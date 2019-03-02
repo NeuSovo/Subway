@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import raven
+
+RAVEN_CONFIG = {
+    'dsn': 'https://0cc9701bfdaf414fbaaaf3c3c28a15c5:50d99f12d4b54913b47add2242bf8343@sentry.io/1406320',
+}
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -39,6 +44,7 @@ INSTALLED_APPS = [
     'core.templatetags',
 
     'bootstrap_modal_forms',
+    'raven.contrib.django.raven_compat',
 
     'member',  # 部门&员工
     'material',  # 物资
