@@ -1,4 +1,7 @@
+# -*- coding: utf-8 -*-  
+
 from datetime import datetime
+from django.contrib import messages
 
 import django_excel as excel
 from bootstrap_modal_forms.mixins import DeleteAjaxMixin, PassRequestMixin
@@ -37,6 +40,7 @@ class LoginView(FormView):
                 init_permission(user, request)
                 return self.form_valid(form, user)
             else:
+                messages.error(request, '登陆失败, 请检查用户名和密码')
                 return self.form_invalid(form)
         else:
             return self.form_invalid(form)

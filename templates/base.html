@@ -12,7 +12,7 @@
     <script src="{% static 'javascript/jquery-3.2.1.min.js' %}"></script>
     <script src="{% static 'javascript/semantic.min.js' %}"></script>
     <script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
-    <title>Document</title>
+    <title>IQ工程管理平台</title>
     {% block style %}
     {% endblock style %}
 </head>
@@ -47,7 +47,7 @@
                     <div class="title"><i class="dropdown icon"></i> 部门管理</div>
                     <div class="content">
                         <div class="ui secondary vertical pointing menu"><a class="item"
-                                                                            href="{% url 'member:dept_list' %}">部分管理</a><a
+                                                                            href="{% url 'member:dept_list' %}">部门管理</a><a
                                 class="item" href="{% url 'member:dept_assign_account_list' %}">账号列表</a></div>
                     </div>
                 </div>
@@ -144,7 +144,7 @@
     <div class="desc">
         <span>©China Railway Electrification Bureau Group Co., Ltd. Xi'an Electrical Engineering Branch</span></div>
 </footer>
-<script>                
+<script>
     $('#main').click(function () {
         $('.sidebar').sidebar('toggle')
     })
@@ -175,7 +175,7 @@
                 console.log(data)
                 location.reload()
             },
-            error: function(data){
+            error: function (data) {
                 location.reload()
             }
         })

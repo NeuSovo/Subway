@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-  
+
 from django.contrib import messages
 from datetime import datetime
 
