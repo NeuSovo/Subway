@@ -38,6 +38,8 @@ class TechnologyFile(models.Model):
 
     @property
     def qrcode(self):
+        if not os.path.exists('/media/technology_qr_3/' + QR_3_NAME_TEM % self.id):
+            self.gen_qrcode_img()
         return '/media/technology_qr_3/' + QR_3_NAME_TEM % self.id
 
     def gen_qrcode_img(self):
@@ -79,6 +81,8 @@ class Profess(models.Model):
 
     @property
     def qrcode(self):
+        if not os.path.exists('/media/technology_qr_2/' + QR_2_NAME_TEM % self.id):
+            self.gen_qrcode_img()
         return '/media/technology_qr_2/' + QR_2_NAME_TEM % self.id
 
     def gen_qrcode_img(self):

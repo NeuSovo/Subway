@@ -54,6 +54,8 @@ class Device(models.Model):
 
     @property
     def qrcode(self):
+        if os.path.exists('/media/device_qr_3/' + QR_3_NAME_TEM % self.id):
+            self.gen_qrcode_img()
         return '/media/device_qr_3/' + QR_3_NAME_TEM % self.id
 
     @property
@@ -114,6 +116,8 @@ class Profess(models.Model):
 
     @property
     def qrcode(self):
+        if os.path.exists('/media/device_qr_2/' + QR_2_NAME_TEM % self.id):
+            self.gen_qrcode_img()
         return '/media/device_qr_2/' + QR_2_NAME_TEM % self.id
 
     def gen_qrcode_img(self):
