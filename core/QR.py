@@ -5,10 +5,11 @@ import qrcode
 from PIL import Image, ImageDraw, ImageFont
 from django.conf import settings
 from django.utils.six import BytesIO, StringIO
+from django.core.cache import cache
 
 static_root =  settings.STATIC_ROOT
 static_ttf = os.path.join(static_root, 'FZXBSJW.TTF')
-QRcode_f_url = 'http://127.0.0.1:8000'
+QRcode_f_url = cache.get('path')
 
 backMode_2 = {
     "back_url": os.path.join(static_root, "qr.png"),

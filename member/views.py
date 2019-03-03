@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-  
+# -*- coding: utf-8 -*-
 
 from datetime import datetime
 from django.contrib import messages
@@ -16,6 +16,7 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
                                   ListView, UpdateView, View)
+from django.core.cache import cache
 from urllib.parse import quote
 from core.init_permission import *
 from core.utils import *
@@ -305,10 +306,12 @@ def import_member_data(request):
 
         except IntegrityError as e:
             print(e)
-            messages.error(request, '导入失败：请检查Excel内容是否有以下错误: </br> 1.员工工号与已有数据重复</br> 2.部门id不存在')
+            messages.error(
+                request, '导入失败：请检查Excel内容是否有以下错误: </br> 1.员工工号与已有数据重复</br> 2.部门id不存在')
         except ValueError as e:
             print(e)
-            messages.error(request, '导入失败：请检查Excel内容是否有以下错误: </br> 1.数据格式错误 例如id类存在汉字或字母')
+            messages.error(
+                request, '导入失败：请检查Excel内容是否有以下错误: </br> 1.数据格式错误 例如id类存在汉字或字母')
         except Exception as e:
             messages.error(request, str(e))
         return JsonResponse({'msg': 'd'})
@@ -343,6 +346,7 @@ def export_member_data(request, dept_id=None):
 
 @login_required(login_url='/auth/login')
 def index(request):
+    cache.set('path', request.scheme + '://' + request.get_host())
     if request.user.is_superuser:
         return redirect('/member/dept')
     else:
