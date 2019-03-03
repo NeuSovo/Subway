@@ -121,7 +121,7 @@ class Member(models.Model):
  
     @property
     def qrcode(self):
-        if not os.path.exists('/media/member_qr/' + QR_NAME_TEM % self.member_id):
+        if not os.path.exists(os.path.join(QR_DIR, QR_NAME_TEM % self.member_id)):
             self.gen_qrcode_img()
         return '/media/member_qr/' + QR_NAME_TEM % self.member_id
 

@@ -38,7 +38,7 @@ class SafetyFile(models.Model):
 
     @property
     def qrcode(self):
-        if not os.path.exists('/media/safety_qr/' + QR_NAME_TEM % self.id):
+        if not os.path.exists(os.path.join(QR_DIR, QR_NAME_TEM % self.id)):
             self.gen_qrcode_img()
         return '/media/safety_qr/' + QR_NAME_TEM % self.id
 
