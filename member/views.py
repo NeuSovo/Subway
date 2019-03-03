@@ -16,7 +16,6 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
                                   ListView, UpdateView, View)
-from django.core.cache import cache
 from urllib.parse import quote
 from core.init_permission import *
 from core.utils import *
@@ -346,7 +345,6 @@ def export_member_data(request, dept_id=None):
 
 @login_required(login_url='/auth/login')
 def index(request):
-    cache.set('path', request.scheme + '://' + request.get_host())
     if request.user.is_superuser:
         return redirect('/member/dept')
     else:
