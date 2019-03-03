@@ -88,7 +88,7 @@ class Profess(models.Model):
 
     def gen_qrcode_img(self):
         qr = make_pic(['设备信息', self.name],
-                      '/schedule/list_profess/' + str(self.id))
+                      '/schedule/qr2/' + str(self.id))
         qr.save(os.path.join(QR_DIR_2, QR_2_NAME_TEM % self.id), quality=100)
 
     def save(self, *args, **kwargs):
