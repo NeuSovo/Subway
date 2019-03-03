@@ -11,8 +11,7 @@
         <div class="ui form">
             {% for field in form %}
                 <div class="field">
-
-                    {{ field.label }}
+                    <label for="">{{ field.label }}</label>
                     {{ field }}
 
                     {% if field.help_text %}
