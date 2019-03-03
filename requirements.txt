@@ -6,3 +6,4 @@ git+https://github.com/zxh326/django-bootstrap-modal-forms.git
 Pillow
 django
 pyDes
+sentry-sdk==0.7.4
