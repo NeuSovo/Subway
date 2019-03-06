@@ -264,6 +264,14 @@ class MemberUpdateView(UpdateView):
     success_message = '%s 更新成功'
     success_url = reverse_lazy('member:member_list')
 
+    def post(self, request, **args):
+        self.success_url = request.META.get('HTTP_REFERER') or self.success_url
+        return super().post(request, *args)
+
+    def form_valid(self, form, **args):
+        self.object.gen_qrcode_img()
+        return super().form_valid(form, **args)
+
 
 class MemberDetailView(DetailView):
     model = Member
@@ -300,7 +308,9 @@ def import_member_data(request):
             request.FILES['docfile'].save_to_database(
                 name_columns_by_row=0,
                 model=Member,
-                mapdict=mapdict)
+                mapdict=mapdict,
+                ignore_cols_at_names=['部门名字']
+                )
             messages.success(request, "导入成功")
 
         except IntegrityError as e:
@@ -340,6 +350,7 @@ def export_member_data(request, dept_id=None):
         'xls',
         file_name=file_name,
         colnames=colnames,
+        ignore_rows=[0] if len(members) else [1]
     )
 
 
@@ -378,7 +389,8 @@ def export_qr_with_dept(request, dept_id=None):
     s = compress_file(
         [os.path.join(QR_DIR, QR_NAME_TEM % i.member_id) for i in qr])
     response = HttpResponse(content_type="application/zip")
-    response["Content-Disposition"] = "attachment; filename={}".format(quote(file_name))
+    response["Content-Disposition"] = "attachment; filename={}".format(
+        quote(file_name))
     s.seek(0)
     response.write(s.read())
     return response

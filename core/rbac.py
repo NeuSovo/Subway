@@ -1,6 +1,6 @@
 import re
 from django.conf import settings
-from django.shortcuts import HttpResponse, render
+from django.shortcuts import HttpResponse, render, redirect
 
 
 class MiddlewareMixin(object):
@@ -38,7 +38,7 @@ class RbacMiddleware(MiddlewareMixin):
             'permission_list')
         print("permission_list:", permission_list)
         if not permission_list:
-            return HttpResponse('当前用户无权限信息')
+            return redirect('/auth/login')
             # return HttpResponse('当前用户未登录！')
 
         # # 用户权限和当前URL进行匹配

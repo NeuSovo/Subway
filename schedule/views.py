@@ -35,6 +35,14 @@ class ScheduleUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
     success_url = reverse_lazy('schedule:list')
     success_message = '%(job_name)s 更新成功'
 
+    def post(self, request, **args):
+        self.success_url = request.META.get('HTTP_REFERER') or self.success_url
+        return super().post(request, *args)
+
+    def form_valid(self, form, **args):
+        self.object.gen_qrcode_img()
+        return super().form_valid(form, **args)
+
 
 class ScheduleDetailView(DetailView):
     model = Schedule
@@ -128,6 +136,14 @@ class ProfessUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
     success_message = '%(name)s 更新成功'
     success_url = reverse_lazy('schedule:list')
 
+    def post(self, request, **args):
+        self.success_url = request.META.get('HTTP_REFERER') or self.success_url
+        return super().post(request, *args)
+
+    def form_valid(self, form, **args):
+        self.object.gen_qrcode_img()
+        return super().form_valid(form, **args)
+
 
 class ProfessDeleteView(DeleteView):
     model = Profess
@@ -215,7 +231,8 @@ def import_schedule_data(request):
             request.FILES['docfile'].save_to_database(
                 name_columns_by_row=0,
                 model=Schedule,
-                mapdict=mapdict)
+                mapdict=mapdict,
+                ignore_cols_at_names=['进度编号', '专业名称'])
             messages.success(request, "导入成功")
 
         except IntegrityError as e:
@@ -250,4 +267,5 @@ def export_schedule_data(request):
         file_name=file_name,
         colnames=colnames,
         sheet_name='进度数据',
+        ignore_rows=[0] if len(queryset) else [1]
     )

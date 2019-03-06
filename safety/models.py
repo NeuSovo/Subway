@@ -24,7 +24,7 @@ class SafetyFile(models.Model):
 
     # 编号 暂定自增
     id = models.AutoField(primary_key=True, verbose_name='编号')
-    title = models.CharField(max_length=100, verbose_name='标题')
+    title = models.CharField(max_length=20, verbose_name='标题')
     file_type = models.IntegerField(
         verbose_name='文件类型', choices=file_type_choiced, default=0)
     file_s = models.FileField(
