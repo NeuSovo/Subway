@@ -185,7 +185,9 @@ def import_material_data(request):
             request.FILES['docfile'].save_to_database(
                 name_columns_by_row=0,
                 model=Material,
-                mapdict=mapdict)
+                mapdict=mapdict,
+                ignore_cols_at_names=['物资编号', '专业名称']
+                )
             messages.success(request, "导入成功")
 
         except IntegrityError as e:
@@ -219,6 +221,7 @@ def export_material_data(request):
         file_name=file_name,
         colnames=colnames,
         sheet_name='物资数据',
+        ignore_rows=[0] if len(queryset) else [1]
     )
 
 

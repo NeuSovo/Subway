@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-  
+# -*- coding: utf-8 -*-
 
 from django.contrib import messages
 from datetime import datetime
@@ -29,11 +29,15 @@ class DeviceAddView(PassRequestMixin, SuccessMessageMixin, CreateView):
 
 
 class DeviceTestInfoUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
-    model = DeviceTestInfo
+    model = Device
     form_class = DeviceTestInfoForm
-    template_name = 'device/device_create_form.html'
+    template_name = 'device/device_test_form.html'
     success_url = reverse_lazy('device:list')
     success_message = '更新成功'
+
+    def post(self, request, **args):
+        self.success_url = request.META.get('HTTP_REFERER') or self.success_url
+        return super().post(request, *args)
 
 
 class DeviceUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
@@ -185,7 +189,8 @@ def export_qr(request, dept_id=None):
     s = compress_file(
         [os.path.join(QR_DIR_3, QR_3_NAME_TEM % i.id) for i in qr])
     response = HttpResponse(content_type="application/zip")
-    response["Content-Disposition"] = "attachment; filename={}".format(quote(file_name))
+    response["Content-Disposition"] = "attachment; filename={}".format(
+        quote(file_name))
     s.seek(0)
     response.write(s.read())
     return response
@@ -197,6 +202,7 @@ def import_device_data(request):
         '名称': 'name',
         '设备状态': 'status_id',
         '专业id': 'profess_id',
+        '验收人': 'acceptor',
         '站点': 'z1',
         '安装位置': 'z2',
         '主要部件生产厂家': 'z3',
@@ -206,13 +212,24 @@ def import_device_data(request):
         '生产厂家': 'z7',
         '合格证号': 'z8',
         '使用部位': 'z9',
+        '实验方式': 't1',
+        '取样地点': 't2',
+        '取样时间': 't3',
+        '取样人': 't4',
+        '检验项目': 't5',
+        '检验日期': 't6',
+        '执行标准': 't7',
+        '保养内容': 't8',
+        '注意事项': 't9',
+        '现场验收结论': 't10',
     }
     if request.method == "POST":
         try:
             request.FILES['docfile'].save_to_database(
                 name_columns_by_row=0,
                 model=Device,
-                mapdict=mapdict)
+                mapdict=mapdict,
+                ignore_cols_at_names=['设备编号', '设备状态名字', '专业名称'])
             messages.success(request, "导入成功")
 
         except IntegrityError as e:
@@ -236,10 +253,12 @@ def export_device_data(request):
 
     file_name += datetime.now().strftime("%Y-%m-%d")
 
-    column_names = ['id', 'name', 'status_id', 'status_name', 'profess_id', 'profess_name',
-                    'z1', 'z2', 'z3', 'z4', 'z5', 'z6', 'z7', 'z8', 'z9']
-    colnames = ['设备编号', '名称', '设备状态', '设备状态名字', '专业id', '专业名称',
-                '站点', '安装位置', '主要部件生产厂家', '材料名称', '规格型号', '进场时间', '生产厂家', '合格证号', '使用部位']
+    column_names = ['id', 'name', 'status_id', 'status_name', 'profess_id', 'profess_name', 'acceptor', 
+                    'z1', 'z2', 'z3', 'z4', 'z5', 'z6', 'z7', 'z8', 'z9', 
+                    't1', 't2', 't3', 't4', 't5', 't6', 't7', 't8', 't9', 't10']
+    colnames = ['设备编号', '名称', '设备状态', '设备状态名字', '专业id', '专业名称', '验收人',
+                '站点', '安装位置', '主要部件生产厂家', '材料名称', '规格型号', '进场时间', '生产厂家', '合格证号', '使用部位',
+                '实验方式', '取样地点', '取样时间', '取样人', '检验项目', '检验日期', '执行标准', '保养内容', '注意事项', '现场验收结论']
     return excel.make_response_from_query_sets(
         queryset,
         column_names,
@@ -247,68 +266,5 @@ def export_device_data(request):
         file_name=file_name,
         colnames=colnames,
         sheet_name='设备数据',
+        ignore_rows= [0] if len(queryset) else [1]
     )
-
-
-def export_device_test_data(request):
-    file_name = '设备验收数据表_'
-    queryset = DeviceTestInfo.objects.all()
-
-    file_name += datetime.now().strftime("%Y-%m-%d")
-
-    column_names = ['device_id', 'device_name',
-                    'z1', 'z2', 'z3', 'z4', 'z5', 'z6', 'z7', 'z8', 'z9', 'z10', 'acceptor']
-    colnames = ['设备编号', '名称', '实验方式', '取样地点', '取样时间', '取样人',
-                '检验项目', '检验日期', '执行标准', '保养内容', '注意事项', '现场验收结论', '验收人']
-    return excel.make_response_from_query_sets(
-        queryset,
-        column_names,
-        'xls',
-        file_name=file_name,
-        colnames=colnames,
-        sheet_name='设备验收数据',
-    )
-
-
-# def import_device_test_data(request):
-#     # 导入数据
-#     mapdict = {
-#         '设备编号': 'device_id',
-#         '实验方式': 'z1',
-#         '取样地点': 'z2',
-#         '取样时间': 'z3',
-#         '取样人': 'z4',
-#         '检验项目': 'z5',
-#         '检验日期': 'z6',
-#         '执行标准': 'z7',
-#         '保养内容': 'z8',
-#         '注意事项': 'z9',
-#         '现场验收结论': 'z10',
-#         '验收人': 'acceptor',
-#     }
-
-#     def ignore_row(row):
-#         print (row[0])
-#         return row
-#     if request.method == "POST":
-#         try:
-#             request.FILES['docfile'].save_to_database(
-#                 name_columns_by_row=0,
-#                 initializers=[ignore_row],
-#                 model=DeviceTestInfo,
-#                 mapdict=mapdict)
-#             messages.success(request, "导入成功")
-
-#         except IntegrityError as e:
-#             print(e)
-#             messages.error(
-#                 request, '导入失败：请检查Excel内容是否有以下错误: </br> 1.数据重复</br> 2.专业id不存在')
-#         except ValueError as e:
-#             print(e)
-#             messages.error(
-#                 request, '导入失败：请检查Excel内容是否有以下错误: </br> 1.数据格式错误 例如id类存在汉字或字母')
-#         except Exception as e:
-#             messages.error(request, str(e))
-#         return JsonResponse({'msg': 'd'})
-#     else:
-#         pass

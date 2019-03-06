@@ -40,11 +40,7 @@
                     <div class="or"></div>
                     <a class="ui right labeled icon button my_export" href="{% url 'device:export' %}"><i
                             class="download icon"></i>
-                        导出设备信息</a>
-                    <div class="or"></div>
-                    <a class="ui right labeled icon button my_export" href="{% url 'device:export_test' %}"><i
-                            class="download icon"></i>
-                        导出验收信息</a>                        
+                        导出设备信息</a>                   
                 </div>
             {% endif %}
             <table class="ui table celled line single fixed" id="table">
@@ -63,7 +59,7 @@
                         <td>{{ item.id }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.get_status_id_display }}</td>
-                        <td>{{ item.test.acceptor }}</td>
+                        <td>{{ item.acceptor }}</td>
                         <td>
                             <a class="ui vertical animated button positive basic center floated qrcode"
                                href="{{ item.qrcode }}" download>

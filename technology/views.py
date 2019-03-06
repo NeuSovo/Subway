@@ -165,7 +165,8 @@ def import_technology_data(request):
             request.FILES['docfile'].save_to_database(
                 name_columns_by_row=0,
                 model=TechnologyFile,
-                mapdict=mapdict)
+                mapdict=mapdict,
+                ignore_cols_at_names=['编号', '类型名称', '专业名称'])
             messages.success(request, "导入成功")
 
         except IntegrityError as e:
@@ -199,6 +200,7 @@ def export_technology_data(request):
         'xls',
         file_name=file_name,
         colnames=colnames,
+        ignore_rows = [0] if len(techs) else [1]
     )
 
 
