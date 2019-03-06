@@ -61,6 +61,14 @@ class SafetyFileUpdatView(PassRequestMixin, SuccessMessageMixin, UpdateView):
     template_name = "safety/add_update_form.html"
     success_url = reverse_lazy('safety:list')
 
+    def post(self, request, **args):
+        self.success_url = request.META.get('HTTP_REFERER') or self.success_url
+        return super().post(request, *args)
+
+    def form_valid(self, form, **args):
+        self.object.gen_qrcode_img()
+        return super().form_valid(form, **args)
+
 
 class SafetyFileDeleteView(DeleteAjaxMixin, DeleteView):
     model = SafetyFile

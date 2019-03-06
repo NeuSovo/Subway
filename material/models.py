@@ -21,12 +21,12 @@ class Material(models.Model):
 
     # 编号 暂定自增
     id = models.AutoField(primary_key=True, verbose_name='编号')
-    name = models.CharField(max_length=155, verbose_name='物资名称')
+    name = models.CharField(max_length=20, verbose_name='物资名称')
     type_id = models.CharField(max_length=20, verbose_name='型号')
     profess = models.ForeignKey(to="Profess", related_name='profess',
                                 on_delete=models.SET_NULL, verbose_name='专业', null=True)
     manufacturer = models.CharField(
-        max_length=30, verbose_name='生产厂家', default='无')
+        max_length=20, verbose_name='生产厂家', default='无')
     num = models.IntegerField(default=0, verbose_name='数量')
     unit = models.CharField(max_length=10, verbose_name='单位')
 
@@ -81,7 +81,7 @@ class MaterialStock(models.Model):
 
 class Profess(models.Model):
     """Model definition for Profess."""
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=20)
 
     class Meta:
         """Meta definition for Profess."""

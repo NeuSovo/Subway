@@ -27,7 +27,7 @@ class Device(models.Model):
     )
 
     id = models.AutoField(primary_key=True, verbose_name='编号')
-    name = models.CharField(max_length=155, verbose_name='设备名称')
+    name = models.CharField(max_length=20, verbose_name='设备名称')
     status_id = models.IntegerField(
         default=0, choices=status_choiced, verbose_name='状态')
     profess = models.ForeignKey(to="Profess", related_name='profess',
@@ -102,7 +102,7 @@ class DeviceTestInfo(models.Model):
 
 class Profess(models.Model):
     """Model definition for Profess."""
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=20)
 
     class Meta:
         """Meta definition for Profess."""

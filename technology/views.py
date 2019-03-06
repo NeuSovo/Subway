@@ -77,6 +77,14 @@ class TechnologyFileUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView
     success_message = '修改成功'
     success_url = reverse_lazy('technology:list')
 
+    def post(self, request, **args):
+        self.success_url = request.META.get('HTTP_REFERER') or self.success_url
+        return super().post(request, *args)
+
+    def form_valid(self, form, **args):
+        self.object.gen_qrcode_img()
+        return super().form_valid(form, **args)
+
 
 class TechnologyFileDetailView(DetailView):
     model = TechnologyFile
@@ -113,6 +121,14 @@ class ProfessUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
     template_name = "technology/add_update_profess_form.html"
     success_message = '%(name)s 更新成功'
     success_url = reverse_lazy('technology:list')
+
+    def post(self, request, **args):
+        self.success_url = request.META.get('HTTP_REFERER') or self.success_url
+        return super().post(request, *args)
+
+    def form_valid(self, form, **args):
+        self.object.gen_qrcode_img()
+        return super().form_valid(form, **args)
 
 
 class ProfessDeleteView(DeleteView):

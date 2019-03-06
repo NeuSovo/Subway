@@ -264,6 +264,14 @@ class MemberUpdateView(UpdateView):
     success_message = '%s 更新成功'
     success_url = reverse_lazy('member:member_list')
 
+    def post(self, request, **args):
+        self.success_url = request.META.get('HTTP_REFERER') or self.success_url
+        return super().post(request, *args)
+
+    def form_valid(self, form, **args):
+        self.object.gen_qrcode_img()
+        return super().form_valid(form, **args)
+
 
 class MemberDetailView(DetailView):
     model = Member
@@ -378,7 +386,8 @@ def export_qr_with_dept(request, dept_id=None):
     s = compress_file(
         [os.path.join(QR_DIR, QR_NAME_TEM % i.member_id) for i in qr])
     response = HttpResponse(content_type="application/zip")
-    response["Content-Disposition"] = "attachment; filename={}".format(quote(file_name))
+    response["Content-Disposition"] = "attachment; filename={}".format(
+        quote(file_name))
     s.seek(0)
     response.write(s.read())
     return response

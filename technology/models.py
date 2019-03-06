@@ -28,7 +28,7 @@ class TechnologyFile(models.Model):
 
     # 编号 暂定自增
     id = models.AutoField(primary_key=True, verbose_name='编号')
-    title = models.CharField(max_length=100, verbose_name='标题')
+    title = models.CharField(max_length=20, verbose_name='标题')
     profess = models.ForeignKey(to="Profess", related_name='profess', on_delete=models.SET_NULL, verbose_name='专业', null=True)
     file_type = models.IntegerField(
         verbose_name='文件类型', choices=file_type_choiced, default=0)
@@ -67,7 +67,7 @@ class TechnologyFile(models.Model):
 
 class Profess(models.Model):
     """Model definition for Profess."""
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=20)
 
     class Meta:
         """Meta definition for Profess."""

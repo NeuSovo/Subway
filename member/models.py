@@ -14,7 +14,7 @@ if not os.path.exists(QR_DIR):
 
 class Departments(models.Model):
     dept_name = models.CharField(
-        max_length=120, null=False, blank=False, verbose_name='部门名称', unique=True)
+        max_length=20, null=False, blank=False, verbose_name='部门名称', unique=True)
     dept_boss = models.CharField(
         max_length=30, null=False, blank=False, verbose_name='负责人')
     dept_position = models.CharField(
@@ -100,11 +100,11 @@ class Member(models.Model):
         verbose_name='头像', upload_to='avatar', default='none', null=True, blank=True)
     dept = models.ForeignKey(
         Departments, on_delete=models.SET_NULL, null=True, verbose_name='部门')
-    name = models.CharField(verbose_name='姓名', max_length=50, null=True)
+    name = models.CharField(verbose_name='姓名', max_length=20, null=True)
     nation = models.CharField(verbose_name='民族', default="汉", max_length=10)
     blood_type = models.CharField(verbose_name='血型', default="未知", max_length=10)
     sex = models.CharField(verbose_name='性别', max_length=5, default=" ", choices=sex_choices)
-    birthday = models.CharField(verbose_name='出生年月', max_length=50, default=" ")
+    birthday = models.CharField(verbose_name='出生年月', max_length=20, default=" ")
     position = models.CharField(verbose_name='职位', max_length=50, default=" ")
     phone = models.CharField(verbose_name='联系方式', max_length=11, default=" ")
 
