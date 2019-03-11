@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db import IntegrityError, transaction
-from django.http import Http404, JsonResponse
+from django.http import Http404, JsonResponse, HttpResponseRedirect
 from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -28,7 +28,6 @@ from .models import *
 class LoginView(FormView):
     template_name = 'user/login.html'
     form_class = LoginForm
-    success_url = '/'
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()
@@ -41,13 +40,18 @@ class LoginView(FormView):
                 return self.form_valid(form, user)
             else:
                 messages.error(request, '登陆失败, 请检查用户名和密码')
-                return self.form_invalid(form)
+                return HttpResponseRedirect(self.request.META.get('HTTP_REFERER', '/'))
         else:
             return self.form_invalid(form)
 
     def form_valid(self, form, user=None):
         login(self.request, user)
-        return super().form_valid(form)
+        return HttpResponseRedirect(self.request.GET.get('next', '/'))
+        # return super().form_valid(form)
+
+
+class MobieLoginViw(LoginView):
+        template_name = 'user/login_mobile.html'
 
 
 def logout_view(request):
@@ -72,9 +76,13 @@ class AssignAccountView(PassRequestMixin, SuccessMessageMixin, CreateView):
 
     def form_valid(self, form):
         self.object = form.save()
-        self.object.enp = en_password(form.cleaned_data.get('password1'))
-        self.object.user_dept = self.dept
-        self.object.roles.add(*list(form.cleaned_data.get('roles')))
+        roles = list(form.cleaned_data.get('roles'))
+        if Role.objects.get(pk=0) in roles:
+            self.object.is_superuser = 1
+        else:
+            self.object.enp = en_password(form.cleaned_data.get('password1'))
+            self.object.user_dept = self.dept
+            self.object.roles.add(*roles)
         return super(AssignAccountView, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -97,7 +105,14 @@ class AssignAccountUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView)
             self.object.enp = en_password(form.cleaned_data.get('enp'))
             self.object.set_password(form.cleaned_data.get('enp'))
         self.object.roles.clear()
-        self.object.roles.add(*list(form.cleaned_data.get('roles')))
+        roles = list(form.cleaned_data.get('roles'))
+        if Role.objects.get(pk=0) in roles:
+            self.object.is_superuser = 1
+        else:
+            self.object.roles.add(*roles)
+            if self.object.enp != form.cleaned_data.get('enp'):
+                self.object.enp = en_password(form.cleaned_data.get('enp'))
+                self.object.set_password(form.cleaned_data.get('enp'))
         return super(AssignAccountUpdateView, self).form_valid(form)
 
 

@@ -22,9 +22,12 @@ class MiddlewareMixin(object):
 class RbacMiddleware(MiddlewareMixin):
     def process_request(self, request):
         current_url = request.path_info
+        if current_url == '/auth/login':
+            return None
         if request.user.is_superuser:
             return None
-
+        if not request.user.is_authenticated:
+            return redirect('/auth/login' + '?next=' + request.get_full_path())
         is_valid = False
         for valid in settings.VALID_LIST:
             if re.match(valid, current_url):
@@ -38,7 +41,7 @@ class RbacMiddleware(MiddlewareMixin):
             'permission_list')
         print("permission_list:", permission_list)
         if not permission_list:
-            return redirect('/auth/login')
+            return redirect('/auth/login' + '?next=' + current_url)
             # return HttpResponse('当前用户未登录！')
 
         # # 用户权限和当前URL进行匹配
