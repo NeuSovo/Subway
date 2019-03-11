@@ -6,7 +6,7 @@ from .models import Device, Profess
 class DeviceForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
     class Meta:
         model = Device
-        fields = ('id', 'name', 'status_id', 'profess', 'z1', 'z2','z3','z4','z5','z6','z7','z8','z9')
+        fields = ('id', 'name', 'status_id', 'profess', 'file_s', 'z1', 'z2','z3','z4','z5','z6','z7','z8','z9')
 
 
 class ProfessForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):

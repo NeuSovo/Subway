@@ -18,6 +18,7 @@ urlpatterns = [
 
     path('mobile/<int:pk>', ScheduleItemMobileView.as_view(), name='mobile_item'),
     path('mobile', ScheduleListMobileView.as_view(), name='mobile'),
+    path('mobile/chart/<int:profess_id>', ScheduleListMobileView.as_view(), name='mobile_with_profess'),
 
     path('init_profess', ProfessInitView.as_view(), name='init_profess'),
     path('add_profess', ProfessCreateView.as_view(), name='add_profess'),
