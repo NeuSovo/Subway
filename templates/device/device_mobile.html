@@ -29,7 +29,7 @@
             <div class="row"><span>{% verbose_name object 't8' %}</span><span>{{ object.t8 }}</span></div>
             <div class="row"><span>{% verbose_name object 't9' %}</span><span>{{ object.t9 }}</span></div>
             <div class="row"><span>{% verbose_name object 't10' %}</span><span>{{ object.t10 }}</span></div>
-            <div class="row click"><span>查看文件</span><i class="angle right icon"></i></div>
+            <a class="row click" href={{ object.file_url|default_if_none:'#' }}><span>查看文件</span><i class="angle right icon"></i></a>
         </div>
     </div>
 {% endblock %}

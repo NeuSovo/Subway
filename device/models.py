@@ -4,7 +4,7 @@ import os
 from django.db import models
 from django.conf import settings
 from core.QR import make_pic
-from core.utils import AutoOneToOneField
+from core.utils import AutoOneToOneField, validate_file_extension
 
 QR_DIR_3 = os.path.join(settings.MEDIA_ROOT, 'device_qr_3')
 QR_DIR_2 = os.path.join(settings.MEDIA_ROOT, 'device_qr_2')
@@ -30,6 +30,8 @@ class Device(models.Model):
     name = models.CharField(max_length=20, verbose_name='设备名称')
     status_id = models.IntegerField(
         default=0, choices=status_choiced, verbose_name='状态')
+    file_s = models.FileField(
+        verbose_name='文件', upload_to='device/%Y/%m/%d/', null=True, blank=True, validators=[validate_file_extension])
     profess = models.ForeignKey(to="Profess", related_name='profess',
                                 on_delete=models.SET_NULL, verbose_name='专业', null=True)
     z1  = models.CharField('站点', max_length=50, null=True, blank=True)
@@ -75,6 +77,11 @@ class Device(models.Model):
     @property
     def profess_name(self):
         return str(self.profess)
+
+    @property
+    def file_url(self):
+        if self.file_s and hasattr(self.file_s, 'url'):
+            return self.file_s.url
 
     @property
     def status_name(self):

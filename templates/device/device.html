@@ -65,7 +65,11 @@
                                href="{{ item.qrcode }}" download>
                                 <div class="visible content">二维码</div>
                                 <div class="hidden content"><i class="qrcode icon"></i></div>
-                            </a>
+                            </a><a class="ui vertical animated button primary basic center floated {% if not item.file_url %}disabled{% endif %} "
+                            href="{{ item.file_url|default_if_none:'#' }}">
+                             <div class="visible content">查看</div>
+                             <div class="hidden content"><i class="edit icon"></i></div>
+                         </a>
                             {% if user.is_superuser or device_update %}
                                 <a class="ui vertical animated button primary basic center floated ">
                                     <div class="visible content">编辑</div>
