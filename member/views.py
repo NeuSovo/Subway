@@ -77,7 +77,7 @@ class AssignAccountView(PassRequestMixin, SuccessMessageMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save()
         roles = list(form.cleaned_data.get('roles'))
-        if Role.objects.get(pk=0) in roles:
+        if Role.objects.get(pk=9999) in roles:
             self.object.is_superuser = 1
         else:
             self.object.enp = en_password(form.cleaned_data.get('password1'))
@@ -106,7 +106,7 @@ class AssignAccountUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView)
             self.object.set_password(form.cleaned_data.get('enp'))
         self.object.roles.clear()
         roles = list(form.cleaned_data.get('roles'))
-        if Role.objects.get(pk=0) in roles:
+        if Role.objects.get(pk=9999) in roles:
             self.object.is_superuser = 1
         else:
             self.object.roles.add(*roles)
