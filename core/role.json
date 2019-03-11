@@ -52,7 +52,7 @@
     },
     {
         "model": "member.role",
-        "pk": 0,
+        "pk": 9999,
         "fields": {
             "title": "超级管理员",
             "permissions": [
