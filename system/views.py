@@ -1,32 +1,38 @@
-from django.shortcuts import render
-from .models import *
-from django.http import Http404, JsonResponse
+from django.http import JsonResponse
 from django.views.generic import TemplateView
+from django.contrib import messages
 
-def SetSystemTextItem(request):
-    item_code = request.GET.get('item_code', None)
+from .models import *
+
+
+def set_system_text_item(request):
+    item_code = request.POST.get('item_code', None)
     if not item_code:
         return JsonResponse({'msg': 'no'})
-    item, created  = Setting.objects.get_or_create(item_code=item_code)
+        messages.error(request, '错误')
+    item, created = Setting.objects.get_or_create(item_code=item_code)
 
-    set_text = request.GET.get('set_text', '无')
+    set_text = request.POST.get('item_value', '无')
     item.text = set_text
     item.save()
-    return JsonRespnse({'msg': 'ok'})
+    messages.info(request, '修改成功')
+    return JsonResponse({'msg': 'ok'})
 
 
-def SetSystemImgItem(request, item_code=None):
-    item_code = request.GET.get('item_code', None)
+def set_system_img_item(request, item_code=None):
+    item_code = request.POST.get('item_code', None)
     if not item_code:
         return JsonResponse({'msg': 'no'})
-    item, created  = Setting.objects.get_or_create(item_code=item_code)
+    item, created = Setting.objects.get_or_create(item_code=item_code)
 
     try:
-        item.img =  request.FILES['img']
+        item.img = request.FILES['img']
         item.save()
-    except expression as identifier:
+        messages.info(request, '修改成功')
+    except Exception as identifier:
+        messages.info(request, '修改失败')
         raise identifier
-    return JsonRespnse({'msg': 'ok'})
+    return JsonResponse({'msg': 'ok'})
 
 
 class SetQrcodeView(TemplateView):

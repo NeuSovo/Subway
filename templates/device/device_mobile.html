@@ -8,6 +8,7 @@
             <div class="row"><span>{% verbose_name object 'name' %}</span><span>{{ object.name }}</span></div>
             <div class="row"><span>{% verbose_name object 'profess' %}</span><span>{{ object.profess_name }}</span>
             </div>
+            <div class="row"><span>{% verbose_name object 'acceptor' %}</span><span>{{ object.acceptor }}</span></div>
             <div class="row"><span>{% verbose_name object 'status_id' %}</span><span>{{ object.status_id }}</span></div>
             <div class="row"><span>{% verbose_name object 'z1' %}</span><span>{{ object.z1 }}</span></div>
             <div class="row"><span>{% verbose_name object 'z2' %}</span><span>{{ object.z2 }}</span></div>
@@ -18,17 +19,17 @@
             <div class="row"><span>{% verbose_name object 'z7' %}</span><span>{{ object.z7 }}</span></div>
             <div class="row"><span>{% verbose_name object 'z8' %}</span><span>{{ object.z8 }}</span></div>
             <div class="row"><span>{% verbose_name object 'z9' %}</span><span>{{ object.z9 }}</span></div>
-            <div class="row"><span>{% verbose_name object.test 'z1' %}</span><span>{{ object.test.z1 }}</span></div>
-            <div class="row"><span>{% verbose_name object.test 'z2' %}</span><span>{{ object.test.z2 }}</span></div>
-            <div class="row"><span>{% verbose_name object.test 'z3' %}</span><span>{{ object.test.z3 }}</span></div>
-            <div class="row"><span>{% verbose_name object.test 'z4' %}</span><span>{{ object.test.z4 }}</span></div>
-            <div class="row"><span>{% verbose_name object.test 'z5' %}</span><span>{{ object.test.z5 }}</span></div>
-            <div class="row"><span>{% verbose_name object.test 'z6' %}</span><span>{{ object.test.z6 }}</span></div>
-            <div class="row"><span>{% verbose_name object.test 'z7' %}</span><span>{{ object.test.z7 }}</span></div>
-            <div class="row"><span>{% verbose_name object.test 'z8' %}</span><span>{{ object.test.z8 }}</span></div>
-            <div class="row"><span>{% verbose_name object.test 'z9' %}</span><span>{{ object.test.z9 }}</span></div>
-            <div class="row"><span>{% verbose_name object.test 'z10' %}</span><span>{{ object.test.z10 }}</span></div>
-            <div class="row click"><span>查看文件</span><i class="angle right icon"></i></div>
+            <div class="row"><span>{% verbose_name object 't1' %}</span><span>{{ object.t1 }}</span></div>
+            <div class="row"><span>{% verbose_name object 't2' %}</span><span>{{ object.t2 }}</span></div>
+            <div class="row"><span>{% verbose_name object 't3' %}</span><span>{{ object.t3 }}</span></div>
+            <div class="row"><span>{% verbose_name object 't4' %}</span><span>{{ object.t4 }}</span></div>
+            <div class="row"><span>{% verbose_name object 't5' %}</span><span>{{ object.t5 }}</span></div>
+            <div class="row"><span>{% verbose_name object 't6' %}</span><span>{{ object.t6 }}</span></div>
+            <div class="row"><span>{% verbose_name object 't7' %}</span><span>{{ object.t7 }}</span></div>
+            <div class="row"><span>{% verbose_name object 't8' %}</span><span>{{ object.t8 }}</span></div>
+            <div class="row"><span>{% verbose_name object 't9' %}</span><span>{{ object.t9 }}</span></div>
+            <div class="row"><span>{% verbose_name object 't10' %}</span><span>{{ object.t10 }}</span></div>
+            <a class="row click" href={{ object.file_url|default_if_none:'#' }}><span>查看文件</span><i class="angle right icon"></i></a>
         </div>
     </div>
 {% endblock %}

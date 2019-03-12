@@ -21,12 +21,12 @@ class Material(models.Model):
 
     # 编号 暂定自增
     id = models.AutoField(primary_key=True, verbose_name='编号')
-    name = models.CharField(max_length=155, verbose_name='物资名称')
+    name = models.CharField(max_length=20, verbose_name='物资名称')
     type_id = models.CharField(max_length=20, verbose_name='型号')
     profess = models.ForeignKey(to="Profess", related_name='profess',
                                 on_delete=models.SET_NULL, verbose_name='专业', null=True)
     manufacturer = models.CharField(
-        max_length=30, verbose_name='生产厂家', default='无')
+        max_length=20, verbose_name='生产厂家', default='无')
     num = models.IntegerField(default=0, verbose_name='数量')
     unit = models.CharField(max_length=10, verbose_name='单位')
 
@@ -42,6 +42,8 @@ class Material(models.Model):
 
     @property
     def qrcode(self):
+        if not os.path.exists(os.path.join(QR_DIR_3, QR_3_NAME_TEM % self.id)):
+            self.gen_qrcode_img()
         return '/media/material_qr_3/' + QR_3_NAME_TEM % self.id
 
     @property
@@ -79,7 +81,7 @@ class MaterialStock(models.Model):
 
 class Profess(models.Model):
     """Model definition for Profess."""
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=20)
 
     class Meta:
         """Meta definition for Profess."""
@@ -93,11 +95,13 @@ class Profess(models.Model):
 
     @property
     def qrcode(self):
+        if not os.path.exists(os.path.join(QR_DIR_2, QR_2_NAME_TEM % self.id)):
+            self.gen_qrcode_img()
         return '/media/material_qr_2/' + QR_2_NAME_TEM % self.id
 
     def gen_qrcode_img(self):
         qr = make_pic(['物资信息', self.name],
-                      '/material/list_profess/' + str(self.id))
+                      '/material/qr2/' + str(self.id))
         qr.save(os.path.join(QR_DIR_2, QR_2_NAME_TEM % self.id), quality=100)
 
     def save(self, *args, **kwargs):

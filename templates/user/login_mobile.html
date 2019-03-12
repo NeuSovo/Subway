@@ -70,10 +70,10 @@
 
 <body>
 
-    <div class="bg"><img src="{{  LOGIN_BACKEND_ICON.img.url }}"></div>
+    <div class="bg"><img src="{% static 'bg.min.jpg' %}"></div>
     <div class="title">
         <p>欢迎使用</p>
-        <p>{{ LOGIN_TEXT.text }}</p>
+        <p>IQ工程管理平台</p>
     </div>
     <div class="content">
         <form method="POST">{% csrf_token %}

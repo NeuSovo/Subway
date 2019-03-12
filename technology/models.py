@@ -28,7 +28,7 @@ class TechnologyFile(models.Model):
 
     # 编号 暂定自增
     id = models.AutoField(primary_key=True, verbose_name='编号')
-    title = models.CharField(max_length=100, verbose_name='标题')
+    title = models.CharField(max_length=20, verbose_name='标题')
     profess = models.ForeignKey(to="Profess", related_name='profess', on_delete=models.SET_NULL, verbose_name='专业', null=True)
     file_type = models.IntegerField(
         verbose_name='文件类型', choices=file_type_choiced, default=0)
@@ -38,6 +38,8 @@ class TechnologyFile(models.Model):
 
     @property
     def qrcode(self):
+        if not os.path.exists(os.path.join(QR_DIR_3, QR_3_NAME_TEM % self.id)):
+            self.gen_qrcode_img()
         return '/media/technology_qr_3/' + QR_3_NAME_TEM % self.id
 
     def gen_qrcode_img(self):
@@ -65,7 +67,7 @@ class TechnologyFile(models.Model):
 
 class Profess(models.Model):
     """Model definition for Profess."""
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=20)
 
     class Meta:
         """Meta definition for Profess."""
@@ -79,10 +81,12 @@ class Profess(models.Model):
 
     @property
     def qrcode(self):
+        if not os.path.exists(os.path.join(QR_DIR_2, QR_2_NAME_TEM % self.id)):
+            self.gen_qrcode_img()
         return '/media/technology_qr_2/' + QR_2_NAME_TEM % self.id
 
     def gen_qrcode_img(self):
-        qr = make_pic(['技术信息', self.name], '/technology/list/'+ str(self.id))
+        qr = make_pic(['技术信息', self.name], '/technology/qr2/'+ str(self.id))
         qr.save(os.path.join(QR_DIR_2, QR_2_NAME_TEM % self.id), quality=100)
 
     def save(self, *args, **kwargs):

@@ -7,3 +7,5 @@ Pillow
 django
 pyDes
 sentry-sdk==0.7.4
+mysqlclient
+git+https://github.com/NeuSovo/pyexcel.git

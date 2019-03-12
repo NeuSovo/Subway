@@ -26,5 +26,4 @@ urlpatterns = [
 
     path('import', import_device_data, name='import'),
     path('export', export_device_data, name='export'),
-    path('export_test', export_device_test_data, name='export_test'),
 ]

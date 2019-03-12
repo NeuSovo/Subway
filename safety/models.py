@@ -24,7 +24,7 @@ class SafetyFile(models.Model):
 
     # 编号 暂定自增
     id = models.AutoField(primary_key=True, verbose_name='编号')
-    title = models.CharField(max_length=100, verbose_name='标题')
+    title = models.CharField(max_length=20, verbose_name='标题')
     file_type = models.IntegerField(
         verbose_name='文件类型', choices=file_type_choiced, default=0)
     file_s = models.FileField(
@@ -33,11 +33,13 @@ class SafetyFile(models.Model):
 
     def gen_qrcode_img(self):
         qr = make_pic([self.title, self.file_type_choiced[self.file_type]
-                       [1]], '/safety/detail/' + str(self.id))
+                       [1]], '/safety/mobile/' + str(self.id))
         qr.save(os.path.join(QR_DIR, QR_NAME_TEM % self.id), quality=100)
 
     @property
     def qrcode(self):
+        if not os.path.exists(os.path.join(QR_DIR, QR_NAME_TEM % self.id)):
+            self.gen_qrcode_img()
         return '/media/safety_qr/' + QR_NAME_TEM % self.id
 
     @property

@@ -52,6 +52,15 @@
     },
     {
         "model": "member.role",
+        "pk": 9999,
+        "fields": {
+            "title": "超级管理员",
+            "permissions": [
+            ]
+        }
+    },
+    {
+        "model": "member.role",
         "pk": 1,
         "fields": {
             "title": "员工管理",

@@ -85,7 +85,8 @@ class AssignAccountForm(PopRequestMixin, CreateUpdateAjaxMixin, UserCreationForm
                                         'class': 'input',
                                         'type': 'password'}))
 
-    roles = forms.ModelMultipleChoiceField(label='分配权限', queryset=Role.objects.all(), help_text='分配权限，按住Ctrl多选', required=False)
+    roles = forms.ModelMultipleChoiceField(label='分配权限', queryset=Role.objects.all(
+    ), help_text='分配权限，如果勾选超级管理员，则表示拥有以上所有权限，且拥有部门管理/修改/删除 账号分配/修改/删除的权限, 且此账号不属于任何部门', required=False, widget=forms.CheckboxSelectMultiple(attrs={'class': 'field'}))
 
     def _post_clean(self):
         super()._post_clean()
@@ -103,7 +104,8 @@ class AssignAccountForm(PopRequestMixin, CreateUpdateAjaxMixin, UserCreationForm
 
     class Meta(UserCreationForm.Meta):
         model = Account
-        fields = ('username', 'last_name', 'position', 'password1', 'password2',)
+        fields = ('username', 'last_name', 'position',
+                  'password1', 'password2',)
 
 
 class AccountUpdateForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
@@ -112,6 +114,9 @@ class AccountUpdateForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm)
         widget=forms.TextInput(
             attrs={'class': 'input'})
     )
+
+    roles = forms.ModelMultipleChoiceField(label='分配权限', queryset=Role.objects.all(
+    ), help_text='提示，如果勾选超级管理员，则表示拥有以上所有权限，且拥有部门管理/修改/删除 账号分配/修改/删除的权限, 且此账号不属于任何部门', required=False, widget=forms.CheckboxSelectMultiple(attrs={'class': 'field'}))
 
     class Meta:
         model = Account

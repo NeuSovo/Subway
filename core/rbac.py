@@ -1,6 +1,6 @@
 import re
 from django.conf import settings
-from django.shortcuts import HttpResponse, render
+from django.shortcuts import HttpResponse, render, redirect
 
 
 class MiddlewareMixin(object):
@@ -22,9 +22,15 @@ class MiddlewareMixin(object):
 class RbacMiddleware(MiddlewareMixin):
     def process_request(self, request):
         current_url = request.path_info
-        if request.user.is_superuser:
+        is_mobile = 'mobile' in (request.META.get('HTTP_USER_AGENT')).lower()
+        if re.match(r'/auth*|/media*|/static*|/favi*', current_url) or \
+            request.user.is_superuser :
             return None
-
+        if not request.user.is_authenticated:
+            if not is_mobile:
+                return redirect('/auth/login' + '?next=' + request.get_full_path())
+            else:
+                return redirect('/auth/login_mobile' + '?next=' + request.get_full_path())
         is_valid = False
         for valid in settings.VALID_LIST:
             if re.match(valid, current_url):
@@ -38,7 +44,7 @@ class RbacMiddleware(MiddlewareMixin):
             'permission_list')
         print("permission_list:", permission_list)
         if not permission_list:
-            return HttpResponse('当前用户无权限信息')
+            return redirect('/auth/login' + '?next=' + current_url)
             # return HttpResponse('当前用户未登录！')
 
         # # 用户权限和当前URL进行匹配

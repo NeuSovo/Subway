@@ -37,6 +37,8 @@ class Schedule(models.Model):
 
     @property
     def qrcode(self):
+        if not os.path.exists(os.path.join(QR_DIR_3, QR_3_NAME_TEM % self.id)):
+            self.gen_qrcode_img()
         return '/media/schedule_qr_3/' + QR_3_NAME_TEM % self.id
 
     @property
@@ -55,7 +57,7 @@ class Schedule(models.Model):
 
     # 编号 暂定自增
     id = models.AutoField(primary_key=True, verbose_name='编号')
-    job_name = models.CharField(max_length=50, verbose_name='作业名称')
+    job_name = models.CharField(max_length=20, verbose_name='作业名称', unique=True)
     unit = models.CharField(max_length=10, verbose_name='单位')
     location = models.CharField(max_length=30, verbose_name='施工地点')
     done_count = models.IntegerField(default=0, verbose_name='开累完成量')
@@ -70,7 +72,7 @@ class Schedule(models.Model):
 
 class Profess(models.Model):
     """Model definition for Profess."""
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=20)
 
     class Meta:
         """Meta definition for Profess."""
@@ -84,11 +86,13 @@ class Profess(models.Model):
 
     @property
     def qrcode(self):
+        if not os.path.exists(os.path.join(QR_DIR_2, QR_2_NAME_TEM % self.id)):
+            self.gen_qrcode_img()
         return '/media/schedule_qr_2/' + QR_2_NAME_TEM % self.id
 
     def gen_qrcode_img(self):
         qr = make_pic(['设备信息', self.name],
-                      '/schedule/list_profess/' + str(self.id))
+                      '/schedule/qr2/' + str(self.id))
         qr.save(os.path.join(QR_DIR_2, QR_2_NAME_TEM % self.id), quality=100)
 
     def save(self, *args, **kwargs):
