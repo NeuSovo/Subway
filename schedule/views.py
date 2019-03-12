@@ -178,7 +178,7 @@ def QR2(request, profess_id):
 
 
 def qr1_make(request):
-    img = make_pic(['进度信息', '全部专业'], '/schedule/qr1')
+    img = make_pic(['进度信息'], '/schedule/qr1')
     img.save('test.png')
     try:
         with open('test.png', "rb") as f:
@@ -188,7 +188,7 @@ def qr1_make(request):
 
 
 def qr4_make(request):
-    img = make_pic(['进度总图表', '全部专业'], '/schedule/mobile')
+    img = make_pic(['进度总图表'], '/schedule/mobile')
     img.save('test.png')
     try:
         with open('test.png', "rb") as f:

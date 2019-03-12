@@ -230,7 +230,7 @@ def QR2(request, profess_id):
 
 
 def qr1_make(request):
-    img = make_pic(['技术信息', '全部专业'], '/technology/qr1')
+    img = make_pic(['技术信息'], '/technology/qr1')
     img.save('test.png')
     try:
         with open('test.png', "rb") as f:

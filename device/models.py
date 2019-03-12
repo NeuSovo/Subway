@@ -88,7 +88,7 @@ class Device(models.Model):
         return self.status_choiced[self.status_id][1]
 
     def gen_qrcode_img(self):
-        qr = make_pic([str(self.profess), self.name], '/device/detail/' + str(self.id))
+        qr = make_pic(['专业名称：'+str(self.profess), '设备名字：'+self.name], '/device/detail/' + str(self.id))
         qr.save(os.path.join(QR_DIR_3, QR_3_NAME_TEM % self.id), quality=100)
 
     def save(self, *args, **kwargs):

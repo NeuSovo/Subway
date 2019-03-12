@@ -32,7 +32,7 @@ class SafetyFile(models.Model):
     upload_date = models.DateTimeField(auto_now_add=True)
 
     def gen_qrcode_img(self):
-        qr = make_pic([self.title, self.file_type_choiced[self.file_type]
+        qr = make_pic(['安全文件标题：'+self.title, '安全文件类型'+self.file_type_choiced[self.file_type]
                        [1]], '/safety/mobile/' + str(self.id))
         qr.save(os.path.join(QR_DIR, QR_NAME_TEM % self.id), quality=100)
 
