@@ -53,5 +53,5 @@ class Setting(models.Model):
         return self.item_code
 
     item_code = models.CharField('设置类别', max_length=50, unique=True)
-    text = models.CharField('设置类别显示', max_length=100, null=True, blank=True)
+    text = models.CharField('设置类别显示', max_length=25, null=True, blank=True)
     img  = models.ImageField(upload_to='settings', default='none')

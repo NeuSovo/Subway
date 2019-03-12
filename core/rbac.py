@@ -22,12 +22,15 @@ class MiddlewareMixin(object):
 class RbacMiddleware(MiddlewareMixin):
     def process_request(self, request):
         current_url = request.path_info
-        if current_url == '/auth/login':
-            return None
-        if request.user.is_superuser:
+        is_mobile = 'mobile' in (request.META.get('HTTP_USER_AGENT')).lower()
+        if re.match(r'/auth*|/media*|/static*|/favi*', current_url) or \
+            request.user.is_superuser :
             return None
         if not request.user.is_authenticated:
-            return redirect('/auth/login' + '?next=' + request.get_full_path())
+            if not is_mobile:
+                return redirect('/auth/login' + '?next=' + request.get_full_path())
+            else:
+                return redirect('/auth/login_mobile' + '?next=' + request.get_full_path())
         is_valid = False
         for valid in settings.VALID_LIST:
             if re.match(valid, current_url):

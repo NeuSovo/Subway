@@ -1,51 +1,111 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <section class="big">
-        <div class="ui segment qrSet"><h1 class="ui header aligned center">后台定制</h1>
+<section class="big">
+    <div class="ui segment qrSet">
+        <h1 class="ui header aligned center">后台定制</h1>
         <div class="ui divider"></div>
         <div class="ui container">
-            <div class="left"><span class="desc">登录页背景图片：</span><img class="img" src="../static/bg.jpg"
-                                                                     style="height:4em"></div>
+            <div class="left"><span class="desc">全局标题：</span>
+                <input id="TITLE_TEXT" value="{{ TITLE_TEXT.text }}">
+            </div>
             <div class="right">
-                <button class="ui button">上传</button>
+                <div class="ui button" onclick="setItem('TITLE_TEXT')">更改</div>
             </div>
         </div>
         <div class="ui container">
-            <div class="left"><span class="desc">登录页标语：</span><span>欢迎使用IQ管理平台</span></div>
+            <div class="left"><span class="desc">登陆页背景图片：</span>
+                <img class="img" src="{{ LOGIN_BACKEND_ICON.img.url }}" style="height:6em"></div>
             <div class="right">
-                <div class="ui button">更改</div>
+                <input class="ui button" type="file" id="LOGIN_BACKEND_ICON" ,
+                    onchange="setImgItem('LOGIN_BACKEND_ICON')">
+            </div>
+        </div>
+        <div class="ui container">
+            <div class="left"><span class="desc">登录页标语：</span>
+                <input id="LOGIN_TEXT" value="{{ LOGIN_TEXT.text }}">
+            </div>
+            <div class="right">
+                <div class="ui button" onclick="setItem('LOGIN_TEXT')">更改</div>
             </div>
         </div>
         <div class="ui divider"></div>
         <div class="ui container">
-            <div class="left"><span class="desc">header图片：</span><img class="img" src="../static/header.png"
-                                                                      style="height:4em"></div>
+            <div class="left"><span class="desc">header图片:</span>
+                <img class="img" src="{{ HEADER_ICON.img.url }}" style="height:6em"></div>
             <div class="right">
-                <button class="ui button">上传</button>
+                <input class="ui button" type="file" id="HEADER_ICON" , onchange="setImgItem('HEADER_ICON')">
             </div>
         </div>
         <div class="ui divider"></div>
         <div class="ui container">
-            <div class="left"><span class="desc">footer图标：</span><img class="img" src="../static/logo.png"
-                                                                      style="height:4em"></div>
+            <div class="left"><span class="desc">footer图片:</span>
+                <img class="img" src="{{ FOOTER_ICON.img.url }}" style="height:6em"></div>
             <div class="right">
-                <div class="ui button">上传</div>
+                <input class="ui button" type="file" id="FOOTER_ICON" , onchange="setImgItem('FOOTER_ICON')">
             </div>
         </div>
         <div class="ui container">
-            <div class="left"><span class="desc">footer文字：</span><span>中铁电气化局集团有限公司西安电务工程分公司</span></div>
+            <div class="left"><span class="desc">footer文字：</span>
+                <input id="FOOTER_TEXT" value="{{ FOOTER_TEXT.text }}">
+            </div>
             <div class="right">
-                <div class="ui button">更改</div>
+                <div class="ui button" onclick="setItem('FOOTER_TEXT')">更改</div>
             </div>
         </div>
-    <div class="ui container">
-            <div class="left"><span class="desc">footer注释：</span><span>China Railway Electrification Bureau Group Co., Ltd. Xi'an Electrical Engineering Branch</span></div>
+        <div class="ui container">
+            <div class="left"><span class="desc">footer注释：</span>
+                <input id="FOOTER_COMMENT" value="{{ FOOTER_COMMENT.text }}">
+            </div>
             <div class="right">
-                <div class="ui button">更改</div>
+                <div class="ui button" onclick="setItem('FOOTER_COMMENT')">更改</div>
             </div>
         </div>
     </div>
 
-    </section>
+</section>
+{% endblock %}
+{% block script %}
+<script>
+    function setItem(item_code) {
+        var item_value = $("#" + item_code).val()
+        console.log(item_value)
+        $.ajax({
+            url: "{% url 'system:set_text' %}",
+            type: 'POST',
+            data: {
+                csrfmiddlewaretoken: '{{csrf_token}}',
+                item_code: item_code,
+                item_value: item_value
+            },
+            success: function (data) {
+                console.log(data)
+                location.reload()
+            },
+            error: function (data) {
+                console.log(data)
+                location.reload()
+            }
+        })
+    }
+
+    function setImgItem(item_code) {
+        var formData = new FormData();
+        formData.append('img', $('#' + item_code)[0].files[0]);
+        formData.append('item_code', item_code)
+        formData.append('csrfmiddlewaretoken', '{{csrf_token}}')
+
+        $.ajax({
+            url: "{% url 'system:set_img' %}",
+            type: 'POST',
+            data: formData,
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,  // tell jQuery not to set contentType
+            success: function (data) {
+                console.log(data);
+                location.reload()
+            }
+        });
+    }
+</script>
 {% endblock %}
