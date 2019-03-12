@@ -51,14 +51,16 @@ def data_to_obj(to_class, data):
 
 
 def permission(request):
-    user = request.user
     res = dict()
+    from system.models import Setting
+    for i in Setting.objects.all():
+        res[i.item_code] = i
+    user = request.user
     if isinstance(user, AnonymousUser):
         return res
     permissions = user.roles.all().values('permissions__code').distinct()
     for item in permissions:
         res[item['permissions__code']] = True
-    print(res)
     return res
 
 

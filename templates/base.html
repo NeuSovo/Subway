@@ -12,7 +12,7 @@
     <script src="{% static 'javascript/jquery-3.2.1.min.js' %}"></script>
     <script src="{% static 'javascript/semantic.min.js' %}"></script>
     <script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
-    <title>IQ工程管理平台</title>
+    <title>{{ TITLE_TEXT.text }}</title>
     {% block style %}
     {% endblock style %}
 </head>
@@ -23,10 +23,10 @@
         <div class="left menu"><a class="active item" id="main">
             <i class="list layout icon"></i>功能</a>
             <div class="item">
-                <p>IQ工程管理平台</p>
+                <p>{{ TITLE_TEXT.text }}</p>
             </div>
         </div>
-        <img src="{% static 'header.png' %}">
+        <img src="{{ HEADER_ICON.img.url }}">
         <div class="right menu">
             <div class="item">
                 <p>欢迎您,{{ user.username }}</p>
@@ -140,9 +140,9 @@
 {% block content %}
 {% endblock content %}
 <footer>
-    <div class="main"><img src="{% static 'logo.png' %}"><span>中铁电气化局集团有限公司西安电务工程分公司</span></div>
+    <div class="main"><img src="{{ FOOTER_ICON.img.url }}"><span>{{ FOOTER_TEXT.text }}</span></div>
     <div class="desc">
-        <span>©China Railway Electrification Bureau Group Co., Ltd. Xi'an Electrical Engineering Branch</span></div>
+        <span>©{{ FOOTER_COMMENT.text }}</span></div>
 </footer>
 <script>
     $('#main').click(function () {
