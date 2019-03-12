@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-  
+# -*- coding: utf-8 -*-
 
 from django.contrib import messages
 from datetime import datetime
@@ -187,14 +187,28 @@ def qr1_make(request):
         raise e
 
 
-def qr4_make(request):
-    img = make_pic(['进度总图表'], '/schedule/mobile')
+def qr4_make(request, pk=None):
+    if pk == None:
+        img = make_pic(['进度总图表'], '/schedule/qr4_view')
+    else:
+        profess = get_object_or_404(Profess, pk=pk)
+        img = make_pic(['进度专业图表', profess.name],
+                       '/schedule/mobile/chart/' + str(profess.id))
     img.save('test.png')
     try:
         with open('test.png', "rb") as f:
             return HttpResponse(f.read(), content_type="image/png")
     except Exception as e:
         raise e
+
+
+def qr4_view(request):
+    context = {
+        'profess_s': Profess.objects.all(),
+        'title': '进度信息',
+        'url': '/schedule/mobile/chart/'
+    }
+    return render(request, 'system/profess_mobile.html', context=context)
 
 
 def export_qr(request, dept_id=None):
@@ -205,7 +219,8 @@ def export_qr(request, dept_id=None):
     s = compress_file(
         [os.path.join(QR_DIR_3, QR_3_NAME_TEM % i.id) for i in qr])
     response = HttpResponse(content_type="application/zip")
-    response["Content-Disposition"] = "attachment; filename={}".format(quote(file_name))
+    response["Content-Disposition"] = "attachment; filename={}".format(
+        quote(file_name))
     s.seek(0)
     response.write(s.read())
     return response
