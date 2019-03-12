@@ -43,7 +43,7 @@ class TechnologyFile(models.Model):
         return '/media/technology_qr_3/' + QR_3_NAME_TEM % self.id
 
     def gen_qrcode_img(self):
-        qr = make_pic([str(self.profess), self.file_type_choiced[self.file_type][1], self.title], '/technology/detail/'+ str(self.id))
+        qr = make_pic(['专业名称：'+str(self.profess), '文件类型：'+self.file_type_choiced[self.file_type][1], '文件标题：'+self.title], '/technology/detail/'+ str(self.id))
         qr.save(os.path.join(QR_DIR_3, QR_3_NAME_TEM % self.id), quality=100)
 
     def save(self, *args, **kwargs):

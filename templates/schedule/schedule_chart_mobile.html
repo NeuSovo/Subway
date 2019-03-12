@@ -9,18 +9,7 @@
 {% block content %}
     <div class="content">
         <div class="table">
-            <div class="title">进度总图表</div>
-            <div class="ui floating labeled icon dropdown button"><i class="filter icon"></i><span
-                    class="text">{{ select_profess }}</span>
-                <div class="menu">
-                    <div class="header"><i class="tags icon"></i>选取专业</div>
-                    <div class="divider"></div>
-                    {% for profess in profess_s %}
-                        <a class="item"
-                           href="{% url 'schedule:mobile_with_profess' profess.id %}"> {{ profess }}</a>
-                    {% endfor %}
-                </div>
-            </div>
+            <div class="title">{{ select_profess.name }}专业进度总图表</div>
             <div style="overflow:hidden">
                 <div id="mountNode"></div>
             </div>

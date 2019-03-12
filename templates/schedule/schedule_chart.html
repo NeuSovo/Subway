@@ -2,100 +2,102 @@
 {% load static %}
 
 {% block style %}
-    <script src={% static 'javascript/g2/g2.min.js' %}></script>
-    <script src={% static 'javascript/g2/data-set.min.js' %}></script>
+<script src={% static 'javascript/g2/g2.min.js' %}></script>
+<script src={% static 'javascript/g2/data-set.min.js' %}></script>
 {% endblock %}
 {% block content %}
-    <section>
-        <div class="ui segment"><h1 class="ui header aligned center">进度总图表</h1>
-            <div class="ui floating labeled icon dropdown button"><i class="filter icon"></i><span
-                    class="text">{{ select_profess }}</span>
-                <div class="menu">
-                    <div class="header"><i class="tags icon"></i>选取专业</div>
-                    <div class="divider"></div>
-                    {% for profess in profess_s %}
-                        <a class="item" href="{% url 'schedule:list_chart_with_profess' profess.id%}" > {{profess}}</a>
-                    {% endfor %}
-                </div>
-            </div>
-            <a class="ui labeled icon button black basic right floated append"
-                           href="{% url 'schedule:qr4_make' %}" download="进度总图表二维码.png"><i
-                                class="users icon"></i><span>导出二维码</span></a>
-            <div style="overflow:hidden">
-                <div id="mountNode"></div>
-                <div class="bottom-tool-box"><img class="sort-button" src="../static/sort.png"></div>
+<section>
+    <div class="ui segment">
+        <h1 class="ui header aligned center">进度总图表</h1>
+        <div class="ui floating labeled icon dropdown button"><i class="filter icon"></i><span
+                class="text">{{ select_profess }}</span>
+            <div class="menu">
+                <div class="header"><i class="tags icon"></i>选取专业</div>
+                <div class="divider"></div>
+                {% for profess in profess_s %}
+                <a class="item" href="{% url 'schedule:list_chart_with_profess' profess.id%}"> {{profess}}</a>
+                {% endfor %}
             </div>
         </div>
-    </section>
+        <a class="ui labeled icon button black basic right floated append" href="{% url 'schedule:qr4_make' %}"
+            download="进度总图表二维码.png"><i class="users icon"></i><span>导出 全部专业 二维码</span></a>
+        <a class="ui labeled icon button black basic right floated append" href="{% url 'schedule:qr4_make_with_pk' select_profess.id %}"
+            download="进度{{select_profess.name}}专业二维码.png"><i class="users icon"></i><span>导出 {{select_profess.name }}专业 二维码</span></a>
+        <div style="overflow:hidden">
+            <div id="mountNode"></div>
+            <div class="bottom-tool-box"><img class="sort-button" src="../static/sort.png"></div>
+        </div>
+    </div>
+</section>
 {% endblock %}
 {% block script %}
-    <script>
-        var sortType = 'positive'
-        var data = [ {% for item in object_list %}{type: '{{item.job_name}}' ,value:{{item.done_count}}}, {% endfor %}]
-        console.log(data)
-        var chart = new G2.Chart({
-            container: 'mountNode',
-            forceFit: true,
-            height: window.innerHeight,
-            padding: [20, 40, 50, 124]
-        })
-        chart.source(data, {
-            value: {
-                max: 100,
-                min: 0,
-                nice: false,
-                alias: '开累量'
-            }
-        })
-        chart.axis('type', {
-            label: {
-                textStyle: {
-                    fill: '#8d8d8d',
-                    fontSize: 18
-                }
-            },
-            tickLine: {
-                alignWithLabel: false,
-                length: 0
-            },
-            line: {
-                lineWidth: 0
-            }
-        })
-        chart.axis('value', {
-            label: null,
-            title: {
-                offset: 30,
-                textStyle: {
-                    fontSize: 18,
-                    fontWeight: 300
-                }
-            }
-        })
-        chart.legend(false)
-        chart.coord().transpose()
-        chart.interval().position('type*value').size(26).opacity(1).label('value', {
+<script>
+    var sortType = 'positive'
+    var data = [ {% for item in object_list %}{type: '{{item.job_name}}' ,value:{{item.done_count}}}, {% endfor %}]
+    console.log(data)
+    var chart = new G2.Chart({
+        container: 'mountNode',
+        forceFit: true,
+        height: window.innerHeight,
+        padding: [20, 40, 50, 124]
+    })
+    chart.source(data, {
+        value: {
+            max: 100,
+            min: 0,
+            nice: false,
+            alias: '开累量'
+        }
+    })
+    chart.axis('type', {
+        label: {
             textStyle: {
-                fill: '#8d8d8d'
-            },
-            offset: 10
-        })
-        chart.render()
-        $('.sort-button').click(function () {
-            sortType = sortType === 'positive' ? 'negative' : 'positive'
-            sortData(sortType)
-            chart.repaint()
-        })
-
-        function sortData(sortType) {
-            if (sortType === 'positive') {
-                data.sort(function (a, b) {
-                    return b.value - a.value
-                })
-            } else {
-                data.sort(function (a, b) {
-                    return a.value - b.value
-                })
+                fill: '#8d8d8d',
+                fontSize: 18
             }
-        }</script>
+        },
+        tickLine: {
+            alignWithLabel: false,
+            length: 0
+        },
+        line: {
+            lineWidth: 0
+        }
+    })
+    chart.axis('value', {
+        label: null,
+        title: {
+            offset: 30,
+            textStyle: {
+                fontSize: 18,
+                fontWeight: 300
+            }
+        }
+    })
+    chart.legend(false)
+    chart.coord().transpose()
+    chart.interval().position('type*value').size(26).opacity(1).label('value', {
+        textStyle: {
+            fill: '#8d8d8d'
+        },
+        offset: 10
+    })
+    chart.render()
+    $('.sort-button').click(function () {
+        sortType = sortType === 'positive' ? 'negative' : 'positive'
+        sortData(sortType)
+        chart.repaint()
+    })
+
+    function sortData(sortType) {
+        if (sortType === 'positive') {
+            data.sort(function (a, b) {
+                return b.value - a.value
+            })
+        } else {
+            data.sort(function (a, b) {
+                return a.value - b.value
+            })
+        }
+    }</script>
 {% endblock %}
