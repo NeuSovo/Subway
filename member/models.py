@@ -126,7 +126,7 @@ class Member(models.Model):
         return '/media/member_qr/' + QR_NAME_TEM % self.member_id
 
     def gen_qrcode_img(self):
-        qr = make_pic([self.name, self.dept.dept_name], '/member/member_detail/'+ str(self.id))
+        qr = make_pic(['姓名：'+self.name, '部门：'+self.dept.dept_name], '/member/member_detail/'+ str(self.id))
         qr.save(os.path.join(QR_DIR, QR_NAME_TEM % self.member_id), quality=100)
 
     def save(self, *args, **kwargs):

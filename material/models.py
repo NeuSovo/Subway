@@ -51,7 +51,7 @@ class Material(models.Model):
         return str(self.profess)
 
     def gen_qrcode_img(self):
-        qr = make_pic([str(self.profess), self.name,
+        qr = make_pic(['专业名称：'+str(self.profess), '物资名称：' + self.name,
                        self.manufacturer], '/material/detail/' + str(self.id))
         qr.save(os.path.join(QR_DIR_3, QR_3_NAME_TEM % self.id), quality=100)
 
