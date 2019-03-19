@@ -1,0 +1,168 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'style/semantic.min.css' %}">
+    <link rel="stylesheet" href="{% static  'style/base.css' %}">
+    <script src="{% static 'javascript/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'javascript/semantic.min.js' %}"></script>
+    <title>{{ TITLE_TEXT.text }}</title>
+    <style>
+        .column {
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+            flex-wrap: wrap;
+        }
+
+        .column .item {
+            width: 20%;
+            margin: 35px 20px;
+            padding: 30px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 5px #ddd;
+            cursor: pointer;
+        }
+
+        .column .item:hover {
+            background: #f3f3f3;
+        }
+
+        .column i {
+            margin: 0 auto;
+            display: block;
+            font-size: 3em;
+        }
+
+        .column span {
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <div class="ui menu massive">
+        <div class="left menu">
+            <div class="item">
+                <p>{{ TITLE_TEXT.text }}</p>
+            </div>
+        </div>
+        <img src="{{ HEADER_ICON.img.url }}">
+        <div class="right menu">
+            <div class="item">
+                <p>欢迎您,{{ user.username }}</p>
+            </div>
+            <div class="item"><a class="ui negative button" href="{% url 'member:logout' %}">注销</a></div>
+        </div>
+    </div>
+</header>
+<section>
+    <div class="ui segment" style="margin-top:50px">
+        <div class="column">
+            <a href="{% url 'member:dept_list' %}" class="item"><i class="address card icon"></i><span>部门管理</span></a>
+            <a href="{% url 'member:member_list' %}" class="item"><i class="users icon"></i><span>人员管理</span></a>
+            <a href="{% url 'material:list' %}" class="item"><i class="cubes icon"></i><span>物资管理</span></a>
+            <a href="{% url 'technology:list' %}" class="item"><i class="newspaper icon"></i><span>技术管理</span></a>
+            <a href="{% url 'device:list' %}" class="item"><i class="hdd icon"></i><span>设备管理</span></a>
+            <a href="{% url 'safety:list' %}" class="item"><i class="shield alternate icon"></i><span>安全管理</span></a>
+            <a href="{% url 'schedule:list' %}" class="item"><i class="calendar check icon"></i><span>进度管理</span></a>
+            <a href="{% url 'system:set_qr' %}" class="item"><i class="cog icon"></i><span>系统管理</span></a>
+        </div>
+    </div>
+</section>
+<footer>
+    <div class="main"><img src="{{ FOOTER_ICON.img.url }}"><span>{{ FOOTER_TEXT.text }}</span></div>
+    <div class="desc">
+        <span>©{{ FOOTER_COMMENT.text }}</span></div>
+</footer>
+<script>
+    $('#main').click(function () {
+        $('.sidebar').sidebar('toggle')
+    })
+    $('.ui.accordion').accordion()
+    $('.ui.dropdown').dropdown()
+    $('.message .close').on('click', function () {
+        $(this).closest('.message').transition('fade')
+    })
+
+    $('#import').after('<input type="file" id="load_xls" name="docfile" style="display:none" onchange ="uploadFile()" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">');
+    // $('#import_test').after('<input type="file" id="load_test_xls" name="docfile" style="display:none" onchange ="uploadFile1()" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">');
+
+    $('#import').click(function () {
+        document.getElementById("load_xls").click();
+    })
+    // $('#import_test').click(function () {
+    //     document.getElementById("load_test_xls").click();
+    // })
+    function inout_stock() {
+        var inout_stock_form = $("#inout_stock_form")[0]
+        $.ajax({
+            url: inout_stock_form.action,
+            type: 'POST',
+            data: new FormData(inout_stock_form),
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                console.log(data)
+                location.reload()
+            },
+            error: function (data) {
+                location.reload()
+            }
+        })
+    }
+
+    function uploadFile() {
+        let import_form = $("#import_form")[0];
+        let myform = new FormData(import_form);
+        myform.append('file', $('#load_xls')[0].files[0]);
+        $.ajax({
+            url: import_form.action,
+            type: "POST",
+            data: myform,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                console.log(data)
+                location.reload();
+
+            },
+            error: function (data) {
+                console.log(data)
+                location.reload()
+            }
+        })
+    }
+
+    // function uploadFile1(){
+    //     let import_form = $("#import_test_form")[0];
+    //     let myform = new FormData(import_form);
+    //     myform.append('file', $('#load_test_xls')[0].files[0]);
+    //     $.ajax({
+    //         url: import_form.action,
+    //         type: "POST",
+    //         data: myform,
+    //         contentType: false,
+    //         processData: false,
+    //         success: function (data) {
+    //             console.log(data)
+    //             location.reload();
+
+    //         },
+    //         error: function (data) {
+    //             console.log(data)
+    //             location.reload()
+    //         }
+    //     })
+    // }
+</script>
+</body>
+</html>

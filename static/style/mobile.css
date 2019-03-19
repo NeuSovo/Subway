@@ -1,5 +1,7 @@
 body {
   padding-top: 1px;
+  overflow: hidden;
+  height: 100vh;
 }
 
 .bg img {
@@ -8,9 +10,11 @@ body {
 }
 
 .bg {
+  top: -1px;
   z-index: -1;
   position: fixed;
 }
+
 
 header.header {
   width: 100%;
