@@ -15,7 +15,7 @@ from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
-                                  ListView, UpdateView, View)
+                                  ListView, UpdateView, TemplateView)
 from urllib.parse import quote
 from core.init_permission import *
 from core.utils import *
@@ -51,7 +51,7 @@ class LoginView(FormView):
 
 
 class MobieLoginViw(LoginView):
-        template_name = 'user/login_mobile.html'
+    template_name = 'user/login_mobile.html'
 
 
 def logout_view(request):
@@ -297,6 +297,10 @@ class MemberDetailView(DetailView):
         return context
 
 
+class IndexView(TemplateView):
+    template_name = "index.html"
+
+
 def qrcode_view(request, data):
     img = gen_qrcode(data)
     response = HttpResponse(img, content_type="image/png")
@@ -325,7 +329,7 @@ def import_member_data(request):
                 model=Member,
                 mapdict=mapdict,
                 ignore_cols_at_names=['部门名字']
-                )
+            )
             messages.success(request, "导入成功")
 
         except IntegrityError as e:
@@ -371,10 +375,11 @@ def export_member_data(request, dept_id=None):
 
 @login_required(login_url='/auth/login')
 def index(request):
-    if request.user.is_superuser:
-        return redirect('/member/dept')
-    else:
-        return redirect('/member/member_list')
+    # if request.user.is_superuser:
+    #     return redirect('/member/index')
+    # else:
+    #     return redirect('/member/member_list')
+    return redirect('/auth/index')
 
 
 def success_view(request):

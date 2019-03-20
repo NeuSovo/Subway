@@ -1,97 +1,117 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<section class="big">
-    <div class="ui segment qrSet">
-        <h1 class="ui header aligned center">移动端定制</h1>
-        <div class="ui divider"></div>
-        <div class="ui container">
-            <div class="left"><span class="desc">header图片：</span>
-                <img class="img" src="{{ MOBILE_HEADER_ICON.img.url }}" style="height:6em"></div>
-            <div class="right">
-                <input class="ui button" type="file" id="MOBILE_HEADER_ICON" ,
-                    onchange="setImgItem('MOBILE_HEADER_ICON')">
+    <section class="big">
+        <div class="ui segment qrSet">
+            <h1 class="ui header aligned center">移动端定制</h1>
+            <div class="ui divider"></div>
+            <div class="ui container">
+                <div class="left"><span class="desc">header图片：</span>
+                    <img class="img" src="{{ MOBILE_HEADER_ICON.img.url }}" style="height:6em"></div>
+                <div class="right">
+                    <div class="upload">
+                        <div class="ui button">更改</div>
+                        <input class="ui button" type="file" id="MOBILE_HEADER_ICON" ,
+                               onchange="setImgItem('MOBILE_HEADER_ICON')">
+                    </div>
+                </div>
+            </div>
+            <div class="ui divider"></div>
+            <div class="ui container">
+                <div class="left"><span class="desc">移动端背景：</span>
+                    <img class="img" src="{{ MOBILE_BACKEND_ICON.img.url }}" style="height:6em"></div>
+                <div class="right">
+                    <div class="upload">
+                        <div class="ui button">更改</div>
+                        <input class="ui button" type="file" id="MOBILE_BACKEND_ICON" ,
+                               onchange="setImgItem('MOBILE_BACKEND_ICON')">
+                    </div>
+                </div>
+            </div>
+            {# TODO 添加启动图#}
+            <div class="ui container">
+                <div class="left"><span class="desc">移动端启动图：</span>
+                    <img class="img" src="{{ MOBILE_BACKEND_ICON.img.url }}" style="height:6em"></div>
+                <div class="right">
+                    <div class="upload">
+                        <div class="ui button">更改</div>
+                        <input class="ui button" type="file">
+                    </div>
+                </div>
+            </div>
+            <div class="ui divider"></div>
+            <div class="ui container">
+                <div class="left"><span class="desc">footer图标：</span>
+                    <img class="img" src="{{ MOBILE_FOOTER_ICON.img.url }}" style="height:4em"></div>
+                <div class="right">
+                    <div class="upload">
+                        <div class="ui button">更改</div>
+                        <input class="ui button" type="file" id="MOBILE_FOOTER_ICON" ,
+                               onchange="setImgItem('MOBILE_FOOTER_ICON')">
+                    </div>
+                </div>
+            </div>
+            <div class="ui container">
+                <div class="left"><span class="desc">footer文字：</span>
+                    <input size="50" id="MOBILE_FOOTER_TEXT" value="{{ MOBILE_FOOTER_TEXT.text }}">
+                </div>
+                <div class="right">
+                    <div class="ui button" onclick="setItem('MOBILE_FOOTER_TEXT')">更改</div>
+                </div>
+            </div>
+            <div class="ui container">
+                <div class="left"><span class="desc">footer注释：</span>
+                    <input size="50" id="MOBILE_FOOTER_COMMENT" value="{{ MOBILE_FOOTER_COMMENT.text }}">
+                </div>
+                <div class="right">
+                    <div class="ui button" onclick="setItem('MOBILE_FOOTER_COMMENT')">更改</div>
+                </div>
             </div>
         </div>
-        <div class="ui divider"></div>
-        <div class="ui container">
-            <div class="left"><span class="desc">移动端背景：</span>
-                <img class="img" src="{{ MOBILE_BACKEND_ICON.img.url }}" style="height:6em"></div>
-            <div class="right">
-                <input class="ui button" type="file" id="MOBILE_BACKEND_ICON" ,
-                    onchange="setImgItem('MOBILE_BACKEND_ICON')">
-            </div>
-        </div>
-        <div class="ui divider"></div>
-        <div class="ui container">
-            <div class="left"><span class="desc">footer图标：</span>
-                <img class="img" src="{{ MOBILE_FOOTER_ICON.img.url }}" style="height:4em"></div>
-            <div class="right">
-                <input class="ui button" type="file" id="MOBILE_FOOTER_ICON" ,
-                    onchange="setImgItem('MOBILE_FOOTER_ICON')">
-            </div>
-        </div>
-        <div class="ui container">
-            <div class="left"><span class="desc">footer文字：</span>
-                <input id="MOBILE_FOOTER_TEXT" value="{{ MOBILE_FOOTER_TEXT.text }}">
-            </div>
-            <div class="right">
-                <div class="ui button" onclick="setItem('MOBILE_FOOTER_TEXT')">更改</div>
-            </div>
-        </div>
-        <div class="ui container">
-            <div class="left"><span class="desc">footer注释：</span>
-                <input id="MOBILE_FOOTER_COMMENT" value="{{ MOBILE_FOOTER_COMMENT.text }}">
-            </div>
-            <div class="right">
-                <div class="ui button" onclick="setItem('MOBILE_FOOTER_COMMENT')">更改</div>
-            </div>
-        </div>
-    </div>
 
-</section>
+    </section>
 {% endblock %}
 {% block script %}
-<script>
-    function setItem(item_code) {
-        var item_value = $("#" + item_code).val()
-        console.log(item_value)
-        $.ajax({
-            url: "{% url 'system:set_text' %}",
-            type: 'POST',
-            data: {
-                csrfmiddlewaretoken: '{{csrf_token}}',
-                item_code: item_code,
-                item_value: item_value
-            },
-            success: function (data) {
-                console.log(data)
-                location.reload()
-            },
-            error: function (data) {
-                console.log(data)
-                location.reload()
-            }
-        })
-    }
+    <script>
+        function setItem(item_code) {
+            var item_value = $("#" + item_code).val()
+            console.log(item_value)
+            $.ajax({
+                url: "{% url 'system:set_text' %}",
+                type: 'POST',
+                data: {
+                    csrfmiddlewaretoken: '{{csrf_token}}',
+                    item_code: item_code,
+                    item_value: item_value
+                },
+                success: function (data) {
+                    console.log(data)
+                    location.reload()
+                },
+                error: function (data) {
+                    console.log(data)
+                    location.reload()
+                }
+            })
+        }
 
-    function setImgItem(item_code) {
-        var formData = new FormData();
-        formData.append('img', $('#' + item_code)[0].files[0]);
-        formData.append('item_code', item_code)
-        formData.append('csrfmiddlewaretoken', '{{csrf_token}}')
+        function setImgItem(item_code) {
+            var formData = new FormData();
+            formData.append('img', $('#' + item_code)[0].files[0]);
+            formData.append('item_code', item_code)
+            formData.append('csrfmiddlewaretoken', '{{csrf_token}}')
 
-        $.ajax({
-            url: "{% url 'system:set_img' %}",
-            type: 'POST',
-            data: formData,
-            processData: false,  // tell jQuery not to process the data
-            contentType: false,  // tell jQuery not to set contentType
-            success: function (data) {
-                console.log(data);
-                location.reload()
-            }
-        });
-    }
-</script>
+            $.ajax({
+                url: "{% url 'system:set_img' %}",
+                type: 'POST',
+                data: formData,
+                processData: false,  // tell jQuery not to process the data
+                contentType: false,  // tell jQuery not to set contentType
+                success: function (data) {
+                    console.log(data);
+                    location.reload()
+                }
+            });
+        }
+    </script>
 {% endblock %}

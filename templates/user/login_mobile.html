@@ -8,54 +8,106 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!--    <link rel="stylesheet" href="/static/style/semantic.min.css"> -->
     <link href="{% static 'style/semantic.min.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'style/base.css' %}">
+    <link rel="stylesheet" href="{% static 'style/mobile.css' %}">
     <script src="{% static 'javascript/jquery-3.2.1.min.js' %}"></script>
     <script src="{% static 'javascript/semantic.min.js' %}"></script>
-    <title>Document</title>
+    <title>{{ TITLE.text }}</title>
     <style>
-        .bg img {
-            position: fixed;
-            width: 100vw;
+        body {
+            overflow: hidden;
             height: 100vh;
         }
 
-        .content {
+        .header {
             position: absolute;
+            top: -40px!important;
+            transition: top 1s;
+        }
+
+        .header_ {
+            top: 0!important;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: -100vh;
+            width: 100%;
+            transition: bottom 1s;
+        }
+
+        .footer_ {
+            bottom: 0;
+        }
+
+
+        .arrow_ {
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            height: 150px;
+            background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, .75));
+            transition: bottom 1s;
+
+        }
+
+        .arrow_ i {
+            margin: 0 auto;
+            font-size: 5em;
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            color: #ddd;
+            transform: translate(-50%, 0);
+            animation: move0 1s linear 1s infinite alternate;
+        }
+
+        .arrow_ i:nth-child(2) {
+            bottom: -25px;
+            animation: move1 1s linear 1s infinite alternate;
+        }
+
+        .arrow__ {
+            bottom: -200px;
+        }
+
+        @keyframes move0 {
+            from {
+                bottom: 10px;
+            }
+            to {
+                bottom: 30px;
+            }
+        }
+
+        @keyframes move1 {
+            from {
+                bottom: -25px;
+            }
+            to {
+                bottom: 5px;
+            }
+        }
+
+        .login {
+            position: relative;
             background: rgba(255, 255, 255, .8);
-            top: 20vh;
-            right: 10vw;
-            padding: 20px 40px;
+            padding: 20px;
             border-radius: 20px;
+            margin: 120vh 20px 0;
+            transition: margin-top 1s;
         }
 
-        .title {
-            position: absolute;
-            top: 20vh;
-            left: 10vw;
-            font-size: 6rem;
-            font-family: Times, TimesNR, 'New Century Schoolbook', Georgia, 'New York', serif;
-        }
-
-        .title p:first-child {
-            font-weight: 600;
-        }
-
-        .title p {
-            text-shadow: 5px 5px 10px #666;
+        .login_ {
+            margin: 20vh 20px 0;
         }
 
         .label {
             font-size: 1.5rem;
         }
 
-        .content div {
+        .login div {
             display: block;
             margin-top: 20px;
-        }
-
-        button.button {
-            margin-left: 80px !important;
-            margin-top: 40px !important;
         }
 
         .forget {
@@ -64,48 +116,61 @@
 
         .input {
             margin-top: 40px !important;
+            width: 100%;
         }
     </style>
 </head>
-
 <body>
-
-    <div class="bg"><img src="{% static 'bg.min.jpg' %}"></div>
-    <div class="title">
-        <p>欢迎使用</p>
-        <p>IQ工程管理平台</p>
-    </div>
-    <div class="content">
-        <form method="POST">{% csrf_token %}
-            <div class="label">
-                {{ form.username.label_tag }}
-            </div>
-            <div class="ui left icon input massive transparent">
-                {{ form.username }}
-                <i class="spy icon"></i>
-            </div>
-            <div class="label">
-                {{ form.password.label_tag }}
-            </div>
-            <div class="ui left icon input massive transparent">
-                {{ form.password }}
-                <i class="keyboard icon"></i>
-            </div>
-            <div class="message">
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="ui {{ message.tags }} global message">
-                                <div class="header">{{ message | safe }}</div>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
+<div class="bg"><img src="{% static 'start.jpg' %}"></div>
+<header class="header"><img src="{{ MOBILE_HEADER_ICON.img.url }}"><span>{{ TITLE.text }}</span></header>
+<section>
+    <div class="login">
+        <form method="post">
+            {% csrf_token %}
+        <div class="label">
+            {{ form.username.label_tag }}
+        </div>
+        <div class="ui left icon input massive transparent">
+            {{ form.username }}
+            <i class="spy icon"></i>
+        </div>
+        <div class="label">{{ form.password.label_tag }}</div>
+        <div class="ui left icon input massive transparent"> {{ form.password }}<i
+                class="keyboard icon"></i>
+        </div>
+        <div class="message forget">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="ui {{ message.tags }} global message">
+                        <div class="header">{{ message | safe }}</div>
+                    </div>
+                {% endfor %}
+            {% endif %}
             <div>
                 <button class="ui button icon right labeled positive massive" type="submit"><i
                         class="right arrow icon"></i>登录
                 </button>
             </div>
-        </form>
+        </div>
+    </form>
     </div>
+    <div class="arrow_">
+        <div class="move"><i class="chevron up icon"></i><i class="chevron up icon"></i></div>
+    </div>
+</section>
+<footer class="footer">
+    <div class="row">{{ MOBILE_FOOTER_TEXT.text }}</div>
+    <div class="desc">
+        <div class="left">©{{ MOBILE_FOOTER_COMMENT.text }}
+        </div>
+        <div class="right"><img src="{{ MOBILE_FOOTER_ICON.img.url }}"></div>
+    </div>
+</footer>
+<script>$('.arrow_').click(function () {
+    $('header.header').addClass('header_')
+    $('footer.footer').addClass('footer_')
+    $('.login').addClass('login_')
+    $('.arrow_').addClass('arrow__')
+})</script>
 </body>
-
 </html>

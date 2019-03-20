@@ -1,82 +1,89 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<section class="big">
-    <div class="ui segment qrSet">
-        <h1 class="ui header aligned center">二维码定制</h1>
-        <div class="ui divider"></div>
-        <div class="ui container">
+    <section class="big">
+        <div class="ui segment qrSet">
+            <h1 class="ui header aligned center">二维码定制</h1>
+            <div class="ui divider"></div>
+            <div class="ui container">
                 <div class="left"><span class="desc">header图片：</span>
                     <img class="img" src="{{ QR_HEADER_ICON.img.url }}" style="height:6em"></div>
                 <div class="right">
-                    <input class="ui button" type="file" id="QR_HEADER_ICON" ,
-                        onchange="setImgItem('QR_HEADER_ICON')">
+                    <div class="upload">
+                        <div class="ui button">更改</div>
+                        <input class="ui button" type="file" id="QR_HEADER_ICON" ,
+                               onchange="setImgItem('QR_HEADER_ICON')">
+                    </div>
+
                 </div>
-        </div>
-        <div class="ui divider"></div>
-        <div class="ui container">
+            </div>
+            <div class="ui divider"></div>
+            <div class="ui container">
                 <div class="left"><span class="desc">footer图片：</span>
                     <img class="img" src="{{ QR_FOOTER_ICON.img.url }}" style="height:6em"></div>
                 <div class="right">
-                    <input class="ui button" type="file" id="QR_FOOTER_ICON" ,
-                        onchange="setImgItem('QR_FOOTER_ICON')">
+                    <div class="upload">
+                        <div class="ui button">更改</div>
+                        <input class="ui button" type="file" id="QR_FOOTER_ICON" ,
+                               onchange="setImgItem('QR_FOOTER_ICON')">
+                    </div>
                 </div>
-        </div>
-        <div class="ui container">
-            <div class="left"><span class="desc">footer文字：</span>
-                <span>
-                    <input name='QR_TEXT' id='QR_TEXT' value="{{ QR_TEXT.text }}" type="textarea">
+            </div>
+            <div class="ui container">
+                <div class="left"><span class="desc">footer文字：</span>
+                    <span>
+                    <input size="50" name='QR_TEXT' id='QR_TEXT' value="{{ QR_TEXT.text }}" type="textarea">
                 </span>
-            </div>
-            <div class="right">
-                <div class="ui button" onclick="setItem('QR_TEXT')">更改</div>
+                </div>
+                <div class="right">
+                    <div class="ui button" onclick="setItem('QR_TEXT')">更改</div>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 {% endblock %}
 
 {% block script %}
-<script>
-    function setItem(item_code) {
-        var item_value = $("#" + item_code).val()
-        console.log(item_value)
-        $.ajax({
-            url: "{% url 'system:set_text' %}",
-            type: 'POST',
-            data: { 
-                csrfmiddlewaretoken: '{{csrf_token}}', 
-                item_code:item_code, 
-                item_value:item_value 
-            },
-            success: function (data) {
-                console.log(data)
-                location.reload()
-            },
-            error: function (data) {
-                console.log(data)
-                location.reload()
-            }
-        })
-    }
+    <script>
+        function setItem(item_code) {
+            var item_value = $("#" + item_code).val()
+            console.log(item_value)
+            $.ajax({
+                url: "{% url 'system:set_text' %}",
+                type: 'POST',
+                data: {
+                    csrfmiddlewaretoken: '{{csrf_token}}',
+                    item_code: item_code,
+                    item_value: item_value
+                },
+                success: function (data) {
+                    console.log(data)
+                    location.reload()
+                },
+                error: function (data) {
+                    console.log(data)
+                    location.reload()
+                }
+            })
+        }
 
-    function setImgItem(item_code) {
-        var formData = new FormData();
-        formData.append('img', $('#' + item_code)[0].files[0]);
-        formData.append('item_code', item_code)
-        formData.append('csrfmiddlewaretoken', '{{csrf_token}}')
+        function setImgItem(item_code) {
+            var formData = new FormData();
+            formData.append('img', $('#' + item_code)[0].files[0]);
+            formData.append('item_code', item_code)
+            formData.append('csrfmiddlewaretoken', '{{csrf_token}}')
 
-        $.ajax({
-            url: "{% url 'system:set_img' %}",
-            type: 'POST',
-            data: formData,
-            processData: false,  // tell jQuery not to process the data
-            contentType: false,  // tell jQuery not to set contentType
-            success: function (data) {
-                console.log(data);
-                location.reload()
-            }
-        });
-    }
-</script>
+            $.ajax({
+                url: "{% url 'system:set_img' %}",
+                type: 'POST',
+                data: formData,
+                processData: false,  // tell jQuery not to process the data
+                contentType: false,  // tell jQuery not to set contentType
+                success: function (data) {
+                    console.log(data);
+                    location.reload()
+                }
+            });
+        }
+    </script>
 {% endblock script %}
