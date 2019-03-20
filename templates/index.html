@@ -71,14 +71,18 @@
 <section>
     <div class="ui segment" style="margin-top:50px">
         <div class="column">
+            {% if user.is_superuser %}
             <a href="{% url 'member:dept_list' %}" class="item"><i class="address card icon"></i><span>部门管理</span></a>
+            {% endif %}
             <a href="{% url 'member:member_list' %}" class="item"><i class="users icon"></i><span>人员管理</span></a>
             <a href="{% url 'material:list' %}" class="item"><i class="cubes icon"></i><span>物资管理</span></a>
             <a href="{% url 'technology:list' %}" class="item"><i class="newspaper icon"></i><span>技术管理</span></a>
             <a href="{% url 'device:list' %}" class="item"><i class="hdd icon"></i><span>设备管理</span></a>
             <a href="{% url 'safety:list' %}" class="item"><i class="shield alternate icon"></i><span>安全管理</span></a>
             <a href="{% url 'schedule:list' %}" class="item"><i class="calendar check icon"></i><span>进度管理</span></a>
+            {% if user.is_superuser %}
             <a href="{% url 'system:set_qr' %}" class="item"><i class="cog icon"></i><span>系统管理</span></a>
+            {% endif %}
         </div>
     </div>
 </section>
