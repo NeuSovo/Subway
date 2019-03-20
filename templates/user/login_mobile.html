@@ -127,7 +127,6 @@
     <div class="login">
         <form method="post">
             {% csrf_token %}
-        </form>
         <div class="label">
             {{ form.username.label_tag }}
         </div>
@@ -153,6 +152,7 @@
                 </button>
             </div>
         </div>
+    </form>
     </div>
     <div class="arrow_">
         <div class="move"><i class="chevron up icon"></i><i class="chevron up icon"></i></div>
