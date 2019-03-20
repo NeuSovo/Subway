@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='setting',
             name='text',
-            field=models.CharField(blank=True, max_length=25, null=True, verbose_name='设置类别显示'),
+            field=models.CharField(blank=True, max_length=100, null=True, verbose_name='设置类别显示'),
         ),
     ]
