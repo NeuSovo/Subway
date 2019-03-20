@@ -8,13 +8,16 @@ body {
 }
 
 .bg {
+  top: -1px;
   z-index: -1;
   position: fixed;
 }
 
+
 header.header {
   width: 100%;
-  top: 0;
+  top: -1px;
+  position: absolute;
   padding: 10px 20px;
   text-align: center;
   background: #2e3033;
@@ -65,7 +68,7 @@ footer.footer .desc {
 .content {
   padding-top: 1px;
   margin: 5vh 3vw;
-  min-height: 71vh;
+  min-height: 84vh;
 }
 
 .content .table {

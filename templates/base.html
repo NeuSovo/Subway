@@ -22,6 +22,9 @@
     <div class="ui menu massive">
         <div class="left menu"><a class="active item" id="main">
             <i class="list layout icon"></i>功能</a>
+            <a href="{% url 'member:index' %}" class="item">
+                <i class="home icon"></i>首页
+            </a>
             <div class="item">
                 <p>{{ TITLE_TEXT.text }}</p>
             </div>
@@ -39,10 +42,7 @@
         <!--a.item 2-->
         <!--a.item 3-->
         <div class="ui inverted accordion">
-
             {% if user.is_superuser %}
-
-
                 <div class="item">
                     <div class="title"><i class="dropdown icon"></i> 部门管理</div>
                     <div class="content">
@@ -101,7 +101,6 @@
                         <a class="item" href="{% url 'schedule:list_chart' %}">进度报表</a></div>
                 </div>
             </div>
-            {% if 0 %}
             <div class="item">
                 <div class="title active"><i class="dropdown icon"></i> 系统设置</div>
                 <div class="content">
@@ -112,7 +111,6 @@
                     </div>
                 </div>
             </div>
-            {% endif %}
         </div>
     </div>
 </header>
@@ -230,6 +228,4 @@
 {% block script %}
 {% endblock script %}
 </body>
-
-
 </html>

@@ -57,7 +57,7 @@ class Schedule(models.Model):
 
     # 编号 暂定自增
     id = models.AutoField(primary_key=True, verbose_name='编号')
-    job_name = models.CharField(max_length=20, verbose_name='作业名称', unique=True)
+    job_name = models.CharField(max_length=20, verbose_name='作业名称')
     unit = models.CharField(max_length=10, verbose_name='单位')
     location = models.CharField(max_length=30, verbose_name='施工地点')
     done_count = models.IntegerField(default=0, verbose_name='开累完成量')

@@ -6,8 +6,9 @@ urlpatterns = [
 
     path('', index),
     path('auth/login', LoginView.as_view(), name='login'),
-    path('auth/login_mobile', LoginView.as_view(), name='login_mobile'),
+    path('auth/login_mobile', MobieLoginViw.as_view(), name='login_mobile'),
     path('auth/logout', logout_view, name='logout'),
+    path('auth/index', IndexView.as_view(), name="index"),
     path('global/qrcode/<path:data>', qrcode_view, name='qrcode'),
     path('global/success', success_view, name='success'),
     path('global/depass', depass_view, name='depass'),
