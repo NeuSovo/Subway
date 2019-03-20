@@ -121,7 +121,7 @@
     </style>
 </head>
 <body>
-<div class="bg"><img src="{% static 'start.jpg' %}"></div>
+<div class="bg"><img src="{{ MOBILE_STARTUP_ICON.img.url }}"></div>
 <header class="header"><img src="{{ MOBILE_HEADER_ICON.img.url }}"><span>{{ TITLE.text }}</span></header>
 <section>
     <div class="login">

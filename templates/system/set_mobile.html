@@ -28,14 +28,14 @@
                     </div>
                 </div>
             </div>
-            {# TODO 添加启动图#}
             <div class="ui container">
                 <div class="left"><span class="desc">移动端启动图：</span>
-                    <img class="img" src="{{ MOBILE_BACKEND_ICON.img.url }}" style="height:6em"></div>
+                    <img class="img" src="{{ MOBILE_STARTUP_ICON.img.url }}" style="height:6em"></div>
                 <div class="right">
                     <div class="upload">
                         <div class="ui button">更改</div>
-                        <input class="ui button" type="file">
+                        <input class="ui button" type="file" id="MOBILE_STARTUP_ICON" ,
+                               onchange="setImgItem('MOBILE_STARTUP_ICON')">
                     </div>
                 </div>
             </div>
