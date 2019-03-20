@@ -174,7 +174,7 @@ def _make_template(header_path, footer_logo, footer_text):
     templatemode['header']['path'] = header_path
     templatemode['footer']['logo']['path'] = footer_logo
     templatemode['footer']['text']['title'] = footer_text
-    back_img = Image.open(templatemode['base_url'])
+    back_img = Image.open(templatemode['base_url']).resize((1440,1440))
     top_img = Image.open(header_path).resize(templatemode['header']['frame'])
     back_img.paste(
         top_img, (0, 0, templatemode['header']['frame'][0], templatemode['header']['frame'][1]))
