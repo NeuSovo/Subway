@@ -5,14 +5,15 @@ import qrcode
 from PIL import Image, ImageDraw, ImageFont
 from django.conf import settings
 from django.utils.six import BytesIO, StringIO
+from system.models import Setting
 
-static_root =  settings.STATIC_ROOT
+static_root = settings.STATIC_ROOT
 # static_root = 'D:\\Code\\Python\\django\\Subway\\static\\'
-static_ttf = os.path.join(static_root, 'FZXBSJW.TTF')
+static_ttf = os.path.join(static_root, 'SourceHanSansCN.otf')
 QRcode_f_url = os.getenv('HOSTNAME') or 'http://127.0.0.1:8000'
-
+back_url = os.path.join(static_root, "qr.png")
 backMode_1 = {
-    "back_url": os.path.join(static_root, "qr.png"),
+    "back_url": back_url,
     "size": (1440, 1440),
     "QR": {
         "frame": (620, 620),
@@ -75,6 +76,30 @@ backMode_3 = {
         "position": [200, 870],
         "frame": (600, 20),
     }],
+}
+
+templatemode = {
+    "base_url": os.path.join(static_root, "base.png"),
+    "header": {
+        "position": [0, 0],
+        "frame": (1440, 362),
+        "path": ""
+    },
+    "footer": {
+        "logo": {
+            "path": "",
+            "position": [125, 1250],
+            "frame": (174, 112)
+        },
+        "text": {
+            "title": "",
+            "position": [310, 1280],
+            "frame": (1000, 100),
+            "size": 45,
+            "ttf": static_ttf,
+            "color": "#000000",
+        }
+    }
 }
 
 
@@ -145,4 +170,44 @@ def make_pic(text, data):
     return img
 
 
+def _make_template(header_path, footer_logo, footer_text):
+    templatemode['header']['path'] = header_path
+    templatemode['footer']['logo']['path'] = footer_logo
+    templatemode['footer']['text']['title'] = footer_text
+    back_img = Image.open(templatemode['base_url'])
+    top_img = Image.open(header_path).resize(templatemode['header']['frame'])
+    back_img.paste(
+        top_img, (0, 0, templatemode['header']['frame'][0], templatemode['header']['frame'][1]))
+    logo = templatemode['footer']['logo']
+    f_img = Image.open(footer_logo).resize(
+        logo['frame'])
+    back_img.paste(f_img, (logo['position'][0], logo['position'][1], logo['position']
+                           [0]+logo['frame'][0], logo['position'][1]+logo['frame'][1]))
+
+    tmode = templatemode['footer']['text']
+    draw = ImageDraw.Draw(back_img)
+    myfont = ImageFont.truetype(tmode["ttf"], size=tmode["size"])
+    draw.text((tmode['position'][0], tmode['position'][1]),
+              footer_text, font=myfont, fill=tmode['color'])
+    back_img.save(back_url)
+
+
+def make_template():
+    try:
+        a = Setting.objects.get(item_code='QR_HEADER_ICON').img.path
+    except Exception as _:
+        a = os.path.join(static_root, 'header.png')
+    try:
+        b = Setting.objects.get(item_code='QR_FOOTER_ICON').img.path
+    except Exception as _:
+        b = os.path.join(static_root, 'logo.png')
+    try:
+        c = Setting.objects.get(item_code='QR_TEXT').text
+    except Exception as _:
+        c = '中铁电气化局集团有限公司西安电务工程分公司'
+    print(a,b,c)
+    _make_template(a, b, c)
+
 # make_pic(["名称: 技术信息", "标题：变电所预埋件安装作业指导书"], "QRcode data").save('test.png')
+
+# make_template(os.path.join(static_root, 'header.png'),os.path.join(static_root, 'logo.png'), '中铁电气化局集团有限公司西安电务工程分公司')

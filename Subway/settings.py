@@ -72,6 +72,7 @@ VALID_LIST = [
     '/member/member_add*',
     '/member/member_update*',
     '/member/member_delete*',
+    '/system/*',
     '/member/dept*',
     '/material/add*',
     '/material/update*',

@@ -10,4 +10,5 @@ urlpatterns = [
     path('set_qr', SetQrcodeView.as_view(), name='set_qr'),
     path('set_backend', SetBackendView.as_view(), name='set_backend'),
     path('set_mobile', SetMobileView.as_view(), name='set_mobile'),
+    path('regen', regen, name='regen')
 ]
