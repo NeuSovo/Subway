@@ -5,6 +5,17 @@
 {% block style %}
     <script src="{% static 'javascript/g2/g2.min.js' %}"></script>
     <script src="{% static 'javascript/g2/data-set.min.js' %}"></script>
+    <style>
+        .label_ {
+            left: -65px;
+            width: 80px;
+            text-align: center;
+            font-size: .8em;
+            position: relative;
+            font-weight: 700;
+        }
+    </style>
+
 {% endblock %}
 {% block content %}
     <div class="content">
@@ -18,28 +29,49 @@
 {% endblock %}
 {% block script %}
     <script>
-        $('.ui.dropdown').dropdown()
-        var sortType = 'positive';
-        var data = [{% for item in object_list %}{type: '{{item.job_name}}' ,value:{{item.done_count}}}, {% endfor %}]
+        var ds = new DataSet()
+        var sortType = 'positive'
+        var data1 = [{% for item in object_list %}{type: '开累完成率' ,
+                name: '{{item.job_name}}-{{ item.location }}',
+                value: parseFloat((({{item.done_count}}) /{{ item.design_total }}).toFixed(2))
+                }, {% endfor %}]
+        var data2 = [{% for item in object_list %}{type: '开累剩余率' ,
+                name: '{{item.job_name}}-{{ item.location }}',
+                value: parseFloat((({{ item.design_total }}-{{item.done_count}}) /{{ item.design_total }}).toFixed(2)),
+                }, {% endfor %}]
+        var data = data1.concat(data2)
+        var dv = ds.createView().source(data)
+        dv.transform({
+            type: 'sort-by',
+            fields: ['name'],
+            order: 'ASC'
+        })
         var chart = new G2.Chart({
             container: 'mountNode',
             forceFit: true,
-            height: window.innerHeight,
-            padding: [20, 30, 0, 100]
-        });
-        chart.source(data, {
+            height: window.innerHeight-300,
+            padding: [20, 0, 20, 70]
+        })
+        chart.source(dv, {
             value: {
-                max: 1300,
+                max: 1,
                 min: 0,
                 nice: false,
-                alias: '开累量'
+                alias: '开累完成率'
             }
+        })
+        chart.legend({
+            position: 'top-center'
         });
-        chart.axis('type', {
+        chart.axis('name', {
             label: {
-                textStyle: {
-                    fill: '#8d8d8d',
-                    fontSize: 18
+                htmlTemplate: value => {
+                    return `
+                    <div class="label_">
+                      <p>${value.split('-')[0]}</p>
+                     <p>${value.split('-')[1]}</p>
+                    </div>
+                    `;
                 }
             },
             tickLine: {
@@ -49,35 +81,60 @@
             line: {
                 lineWidth: 0
             }
-        });
+        })
         chart.axis('value', {
             label: null,
-            title: null
+            title: {
+                offset: 30,
+                textStyle: {
+                    fontSize: 18,
+                    fontWeight: 300
+                }
+            }
+        })
+        chart.coord().transpose()
+        chart.intervalStack().position('name*value').color('type*name', function (type, name) {
+            var color = void 0;
+            if (type === '开累完成率') color = '#1890ff';
+            if (type === '开累剩余率') color = '#f5222d';
+            return color;
+        }).size(26).opacity(1).label('value*type', function (val, t) {
+            if (val < 0.05) {
+                return false;
+            }
+            return {
+                position: 'middle',
+                offset: 0,
+                textStyle: {
+                    fontSize: 12,
+                    fill: 'white',
+                    shadowBlur: 2,
+                    shadowColor: 'rgba(0, 0, 0, .45)'
+                }
+            };
         });
-        chart.legend(false);
-        chart.coord().transpose();
-        chart.interval().position('type*value').size(26).opacity(1).label('value', {
-            textStyle: {
-                fill: '#8d8d8d'
-            },
-            offset: 10
-        });
-        chart.render();
+        chart.render()
         $('.sort-button').click(function () {
-            sortType = sortType === 'positive' ? 'negative' : 'positive';
-            sortData(sortType);
-            chart.repaint();
-        });
+            sortType = sortType === 'positive' ? 'negative' : 'positive'
+            sortData(sortType)
+            chart.repaint()
+        })
 
         function sortData(sortType) {
             if (sortType === 'positive') {
-                data.sort(function (a, b) {
-                    return b.value - a.value;
-                });
+                dv.transform({
+                    type: 'sort-by',
+                    fields: ['name', 'type', 'value'], // 根据指定的字段集进行排序，与lodash的sortBy行为一致
+                    order: 'ASC'        // 默认为 ASC，DESC 则为逆序
+                })
+                console.log(dv, 1)
             } else {
-                data.sort(function (a, b) {
-                    return a.value - b.value;
-                });
+                dv.transform({
+                    type: 'sort-by',
+                    fields: ['name', 'type', 'value'], // 根据指定的字段集进行排序，与lodash的sortBy行为一致
+                    order: 'DESC'        // 默认为 ASC，DESC 则为逆序
+                })
+                console.log(dv, 2)
             }
         }</script>
 {% endblock %}
