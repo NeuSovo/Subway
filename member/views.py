@@ -303,6 +303,8 @@ class MemberDetailView(DetailView):
 class IndexView(TemplateView):
     template_name = "index.html"
 
+def IndexView2(request):
+    return redirect('/index')
 
 def qrcode_view(request, data):
     img = gen_qrcode(data)
@@ -382,7 +384,7 @@ def index(request):
     #     return redirect('/member/index')
     # else:
     #     return redirect('/member/member_list')
-    return redirect('/auth/index')
+    return redirect('/index')
 
 
 def success_view(request):

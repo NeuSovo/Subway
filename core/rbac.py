@@ -31,6 +31,8 @@ class RbacMiddleware(MiddlewareMixin):
                 return redirect('/auth/login' + '?next=' + request.get_full_path())
             else:
                 return redirect('/auth/login_mobile' + '?next=' + request.get_full_path())
+        if is_mobile and current_url == '/index':
+            return HttpResponse("请扫二维码打开")
         is_valid = False
         for valid in settings.VALID_LIST:
             if re.match(valid, current_url):
