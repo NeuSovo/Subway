@@ -2,22 +2,22 @@
 {% block content %}
     <section>
         <div class="ui segment"><h1 class="ui header aligned center">进度管理</h1>
-        <div class="ui secondary pointing menu">
+            <div class="ui secondary pointing menu">
 
-            {% for profess in profess_s %}
-            <a class="item
+                {% for profess in profess_s %}
+                    <a class="item
             {% ifequal select_profess profess %}
                 active
             {% endifequal %}
-                " href="{% url 'schedule:list_profess' profess.id %}">{{ profess.name }}</a>
-            {% endfor %}
-            <div class="right menu">
-                <a href="" class="item">导出全部专业二维码</a>
-                <a href="#" class="item add_profess" onclick="return false">添加专业</a>
+                " href="{% url 'schedule:list_detail_with_profess' profess.id %}">{{ profess.name }}</a>
+                {% endfor %}
+                <div class="right menu">
+                    <a href="" class="item">导出全部专业二维码</a>
+                    <a href="#" class="item add_profess" onclick="return false">添加专业</a>
 
+                </div>
             </div>
-        </div>
-             <a href="{% url 'schedule:list' %}">
+            <a href="{% url 'schedule:list_profess' select_profess.id %}">
                 <button class="ui right labeled icon button primary basic"><i class="right info icon"></i>进度操作</button>
             </a>
             <div class="ui animated fade right floated button">
@@ -50,30 +50,35 @@
                 </thead>
                 <tbody>
                 {% for item in object_list %}
-                <tr class="center aligned">
-                    <td>{{ item.id }}</td>
-                    <td>{{ item.location }}</td>
-                    <td>{{ item.job_name }}</td>
-                    <td>{{ item.profess }}</td>
-                    <td>{{ item.unit }}</td>
-                    <td>{% widthratio  item.done_count  item.design_total  100 %}%</td>
-                    <td>{{ item.design_total }}</td>
-                    <td>{{ item.done_count }}</td>
-                    <td>{{ item.undone_count }}</td>
-                    <td>{{ item.last_week_plan }}</td>
-                    <td>{{ item.last_week_actual }}</td>
-                    <td>{{ item.now_week_plan }}</td>
-                    <td>{{ item.now_week_actual}}</td>
-                    <td>{{ item.now_week}}</td>
-                </tr>
+                    <tr class="center aligned">
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.location }}</td>
+                        <td>{{ item.job_name }}</td>
+                        <td>{{ item.profess }}</td>
+                        <td>{{ item.unit }}</td>
+                        <td>{% widthratio item.done_count item.design_total 100 %}%</td>
+                        <td>{{ item.design_total }}</td>
+                        <td>{{ item.done_count }}</td>
+                        <td>{{ item.undone_count }}</td>
+                        <td>{{ item.last_week_plan }}</td>
+                        <td>{{ item.last_week_actual }}</td>
+                        <td>{{ item.now_week_plan }}</td>
+                        <td>{{ item.now_week_actual }}</td>
+                        <td>{{ item.now_week }}</td>
+                    </tr>
+                {% empty %}
+                    <div class="ui icon orange message"><i class="hide icon"></i>
+                        <div class="content">
+                            <div class="header">目前没有一条数据</div>
+                            <p>请试着添加一条数据后再试。</p>
+                        </div>
+                    </div>
                 {% endfor %}
                 </tbody>
                 <tfoot>
                 <tr>
                     <th colspan="14">
-                        <div class="ui pagination menu right floated"><a class="item">1</a>
-                            <div class="disabled item">...</div>
-                            <a class="item">10</a><a class="item active">11</a><a class="item">12</a></div>
+                        {% include '_page.html' %}
                     </th>
                 </tr>
                 </tfoot>

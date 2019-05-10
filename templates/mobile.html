@@ -12,25 +12,29 @@
     <script src="{% static 'javascript/semantic.min.js' %}"></script>
     {% block style %}
     {% endblock %}
+
 </head>
 <body>
 <div class="bg"><img src="{{ MOBILE_BACKEND_ICON.img.url }}"></div>
-<header class="header">
-    {% block header %}
+<div class="container">
+    {#<header class="header">#}
+    {#    {% block header %}#}
+    {#    {% endblock %}#}
+    {#    <img src="{{ MOBILE_HEADER_ICON.img.url }}">#}
+    {#    <span>{{ TITLE.text }}</span>#}
+    {#</header>#}
+    {% block content %}
     {% endblock %}
-    <img src="{{ MOBILE_HEADER_ICON.img.url }}">
-    <span>{{ TITLE.text }}</span>
-</header>
-{% block content %}
-{% endblock %}
-<footer class="footer">
-    <div class="row">{{ MOBILE_FOOTER_TEXT.text }}</div>
-    <div class="desc">
-        <div class="left">©{{ MOBILE_FOOTER_COMMENT.text }}
+    <footer class="footer">
+        <div class="row">{{ MOBILE_FOOTER_TEXT.text }}</div>
+        <div class="desc">
+            <div class="left">©{{ MOBILE_FOOTER_COMMENT.text }}
+            </div>
+            <div class="right"><img src="{{ MOBILE_FOOTER_ICON.img.url }}"></div>
         </div>
-        <div class="right"><img src="{{ MOBILE_FOOTER_ICON.img.url }}"></div>
-    </div>
-</footer>
+    </footer>
+</div>
+
 {% block script %}
 {% endblock %}
 </body>

@@ -27,7 +27,7 @@
                 <a class="visible content" href="{% url 'schedule:export_qr' %}">导出全部二维码</a>
             </div>
             {% if schedule_add or user.is_superuser %}
-            <div class="ui buttons right floated">
+                <div class="ui buttons right floated">
                     <form action="{% url 'schedule:import' %}" id="import_form" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="ui labeled icon button right floated my_import" id="import"><i
@@ -38,7 +38,7 @@
                     <div class="or"></div>
                     <a class="ui right labeled icon button my_export" href="{% url 'schedule:export' %}"><i
                             class="download icon"></i>
-                        导出</a>                     
+                        导出</a>
                 </div>
             {% endif %}
             <table class="ui table celled line single fixed" id="table">
@@ -70,7 +70,7 @@
                         <td>{{ item.undone_count }}</td>
                         <td>
                             <a class="ui vertical animated button positive basic center floated qrcode"
-                                href="{{ item.qrcode }}" download>
+                               href="{{ item.qrcode }}" download>
                                 <div class="visible content">二维码</div>
                                 <div class="hidden content"><i class="qrcode icon"></i></div>
                             </a>
@@ -97,6 +97,13 @@
                             {% endif %}
                         </td>
                     </tr>
+                {% empty %}
+                    <div class="ui icon orange message"><i class="hide icon"></i>
+                        <div class="content">
+                            <div class="header">目前没有一条数据</div>
+                            <p>请试着添加一条数据后再试。</p>
+                        </div>
+                    </div>
                 {% endfor %}
                 </tbody>
                 <tfoot>

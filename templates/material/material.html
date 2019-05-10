@@ -99,6 +99,13 @@
                             {% endif %}
                         </td>
                     </tr>
+                {% empty %}
+                    <div class="ui icon orange message"><i class="hide icon"></i>
+                        <div class="content">
+                            <div class="header">目前没有一条数据</div>
+                            <p>请试着添加一条数据后再试。</p>
+                        </div>
+                    </div>
                 {% endfor %}
                 </tbody>
                 <tfoot>

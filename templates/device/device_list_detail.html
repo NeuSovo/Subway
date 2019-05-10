@@ -2,13 +2,13 @@
 {% block content %}
     <section>
         <div class="ui segment"><h1 class="ui header aligned center">设备详情</h1>
-             <div class="ui secondary pointing menu">
+            <div class="ui secondary pointing menu">
                 {% for profess in profess_s %}
-                <a class="item
+                    <a class="item
                 {% ifequal select_profess profess %}
                     active
                 {% endifequal %}
-                    " href="{% url 'device:list_profess' profess.id %}">{{ profess.name }}</a>
+                    " href="{% url 'device:list_detail_profess' profess.id %}">{{ profess.name }}</a>
                 {% endfor %}
             </div>
             <a href="{% url 'device:list_profess' select_profess.id %}">
@@ -50,39 +50,46 @@
                 </thead>
                 <tbody>
                 {% for item in object_list %}
-                <tr class="center aligned">
-                    <td>{{ item.id }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.profess }}</td>
-                    <td>{{ item.z1 }}</td>
-                    <td>{{ item.z2 }}</td>
-                    <td>{{ item.z3 }}</td>
-                    <td>{{ item.z4 }}</td>
-                    <td>{{ item.z5 }}</td>
-                    <td>{{ item.z6 }}</td>
-                    <td>{{ item.z7 }}</td>
-                    <td>{{ item.z8 }}</td>
-                    <td>{{ item.z9 }}</td>
-                    <td>{{ item.get_status_id_display }}</td>
-                    <td>{{ item.t1 }}</td>
-                    <td>{{ item.t2 }}</td>
-                    <td>{{ item.t3 }}</td>
-                    <td>{{ item.t4 }}</td>
-                    <td>{{ item.t5 }}</td>
-                    <td>{{ item.t6 }}</td>
-                    <td>{{ item.t7 }}</td>
-                    <td>{{ item.t10 }}</td>
-                    <td>{{ item.acceptor }}</td>
-                    <td>{{ item.t8 }}</td>
-                    <td>{{ item.t9 }}</td>
-                </tr>
+                    <tr class="center aligned">
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.profess }}</td>
+                        <td>{{ item.z1 }}</td>
+                        <td>{{ item.z2 }}</td>
+                        <td>{{ item.z3 }}</td>
+                        <td>{{ item.z4 }}</td>
+                        <td>{{ item.z5 }}</td>
+                        <td>{{ item.z6 }}</td>
+                        <td>{{ item.z7 }}</td>
+                        <td>{{ item.z8 }}</td>
+                        <td>{{ item.z9 }}</td>
+                        <td>{{ item.get_status_id_display }}</td>
+                        <td>{{ item.t1 }}</td>
+                        <td>{{ item.t2 }}</td>
+                        <td>{{ item.t3 }}</td>
+                        <td>{{ item.t4 }}</td>
+                        <td>{{ item.t5 }}</td>
+                        <td>{{ item.t6 }}</td>
+                        <td>{{ item.t7 }}</td>
+                        <td>{{ item.t10 }}</td>
+                        <td>{{ item.acceptor }}</td>
+                        <td>{{ item.t8 }}</td>
+                        <td>{{ item.t9 }}</td>
+                    </tr>
+                {% empty %}
+                    <div class="ui icon orange message"><i class="hide icon"></i>
+                        <div class="content">
+                            <div class="header">目前没有一条数据</div>
+                            <p>请试着添加一条数据后再试。</p>
+                        </div>
+                    </div>
                 {% endfor %}
 
                 </tbody>
 
                 <tfoot>
                 <tr>
-                        {% include '_page.html' %}
+                    {% include '_page.html' %}
 
                 </tr>
                 </tfoot>

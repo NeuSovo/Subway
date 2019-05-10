@@ -1,129 +1,145 @@
 body {
-  padding-top: 1px;
+    /*padding-top: 1px;*/
+    height: 100%;
+    width: 100%;
+    position: fixed;
 }
 
 .bg img {
-  width: 100vw;
-  height: 100vh;
+    width: 100%;
+    height: 100%;
 }
 
 .bg {
-  top: -1px;
-  z-index: -1;
-  position: fixed;
+    top: 0;
+    z-index: -1;
+    position: fixed;
+    bottom: 0;
 }
 
 
 header.header {
-  width: 100%;
-  top: -1px;
-  position: absolute;
-  padding: 10px 20px;
-  text-align: center;
-  background: #2e3033;
-  color: white;
-  font-size: 1.5em;
+    width: 100%;
+    top: -1px;
+    position: absolute;
+    padding: 10px 20px;
+    text-align: center;
+    background: #2e3033;
+    color: white;
+    font-size: 1.5em;
 }
-header.header .home{
-  float: left;
-  position: absolute;
-  left: 10px;
+
+header.header .home {
+    float: left;
+    position: absolute;
+    left: 10px;
 
 }
+
 header.header img {
-  width: 1.6em;
-  margin-right: 10px;
-  vertical-align: top;
-  border-radius: 50%;
+    width: 1.6em;
+    margin-right: 10px;
+    vertical-align: top;
+    border-radius: 50%;
 }
 
 footer.footer {
-  background: #2e3033;
-  padding: 10px;
-  text-align: center;
-  color: white;
+    background: #2e3033;
+    padding: 10px;
+    text-align: center;
+    color: white;
 }
 
 footer.footer .row {
-  font-size: 1.2em;
-  margin-bottom: 10px;
+    font-size: 1.2em;
+    margin-bottom: 10px;
 }
 
 footer.footer .desc {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
 }
 
 .footer .desc .left {
-  flex: 1;
-  font-size: .6em;
-  align-items: center;
+    flex: 1;
+    font-size: .6em;
+    align-items: center;
 }
 
 .footer .desc img {
-  width: 30vw;
+    width: 30vw;
+}
+
+.container {
+    height: 100%;
+    overflow: auto;
+}
+
+.container::-webkit-scrollbar {
+    visibility: hidden;
 }
 
 .content {
-  padding-top: 1px;
-  margin: 5vh 3vw;
-  min-height: 84vh;
+    padding-top: 1px;
+    margin: 5vh 3vw;
+    min-height: 75vh;
 }
 
 .content .table {
-  margin: 5vh 10px;
-  border: 1px solid #abb4bf;
-  padding: 5vh 10px;
-  background: rgba(255, 255, 255, .8);
-  border-radius: 10px;
-  box-shadow: 1px 1px 5px #abb4bf;
+    margin: 5vh 10px;
+    border: 1px solid #abb4bf;
+    padding: 5vh 10px;
+    background: rgba(255, 255, 255, .8);
+    border-radius: 10px;
+    box-shadow: 1px 1px 5px #abb4bf;
 }
 
 .content .table div.title {
-  text-align: center;
-  font-size: 2em;
-  margin-bottom: 20px;
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
 }
+
 .content .table div.desc {
-  text-align: center;
-  font-size: 1em;
-  margin-bottom: 20px;
-  color: #666;
+    text-align: center;
+    font-size: 1em;
+    margin-bottom: 20px;
+    color: #666;
 }
 
 .content .table .row {
-  border-top: 1px solid #abb4bf;
-  margin-top: 10px;
-  color: #666;
-  padding-top: 10px;
-  display: flex;
-  justify-content: space-between;
+    border-top: 1px solid #abb4bf;
+    margin-top: 10px;
+    color: #666;
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .content .table .row.click:active {
-  background: rgba(6, 6, 6, 0.07);
+    background: rgba(6, 6, 6, 0.07);
 }
 
 .content .table .row.click {
-  padding-bottom: 10px;
+    padding-bottom: 10px;
 }
 
 .g2-guide-html {
-  height: 80px;
-  vertical-align: middle;
-  text-align: center;
-  line-height: 0.2;
+    height: 80px;
+    vertical-align: middle;
+    text-align: center;
+    line-height: 0.2;
 }
 
 .g2-guide-html .title {
-  font-size: 12px;
-  color: #8c8c8c;
-  font-weight: 300;
+    font-size: 12px;
+    color: #8c8c8c;
+    font-weight: 300;
 }
 
 .g2-guide-html .value {
-  font-size: 32px;
-  color: #000;
-  font-weight: bold;
+    font-size: 32px;
+    color: #000;
+    font-weight: bold;
 }

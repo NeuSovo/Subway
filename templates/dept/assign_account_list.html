@@ -106,7 +106,6 @@
     <script>
         function showpass(obj) {
             console.log($(obj).html())
-
             $.ajax({
                 url: "{% url 'member:depass' %}" + "?enpass=" + $(obj).html(),
                 type: "get",

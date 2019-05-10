@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
     <section>
         <div class="ui segment">
@@ -40,7 +40,11 @@
                     <tr class="center aligned">
 
                         <td>{{ object.member_id }}</td>
-                        <td><img class="ui small image rounded my_img" src="{{ object.member_avatar.url }}"></td>
+                        {% ifnotequal object.member_avatar.url '/media/none' %}
+                            <td><img class="ui small image rounded my_img" src="{{ object.member_avatar.url }}"></td>
+                        {% else %}
+                            <td><img class="ui small image rounded my_img" src="{% static 'user.png' %}"></td>
+                        {% endifnotequal %}
                         <td>{{ object.name }}</td>
                         <td>{{ object.sex }}</td>
                         <td>{{ object.nation }}</td>

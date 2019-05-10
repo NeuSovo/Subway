@@ -65,48 +65,53 @@
         .input {
             margin-top: 40px !important;
         }
+
+        .flex {
+            max-width: 40vw;
+            font-size: .6em;
+        }
     </style>
 </head>
 
 <body>
 
-    <div class="bg"><img src="{{  LOGIN_BACKEND_ICON.img.url }}"></div>
-    <div class="title">
-        <p>欢迎使用</p>
-        <p>{{ LOGIN_TEXT.text }}</p>
-    </div>
-    <div class="content">
-        <form method="POST">{% csrf_token %}
-            <div class="label">
-                {{ form.username.label_tag }}
-            </div>
-            <div class="ui left icon input massive transparent">
-                {{ form.username }}
-                <i class="spy icon"></i>
-            </div>
-            <div class="label">
-                {{ form.password.label_tag }}
-            </div>
-            <div class="ui left icon input massive transparent">
-                {{ form.password }}
-                <i class="keyboard icon"></i>
-            </div>
-            <div class="message">
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="ui {{ message.tags }} global message">
-                                <div class="header">{{ message | safe }}</div>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
+<div class="bg"><img src="{{ LOGIN_BACKEND_ICON.img.url }}"></div>
+<div class="title">
+    <p>欢迎使用</p>
+    <p class="flex">{{ LOGIN_TEXT.text }}</p>
+</div>
+<div class="content">
+    <form method="POST">{% csrf_token %}
+        <div class="label">
+            {{ form.username.label_tag }}
+        </div>
+        <div class="ui left icon input massive transparent">
+            {{ form.username }}
+            <i class="spy icon"></i>
+        </div>
+        <div class="label">
+            {{ form.password.label_tag }}
+        </div>
+        <div class="ui left icon input massive transparent">
+            {{ form.password }}
+            <i class="keyboard icon"></i>
+        </div>
+        <div class="message">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="ui {{ message.tags }} global message">
+                        <div class="header">{{ message | safe }}</div>
+                    </div>
+                {% endfor %}
+            {% endif %}
             <div>
                 <button class="ui button icon right labeled positive massive" type="submit"><i
                         class="right arrow icon"></i>登录
                 </button>
             </div>
-            </div>
-        </form>
-    </div>
+        </div>
+    </form>
+</div>
 </body>
 
 </html>

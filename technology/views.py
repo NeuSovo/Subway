@@ -8,11 +8,9 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db import IntegrityError
 from django.http import Http404, JsonResponse
-from django.shortcuts import (HttpResponse, HttpResponseRedirect,
-                              get_object_or_404, render)
+from django.shortcuts import (HttpResponse, HttpResponseRedirect, get_object_or_404, render)
 from django.urls import reverse_lazy
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  UpdateView)
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView, UpdateView)
 
 from core.utils import compress_file
 from urllib.parse import quote
@@ -23,6 +21,7 @@ from .models import *
 class TechnologyFileListView(ListView):
     model = TechnologyFile
     template_name = "technology/technology.html"
+    paginate_by = 50
 
     def __init__(self):
         super().__init__()
@@ -69,6 +68,10 @@ class TechnologyFileCreateView(PassRequestMixin, SuccessMessageMixin, CreateView
     success_message = '添加成功'
     success_url = reverse_lazy('technology:list')
 
+    def post(self, request, **args):
+        self.success_url = request.META.get('HTTP_REFERER') or self.success_url
+        return super().post(request, *args)
+
 
 class TechnologyFileUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
     model = TechnologyFile
@@ -97,6 +100,10 @@ class TechnologyFileDeleteView(DeleteAjaxMixin, DeleteView):
     template_name = "technology/delete_form.html"
     success_message = '删除成功'
     success_url = reverse_lazy('technology:list')
+
+    def post(self, request, **args):
+        self.success_url = request.META.get('HTTP_REFERER') or self.success_url
+        return super().post(request, *args)
 
 
 class ProfessCreateView(PassRequestMixin, SuccessMessageMixin, CreateView):
@@ -144,8 +151,7 @@ def export_qr(request, dept_id=None):
     qr = TechnologyFile.objects.all()
 
     file_name += datetime.now().strftime("%Y-%m-%d") + '.zip'
-    s = compress_file(
-        [os.path.join(QR_DIR_3, QR_3_NAME_TEM % i.id) for i in qr])
+    s = compress_file([os.path.join(QR_DIR_3, QR_3_NAME_TEM % i.id) for i in qr])
     response = HttpResponse(content_type="application/zip")
     response["Content-Disposition"] = "attachment; filename={}".format(quote(file_name))
     s.seek(0)
@@ -155,28 +161,19 @@ def export_qr(request, dept_id=None):
 
 def import_technology_data(request):
     # 导入数据
-    mapdict = {
-        "标题": 'title',
-        "文件类型id": 'file_type',
-        '专业id': 'profess_id'
-    }
+    mapdict = {"标题": 'title', "文件类型id": 'file_type', '专业id': 'profess_id'}
     if request.method == "POST":
         try:
-            request.FILES['docfile'].save_to_database(
-                name_columns_by_row=0,
-                model=TechnologyFile,
-                mapdict=mapdict,
+            request.FILES['docfile'].save_to_database(name_columns_by_row=0, model=TechnologyFile, mapdict=mapdict,
                 ignore_cols_at_names=['编号', '类型名称', '专业名称'])
             messages.success(request, "导入成功")
 
         except IntegrityError as e:
             print(e)
-            messages.error(
-                request, '导入失败：请检查Excel内容是否有以下错误: </br> 1.数据重复</br> 2.专业id不存在')
+            messages.error(request, '导入失败：请检查Excel内容是否有以下错误: </br> 1.数据重复</br> 2.专业id不存在')
         except ValueError as e:
             print(e)
-            messages.error(
-                request, '导入失败：请检查Excel内容是否有以下错误: </br> 1.数据格式错误 例如id类存在汉字或字母')
+            messages.error(request, '导入失败：请检查Excel内容是否有以下错误: </br> 1.数据格式错误 例如id类存在汉字或字母')
         except Exception as e:
             messages.error(request, str(e))
         return JsonResponse({'msg': 'd'})
@@ -191,26 +188,15 @@ def export_technology_data(request):
 
     file_name += datetime.now().strftime("%Y-%m-%d")
 
-    column_names = ['id', 'title', 'file_type',
-                    'type_display', 'profess_id', 'profess_name', ]
+    column_names = ['id', 'title', 'file_type', 'type_display', 'profess_id', 'profess_name', ]
     colnames = ['编号', '标题', '文件类型id', '类型名称', '专业id', '专业名称', ]
-    return excel.make_response_from_query_sets(
-        techs,
-        column_names,
-        'xls',
-        file_name=file_name,
-        colnames=colnames,
-        ignore_rows = [0] if len(techs) else [1]
-    )
+    return excel.make_response_from_query_sets(techs, column_names, 'xls', file_name=file_name, colnames=colnames,
+        ignore_rows=[0] if len(techs) else [1])
 
 
 def QR1(request):
-    
     profess_s = Profess.objects.all()
-    context = {
-        'profess_s': profess_s,
-        'title': '技术信息',
-        'url': '/technology/qr2/'
+    context = {'profess_s': profess_s, 'title': '技术信息', 'url': '/technology/qr2/'
 
     }
     return render(request, 'system/profess_mobile.html', context=context)
@@ -220,12 +206,7 @@ def QR2(request, profess_id):
     profess = get_object_or_404(Profess, pk=profess_id)
 
     queryset = TechnologyFile.objects.filter(profess=profess)
-    context = {
-        'object_list': queryset,
-        'select_profess': profess,
-        'title': '技术信息',
-        'url': '/technology/detail/'
-    }
+    context = {'object_list': queryset, 'select_profess': profess, 'title': '技术信息', 'url': '/technology/detail/'}
     return render(request, 'system/professs_mobile.html', context=context)
 
 

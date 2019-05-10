@@ -7,11 +7,10 @@ from bootstrap_modal_forms.mixins import DeleteAjaxMixin, PassRequestMixin
 from django.contrib import messages
 from django.db import IntegrityError
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import HttpResponse, redirect, get_object_or_404, render
+from django.shortcuts import HttpResponse, redirect, get_object_or_404, render, Http404
 from django.http import JsonResponse
 from django.urls import reverse_lazy
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  UpdateView)
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView, UpdateView)
 
 from core.utils import compress_file
 from urllib.parse import quote
@@ -22,6 +21,7 @@ from .models import *
 class SafetyFileListView(ListView):
     model = SafetyFile
     template_name = "safety/safe.html"
+    paginate_by = 50
 
     def get(self, request, *args, **kwargs):
         self.type = kwargs.get('type_id')
@@ -105,28 +105,19 @@ def export_qr(request, dept_id=None):
 
 def import_safety_data(request):
     # 导入数据
-    mapdict = {
-        "标题": 'title',
-        "文件类型id": 'file_type'
-    }
+    mapdict = {"标题": 'title', "文件类型id": 'file_type'}
     if request.method == "POST":
         try:
-            request.FILES['docfile'].save_to_database(
-                name_columns_by_row=0,
-                model=SafetyFile,
-                mapdict=mapdict,
-                ignore_cols_at_names=['编号', '类型名称']
-                )
+            request.FILES['docfile'].save_to_database(name_columns_by_row=0, model=SafetyFile, mapdict=mapdict,
+                ignore_cols_at_names=['编号', '类型名称'])
             messages.success(request, "导入成功")
 
         except IntegrityError as e:
             print(e)
-            messages.error(
-                request, '导入失败：请检查Excel内容是否有以下错误: </br> 1.数据重复</br> 2.id不存在')
+            messages.error(request, '导入失败：请检查Excel内容是否有以下错误: </br> 1.数据重复</br> 2.id不存在')
         except ValueError as e:
             print(e)
-            messages.error(
-                request, '导入失败：请检查Excel内容是否有以下错误: </br> 1.数据格式错误 例如id类存在汉字或字母')
+            messages.error(request, '导入失败：请检查Excel内容是否有以下错误: </br> 1.数据格式错误 例如id类存在汉字或字母')
         except Exception as e:
             messages.error(request, str(e))
         return JsonResponse({'msg': 'd'})
@@ -143,11 +134,5 @@ def export_safety_data(request):
 
     column_names = ['id', 'title', 'file_type', 'type_display']
     colnames = ['编号', '标题', '文件类型id', '类型名称']
-    return excel.make_response_from_query_sets(
-        safetys,
-        column_names,
-        'xls',
-        file_name=file_name,
-        colnames=colnames,
-        ignore_rows=[0] if len(safetys) else [1]
-    )
+    return excel.make_response_from_query_sets(safetys, column_names, 'xls', file_name=file_name, colnames=colnames,
+        ignore_rows=[0] if len(safetys) else [1])

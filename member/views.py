@@ -126,6 +126,7 @@ class AssignAccountDeleteView(DeleteAjaxMixin, DeleteView):
 class AssignAccountListView(ListView):
     template_name = 'dept/assign_account_list.html'
     model = Account
+    paginate_by = 50
 
     @method_decorator(login_required(login_url='/auth/login'))
     def dispatch(self, *args, **kwargs):
@@ -160,7 +161,7 @@ class AssignAccountListView(ListView):
 class DeptListView(ListView):
     template_name = 'dept/dept_list.html'
     model = Departments
-    paginate_by = 100
+    paginate_by = 50
 
     @method_decorator(login_required(login_url='/auth/login'))
     def dispatch(self, *args, **kwargs):
@@ -220,6 +221,7 @@ class MemberDeleteView(DeleteAjaxMixin, DeleteView):
 class MemberListView(ListView):
     template_name = 'member/member_list.html'
     model = Member
+    paginate_by = 50
 
     @method_decorator(login_required(login_url='/auth/login'))
     def dispatch(self, *args, **kwargs):
@@ -270,6 +272,7 @@ class MemberListView(ListView):
 
 class MemberListDetailView(MemberListView):
     template_name = 'member/member_list_detail.html'
+    paginate_by = 50
 
 
 class MemberUpdateView(UpdateView):
